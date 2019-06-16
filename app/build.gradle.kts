@@ -4,9 +4,11 @@ plugins {
     id(BuildPlugins.Ids.kotlinAndroidExtensions)
 }
 
-android {
+base.archivesBaseName = "norris-${Versioning.version.name}"
 
+android {
     compileSdkVersion(AndroidConfig.compileSdk)
+    buildToolsVersion(AndroidConfig.buildToolsVersion)
 
     defaultConfig {
 
@@ -15,16 +17,48 @@ android {
 
         applicationId = AndroidConfig.applicationId
         testInstrumentationRunner = AndroidConfig.instrumentationTestRunner
-        versionCode = 1
-        versionName = "1.0"
+        versionCode = Versioning.version.code
+        versionName = Versioning.version.name
+
+        vectorDrawables.apply {
+            useSupportLibrary = true
+            generatedDensities(*(AndroidConfig.noGeneratedDensities))
+        }
+
+        resConfig("en")
     }
 
     buildTypes {
+
+        getByName("debug") {
+            applicationIdSuffix = ".debug"
+            versionNameSuffix = "-debug"
+        }
+
         getByName("release") {
-            isMinifyEnabled = false
-            proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
+            isMinifyEnabled = true
+            isShrinkResources = true
+
+            val proguardConfig = ProguardConfig("$rootDir/proguard")
+            proguardFiles(*(proguardConfig.customRules))
+            proguardFiles(getDefaultProguardFile(proguardConfig.androidRules))
         }
     }
+
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_1_8
+        targetCompatibility = JavaVersion.VERSION_1_8
+    }
+
+    kotlinOptions {
+        extensions.add("jvmTarget", KotlinConfig.targetJVM)
+    }
+
+    testOptions {
+        unitTests.isReturnDefaultValues = true
+        unitTests.isIncludeAndroidResources = true
+    }
+
 }
 
 dependencies {
@@ -37,4 +71,8 @@ dependencies {
     testImplementation(Libraries.jUnit)
     androidTestImplementation(Libraries.espressoCore)
     androidTestImplementation(Libraries.androidTestRules)
+}
+
+androidExtensions {
+    extensions.add("experimental", true)
 }

@@ -1,15 +1,18 @@
+import java.io.File
+import java.util.Collections.emptySet
 
 object AndroidConfig {
 
-    val applicationId = "io.dotanuki.demos.norris"
+    const val applicationId = "io.dotanuki.demos.norris"
 
-    val compileSdk = 28
-    val minSdk = 23
-    val targetSdk = compileSdk
+    const val compileSdk = 28
+    const val minSdk = 23
+    const val targetSdk = compileSdk
 
-    val buildToolsVersion = "29.0.1"
+    const val buildToolsVersion = "29.0.0"
 
-    val instrumentationTestRunner = "androidx.test.runner.AndroidJUnitRunner"
+    const val instrumentationTestRunner = "androidx.test.runner.AndroidJUnitRunner"
 
+    val noGeneratedDensities = emptySet<String>().toTypedArray()
 }
 
