@@ -1,9 +1,20 @@
 object BuildPlugins {
 
-    val androidSupport = "com.android.tools.build:gradle:${Versions.agp}"
-    val testLogger = "com.adarshr:gradle-test-logger-plugin:${Versions.testLogger}"
-    val kotlinSupport = "org.jetbrains.kotlin:kotlin-gradle-plugin:${KotlinConfig.version}"
-    val kotlinxSerialization = "org.jetbrains.kotlin:kotlin-serialization:${KotlinConfig.version}"
+    object Dependencies {
+        const val androidSupport = "com.android.tools.build:gradle:${Versions.agp}"
+        const val testLogger = "com.adarshr:gradle-test-logger-plugin:${Versions.testLogger}"
+        const val kotlinSupport = "org.jetbrains.kotlin:kotlin-gradle-plugin:${KotlinConfig.version}"
+        const val kotlinxSerialization = "org.jetbrains.kotlin:kotlin-serialization:${KotlinConfig.version}"
+    }
+
+    object Ids {
+        const val androidApplication = "com.android.application"
+        const val androidLibrary = "com.android.library"
+        const val kotlinJVM = "kotlin"
+        const val kotlinAndroid = "kotlin-android"
+        const val kotlinAndroidExtensions = "kotlin-android-extensions"
+        const val testLogger = "com.adarshr.test-logger"
+    }
 
     private object Versions {
         const val agp = "3.4.1"
