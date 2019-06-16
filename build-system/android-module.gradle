@@ -1,0 +1,85 @@
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: 'com.adarshr.test-logger'
+
+repositories {
+    mavenCentral()
+}
+
+android {
+
+    compileSdkVersion AndroidConfig.compileSdk
+    testOptions.unitTests.includeAndroidResources = true
+
+    def currentVersion = Versioning.getVersion()
+
+    defaultConfig {
+        minSdkVersion AndroidConfig.minSdk
+        targetSdkVersion AndroidConfig.targetSdk
+        versionCode currentVersion.code
+        versionName currentVersion.name
+        testInstrumentationRunner AndroidConfig.instrumentationTestRunner
+
+        vectorDrawables.useSupportLibrary = true
+        vectorDrawables.generatedDensities = []
+    }
+
+    buildTypes {
+
+        debug {
+            minifyEnabled false
+
+            lintOptions {
+                tasks.lint.enabled = false
+            }
+        }
+
+        release {
+            minifyEnabled true
+            proguardFiles file('../proguard').listFiles().toList().toArray()
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt')
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    packagingOptions {
+        exclude 'LICENSE.txt'
+        exclude 'META-INF/DEPENDENCIES'
+        exclude 'META-INF/ASL2.0'
+        exclude 'META-INF/NOTICE'
+        exclude 'META-INF/LICENSE'
+        exclude 'META-INF/main.kotlin_module'
+    }
+
+    lintOptions {
+        quiet true
+        abortOnError false
+        ignoreWarnings true
+        disable 'InvalidPackage'
+        disable 'OldTargetApi'
+    }
+
+    testOptions {
+
+        unitTests {
+            includeAndroidResources = true
+        }
+    }
+
+    kotlinOptions{
+        jvmTarget = '1.8'
+    }
+}
+
+androidExtensions {
+    experimental = true
+}
+
+testlogger {
+    theme 'mocha'
+}
+
