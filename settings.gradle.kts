@@ -1,5 +1,11 @@
+import modules.ModuleNames.Domain
+import modules.ModuleNames.Features
+import modules.ModuleNames.Logger
+import modules.ModuleNames.MainApp
+
 include(
-    "app",
-    "domain",
-    "logger"
+    MainApp,
+    Logger,
+    Domain,
+    Features.SharedAssets
 )

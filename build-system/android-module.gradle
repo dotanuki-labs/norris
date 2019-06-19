@@ -8,17 +8,17 @@ repositories {
 
 android {
 
-    compileSdkVersion AndroidConfig.compileSdk
+    compileSdkVersion configs.AndroidConfig.compileSdk
     testOptions.unitTests.includeAndroidResources = true
 
-    def currentVersion = Versioning.getVersion()
+    def currentVersion = Versioning.version
 
     defaultConfig {
-        minSdkVersion AndroidConfig.minSdk
-        targetSdkVersion AndroidConfig.targetSdk
+        minSdkVersion configs.AndroidConfig.minSdk
+        targetSdkVersion configs.AndroidConfig.targetSdk
         versionCode currentVersion.code
         versionName currentVersion.name
-        testInstrumentationRunner AndroidConfig.instrumentationTestRunner
+        testInstrumentationRunner configs.AndroidConfig.instrumentationTestRunner
 
         vectorDrawables.useSupportLibrary = true
         vectorDrawables.generatedDensities = []
@@ -28,15 +28,11 @@ android {
 
         debug {
             minifyEnabled false
-
-            lintOptions {
-                tasks.lint.enabled = false
-            }
         }
 
         release {
             minifyEnabled true
-            proguardFiles file('../proguard').listFiles().toList().toArray()
+            proguardFiles file("$rootDir/proguard").listFiles().toList().toArray()
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt')
         }
     }

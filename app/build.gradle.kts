@@ -1,6 +1,7 @@
 import configs.AndroidConfig
 import configs.KotlinConfig
 import configs.ProguardConfig
+import modules.ModuleNames
 
 plugins {
     id(BuildPlugins.Ids.androidApplication)
@@ -70,6 +71,9 @@ dependencies {
     implementation(Libraries.kotlinStdlib)
     implementation(Libraries.appCompat)
     implementation(Libraries.coreAndroidx)
+    implementation(project(ModuleNames.Logger))
+    implementation(project(ModuleNames.Domain))
+    implementation(project(ModuleNames.Features.SharedAssets))
 
     testImplementation(Libraries.jUnit)
     androidTestImplementation(Libraries.espressoCore)

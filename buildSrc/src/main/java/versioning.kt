@@ -13,7 +13,7 @@ object Versioning {
     private const val name = "$major.$minor.$patch"
     private const val code = 100 * major + 10 * minor + patch
 
-    val version by lazy {
+    @JvmStatic val version by lazy {
         Version(name, major, minor, patch, code)
     }
 }
