@@ -1,3 +1,5 @@
+package configs
+
 import java.io.File
 
 class ProguardConfig(private val pathToFiles: String) {

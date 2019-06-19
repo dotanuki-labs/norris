@@ -1,3 +1,7 @@
+import configs.AndroidConfig
+import configs.KotlinConfig
+import configs.ProguardConfig
+
 plugins {
     id(BuildPlugins.Ids.androidApplication)
     id(BuildPlugins.Ids.kotlinAndroid)

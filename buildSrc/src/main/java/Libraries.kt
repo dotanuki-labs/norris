@@ -1,41 +1,43 @@
+import configs.KotlinConfig
+
 // Versions for project parameters and forEachDependency
 
 object Libraries {
 
     val kotlinStdlib = "org.jetbrains.kotlin:kotlin-stdlib-jdk8:${KotlinConfig.version}"
-    val kotlinSerialization = "org.jetbrains.kotlinx:kotlinx-serialization-runtime:${Versions.kotlinSerialization}"
+    val kotlinSerialization = "org.jetbrains.kotlinx:kotlinx-serialization-runtime:${Libraries.Versions.kotlinSerialization}"
 
-    val okhttp = "com.squareup.okhttp3:okhttp:${Versions.okHttp}"
-    val okhttpLogger = "com.squareup.okhttp3:logging-interceptor:${Versions.okHttp}"
-    val retrofit = "com.squareup.retrofit2:retrofit:${Versions.retrofit}"
-    val retrofitKotlinSerialization = "com.jakewharton.retrofit:retrofit2-kotlinx-serialization-converter:${Versions.retrofitKotlinSerialization}"
+    val okhttp = "com.squareup.okhttp3:okhttp:${Libraries.Versions.okHttp}"
+    val okhttpLogger = "com.squareup.okhttp3:logging-interceptor:${Libraries.Versions.okHttp}"
+    val retrofit = "com.squareup.retrofit2:retrofit:${Libraries.Versions.retrofit}"
+    val retrofitKotlinSerialization = "com.jakewharton.retrofit:retrofit2-kotlinx-serialization-converter:${Libraries.Versions.retrofitKotlinSerialization}"
 
-    val appCompat = "androidx.appcompat:appcompat:${Versions.appCompat}"
-    val recyclerView = "androidx.recyclerview:recyclerview:${Versions.recyclerView}"
+    val appCompat = "androidx.appcompat:appcompat:${Libraries.Versions.appCompat}"
+    val recyclerView = "androidx.recyclerview:recyclerview:${Libraries.Versions.recyclerView}"
 
     val coreAndroidx = "androidx.core:core-ktx:1.2.0-alpha01"
-    val lifecycleJava8 = "androidx.lifecycle:lifecycle-common-java8:${Versions.lifecycle}"
-    val lifecycleRuntime = "androidx.lifecycle:lifecycle-runtime-ktx:${Versions.lifecycle}"
-    val lifecycleViewModel = "androidx.lifecycle:lifecycle-viewmodel-ktx:${Versions.lifecycle}"
-    val lifecycleExtensions = "androidx.lifecycle:lifecycle-extensions:${Versions.lifecycle}"
+    val lifecycleJava8 = "androidx.lifecycle:lifecycle-common-java8:${Libraries.Versions.lifecycle}"
+    val lifecycleRuntime = "androidx.lifecycle:lifecycle-runtime-ktx:${Libraries.Versions.lifecycle}"
+    val lifecycleViewModel = "androidx.lifecycle:lifecycle-viewmodel-ktx:${Libraries.Versions.lifecycle}"
+    val lifecycleExtensions = "androidx.lifecycle:lifecycle-extensions:${Libraries.Versions.lifecycle}"
 
-    val coroutinesCore = "org.jetbrains.kotlinx:kotlinx-coroutines-core:${Versions.coroutines}"
-    val coroutinesAndroid = "org.jetbrains.kotlinx:kotlinx-coroutines-android:${Versions.coroutines}"
+    val coroutinesCore = "org.jetbrains.kotlinx:kotlinx-coroutines-core:${Libraries.Versions.coroutines}"
+    val coroutinesAndroid = "org.jetbrains.kotlinx:kotlinx-coroutines-android:${Libraries.Versions.coroutines}"
 
-    val kodein = "org.kodein.di:kodein-di-generic-jvm:${Versions.kodein}"
-    val kodeinConf = "org.kodein.di:kodein-di-conf-jvm:${Versions.kodein}"
+    val kodein = "org.kodein.di:kodein-di-generic-jvm:${Libraries.Versions.kodein}"
+    val kodeinConf = "org.kodein.di:kodein-di-conf-jvm:${Libraries.Versions.kodein}"
 
-    val jUnit = "junit:junit:${Versions.junit}"
-    val assertj = "org.assertj:assertj-core:${Versions.assertj}"
-    val androidTestCore = "androidx.test:core:${Versions.androidxTest}"
-    val androidTestCoreKtx = "androidx.test:core-ktx:${Versions.androidxTest}"
-    val androidTestExtJunit = "androidx.test.ext:junit:${Versions.androidxTest}"
-    val androidTestExtJunitKtx = "androidx.test.ext:junit-ktx:${Versions.androidxTest}"
-    val androidTestRunner = "androidx.test:runner:${Versions.androidxTest}"
-    val androidTestRules = "androidx.test:rules:${Versions.androidxTest}"
-    val espressoCore = "androidx.test.espresso:espresso-core:${Versions.espresso}"
-    val mockWebServer = "com.squareup.okhttp3:mockwebserver:${Versions.okHttp}"
-    val slf4jNoOp = "org.slf4j:slf4j-nop:${Versions.slf4j}"
+    val jUnit = "junit:junit:${Libraries.Versions.junit}"
+    val assertj = "org.assertj:assertj-core:${Libraries.Versions.assertj}"
+    val androidTestCore = "androidx.test:core:${Libraries.Versions.androidxTest}"
+    val androidTestCoreKtx = "androidx.test:core-ktx:${Libraries.Versions.androidxTest}"
+    val androidTestExtJunit = "androidx.test.ext:junit:${Libraries.Versions.androidxTest}"
+    val androidTestExtJunitKtx = "androidx.test.ext:junit-ktx:${Libraries.Versions.androidxTest}"
+    val androidTestRunner = "androidx.test:runner:${Libraries.Versions.androidxTest}"
+    val androidTestRules = "androidx.test:rules:${Libraries.Versions.androidxTest}"
+    val espressoCore = "androidx.test.espresso:espresso-core:${Libraries.Versions.espresso}"
+    val mockWebServer = "com.squareup.okhttp3:mockwebserver:${Libraries.Versions.okHttp}"
+    val slf4jNoOp = "org.slf4j:slf4j-nop:${Libraries.Versions.slf4j}"
 
     private object Versions {
         const val kotlinSerialization = "0.11.0"

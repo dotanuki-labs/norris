@@ -1,4 +1,5 @@
-import java.io.File
+package configs
+
 import java.util.Collections.emptySet
 
 object AndroidConfig {

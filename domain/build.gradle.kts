@@ -1,4 +1,4 @@
-import UnitTestDependencies.Companion.unitTest
+import dependencies.UnitTestDependencies.Companion.unitTest
 import modules.LibraryModule
 import modules.LibraryType
 

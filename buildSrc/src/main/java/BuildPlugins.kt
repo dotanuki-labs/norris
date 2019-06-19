@@ -1,3 +1,5 @@
+import configs.KotlinConfig
+
 object BuildPlugins {
 
     object Dependencies {

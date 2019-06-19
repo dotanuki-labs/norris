@@ -1,3 +1,7 @@
+package dependencies
+
+import Libraries
+
 class UnitTestDependencies {
 
     private val all by lazy {
