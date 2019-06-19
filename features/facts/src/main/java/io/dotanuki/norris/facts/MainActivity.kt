@@ -1,7 +1,7 @@
-package io.dotanuki.demos.norris
+package io.dotanuki.norris.facts
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
 
 class MainActivity : AppCompatActivity() {
 

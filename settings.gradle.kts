@@ -7,5 +7,6 @@ include(
     MainApp,
     Logger,
     Domain,
+    Features.Facts,
     Features.SharedAssets
 )

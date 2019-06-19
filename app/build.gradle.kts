@@ -74,6 +74,7 @@ dependencies {
     implementation(project(ModuleNames.Logger))
     implementation(project(ModuleNames.Domain))
     implementation(project(ModuleNames.Features.SharedAssets))
+    implementation(project(ModuleNames.Features.Facts))
 
     testImplementation(Libraries.jUnit)
     androidTestImplementation(Libraries.espressoCore)
