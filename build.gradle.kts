@@ -12,6 +12,7 @@ buildscript {
         classpath(BuildPlugins.Dependencies.kotlinSupport)
         classpath(BuildPlugins.Dependencies.testLogger)
         classpath(BuildPlugins.Dependencies.kotlinxSerialization)
+        classpath(BuildPlugins.Dependencies.ktlint)
     }
 }
 

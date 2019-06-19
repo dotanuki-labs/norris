@@ -21,5 +21,4 @@ object ConsoleLogger : Logger {
     override fun e(message: String) {
         System.err.println("ERROR/${TraceInspector.findClassName()}:$message")
     }
-
 }

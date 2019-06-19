@@ -16,5 +16,4 @@ dependencies {
     implementation(project(ModuleNames.Features.SharedAssets))
 
     implementation(Libraries.appCompat)
-
 }

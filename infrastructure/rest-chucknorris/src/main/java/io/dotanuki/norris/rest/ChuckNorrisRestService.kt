@@ -1,4 +1,3 @@
 package io.dotanuki.norris.rest
 
-interface ChuckNorrisRestService {
-}
+interface ChuckNorrisRestService

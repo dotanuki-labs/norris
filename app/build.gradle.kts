@@ -63,7 +63,6 @@ android {
         unitTests.isReturnDefaultValues = true
         unitTests.isIncludeAndroidResources = true
     }
-
 }
 
 dependencies {

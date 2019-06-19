@@ -16,4 +16,3 @@ object AndroidConfig {
 
     val noGeneratedDensities = emptySet<String>().toTypedArray()
 }
-

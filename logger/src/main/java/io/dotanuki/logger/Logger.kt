@@ -11,6 +11,4 @@ interface Logger {
     fun w(message: String)
 
     fun e(message: String)
-
 }
-

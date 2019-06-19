@@ -11,5 +11,4 @@ object MutedLogger : Logger {
     override fun w(message: String) = Unit
 
     override fun e(message: String) = Unit
-
 }

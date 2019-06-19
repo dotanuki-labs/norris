@@ -10,5 +10,4 @@ object TraceInspector {
             .split(".").last()
             .split("$").first()
     }
-
 }

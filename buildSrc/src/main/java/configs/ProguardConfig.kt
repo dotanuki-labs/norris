@@ -11,5 +11,4 @@ class ProguardConfig(private val pathToFiles: String) {
     val androidRules by lazy {
         "proguard-android-optimize.txt"
     }
-
 }

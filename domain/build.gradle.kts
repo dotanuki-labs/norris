@@ -17,5 +17,3 @@ dependencies {
         forEachDependency { testImplementation(it) }
     }
 }
-
-

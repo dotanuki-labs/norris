@@ -12,4 +12,3 @@ plugins {
 dependencies {
     implementation(Libraries.kotlinStdlib)
 }
-

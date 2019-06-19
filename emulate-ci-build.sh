@@ -1,4 +1,5 @@
 #!/bin/sh
 
 ./gradlew --stop
-./gradlew clean test assembleDebug -xlint --stacktrace
+./gradlew clean ktlintCheck test --stacktrace
+./gradlew assembleDebug -xlint --stacktrace
