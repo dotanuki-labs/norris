@@ -64,7 +64,6 @@ android {
 dependencies {
 
     implementation(Libraries.kotlinStdlib)
-    implementation(Libraries.kotlinStdlib)
     implementation(Libraries.appCompat)
     implementation(Libraries.coreAndroidx)
 

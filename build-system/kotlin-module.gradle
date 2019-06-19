@@ -1,4 +1,3 @@
-apply plugin: 'kotlin'
 apply plugin: 'com.adarshr.test-logger'
 
 repositories {

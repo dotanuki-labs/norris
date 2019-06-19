@@ -1,4 +1,4 @@
-// Versions for project parameters and dependencies
+// Versions for project parameters and forEachDependency
 
 object Libraries {
 
