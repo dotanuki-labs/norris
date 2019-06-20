@@ -1,5 +1,5 @@
 # Norris
-[![ktlint](https://img.shields.io/badge/code%20style-%E2%9D%A4-FF4081.svg)](https://ktlint.github.io/)
+[![ktlint](https://img.shields.io/badge/code%20style-%E2%9D%A4-FF4081.svg)](https://ktlint.github.io/) [![Build Status](https://app.bitrise.io/app/274c15dfbf445b84/status.svg?token=-czdHbDnvrNROemt8_eJuw&branch=master)](https://app.bitrise.io/app/274c15dfbf445b84)
 
 ## About
 
