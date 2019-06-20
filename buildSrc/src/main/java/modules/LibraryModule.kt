@@ -9,7 +9,7 @@ class LibraryModule(
     private val type: LibraryType
 ) {
 
-    fun script() = "$rootDir/${target()}"
+    fun script() = "$rootDir/buildSrc/shared/${target()}"
 
     private fun target() = when (type) {
         Kotlin -> kotlinBuildLogic
@@ -17,7 +17,7 @@ class LibraryModule(
     }
 
     private companion object {
-        const val androidBuildLogic = "build-system/android-module.gradle"
-        const val kotlinBuildLogic = "build-system/kotlin-module.gradle"
+        const val androidBuildLogic = "android-module.gradle"
+        const val kotlinBuildLogic = "kotlin-module.gradle"
     }
 }
