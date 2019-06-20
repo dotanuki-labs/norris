@@ -37,7 +37,7 @@ android {
 
         getByName("debug") {
             applicationIdSuffix = ".debug"
-            versionNameSuffix = "-debug"
+            versionNameSuffix = "-DEBUG"
         }
 
         getByName("release") {
