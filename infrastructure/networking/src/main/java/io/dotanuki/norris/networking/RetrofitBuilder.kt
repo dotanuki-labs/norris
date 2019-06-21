@@ -12,7 +12,7 @@ object RetrofitBuilder {
         with(Retrofit.Builder()) {
             baseUrl(apiURL)
             client(httpClient)
-            addConverterFactory(Json.asConverterFactory(contentType))
+            addConverterFactory(Json.nonstrict.asConverterFactory(contentType))
             build()
         }
 
