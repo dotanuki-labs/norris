@@ -1,4 +1,4 @@
-package io.dotanuki.norris.domain.model
+package io.dotanuki.norris.rest.model
 
 sealed class RelatedCategory {
     class Available(val name: String) : RelatedCategory()

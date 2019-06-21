@@ -1,7 +1,7 @@
-package io.dotanuki.norris.domain.services
+package io.dotanuki.norris.rest.services
 
-import io.dotanuki.norris.domain.model.ChuckNorrisFact
-import io.dotanuki.norris.domain.model.RelatedCategory
+import io.dotanuki.norris.rest.model.ChuckNorrisFact
+import io.dotanuki.norris.rest.model.RelatedCategory
 
 interface RemoteFactsService {
 

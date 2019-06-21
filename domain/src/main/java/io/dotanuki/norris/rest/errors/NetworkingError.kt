@@ -1,4 +1,4 @@
-package io.dotanuki.norris.domain.errors
+package io.dotanuki.norris.rest.errors
 
 sealed class NetworkingError : Throwable() {
 
