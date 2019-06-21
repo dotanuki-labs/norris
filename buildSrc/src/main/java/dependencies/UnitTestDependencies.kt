@@ -7,7 +7,8 @@ class UnitTestDependencies {
     private val all by lazy {
         listOf(
             Libraries.jUnit,
-            Libraries.assertj
+            Libraries.assertj,
+            Libraries.burster
         )
     }
 

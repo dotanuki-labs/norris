@@ -29,6 +29,7 @@ object Libraries {
 
     val jUnit = "junit:junit:${Libraries.Versions.junit}"
     val assertj = "org.assertj:assertj-core:${Libraries.Versions.assertj}"
+    val burster = "com.github.ubiratansoares:burster:${Versions.burster}"
     val androidTestCore = "androidx.test:core:${Libraries.Versions.androidxTest}"
     val androidTestCoreKtx = "androidx.test:core-ktx:${Libraries.Versions.androidxTest}"
     val androidTestExtJunit = "androidx.test.ext:junit:${Libraries.Versions.androidxTest}"
@@ -51,6 +52,7 @@ object Libraries {
         const val recyclerView = "1.1.0-alpha06"
         const val junit = "4.12"
         const val assertj = "3.11.1"
+        const val burster = "0.1.1"
         const val androidxTest = "1.2.0"
         const val espresso = "3.2.0"
         const val slf4j = "1.7.25"
