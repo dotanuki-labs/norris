@@ -1,9 +1,9 @@
 package io.dotanuki.norris.networking
 
-import io.dotanuki.norris.domain.errors.ErrorTransformer
-import io.dotanuki.norris.domain.errors.NetworkingError.ConnectionSpike
-import io.dotanuki.norris.domain.errors.NetworkingError.HostUnreachable
-import io.dotanuki.norris.domain.errors.NetworkingError.OperationTimeout
+import io.dotanuki.norris.rest.errors.ErrorTransformer
+import io.dotanuki.norris.rest.errors.NetworkingError.ConnectionSpike
+import io.dotanuki.norris.rest.errors.NetworkingError.HostUnreachable
+import io.dotanuki.norris.rest.errors.NetworkingError.OperationTimeout
 import java.io.IOException
 import java.net.ConnectException
 import java.net.NoRouteToHostException
@@ -12,13 +12,11 @@ import java.net.UnknownHostException
 
 object NetworkingErrorTransformer : ErrorTransformer {
 
-    override suspend fun transform(incoming: Throwable) = translate(incoming)
-
-    private fun translate(error: Throwable) =
+    override suspend fun transform(incoming: Throwable) =
         when {
-            (!isNetworkingError(error)) -> error
-            isConnectionTimeout(error) -> OperationTimeout
-            cannotReachHost(error) -> HostUnreachable
+            (!isNetworkingError(incoming)) -> incoming
+            isConnectionTimeout(incoming) -> OperationTimeout
+            cannotReachHost(incoming) -> HostUnreachable
             else -> ConnectionSpike
         }
 

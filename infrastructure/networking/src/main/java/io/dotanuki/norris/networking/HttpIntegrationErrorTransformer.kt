@@ -1,7 +1,7 @@
 package io.dotanuki.norris.networking
 
-import io.dotanuki.norris.domain.errors.ErrorTransformer
-import io.dotanuki.norris.domain.errors.RemoteServiceIntegrationError
+import io.dotanuki.norris.rest.errors.ErrorTransformer
+import io.dotanuki.norris.rest.errors.RemoteServiceIntegrationError
 import retrofit2.HttpException
 
 object HttpIntegrationErrorTransformer : ErrorTransformer {
@@ -12,8 +12,9 @@ object HttpIntegrationErrorTransformer : ErrorTransformer {
             else -> incoming
         }
 
-    private fun translateUsingStatusCode(code: Int) = when (code) {
-        in 400..499 -> RemoteServiceIntegrationError.ClientOrigin
-        else -> RemoteServiceIntegrationError.RemoteSystem
-    }
+    private fun translateUsingStatusCode(code: Int) =
+        when (code) {
+            in 400..499 -> RemoteServiceIntegrationError.ClientOrigin
+            else -> RemoteServiceIntegrationError.RemoteSystem
+        }
 }

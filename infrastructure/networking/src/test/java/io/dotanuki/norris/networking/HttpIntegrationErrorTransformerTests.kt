@@ -1,9 +1,9 @@
 package io.dotanuki.norris.networking
 
 import io.dotanuki.burster.using
-import io.dotanuki.norris.domain.errors.RemoteServiceIntegrationError
-import io.dotanuki.norris.domain.errors.RemoteServiceIntegrationError.ClientOrigin
-import io.dotanuki.norris.domain.errors.RemoteServiceIntegrationError.RemoteSystem
+import io.dotanuki.norris.rest.errors.RemoteServiceIntegrationError
+import io.dotanuki.norris.rest.errors.RemoteServiceIntegrationError.ClientOrigin
+import io.dotanuki.norris.rest.errors.RemoteServiceIntegrationError.RemoteSystem
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.ResponseBody.Companion.toResponseBody
 import org.junit.Test

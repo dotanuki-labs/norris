@@ -1,11 +1,11 @@
 package io.dotanuki.norris.networking
 
 import io.dotanuki.burster.using
-import io.dotanuki.norris.domain.errors.NetworkingError
-import io.dotanuki.norris.domain.errors.NetworkingError.ConnectionSpike
-import io.dotanuki.norris.domain.errors.NetworkingError.HostUnreachable
-import io.dotanuki.norris.domain.errors.NetworkingError.OperationTimeout
-import io.dotanuki.norris.domain.errors.RemoteServiceIntegrationError
+import io.dotanuki.norris.rest.errors.NetworkingError
+import io.dotanuki.norris.rest.errors.NetworkingError.ConnectionSpike
+import io.dotanuki.norris.rest.errors.NetworkingError.HostUnreachable
+import io.dotanuki.norris.rest.errors.NetworkingError.OperationTimeout
+import io.dotanuki.norris.rest.errors.RemoteServiceIntegrationError
 import org.junit.Test
 import java.io.IOException
 import java.net.ConnectException
