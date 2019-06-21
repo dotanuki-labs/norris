@@ -13,6 +13,7 @@ plugins {
 
 dependencies {
     implementation(Libraries.kotlinStdlib)
+    implementation(Libraries.kotlinSerialization)
 
     implementation(Libraries.okhttp)
     implementation(Libraries.okhttpLogger)
