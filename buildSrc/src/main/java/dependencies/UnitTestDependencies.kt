@@ -8,7 +8,8 @@ class UnitTestDependencies {
         listOf(
             Libraries.jUnit,
             Libraries.assertj,
-            Libraries.burster
+            Libraries.burster,
+            Libraries.mockWebServer
         )
     }
 
