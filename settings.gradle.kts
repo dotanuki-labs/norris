@@ -1,4 +1,5 @@
 
+import modules.ModuleNames.CoroutinesTestUtils
 import modules.ModuleNames.Domain
 import modules.ModuleNames.Features
 import modules.ModuleNames.Infrastructure
@@ -9,6 +10,7 @@ include(
     MainApp,
     Logger,
     Domain,
+    CoroutinesTestUtils,
     Infrastructure.Networking,
     Infrastructure.Rest,
     Features.Facts,

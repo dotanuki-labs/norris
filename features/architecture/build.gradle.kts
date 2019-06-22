@@ -15,10 +15,7 @@ dependencies {
     implementation(project(ModuleNames.Logger))
     implementation(Libraries.coroutinesCore)
 
-    unitTest {
-        forEachDependency { testImplementation(it) }
-    }
+    unitTest { forEachDependency { testImplementation(it) } }
+    testImplementation(project(ModuleNames.CoroutinesTestUtils))
 
-    testImplementation(Libraries.coroutinesTest)
-    testImplementation(Libraries.coroutinesDebug)
 }

@@ -1,5 +1,7 @@
 package io.dotanuki.norris.architecture
 
+import io.dotanuki.coroutines.testutils.EnforceMainDispatcher
+import io.dotanuki.coroutines.testutils.collectForTesting
 import io.dotanuki.norris.architecture.ViewState.Failed
 import io.dotanuki.norris.architecture.ViewState.Loading
 import io.dotanuki.norris.architecture.ViewState.Success
@@ -12,7 +14,7 @@ import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
 import kotlin.coroutines.suspendCoroutine
 
-class StateMachineTests {
+internal class StateMachineTests {
 
     private lateinit var machine: StateMachine<String>
 
