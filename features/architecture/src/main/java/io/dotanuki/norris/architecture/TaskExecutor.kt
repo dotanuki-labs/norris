@@ -2,7 +2,6 @@ package io.dotanuki.norris.architecture
 
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
@@ -21,11 +20,10 @@ interface TaskExecutor {
             }
     }
 
-    object Synchronous : TaskExecutor {
-        override fun execute(block: suspend TaskExecutor.() -> Unit) = runBlocking {
-            GlobalScope.launch {
-                block.invoke(this@Synchronous)
+    class Synchronous(private val scope: CoroutineScope) : TaskExecutor {
+        override fun execute(block: suspend TaskExecutor.() -> Unit) =
+            runBlocking {
+                scope.launch { block.invoke(this@Synchronous) }
             }
-        }
     }
 }
