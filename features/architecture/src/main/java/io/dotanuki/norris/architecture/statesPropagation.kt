@@ -8,7 +8,6 @@ interface ViewStatesEmitter<T> {
     fun observableStates(): Flow<ViewState<T>>
 
     val emissionScope: CoroutineScope
-
 }
 
 interface ViewStateRegistry<T> {
@@ -16,5 +15,4 @@ interface ViewStateRegistry<T> {
     fun current(): ViewState<T>?
 
     suspend fun store(state: ViewState<T>)
-
 }

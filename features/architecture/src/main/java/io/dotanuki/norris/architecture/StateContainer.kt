@@ -23,4 +23,3 @@ interface StateContainer<T> : ViewStateRegistry<T>, ViewStatesEmitter<T> {
         }
     }
 }
-
