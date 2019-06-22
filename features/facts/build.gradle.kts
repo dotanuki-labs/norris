@@ -22,10 +22,6 @@ dependencies {
     implementation(Libraries.coroutinesCore)
     implementation(Libraries.appCompat)
 
-    unitTest {
-        forEachDependency { testImplementation(it) }
-    }
-
-    testImplementation(Libraries.coroutinesTest)
-    testImplementation(Libraries.coroutinesDebug)
+    unitTest { forEachDependency { testImplementation(it) } }
+    testImplementation(project(ModuleNames.CoroutinesTestUtils))
 }
