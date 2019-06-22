@@ -1,4 +1,4 @@
-package io.dotanuki.norris.architecture
+package io.dotanuki.coroutines.testutils
 
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.newSingleThreadContext

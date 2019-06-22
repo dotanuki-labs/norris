@@ -5,6 +5,7 @@ object ModuleNames {
     const val MainApp = ":app"
     const val Domain = ":domain"
     const val Logger = ":logger"
+    const val CoroutinesTestUtils = ":coroutines-testutils"
 
     object Infrastructure {
         const val Networking = ":infrastructure:networking"
