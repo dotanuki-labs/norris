@@ -3,7 +3,6 @@ package io.dotanuki.norri.facts
 import com.nhaarman.mockitokotlin2.mock
 import com.nhaarman.mockitokotlin2.whenever
 import io.dotanuki.coroutines.testutils.CoroutinesTestHelper
-import io.dotanuki.coroutines.testutils.CoroutinesTestHelper.Companion.runWithTestScope
 import io.dotanuki.coroutines.testutils.collectForTesting
 import io.dotanuki.norris.architecture.StateContainer
 import io.dotanuki.norris.architecture.StateMachine
@@ -19,6 +18,7 @@ import io.dotanuki.norris.rest.errors.RemoteServiceIntegrationError.UnexpectedRe
 import io.dotanuki.norris.rest.model.ChuckNorrisFact
 import io.dotanuki.norris.rest.model.RelatedCategory
 import io.dotanuki.norris.rest.services.RemoteFactsService
+import kotlinx.coroutines.runBlocking
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.Before
 import org.junit.Rule
@@ -43,7 +43,7 @@ class FactsViewModelTests {
     }
 
     @Test fun `should report failure when fetching from remote`() {
-        runWithTestScope(helper.scope) {
+        runBlocking {
 
             // Given
             val emissions = viewModel.bind().collectForTesting()
@@ -66,7 +66,7 @@ class FactsViewModelTests {
     }
 
     @Test fun `should fetch article from remote data source with success`() {
-        runWithTestScope(helper.scope) {
+        runBlocking {
 
             // Given
             val emissions = viewModel.bind().collectForTesting()
