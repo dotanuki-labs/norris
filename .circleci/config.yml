@@ -12,20 +12,20 @@ jobs:
           key: jars-{{ checksum "buildSrc/src/main/java/Libraries.kt" }}-{{ checksum  "buildSrc/src/main/java/configs/KotlinConfig.kt" }}
       - run:
           name: Download Dependencies
-          command: ./gradlew androidDependencies
+          command: ./gradlew androidDependencies --no-daemon
       - save_cache:
           paths:
             - ~/.gradle
           key: jars-{{ checksum "buildSrc/src/main/java/Libraries.kt" }}-{{ checksum  "buildSrc/src/main/java/configs/KotlinConfig.kt" }}
       - run:
           name: Check code style
-          command: ./gradlew ktlintCheck
+          command: ./gradlew ktlintCheck --no-daemon
       - run:
           name: Run Tests
-          command: ./gradlew test
+          command: ./gradlew test --no-daemon
       - run:
           name: Assemble Debug APK
-          command: ./gradlew assembleDebug -xlint -PdisablePreDex
+          command: ./gradlew assembleDebug -xlint -PdisablePreDex --no-daemon
       - store_artifacts:
           path: app/build/reports
           destination: reports
