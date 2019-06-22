@@ -23,6 +23,8 @@ object Libraries {
 
     val coroutinesCore = "org.jetbrains.kotlinx:kotlinx-coroutines-core:${Libraries.Versions.coroutines}"
     val coroutinesAndroid = "org.jetbrains.kotlinx:kotlinx-coroutines-android:${Libraries.Versions.coroutines}"
+    val coroutinesTest = "org.jetbrains.kotlinx:kotlinx-coroutines-test:${Libraries.Versions.coroutines}"
+    val coroutinesDebug = "org.jetbrains.kotlinx:kotlinx-coroutines-debug:${Libraries.Versions.coroutines}"
 
     val kodein = "org.kodein.di:kodein-di-generic-jvm:${Libraries.Versions.kodein}"
     val kodeinConf = "org.kodein.di:kodein-di-conf-jvm:${Libraries.Versions.kodein}"
