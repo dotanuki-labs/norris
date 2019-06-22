@@ -1,0 +1,25 @@
+{
+  "total": 2,
+  "result": [
+    {
+      "categories": [],
+      "created_at": "2016-05-01 10:51:41.584544",
+      "icon_url": "https://assets.chucknorris.host/img/avatar/chuck-norris.png",
+      "id": "lhan43nqsgowtaffzxouua",
+      "updated_at": "2016-05-01 10:51:41.584544",
+      "url": "https://api.chucknorris.io/jokes/lhan43nqsgowtaffzxouua",
+      "value": "Police label anyone attacking Chuck Norris as a Code 45-11.... A suicide."
+    },
+    {
+      "categories": [
+        "dev"
+      ],
+      "created_at": "2016-05-01 10:51:41.584544",
+      "icon_url": "https://assets.chucknorris.host/img/avatar/chuck-norris.png",
+      "id": "2wzginmks8azrbaxnamxdw",
+      "updated_at": "2016-05-01 10:51:41.584544",
+      "url": "https://api.chucknorris.io/jokes/2wzginmks8azrbaxnamxdw",
+      "value": "Every SQL statement that Chuck Norris codes has an implicit \"COMMIT\" in its end."
+    }
+  ]
+}
