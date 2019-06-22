@@ -41,6 +41,3 @@ internal object RawCategoriesSerializer : KSerializer<RawCategories> {
             decoder.decodeSerializableValue(serializer)
         )
 }
-
-
-
