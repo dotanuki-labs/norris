@@ -24,4 +24,5 @@ dependencies {
 
     unitTest { forEachDependency { testImplementation(it) } }
     testImplementation(project(ModuleNames.CoroutinesTestUtils))
+    testImplementation(Libraries.coroutinesTest)
 }

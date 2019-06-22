@@ -1,11 +1,11 @@
 package io.dotanuki.norris.architecture
 
-import io.dotanuki.coroutines.testutils.EnforceMainDispatcher
+import io.dotanuki.coroutines.testutils.CoroutinesTestHelper
+import io.dotanuki.coroutines.testutils.CoroutinesTestHelper.Companion.runWithTestScope
 import io.dotanuki.coroutines.testutils.collectForTesting
 import io.dotanuki.norris.architecture.ViewState.Failed
 import io.dotanuki.norris.architecture.ViewState.Loading
 import io.dotanuki.norris.architecture.ViewState.Success
-import kotlinx.coroutines.runBlocking
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.Before
 import org.junit.Rule
@@ -18,17 +18,17 @@ internal class StateMachineTests {
 
     private lateinit var machine: StateMachine<String>
 
-    @get:Rule val enforceDispatcher = EnforceMainDispatcher()
+    @get:Rule val helper = CoroutinesTestHelper()
 
     @Before fun `before each test`() {
         machine = StateMachine(
             container = StateContainer.Unbounded(),
-            executor = TaskExecutor.Synchronous
+            executor = TaskExecutor.Synchronous(helper.scope)
         )
     }
 
     @Test fun `should generate states, successful execution`() {
-        runBlocking {
+        runWithTestScope(helper.scope) {
 
             // Given
             val emissions = machine.states().collectForTesting()
@@ -47,7 +47,7 @@ internal class StateMachineTests {
     }
 
     @Test fun `should generate states, error execution`() {
-        runBlocking {
+        runWithTestScope(helper.scope) {
 
             // Given
             val emissions = machine.states().collectForTesting()
@@ -66,7 +66,7 @@ internal class StateMachineTests {
     }
 
     @Test fun `should generate states, with previous execution`() {
-        runBlocking {
+        runWithTestScope(helper.scope) {
 
             // Given
             val emissions = machine.states().collectForTesting()
@@ -88,7 +88,7 @@ internal class StateMachineTests {
     }
 
     @Test fun `should generate states, ignoring previous broken execution`() {
-        runBlocking {
+        runWithTestScope(helper.scope) {
 
             // Given
             val emissions = machine.states().collectForTesting()

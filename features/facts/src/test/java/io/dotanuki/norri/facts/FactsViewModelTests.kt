@@ -2,7 +2,8 @@ package io.dotanuki.norri.facts
 
 import com.nhaarman.mockitokotlin2.mock
 import com.nhaarman.mockitokotlin2.whenever
-import io.dotanuki.coroutines.testutils.EnforceMainDispatcher
+import io.dotanuki.coroutines.testutils.CoroutinesTestHelper
+import io.dotanuki.coroutines.testutils.CoroutinesTestHelper.Companion.runWithTestScope
 import io.dotanuki.coroutines.testutils.collectForTesting
 import io.dotanuki.norris.architecture.StateContainer
 import io.dotanuki.norris.architecture.StateMachine
@@ -18,7 +19,6 @@ import io.dotanuki.norris.rest.errors.RemoteServiceIntegrationError.UnexpectedRe
 import io.dotanuki.norris.rest.model.ChuckNorrisFact
 import io.dotanuki.norris.rest.model.RelatedCategory
 import io.dotanuki.norris.rest.services.RemoteFactsService
-import kotlinx.coroutines.runBlocking
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.Before
 import org.junit.Rule
@@ -27,14 +27,14 @@ import org.mockito.ArgumentMatchers.anyString
 
 class FactsViewModelTests {
 
-    @get:Rule val enforcer = EnforceMainDispatcher()
+    @get:Rule val helper = CoroutinesTestHelper()
 
     private val factsService = mock<RemoteFactsService>()
     private lateinit var viewModel: FactsViewModel
 
     @Before fun `before each test`() {
         val stateMachine = StateMachine<List<FactPresentation>>(
-            executor = TaskExecutor.Synchronous,
+            executor = TaskExecutor.Synchronous(helper.scope),
             container = StateContainer.Unbounded()
         )
 
@@ -43,7 +43,7 @@ class FactsViewModelTests {
     }
 
     @Test fun `should report failure when fetching from remote`() {
-        runBlocking {
+        runWithTestScope(helper.scope) {
 
             // Given
             val emissions = viewModel.bind().collectForTesting()
@@ -66,7 +66,7 @@ class FactsViewModelTests {
     }
 
     @Test fun `should fetch article from remote data source with success`() {
-        runBlocking {
+        runWithTestScope(helper.scope) {
 
             // Given
             val emissions = viewModel.bind().collectForTesting()
