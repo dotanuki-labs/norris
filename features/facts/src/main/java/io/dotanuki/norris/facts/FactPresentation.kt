@@ -12,7 +12,7 @@ data class FactPresentation(
 
     companion object {
 
-        private const val SMALL_FACT_LIMIT = 50
+        private const val SMALL_FACT_LIMIT = 100
 
         operator fun invoke(fact: ChuckNorrisFact) = with(fact) {
             FactPresentation(

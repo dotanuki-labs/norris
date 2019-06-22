@@ -5,10 +5,10 @@ import io.dotanuki.norris.architecture.UnsupportedUserInteraction
 import io.dotanuki.norris.architecture.UserInteraction
 import io.dotanuki.norris.architecture.UserInteraction.OpenedScreen
 import io.dotanuki.norris.architecture.UserInteraction.RequestedFreshContent
-import io.dotanuki.norris.rest.services.RemoteFactsService
+import io.dotanuki.norris.rest.FetchFacts
 
 class FactsViewModel(
-    private val service: RemoteFactsService,
+    private val usecase: FetchFacts,
     private val machine: StateMachine<List<FactPresentation>>
 ) {
 
@@ -26,8 +26,7 @@ class FactsViewModel(
         }
 
     private suspend fun fetchFromRemote() =
-        with(service) {
-            val randomCategory = availableCategories().random().name
-            fetchFacts(randomCategory).map { FactPresentation(it) }
-        }
+        usecase
+            .randomFacts()
+            .map { FactPresentation(it) }
 }
