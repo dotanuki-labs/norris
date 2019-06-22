@@ -7,7 +7,7 @@ import kotlinx.coroutines.test.resetMain
 import kotlinx.coroutines.test.setMain
 import org.junit.rules.ExternalResource
 
-class EnforceMainDispatcher : ExternalResource() {
+class CoroutinesTestHelper : ExternalResource() {
 
     private val singleThread = newSingleThreadContext("Testing thread")
     val testScope = TestCoroutineScope()
