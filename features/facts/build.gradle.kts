@@ -1,3 +1,4 @@
+import dependencies.UnitTestDependencies.Companion.unitTest
 import modules.LibraryModule
 import modules.LibraryType
 import modules.ModuleNames
@@ -11,9 +12,20 @@ plugins {
 }
 
 dependencies {
+
     implementation(project(ModuleNames.Logger))
     implementation(project(ModuleNames.Domain))
+    implementation(project(ModuleNames.Features.Architecture))
     implementation(project(ModuleNames.Features.SharedAssets))
 
+    implementation(Libraries.kotlinStdlib)
+    implementation(Libraries.coroutinesCore)
     implementation(Libraries.appCompat)
+
+    unitTest {
+        forEachDependency { testImplementation(it) }
+    }
+
+    testImplementation(Libraries.coroutinesTest)
+    testImplementation(Libraries.coroutinesDebug)
 }
