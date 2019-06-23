@@ -15,5 +15,6 @@ include(
     Infrastructure.Rest,
     Features.Facts,
     Features.Architecture,
+    Features.SharedUtilities,
     Features.SharedAssets
 )

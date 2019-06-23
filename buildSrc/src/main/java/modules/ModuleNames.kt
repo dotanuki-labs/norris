@@ -15,6 +15,7 @@ object ModuleNames {
     object Features {
         const val Architecture = ":features:architecture"
         const val SharedAssets = ":features:shared-assets"
+        const val SharedUtilities = ":features:shared-utilities"
         const val Facts = ":features:facts"
     }
 }
