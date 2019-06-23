@@ -3,6 +3,7 @@ package io.dotanuki.norris.architecture
 import io.dotanuki.coroutines.testutils.CoroutinesTestHelper
 import io.dotanuki.coroutines.testutils.collectForTesting
 import io.dotanuki.norris.architecture.ViewState.Failed
+import io.dotanuki.norris.architecture.ViewState.FirstLaunch
 import io.dotanuki.norris.architecture.ViewState.Loading
 import io.dotanuki.norris.architecture.ViewState.Success
 import kotlinx.coroutines.runBlocking
@@ -38,6 +39,7 @@ internal class StateMachineTests {
 
             // Then
             val expectedStates = listOf(
+                FirstLaunch,
                 Loading.FromEmpty,
                 Success(MESSAGE)
             )
@@ -57,6 +59,7 @@ internal class StateMachineTests {
 
             // Then
             val expectedStates = listOf(
+                FirstLaunch,
                 Loading.FromEmpty,
                 Failed(ERROR)
             )
@@ -77,6 +80,7 @@ internal class StateMachineTests {
 
             // Then
             val expectedStates = listOf(
+                FirstLaunch,
                 Loading.FromEmpty,
                 Success(MESSAGE),
                 Loading.FromPrevious(MESSAGE),
@@ -99,6 +103,7 @@ internal class StateMachineTests {
 
             // Then
             val expectedStates = listOf(
+                FirstLaunch,
                 Loading.FromEmpty,
                 Failed(ERROR),
                 Success(MESSAGE)

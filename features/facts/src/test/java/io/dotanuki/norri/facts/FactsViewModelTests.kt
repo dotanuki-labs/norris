@@ -8,10 +8,12 @@ import io.dotanuki.norris.architecture.StateContainer
 import io.dotanuki.norris.architecture.StateMachine
 import io.dotanuki.norris.architecture.TaskExecutor
 import io.dotanuki.norris.architecture.UserInteraction
-import io.dotanuki.norris.architecture.ViewState
 import io.dotanuki.norris.architecture.ViewState.Failed
+import io.dotanuki.norris.architecture.ViewState.FirstLaunch
 import io.dotanuki.norris.architecture.ViewState.Loading
-import io.dotanuki.norris.facts.FactPresentation
+import io.dotanuki.norris.architecture.ViewState.Success
+import io.dotanuki.norris.facts.FactDisplayRow
+import io.dotanuki.norris.facts.FactsPresentation
 import io.dotanuki.norris.facts.FactsViewModel
 import io.dotanuki.norris.rest.FetchFacts
 import io.dotanuki.norris.rest.errors.RemoteServiceIntegrationError.UnexpectedResponse
@@ -33,7 +35,7 @@ class FactsViewModelTests {
     private lateinit var viewModel: FactsViewModel
 
     @Before fun `before each test`() {
-        val stateMachine = StateMachine<List<FactPresentation>>(
+        val stateMachine = StateMachine<FactsPresentation>(
             executor = TaskExecutor.Synchronous(helper.scope),
             container = StateContainer.Unbounded()
         )
@@ -57,6 +59,7 @@ class FactsViewModelTests {
 
             // Then
             val viewStates = listOf(
+                FirstLaunch,
                 Loading.FromEmpty,
                 Failed(UnexpectedResponse)
             )
@@ -91,19 +94,22 @@ class FactsViewModelTests {
             viewModel.handle(UserInteraction.OpenedScreen).join()
 
             // And
-            val presentation = listOf(
-                FactPresentation(
-                    tag = RelatedCategory.Available("dev"),
-                    url = "https://api.chucknorris.io/jokes/2wzginmks8azrbaxnamxdw",
-                    fact = "Chuck Norris commits before Git repo even exits",
-                    displayWithSmallerFontSize = false
+            val presentation = FactsPresentation(
+                listOf(
+                    FactDisplayRow(
+                        tag = RelatedCategory.Available("dev"),
+                        url = "https://api.chucknorris.io/jokes/2wzginmks8azrbaxnamxdw",
+                        fact = "Chuck Norris commits before Git repo even exits",
+                        displayWithSmallerFontSize = false
+                    )
                 )
             )
 
             // Then
             val viewStates = listOf(
+                FirstLaunch,
                 Loading.FromEmpty,
-                ViewState.Success(presentation)
+                Success(presentation)
             )
 
             assertThat(emissions).isEqualTo(viewStates)
