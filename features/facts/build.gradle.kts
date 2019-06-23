@@ -22,6 +22,7 @@ dependencies {
     implementation(Libraries.kodein)
 
     implementation(Libraries.coroutinesCore)
+    implementation(Libraries.coroutinesAndroid)
     implementation(Libraries.appCompat)
 
     unitTest { forEachDependency { testImplementation(it) } }

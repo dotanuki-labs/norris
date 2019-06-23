@@ -3,6 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="io.dotanuki.demos.norris">
 
+    <uses-permission android:name="android.permission.INTERNET"/>
+
     <application
         android:name=".NorrisApplication"
         android:allowBackup="false"
