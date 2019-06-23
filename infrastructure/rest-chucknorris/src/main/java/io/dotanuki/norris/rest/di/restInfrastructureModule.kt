@@ -37,5 +37,4 @@ val restInfrastructureModule = Kodein.Module("rest-infrastructure") {
             rest = instance()
         )
     }
-
 }

@@ -30,5 +30,4 @@ val factsModule = Kodein.Module("facts") {
 
         FactsViewModel(usecase, stateMachine)
     }
-
 }
