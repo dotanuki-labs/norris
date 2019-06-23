@@ -19,6 +19,8 @@ dependencies {
     implementation(project(ModuleNames.Features.SharedAssets))
 
     implementation(Libraries.kotlinStdlib)
+    implementation(Libraries.kodein)
+
     implementation(Libraries.coroutinesCore)
     implementation(Libraries.appCompat)
 
