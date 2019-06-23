@@ -70,8 +70,13 @@ dependencies {
     implementation(Libraries.kotlinStdlib)
     implementation(Libraries.appCompat)
     implementation(Libraries.coreAndroidx)
+    implementation(Libraries.kodein)
+    implementation(Libraries.kodeinConf)
+    
     implementation(project(ModuleNames.Logger))
     implementation(project(ModuleNames.Domain))
+    implementation(project(ModuleNames.Infrastructure.Rest))
+    implementation(project(ModuleNames.Infrastructure.Networking))
     implementation(project(ModuleNames.Features.SharedAssets))
     implementation(project(ModuleNames.Features.Facts))
 
