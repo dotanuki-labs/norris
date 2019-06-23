@@ -12,7 +12,7 @@ interface ViewStatesEmitter<T> {
 
 interface ViewStateRegistry<T> {
 
-    fun current(): ViewState<T>?
+    fun current(): ViewState<T>
 
     suspend fun store(state: ViewState<T>)
 }

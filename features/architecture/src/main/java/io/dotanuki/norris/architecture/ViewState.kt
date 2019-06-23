@@ -2,6 +2,8 @@ package io.dotanuki.norris.architecture
 
 sealed class ViewState<out T> {
 
+    object FirstLaunch : ViewState<Nothing>()
+
     sealed class Loading<T> : ViewState<T>() {
         object FromEmpty : Loading<Nothing>()
         data class FromPrevious<T>(val previous: T) : Loading<T>()

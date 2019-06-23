@@ -3,7 +3,11 @@ package io.dotanuki.norris.facts
 import io.dotanuki.norris.rest.model.ChuckNorrisFact
 import io.dotanuki.norris.rest.model.RelatedCategory
 
-data class FactPresentation(
+data class FactsPresentation(
+    val facts: List<FactDisplayRow>
+)
+
+data class FactDisplayRow(
     val tag: RelatedCategory,
     val url: String,
     val fact: String,
@@ -15,7 +19,7 @@ data class FactPresentation(
         private const val SMALL_FACT_LIMIT = 100
 
         operator fun invoke(fact: ChuckNorrisFact) = with(fact) {
-            FactPresentation(
+            FactDisplayRow(
                 tag = category,
                 url = shareableUrl,
                 fact = textual,

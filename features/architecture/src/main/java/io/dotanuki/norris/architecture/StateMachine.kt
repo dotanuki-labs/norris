@@ -29,10 +29,12 @@ class StateMachine<T>(
         container.store(executionCompleted)
     }
 
-    private suspend fun executionStarted() =
-        container.current()
-            ?.let { loadFromPreviousExecution(it) }
-            ?: loadFromBeginning()
+    private suspend fun executionStarted() {
+        when (val actual = container.current()) {
+            ViewState.FirstLaunch -> loadFromBeginning()
+            else -> loadFromPreviousExecution(actual)
+        }
+    }
 
     private suspend fun loadFromBeginning() {
         container.store(Loading.FromEmpty)
