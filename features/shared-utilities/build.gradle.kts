@@ -18,5 +18,4 @@ dependencies {
     implementation(Libraries.lifecycleViewModel)
 
     implementation(project(ModuleNames.Features.Architecture))
-
 }

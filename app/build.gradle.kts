@@ -72,7 +72,6 @@ dependencies {
     implementation(Libraries.coreAndroidx)
     implementation(Libraries.kodein)
     implementation(Libraries.kodeinConf)
-    
     implementation(project(ModuleNames.Logger))
     implementation(project(ModuleNames.Domain))
     implementation(project(ModuleNames.Infrastructure.Rest))
