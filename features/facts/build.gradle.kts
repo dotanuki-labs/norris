@@ -17,12 +17,14 @@ dependencies {
     implementation(project(ModuleNames.Domain))
     implementation(project(ModuleNames.Features.Architecture))
     implementation(project(ModuleNames.Features.SharedAssets))
+    implementation(project(ModuleNames.Features.SharedUtilities))
 
     implementation(Libraries.kotlinStdlib)
     implementation(Libraries.kodein)
 
     implementation(Libraries.coroutinesCore)
     implementation(Libraries.coroutinesAndroid)
+    implementation(Libraries.lifecycleRuntime)
     implementation(Libraries.appCompat)
 
     unitTest { forEachDependency { testImplementation(it) } }

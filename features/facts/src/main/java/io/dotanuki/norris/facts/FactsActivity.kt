@@ -1,31 +1,26 @@
 package io.dotanuki.norris.facts
 
 import android.os.Bundle
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.lifecycleScope
 import io.dotanuki.logger.Logger
-import io.dotanuki.norris.architecture.UserInteraction
+import io.dotanuki.norris.architecture.UserInteraction.OpenedScreen
 import io.dotanuki.norris.architecture.ViewState
 import io.dotanuki.norris.architecture.ViewState.Failed
+import io.dotanuki.norris.architecture.ViewState.FirstLaunch
 import io.dotanuki.norris.architecture.ViewState.Loading
 import io.dotanuki.norris.architecture.ViewState.Success
-import kotlinx.coroutines.MainScope
-import kotlinx.coroutines.cancel
+import io.dotanuki.norris.features.utilties.selfBind
+import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import org.kodein.di.KodeinAware
-import org.kodein.di.generic.bind
 import org.kodein.di.generic.instance
-import org.kodein.di.generic.provider
 
 class FactsActivity : AppCompatActivity(), KodeinAware {
 
-    private val launcher = MainScope()
-
-    override val kodein by selfBind {
-        bind() from provider {
-            launcher
-        }
-    }
+    override val kodein by selfBind()
 
     private val viewModel by instance<FactsViewModel>()
     private val logger by instance<Logger>()
@@ -36,30 +31,32 @@ class FactsActivity : AppCompatActivity(), KodeinAware {
         setup()
     }
 
-    override fun onDestroy() {
-        launcher.cancel()
-        super.onDestroy()
+    private fun loadFacts() {
+        viewModel.handle(OpenedScreen)
     }
 
     private fun setup() {
-        launcher.launch {
+        lifecycleScope.launch {
             viewModel.bind().collect { renderState(it) }
         }
-
-        viewModel.handle(
-            UserInteraction.OpenedScreen
-        )
     }
 
-    private fun renderState(state: ViewState<List<FactPresentation>>) =
+    private fun renderState(state: ViewState<FactsPresentation>) =
         when (state) {
-            is Loading -> showLoading()
             is Failed -> reportError(state.failed)
             is Success -> showFacts(state.value)
+            is Loading.FromEmpty -> showLoading()
+            is Loading.FromPrevious -> showFacts(state.previous)
+            is FirstLaunch -> {
+                logger.i("FirstLaunch")
+                loadFacts()
+            }
         }
 
-    private fun showFacts(value: List<FactPresentation>) {
-        logger.i("Success -> $value")
+    private fun showFacts(presentation: FactsPresentation) {
+        logger.i("Success -> $presentation")
+        content.text = presentation.facts.first().fact
+        loading.visibility = View.INVISIBLE
     }
 
     private fun reportError(failed: Throwable) {
@@ -68,5 +65,6 @@ class FactsActivity : AppCompatActivity(), KodeinAware {
 
     private fun showLoading() {
         logger.i("FACTS -> Loading")
+        loading.visibility = View.VISIBLE
     }
 }

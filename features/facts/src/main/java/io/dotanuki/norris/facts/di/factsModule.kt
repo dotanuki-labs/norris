@@ -1,10 +1,11 @@
 package io.dotanuki.norris.facts.di
 
-import io.dotanuki.norris.architecture.StateContainer
 import io.dotanuki.norris.architecture.StateMachine
 import io.dotanuki.norris.architecture.TaskExecutor
-import io.dotanuki.norris.facts.FactPresentation
+import io.dotanuki.norris.facts.FactsPresentation
 import io.dotanuki.norris.facts.FactsViewModel
+import io.dotanuki.norris.features.utilties.ConfigChangesAwareStateContainer
+import io.dotanuki.norris.features.utilties.KodeinTags
 import io.dotanuki.norris.rest.FetchFacts
 import kotlinx.coroutines.Dispatchers
 import org.kodein.di.Kodein
@@ -20,10 +21,14 @@ val factsModule = Kodein.Module("facts") {
             service = instance()
         )
 
-        val stateMachine = StateMachine<List<FactPresentation>>(
-            container = StateContainer.Unbounded(),
+        val stateContainer = ConfigChangesAwareStateContainer<FactsPresentation>(
+            host = instance(KodeinTags.hostActivity)
+        )
+
+        val stateMachine = StateMachine(
+            container = stateContainer,
             executor = TaskExecutor.Concurrent(
-                scope = instance(),
+                scope = stateContainer.emissionScope,
                 dispatcher = Dispatchers.IO
             )
         )

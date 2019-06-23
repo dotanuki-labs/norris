@@ -9,7 +9,7 @@ import io.dotanuki.norris.rest.FetchFacts
 
 class FactsViewModel(
     private val usecase: FetchFacts,
-    private val machine: StateMachine<List<FactPresentation>>
+    private val machine: StateMachine<FactsPresentation>
 ) {
 
     fun bind() = machine.states()
@@ -28,5 +28,8 @@ class FactsViewModel(
     private suspend fun fetchFromRemote() =
         usecase
             .randomFacts()
-            .map { FactPresentation(it) }
+            .map { FactDisplayRow(it) }
+            .let { rows ->
+                FactsPresentation(rows)
+            }
 }
