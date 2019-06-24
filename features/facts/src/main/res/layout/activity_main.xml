@@ -73,11 +73,12 @@
             tools:text="Sorry, no results for this search." />
 
         <com.google.android.material.button.MaterialButton
+            android:layout_marginTop="16dp"
             android:id="@+id/retryButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:text="RETRY" />
+            android:text="@string/button_retry" />
 
         <View
             android:layout_width="1dp"

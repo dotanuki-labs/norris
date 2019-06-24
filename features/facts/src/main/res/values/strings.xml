@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="button_share_fact">SHARE</string>
+    <string name="button_retry">Retry</string>
 </resources>
