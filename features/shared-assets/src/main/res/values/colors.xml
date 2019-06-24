@@ -13,5 +13,5 @@
     <color name="colorPrimaryDark">@color/primary_dark</color>
     <color name="colorAccent">@color/accent</color>
     <color name="screenBackground">#FBFBFB</color>
-    <color name="errorState">@color/primary_dark</color>
+    <color name="errorState">@color/primary</color>
 </resources>
