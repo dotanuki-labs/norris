@@ -18,6 +18,9 @@ jobs:
             - ~/.gradle
           key: jars-{{ checksum "buildSrc/src/main/java/Libraries.kt" }}-{{ checksum  "buildSrc/src/main/java/configs/KotlinConfig.kt" }}
       - run:
+          name: Setup env
+          command: export IS_CI_BUILD="true"
+      - run:
           name: Check code style
           command: ./gradlew clean ktlintCheck --no-daemon
       - run:
