@@ -1,5 +1,6 @@
 package io.dotanuki.norris.features.utilties
 
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.FragmentActivity
 import org.kodein.di.Kodein
@@ -18,3 +19,6 @@ fun AppCompatActivity.selfBind(bindings: Kodein.MainBuilder.() -> Unit = {}) = K
 
     bindings.invoke(this)
 }
+
+fun AppCompatActivity.toast(message: Int) =
+    Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
