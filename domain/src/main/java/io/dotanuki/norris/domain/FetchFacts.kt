@@ -12,6 +12,9 @@ class FetchFacts(private val service: RemoteFactsService) {
     suspend fun search(term: String) =
         when {
             term.isEmpty() -> throw UnsearchableTerm
-            else -> service.fetchFacts(term)
+            else -> {
+                val facts = service.fetchFacts(term)
+                if (facts.isEmpty()) throw NoResultsFound else facts
+            }
         }
 }
