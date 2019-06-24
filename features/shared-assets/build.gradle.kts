@@ -11,4 +11,5 @@ plugins {
 
 dependencies {
     implementation(Libraries.appCompat)
+    implementation(Libraries.materialDesign)
 }
