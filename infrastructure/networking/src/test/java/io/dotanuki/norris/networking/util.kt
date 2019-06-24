@@ -1,6 +1,6 @@
 package io.dotanuki.norris.networking
 
-import io.dotanuki.norris.rest.errors.ErrorTransformer
+import io.dotanuki.norris.domain.errors.ErrorTransformer
 import kotlinx.coroutines.runBlocking
 import org.assertj.core.api.Assertions.assertThat
 import kotlin.coroutines.resumeWithException

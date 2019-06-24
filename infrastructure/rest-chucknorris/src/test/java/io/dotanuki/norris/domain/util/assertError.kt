@@ -1,4 +1,4 @@
-package io.dotanuki.norris.rest.util
+package io.dotanuki.norris.domain.util
 
 import org.assertj.core.api.Assertions.assertThat
 

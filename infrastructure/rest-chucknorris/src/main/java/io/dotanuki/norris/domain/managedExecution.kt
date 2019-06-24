@@ -1,4 +1,4 @@
-package io.dotanuki.norris.rest
+package io.dotanuki.norris.domain
 
 import io.dotanuki.norris.networking.HttpIntegrationErrorTransformer
 import io.dotanuki.norris.networking.NetworkingErrorTransformer

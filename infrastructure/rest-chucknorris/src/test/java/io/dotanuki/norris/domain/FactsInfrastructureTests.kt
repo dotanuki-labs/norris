@@ -1,12 +1,12 @@
-package io.dotanuki.norris.rest
+package io.dotanuki.norris.domain
 
-import io.dotanuki.norris.rest.errors.RemoteServiceIntegrationError
-import io.dotanuki.norris.rest.model.ChuckNorrisFact
-import io.dotanuki.norris.rest.model.RelatedCategory.Available
-import io.dotanuki.norris.rest.model.RelatedCategory.Missing
-import io.dotanuki.norris.rest.util.InfrastructureRule
-import io.dotanuki.norris.rest.util.assertErrorTransformed
-import io.dotanuki.norris.rest.util.loadFile
+import io.dotanuki.norris.domain.errors.RemoteServiceIntegrationError
+import io.dotanuki.norris.domain.model.ChuckNorrisFact
+import io.dotanuki.norris.domain.model.RelatedCategory.Available
+import io.dotanuki.norris.domain.model.RelatedCategory.Missing
+import io.dotanuki.norris.domain.util.InfrastructureRule
+import io.dotanuki.norris.domain.util.assertErrorTransformed
+import io.dotanuki.norris.domain.util.loadFile
 import kotlinx.coroutines.runBlocking
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.Before

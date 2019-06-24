@@ -1,6 +1,6 @@
-package io.dotanuki.norris.rest
+package io.dotanuki.norris.domain
 
-import io.dotanuki.norris.rest.services.RemoteFactsService
+import io.dotanuki.norris.domain.services.RemoteFactsService
 
 internal class FactsInfrastructure(private val rest: ChuckNorrisDotIO) : RemoteFactsService {
 

@@ -1,4 +1,4 @@
-package io.dotanuki.norris.rest.model
+package io.dotanuki.norris.domain.model
 
 data class ChuckNorrisFact(
     val id: String,

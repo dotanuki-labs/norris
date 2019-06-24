@@ -15,11 +15,11 @@ import io.dotanuki.norris.architecture.ViewState.Success
 import io.dotanuki.norris.facts.FactDisplayRow
 import io.dotanuki.norris.facts.FactsPresentation
 import io.dotanuki.norris.facts.FactsViewModel
-import io.dotanuki.norris.rest.FetchFacts
-import io.dotanuki.norris.rest.errors.RemoteServiceIntegrationError.UnexpectedResponse
-import io.dotanuki.norris.rest.model.ChuckNorrisFact
-import io.dotanuki.norris.rest.model.RelatedCategory
-import io.dotanuki.norris.rest.services.RemoteFactsService
+import io.dotanuki.norris.domain.FetchFacts
+import io.dotanuki.norris.domain.errors.RemoteServiceIntegrationError.UnexpectedResponse
+import io.dotanuki.norris.domain.model.ChuckNorrisFact
+import io.dotanuki.norris.domain.model.RelatedCategory
+import io.dotanuki.norris.domain.services.RemoteFactsService
 import kotlinx.coroutines.runBlocking
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.Before

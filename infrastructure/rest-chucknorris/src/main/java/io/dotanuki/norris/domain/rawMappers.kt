@@ -1,8 +1,8 @@
-package io.dotanuki.norris.rest
+package io.dotanuki.norris.domain
 
-import io.dotanuki.norris.rest.model.ChuckNorrisFact
-import io.dotanuki.norris.rest.model.RelatedCategory.Available
-import io.dotanuki.norris.rest.model.RelatedCategory.Missing
+import io.dotanuki.norris.domain.model.ChuckNorrisFact
+import io.dotanuki.norris.domain.model.RelatedCategory.Available
+import io.dotanuki.norris.domain.model.RelatedCategory.Missing
 
 internal fun RawCategories.asRelatedCategories() = raw.map { Available(it) }
 

@@ -1,7 +1,7 @@
 package io.dotanuki.norris.facts
 
-import io.dotanuki.norris.rest.model.ChuckNorrisFact
-import io.dotanuki.norris.rest.model.RelatedCategory
+import io.dotanuki.norris.domain.model.ChuckNorrisFact
+import io.dotanuki.norris.domain.model.RelatedCategory
 
 data class FactsPresentation(
     val facts: List<FactDisplayRow>

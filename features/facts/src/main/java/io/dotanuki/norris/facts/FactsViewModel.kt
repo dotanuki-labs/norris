@@ -5,7 +5,7 @@ import io.dotanuki.norris.architecture.UnsupportedUserInteraction
 import io.dotanuki.norris.architecture.UserInteraction
 import io.dotanuki.norris.architecture.UserInteraction.OpenedScreen
 import io.dotanuki.norris.architecture.UserInteraction.RequestedFreshContent
-import io.dotanuki.norris.rest.FetchFacts
+import io.dotanuki.norris.domain.FetchFacts
 
 class FactsViewModel(
     private val usecase: FetchFacts,

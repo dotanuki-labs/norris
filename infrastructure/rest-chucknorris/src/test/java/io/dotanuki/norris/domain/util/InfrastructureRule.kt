@@ -1,7 +1,7 @@
-package io.dotanuki.norris.rest.util
+package io.dotanuki.norris.domain.util
 
 import io.dotanuki.norris.networking.RetrofitBuilder
-import io.dotanuki.norris.rest.ChuckNorrisDotIO
+import io.dotanuki.norris.domain.ChuckNorrisDotIO
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import okhttp3.mockwebserver.MockResponse

@@ -1,7 +1,7 @@
 package io.dotanuki.norris.networking
 
-import io.dotanuki.norris.rest.errors.ErrorTransformer
-import io.dotanuki.norris.rest.errors.RemoteServiceIntegrationError
+import io.dotanuki.norris.domain.errors.ErrorTransformer
+import io.dotanuki.norris.domain.errors.RemoteServiceIntegrationError
 import retrofit2.HttpException
 
 object HttpIntegrationErrorTransformer : ErrorTransformer {

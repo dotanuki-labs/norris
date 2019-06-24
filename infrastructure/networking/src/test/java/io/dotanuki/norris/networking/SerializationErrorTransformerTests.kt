@@ -1,6 +1,6 @@
 package io.dotanuki.norris.networking
 
-import io.dotanuki.norris.rest.errors.RemoteServiceIntegrationError
+import io.dotanuki.norris.domain.errors.RemoteServiceIntegrationError
 import kotlinx.serialization.SerializationException
 import org.junit.Test
 

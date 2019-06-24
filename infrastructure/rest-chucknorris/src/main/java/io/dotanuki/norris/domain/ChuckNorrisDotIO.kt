@@ -1,4 +1,4 @@
-package io.dotanuki.norris.rest
+package io.dotanuki.norris.domain
 
 import retrofit2.http.GET
 import retrofit2.http.Query

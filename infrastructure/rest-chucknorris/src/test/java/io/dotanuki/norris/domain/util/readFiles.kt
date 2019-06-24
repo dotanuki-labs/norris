@@ -1,4 +1,4 @@
-package io.dotanuki.norris.rest.util
+package io.dotanuki.norris.domain.util
 
 fun Any.loadFile(path: String) =
     this.javaClass
