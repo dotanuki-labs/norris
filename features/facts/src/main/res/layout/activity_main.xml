@@ -8,17 +8,17 @@
     android:fitsSystemWindows="true">
 
     <com.google.android.material.appbar.AppBarLayout
-        app:elevation="0dp"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        app:elevation="0dp">
 
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/factsToolbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@color/screenBackground"
             android:minHeight="?android:attr/actionBarSize"
             app:layout_collapseMode="pin"
-            android:background="@color/screenBackground"
             app:layout_scrollFlags="noScroll"
             app:title="@string/app_name"
             app:titleTextColor="@android:color/black" />
@@ -36,10 +36,53 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:clipToPadding="false"
-            tools:listitem="@layout/list_item_fact"
             android:padding="8dp"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior" />
-
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"
+            tools:listitem="@layout/list_item_fact" />
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
+    <LinearLayout
+        android:id="@+id/errorStateView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:orientation="vertical"
+        android:visibility="gone">
+
+        <View
+            android:layout_width="1dp"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            />
+
+        <ImageView
+            android:id="@+id/errorStateImage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            tools:src="@drawable/img_no_results" />
+
+        <TextView
+            android:id="@+id/errorStateLabel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            android:gravity="center"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
+            android:textColor="@color/errorState"
+            tools:text="Sorry, no results for this search." />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/retryButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="RETRY" />
+
+        <View
+            android:layout_width="1dp"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            />
+    </LinearLayout>
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
