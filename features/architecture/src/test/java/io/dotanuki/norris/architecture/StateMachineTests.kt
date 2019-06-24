@@ -106,6 +106,7 @@ internal class StateMachineTests {
                 FirstLaunch,
                 Loading.FromEmpty,
                 Failed(ERROR),
+                Loading.FromEmpty,
                 Success(MESSAGE)
             )
 
