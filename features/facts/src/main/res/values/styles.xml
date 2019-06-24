@@ -1,0 +1,11 @@
+<resources>
+
+    <style name="SmallFact" parent="TextAppearance.AppCompat.Body1">
+        <item name="android:textSize">18sp</item>
+    </style>
+
+    <style name="BigFact" parent="TextAppearance.AppCompat.Body1">
+        <item name="android:textSize">14sp</item>
+    </style>
+
+</resources>

@@ -1,11 +1,12 @@
 package io.dotanuki.norris.facts
 
 import android.os.Bundle
-import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
+import androidx.recyclerview.widget.LinearLayoutManager
 import io.dotanuki.logger.Logger
 import io.dotanuki.norris.architecture.UserInteraction.OpenedScreen
+import io.dotanuki.norris.architecture.UserInteraction.RequestedFreshContent
 import io.dotanuki.norris.architecture.ViewState
 import io.dotanuki.norris.architecture.ViewState.Failed
 import io.dotanuki.norris.architecture.ViewState.FirstLaunch
@@ -36,6 +37,11 @@ class FactsActivity : AppCompatActivity(), KodeinAware {
     }
 
     private fun setup() {
+        factsRecyclerView.layoutManager = LinearLayoutManager(this)
+        factsSwipeToRefresh.setOnRefreshListener {
+            viewModel.handle(RequestedFreshContent)
+        }
+
         lifecycleScope.launch {
             viewModel.bind().collect { renderState(it) }
         }
@@ -45,26 +51,25 @@ class FactsActivity : AppCompatActivity(), KodeinAware {
         when (state) {
             is Failed -> reportError(state.reason)
             is Success -> showFacts(state.value)
-            is Loading.FromEmpty -> showLoading()
+            is Loading.FromEmpty -> startExecution()
             is Loading.FromPrevious -> showFacts(state.previous)
-            is FirstLaunch -> {
-                logger.i("FirstLaunch")
-                loadFacts()
-            }
+            is FirstLaunch -> loadFacts()
         }
 
     private fun showFacts(presentation: FactsPresentation) {
-        logger.i("Success -> $presentation")
-        content.text = presentation.facts.first().fact
-        loading.visibility = View.INVISIBLE
+        factsSwipeToRefresh.isRefreshing = false
+        factsRecyclerView.adapter = FactsAdapter(presentation) {
+        }
     }
 
     private fun reportError(failed: Throwable) {
+        factsSwipeToRefresh.isRefreshing = false
         logger.e("Error -> $failed")
+
+        // TODO : apply better error states
     }
 
-    private fun showLoading() {
-        logger.i("FACTS -> Loading")
-        loading.visibility = View.VISIBLE
+    private fun startExecution() {
+        factsSwipeToRefresh.isRefreshing = true
     }
 }

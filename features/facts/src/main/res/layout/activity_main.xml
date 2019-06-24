@@ -1,24 +1,45 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/factsScreenRoot"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".FactsActivity">
+    android:fitsSystemWindows="true">
 
-    <ProgressBar
-        android:id="@+id/loading"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
-        android:layout_gravity="center_horizontal|top"
-        android:layout_marginTop="40dp"
-        android:visibility="gone" />
+    <com.google.android.material.appbar.AppBarLayout
+        app:elevation="0dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
-    <TextView
-        android:id="@+id/content"
-        android:layout_margin="32dp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:text="Hello World!" />
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/factsToolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:minHeight="?android:attr/actionBarSize"
+            app:layout_collapseMode="pin"
+            android:background="@color/screenBackground"
+            app:layout_scrollFlags="noScroll"
+            app:title="@string/app_name"
+            app:titleTextColor="@android:color/black" />
 
-</FrameLayout>
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/factsSwipeToRefresh"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/factsRecyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:clipToPadding="false"
+            tools:listitem="@layout/list_item_fact"
+            android:padding="8dp"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

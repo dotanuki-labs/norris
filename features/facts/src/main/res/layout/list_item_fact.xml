@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="8dp"
+    android:foreground="?selectableItemBackground">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <TextView
+            android:id="@+id/factLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="Chuck Norris Facts app exists even before Android exists"
+            tools:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
+            tools:textSize="16sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:layout_marginTop="16dp"
+            android:text="@string/button_share_fact"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Button"
+            android:textColor="@color/primary_dark" />
+    </LinearLayout>
+
+</com.google.android.material.card.MaterialCardView>

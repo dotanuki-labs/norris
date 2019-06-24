@@ -25,7 +25,9 @@ dependencies {
     implementation(Libraries.coroutinesCore)
     implementation(Libraries.coroutinesAndroid)
     implementation(Libraries.lifecycleRuntime)
+    implementation(Libraries.coreAndroidx)
     implementation(Libraries.appCompat)
+    implementation(Libraries.materialDesign)
 
     unitTest { forEachDependency { testImplementation(it) } }
     testImplementation(project(ModuleNames.CoroutinesTestUtils))
