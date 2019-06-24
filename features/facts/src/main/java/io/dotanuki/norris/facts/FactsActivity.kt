@@ -43,7 +43,7 @@ class FactsActivity : AppCompatActivity(), KodeinAware {
 
     private fun renderState(state: ViewState<FactsPresentation>) =
         when (state) {
-            is Failed -> reportError(state.failed)
+            is Failed -> reportError(state.reason)
             is Success -> showFacts(state.value)
             is Loading.FromEmpty -> showLoading()
             is Loading.FromPrevious -> showFacts(state.previous)
