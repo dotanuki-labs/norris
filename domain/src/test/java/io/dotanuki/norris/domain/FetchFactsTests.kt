@@ -2,6 +2,7 @@ package io.dotanuki.norris.domain
 
 import com.nhaarman.mockitokotlin2.mock
 import com.nhaarman.mockitokotlin2.whenever
+import io.dotanuki.norris.domain.errors.SearchFactsError
 import io.dotanuki.norris.domain.model.ChuckNorrisFact
 import io.dotanuki.norris.domain.model.RelatedCategory.Available
 import io.dotanuki.norris.domain.services.RemoteFactsService
@@ -57,8 +58,15 @@ class FetchFactsTests {
     }
 
     @Test fun `should throw with invalid term`() {
-        assertThatThrownBy {
-            runBlocking { assertThat(usecase.search("")) }
-        }.isEqualTo(UnsearchableTerm)
+        assertThatThrownBy { runBlocking { usecase.search("") } }
+            .isEqualTo(SearchFactsError.EmptyTerm)
+    }
+
+    @Test fun `should throw with empty result`() {
+        runBlocking {
+            whenever(service.fetchFacts(anyString())).thenReturn(emptyList())
+            assertThatThrownBy { runBlocking { assertThat(usecase.search("Norris")) } }
+                .isEqualTo(SearchFactsError.NoResultsFound)
+        }
     }
 }

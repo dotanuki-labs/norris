@@ -1,8 +1,8 @@
 package io.dotanuki.norris.facts
 
-import io.dotanuki.norris.domain.NoResultsFound
 import io.dotanuki.norris.domain.errors.NetworkingError
 import io.dotanuki.norris.domain.errors.RemoteServiceIntegrationError.RemoteSystem
+import io.dotanuki.norris.domain.errors.SearchFactsError
 
 data class ErrorStateResources(
     val image: Int,
@@ -19,7 +19,7 @@ data class ErrorStateResources(
                     R.drawable.img_network_issue,
                     R.string.error_network
                 )
-                is NoResultsFound -> ErrorStateResources(
+                is SearchFactsError.NoResultsFound -> ErrorStateResources(
                     R.drawable.img_no_results,
                     R.string.error_no_results
                 )
