@@ -1,6 +1,7 @@
 package io.dotanuki.norris.architecture
 
 import io.dotanuki.norris.architecture.ViewState.Failed
+import io.dotanuki.norris.architecture.ViewState.FirstLaunch
 import io.dotanuki.norris.architecture.ViewState.Loading
 import io.dotanuki.norris.architecture.ViewState.Success
 
@@ -31,7 +32,8 @@ class StateMachine<T>(
 
     private suspend fun executionStarted() {
         when (val actual = container.current()) {
-            ViewState.FirstLaunch -> loadFromBeginning()
+            is FirstLaunch,
+            is Failed -> loadFromBeginning()
             else -> loadFromPreviousExecution(actual)
         }
     }
