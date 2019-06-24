@@ -33,7 +33,6 @@ class FetchFactsTests {
             Available("dev"),
             Available("humor")
         )
-
     }
 
     @Before fun `before each test`() {
