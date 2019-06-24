@@ -12,6 +12,7 @@ plugins {
 
 dependencies {
     implementation(Libraries.kotlinStdlib)
+    implementation(Libraries.coroutinesCore)
 
     unitTest {
         forEachDependency { testImplementation(it) }
