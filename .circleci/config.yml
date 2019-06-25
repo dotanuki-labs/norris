@@ -9,14 +9,14 @@ jobs:
     steps:
       - checkout
       - restore_cache:
-          key: jars-{{ checksum "buildSrc/src/main/java/Libraries.kt" }}-{{ checksum  "buildSrc/src/main/java/configs/KotlinConfig.kt" }}
+          key: jars-{{ checksum "buildSrc/src/main/java/Libraries.kt" }}-{{ checksum  "buildSrc/src/main/java/configs/KotlinConfig.kt" }}-{{ checksum  "buildSrc/src/main/java/BuildPlugins.kt" }}
       - run:
           name: Download Dependencies
           command: ./gradlew androidDependencies --no-daemon
       - save_cache:
           paths:
             - ~/.gradle
-          key: jars-{{ checksum "buildSrc/src/main/java/Libraries.kt" }}-{{ checksum  "buildSrc/src/main/java/configs/KotlinConfig.kt" }}
+          key: jars-{{ checksum "buildSrc/src/main/java/Libraries.kt" }}-{{ checksum  "buildSrc/src/main/java/configs/KotlinConfig.kt" }}-{{ checksum  "buildSrc/src/main/java/BuildPlugins.kt" }}
       - run:
           name: Setup env
           command: export IS_CI_BUILD="true"
