@@ -1,5 +1,6 @@
 # Norris
-[![ktlint](https://img.shields.io/badge/code%20style-%E2%9D%A4-FF4081.svg)](https://ktlint.github.io/) [![CircleCI](https://circleci.com/gh/dotanuki-labs/norris/tree/master.svg?style=svg)](https://circleci.com/gh/dotanuki-labs/norris/tree/master) [![Maintainability](https://api.codeclimate.com/v1/badges/42704b7b56bbdba33b99/maintainability)](https://codeclimate.com/github/dotanuki-labs/norris/maintainability)
+[![ktlint](https://img.shields.io/badge/code%20style-%E2%9D%A4-FF4081.svg)](https://ktlint.github.io/) [![CircleCI](https://circleci.com/gh/dotanuki-labs/norris/tree/master.svg?style=svg)](https://circleci.com/gh/dotanuki-labs/norris/tree/master) [![Maintainability](https://api.codeclimate.com/v1/badges/42704b7b56bbdba33b99/maintainability)](https://codeclimate.com/github/dotanuki-labs/norris/maintainability) [![codebeat badge](https://codebeat.co/badges/23b02036-2aaf-4325-a856-add0e46d6832)](https://codebeat.co/projects/github-com-dotanuki-labs-norris-master)
+
 
 ## About
 
