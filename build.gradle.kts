@@ -1,3 +1,5 @@
+import com.vanniktech.android.junit.jacoco.JunitJacocoExtension
+
 buildscript {
 
     repositories {
@@ -30,3 +32,6 @@ tasks.register("clean").configure {
 }
 
 apply(plugin = BuildPlugins.Ids.jacocoUnified)
+configure<JunitJacocoExtension> {
+    jacocoVersion = "0.8.4"
+}
