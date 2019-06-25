@@ -9,6 +9,7 @@ object BuildPlugins {
         const val kotlinSupport = "org.jetbrains.kotlin:kotlin-gradle-plugin:${KotlinConfig.version}"
         const val kotlinxSerialization = "org.jetbrains.kotlin:kotlin-serialization:${KotlinConfig.version}"
         const val jacocoUnified = "com.vanniktech:gradle-android-junit-jacoco-plugin:${Versions.jacocoUnified}"
+        const val sonarCloud = "org.sonarsource.scanner.gradle:sonarqube-gradle-plugin:${Versions.sonarCloud}"
     }
 
     object Ids {
@@ -19,6 +20,7 @@ object BuildPlugins {
         const val kotlinAndroid = "kotlin-android"
         const val kotlinAndroidExtensions = "kotlin-android-extensions"
         const val jacocoUnified = "com.vanniktech.android.junit.jacoco"
+        const val sonarCloud = "org.sonarqube"
     }
 
     private object Versions {
@@ -26,5 +28,6 @@ object BuildPlugins {
         const val testLogger = "1.7.0"
         const val ktlint = "8.1.0"
         const val jacocoUnified = "0.15.0"
+        const val sonarCloud = "2.7.1"
     }
 }

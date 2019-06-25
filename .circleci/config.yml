@@ -30,6 +30,9 @@ jobs:
           name: Upload reports to Codecov
           command: bash <(curl -s https://codecov.io/bash -v)
       - run:
+          name: Analise project on SonarCloud
+          command: ./gradlew sonarqube -Dsonar.projectKey=dotanuki-labs_norris -Dsonar.organization=dotanuki-labs -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=$SONAR_TOKEN --no-daemon
+      - run:
           name: Assemble Debug APK
           command: ./gradlew clean assembleDebug -xlint -PdisablePreDex --no-daemon
       - store_artifacts:
