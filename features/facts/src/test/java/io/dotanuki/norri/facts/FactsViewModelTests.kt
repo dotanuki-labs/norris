@@ -12,14 +12,14 @@ import io.dotanuki.norris.architecture.ViewState.Failed
 import io.dotanuki.norris.architecture.ViewState.FirstLaunch
 import io.dotanuki.norris.architecture.ViewState.Loading
 import io.dotanuki.norris.architecture.ViewState.Success
-import io.dotanuki.norris.facts.FactDisplayRow
-import io.dotanuki.norris.facts.FactsPresentation
-import io.dotanuki.norris.facts.FactsViewModel
 import io.dotanuki.norris.domain.FetchFacts
 import io.dotanuki.norris.domain.errors.RemoteServiceIntegrationError.UnexpectedResponse
 import io.dotanuki.norris.domain.model.ChuckNorrisFact
 import io.dotanuki.norris.domain.model.RelatedCategory
 import io.dotanuki.norris.domain.services.RemoteFactsService
+import io.dotanuki.norris.facts.FactDisplayRow
+import io.dotanuki.norris.facts.FactsPresentation
+import io.dotanuki.norris.facts.FactsViewModel
 import kotlinx.coroutines.runBlocking
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.Before
@@ -37,7 +37,7 @@ class FactsViewModelTests {
     @Before fun `before each test`() {
         val stateMachine = StateMachine<FactsPresentation>(
             executor = TaskExecutor.Synchronous(helper.scope),
-            container = StateContainer.Unbounded()
+            container = StateContainer.Unbounded(helper.scope)
         )
 
         val usecase = FetchFacts(factsService)

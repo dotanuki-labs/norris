@@ -23,7 +23,7 @@ internal class StateMachineTests {
 
     @Before fun `before each test`() {
         machine = StateMachine(
-            container = StateContainer.Unbounded(),
+            container = StateContainer.Unbounded(helper.scope),
             executor = TaskExecutor.Synchronous(helper.scope)
         )
     }
