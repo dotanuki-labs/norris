@@ -30,6 +30,7 @@ android {
 
         debug {
             minifyEnabled false
+            testCoverageEnabled true
         }
 
         release {
@@ -80,4 +81,3 @@ androidExtensions {
 testlogger {
     theme 'mocha'
 }
-

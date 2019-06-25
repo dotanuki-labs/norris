@@ -8,6 +8,7 @@ object BuildPlugins {
         const val ktlint = "org.jlleitschuh.gradle:ktlint-gradle:${Versions.ktlint}"
         const val kotlinSupport = "org.jetbrains.kotlin:kotlin-gradle-plugin:${KotlinConfig.version}"
         const val kotlinxSerialization = "org.jetbrains.kotlin:kotlin-serialization:${KotlinConfig.version}"
+        const val jacocoUnified = "com.vanniktech:gradle-android-junit-jacoco-plugin:${Versions.jacocoUnified}"
     }
 
     object Ids {
@@ -17,12 +18,13 @@ object BuildPlugins {
         const val kotlinxSerialization = "kotlinx-serialization"
         const val kotlinAndroid = "kotlin-android"
         const val kotlinAndroidExtensions = "kotlin-android-extensions"
-        const val testLogger = "com.adarshr.test-logger"
+        const val jacocoUnified = "com.vanniktech.android.junit.jacoco"
     }
 
     private object Versions {
         const val agp = "3.4.1"
         const val testLogger = "1.7.0"
         const val ktlint = "8.1.0"
+        const val jacocoUnified = "0.15.0"
     }
 }

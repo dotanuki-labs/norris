@@ -13,6 +13,7 @@ buildscript {
         classpath(BuildPlugins.Dependencies.testLogger)
         classpath(BuildPlugins.Dependencies.kotlinxSerialization)
         classpath(BuildPlugins.Dependencies.ktlint)
+        classpath(BuildPlugins.Dependencies.jacocoUnified)
     }
 }
 
@@ -27,3 +28,5 @@ allprojects {
 tasks.register("clean").configure {
     delete("build")
 }
+
+apply(plugin = BuildPlugins.Ids.jacocoUnified)

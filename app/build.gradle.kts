@@ -1,3 +1,4 @@
+
 import configs.AndroidConfig
 import configs.KotlinConfig
 import configs.ProguardConfig
@@ -38,6 +39,7 @@ android {
         getByName("debug") {
             applicationIdSuffix = ".debug"
             versionNameSuffix = "-DEBUG"
+            isTestCoverageEnabled = true
         }
 
         getByName("release") {
