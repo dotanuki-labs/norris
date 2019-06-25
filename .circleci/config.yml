@@ -28,7 +28,7 @@ jobs:
           command: ./gradlew clean jacocoTestReport jacocoTestReportDebug --no-daemon
       - run:
           name: Upload reports to Codecov
-          command: bash <(curl -s https://codecov.io/bash)
+          command: bash <(curl -s https://codecov.io/bash -v)
       - run:
           name: Assemble Debug APK
           command: ./gradlew clean assembleDebug -xlint -PdisablePreDex --no-daemon
