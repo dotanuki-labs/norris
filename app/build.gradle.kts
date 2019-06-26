@@ -1,13 +1,19 @@
-
 import configs.AndroidConfig
 import configs.KotlinConfig
 import configs.ProguardConfig
+import dependencies.InstrumentationTestsDependencies.Companion.instrumentationTest
+import dependencies.UnitTestDependencies.Companion.unitTest
 import modules.ModuleNames
 
 plugins {
     id(BuildPlugins.Ids.androidApplication)
     id(BuildPlugins.Ids.kotlinAndroid)
     id(BuildPlugins.Ids.kotlinAndroidExtensions)
+}
+
+repositories {
+    google()
+    maven(url = "https://jitpack.io")
 }
 
 base.archivesBaseName = "norris-${Versioning.version.name}"
@@ -81,9 +87,14 @@ dependencies {
     implementation(project(ModuleNames.Features.SharedAssets))
     implementation(project(ModuleNames.Features.Facts))
 
-    testImplementation(Libraries.jUnit)
-    androidTestImplementation(Libraries.espressoCore)
-    androidTestImplementation(Libraries.androidTestRules)
+    unitTest {
+        forEachDependency { testImplementation(it) }
+    }
+
+    instrumentationTest {
+        forEachDependency { androidTestImplementation(it) }
+    }
+
 }
 
 androidExtensions {
