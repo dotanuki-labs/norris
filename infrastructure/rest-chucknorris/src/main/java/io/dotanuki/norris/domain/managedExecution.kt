@@ -10,7 +10,7 @@ private val transformers = listOf(
     SerializationErrorTransformer
 )
 
-internal suspend fun <T> managedExecution(target: suspend () -> T): T =
+suspend fun <T> managedExecution(target: suspend () -> T): T =
     try {
         target.invoke()
     } catch (incoming: Throwable) {

@@ -9,12 +9,12 @@ import kotlinx.serialization.internal.ArrayListSerializer
 import kotlinx.serialization.internal.StringSerializer
 
 @Serializable
-internal data class RawSearch(
+data class RawSearch(
     val result: List<RawFact>
 )
 
 @Serializable
-internal data class RawFact(
+data class RawFact(
     val id: String,
     val url: String,
     val value: String,
@@ -22,7 +22,7 @@ internal data class RawFact(
 )
 
 @Serializable(with = RawCategoriesSerializer::class)
-internal class RawCategories(
+class RawCategories(
     val raw: List<String>
 )
 
