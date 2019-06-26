@@ -1,9 +1,11 @@
+
 import configs.AndroidConfig
 import configs.KotlinConfig
 import configs.ProguardConfig
 import dependencies.InstrumentationTestsDependencies.Companion.instrumentationTest
 import dependencies.UnitTestDependencies.Companion.unitTest
 import modules.ModuleNames
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
     id(BuildPlugins.Ids.androidApplication)
@@ -63,8 +65,8 @@ android {
         targetCompatibility = JavaVersion.VERSION_1_8
     }
 
-    kotlinOptions {
-        extensions.add("jvmTarget", KotlinConfig.targetJVM)
+    tasks.withType<KotlinCompile> {
+        kotlinOptions.jvmTarget = KotlinConfig.targetJVM
     }
 
     testOptions {
@@ -78,6 +80,8 @@ dependencies {
     implementation(Libraries.kotlinStdlib)
     implementation(Libraries.appCompat)
     implementation(Libraries.coreAndroidx)
+    implementation(Libraries.lifecycleViewModel)
+    implementation(Libraries.lifecycleExtensions)
     implementation(Libraries.kodein)
     implementation(Libraries.kodeinConf)
     implementation(project(ModuleNames.Logger))
