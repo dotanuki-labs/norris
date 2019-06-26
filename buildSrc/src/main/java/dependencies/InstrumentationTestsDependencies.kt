@@ -5,7 +5,10 @@ class InstrumentationTestsDependencies {
     private val all by lazy {
         listOf(
             Libraries.jUnit,
+            Libraries.mockitoKotlin,
+            Libraries.mockitoDexMaker,
             Libraries.espressoCore,
+            Libraries.barista,
             Libraries.androidTestCore,
             Libraries.androidTestCoreKtx,
             Libraries.androidTestExtJunit,

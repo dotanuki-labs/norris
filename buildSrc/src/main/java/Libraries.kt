@@ -33,7 +33,9 @@ object Libraries {
     val jUnit = "junit:junit:${Versions.junit}"
     val assertj = "org.assertj:assertj-core:${Versions.assertj}"
     val burster = "com.github.ubiratansoares:burster:${Versions.burster}"
+    val barista = "com.schibsted.spain:barista:${Versions.barista}"
     val mockitoKotlin = "com.nhaarman.mockitokotlin2:mockito-kotlin:${Versions.mockitoKotlin}"
+    val mockitoDexMaker = "com.linkedin.dexmaker:dexmaker-mockito:${Versions.mockitoDexMaker}"
     val androidTestCore = "androidx.test:core:${Versions.androidxTest}"
     val androidTestCoreKtx = "androidx.test:core-ktx:${Versions.androidxTest}"
     val androidTestExtJunit = "androidx.test.ext:junit:${Versions.jUnitKtx}"
@@ -60,9 +62,11 @@ object Libraries {
         const val assertj = "3.11.1"
         const val burster = "0.1.1"
         const val mockitoKotlin = "2.1.0"
+        const val mockitoDexMaker = "2.19.0"
         const val jUnitKtx = "1.1.2-alpha01"
         const val androidxTest = "1.2.0"
         const val espresso = "3.2.0"
+        const val barista = "3.1.0"
         const val slf4j = "1.7.25"
     }
 }
