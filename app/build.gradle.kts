@@ -1,4 +1,3 @@
-
 import configs.AndroidConfig
 import configs.KotlinConfig
 import configs.ProguardConfig
@@ -98,7 +97,6 @@ dependencies {
     instrumentationTest {
         forEachDependency { androidTestImplementation(it) }
     }
-
 }
 
 androidExtensions {

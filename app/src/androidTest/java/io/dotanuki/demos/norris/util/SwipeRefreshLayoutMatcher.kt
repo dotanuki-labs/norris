@@ -6,7 +6,7 @@ import androidx.test.espresso.matcher.BoundedMatcher
 import org.hamcrest.Description
 import org.hamcrest.Matcher
 
-object SwipeRefreshLayoutMatchers {
+object SwipeRefreshLayoutMatcher {
 
     @JvmStatic fun isRefreshing(): Matcher<View> {
         return object : BoundedMatcher<View, SwipeRefreshLayout>(

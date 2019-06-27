@@ -7,12 +7,12 @@ import io.dotanuki.norris.domain.RawCategories
 import io.dotanuki.norris.domain.RawSearch
 import kotlinx.coroutines.runBlocking
 
-fun given(mockService: ChuckNorrisDotIO, block: ScenarioBuilder.() -> Unit) =
+fun configureService(mockService: ChuckNorrisDotIO, block: ScenarioBuilder.() -> Unit) =
     ScenarioBuilder(ScenarioComposer(mockService)).apply { block() }
 
 class ScenarioBuilder(private val composer: ScenarioComposer) {
 
-    fun responseWillMatch(setup: Scenario.() -> Unit) =
+    fun newSearchMatches(setup: Scenario.() -> Unit) =
         Scenario(composer).apply { setup() }.configure()
 }
 

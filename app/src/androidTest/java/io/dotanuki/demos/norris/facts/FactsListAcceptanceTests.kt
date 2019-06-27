@@ -1,17 +1,18 @@
 package io.dotanuki.demos.norris.facts
 
-import androidx.lifecycle.Lifecycle.State.RESUMED
-import androidx.test.core.app.launchActivity
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.nhaarman.mockitokotlin2.mock
-import io.dotanuki.demos.norris.facts.FactsContent.absent
-import io.dotanuki.demos.norris.facts.Visibility.displayed
-import io.dotanuki.demos.norris.facts.Visibility.hidden
+import io.dotanuki.demos.norris.facts.ErrorImage.IMAGE_BUG_FOUND
+import io.dotanuki.demos.norris.facts.ErrorMessage.MESSAGE_BUG_FOUND
+import io.dotanuki.demos.norris.facts.FactsContent.ABSENT
+import io.dotanuki.demos.norris.facts.Visibility.DISPLAYED
+import io.dotanuki.demos.norris.facts.Visibility.HIDDEN
+import io.dotanuki.demos.norris.util.ActivityScenarioLauncher.Companion.scenarioLauncher
 import io.dotanuki.demos.norris.util.BindingsOverrider
 import io.dotanuki.norris.domain.ChuckNorrisDotIO
 import io.dotanuki.norris.domain.RawFact
 import io.dotanuki.norris.domain.RawSearch
-import io.dotanuki.norris.domain.errors.RemoteServiceIntegrationError
+import io.dotanuki.norris.domain.errors.RemoteServiceIntegrationError.UnexpectedResponse
 import io.dotanuki.norris.facts.FactsActivity
 import org.junit.Rule
 import org.junit.Test
@@ -45,43 +46,47 @@ class FactsListAcceptanceTests {
             )
         )
 
-        given(mockChuckNorris) {
-            responseWillMatch {
-                criteria = SuccessfulSearch(apiResponse)
+        scenarioLauncher<FactsActivity>().run {
+
+            beforeLaunch {
+                configureService(mockChuckNorris) {
+                    newSearchMatches {
+                        criteria = SuccessfulSearch(apiResponse)
+                    }
+                }
+            }
+
+            onResume {
+                assertThat {
+                    loadingIndicator shouldBe HIDDEN
+                    errorState shouldBe HIDDEN
+                    chuckNorrisFact shouldBe DISPLAYED
+                }
             }
         }
-
-        val scenario = launchActivity<FactsActivity>().apply {
-            moveToState(RESUMED)
-        }
-
-        assertThat {
-            loadingIndicator shouldBe hidden
-            errorState shouldBe hidden
-            chuckNorrisFact shouldBe displayed
-        }
-
-        scenario.close()
     }
 
-    @Test fun givenSomeInfrastructureError_shouldReport() {
+    @Test fun givenUnexpectedServerResponse_shouldReportProperly() {
 
-        given(mockChuckNorris) {
-            responseWillMatch {
-                criteria = IssueFound(RemoteServiceIntegrationError.UnexpectedResponse)
+        scenarioLauncher<FactsActivity>().run {
+
+            beforeLaunch {
+                configureService(mockChuckNorris) {
+                    newSearchMatches {
+                        criteria = IssueFound(UnexpectedResponse)
+                    }
+                }
+            }
+
+            onResume {
+                assertThat {
+                    loadingIndicator shouldBe HIDDEN
+                    errorState shouldBe DISPLAYED
+                    errorStateImage shows IMAGE_BUG_FOUND
+                    errorStateLabel shows MESSAGE_BUG_FOUND
+                    content shouldBe ABSENT
+                }
             }
         }
-
-        val scenario = launchActivity<FactsActivity>().apply {
-            moveToState(RESUMED)
-        }
-
-        assertThat {
-            loadingIndicator shouldBe hidden
-            errorState shouldBe displayed
-            content shouldBe absent
-        }
-
-        scenario.close()
     }
 }
