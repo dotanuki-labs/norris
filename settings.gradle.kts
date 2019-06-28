@@ -12,6 +12,7 @@ include(
     Domain,
     CoroutinesTestUtils,
     Infrastructure.Networking,
+    Infrastructure.Persistance,
     Infrastructure.Rest,
     Features.Facts,
     Features.Architecture,
