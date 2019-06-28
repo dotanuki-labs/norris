@@ -9,6 +9,7 @@ object ModuleNames {
 
     object Infrastructure {
         const val Networking = ":infrastructure:networking"
+        const val Persistance = ":infrastructure:persistance"
         const val Rest = ":infrastructure:rest-chucknorris"
     }
 
