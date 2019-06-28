@@ -17,6 +17,7 @@ import io.dotanuki.norris.domain.errors.RemoteServiceIntegrationError.Unexpected
 import io.dotanuki.norris.domain.model.ChuckNorrisFact
 import io.dotanuki.norris.domain.model.RelatedCategory
 import io.dotanuki.norris.domain.services.RemoteFactsService
+import io.dotanuki.norris.domain.services.SearchesHistoryService
 import io.dotanuki.norris.facts.FactDisplayRow
 import io.dotanuki.norris.facts.FactsPresentation
 import io.dotanuki.norris.facts.FactsViewModel
@@ -32,6 +33,8 @@ class FactsViewModelTests {
     @get:Rule val helper = CoroutinesTestHelper()
 
     private val factsService = mock<RemoteFactsService>()
+    private val searchHistory = mock<SearchesHistoryService>()
+
     private lateinit var viewModel: FactsViewModel
 
     @Before fun `before each test`() {
@@ -40,7 +43,7 @@ class FactsViewModelTests {
             container = StateContainer.Unbounded(helper.scope)
         )
 
-        val usecase = FetchFacts(factsService)
+        val usecase = FetchFacts(factsService, searchHistory)
         viewModel = FactsViewModel(usecase, stateMachine)
     }
 

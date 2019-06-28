@@ -2,11 +2,12 @@ package io.dotanuki.norris.facts.di
 
 import io.dotanuki.norris.architecture.StateMachine
 import io.dotanuki.norris.architecture.TaskExecutor
+import io.dotanuki.norris.domain.FetchFacts
+import io.dotanuki.norris.domain.services.SearchesHistoryService
 import io.dotanuki.norris.facts.FactsPresentation
 import io.dotanuki.norris.facts.FactsViewModel
 import io.dotanuki.norris.features.utilties.ConfigChangesAwareStateContainer
 import io.dotanuki.norris.features.utilties.KodeinTags
-import io.dotanuki.norris.domain.FetchFacts
 import kotlinx.coroutines.Dispatchers
 import org.kodein.di.Kodein
 import org.kodein.di.generic.bind
@@ -18,7 +19,14 @@ val factsModule = Kodein.Module("facts") {
     bind() from provider {
 
         val usecase = FetchFacts(
-            service = instance()
+            factsService = instance(),
+            historyService = object : SearchesHistoryService {
+                override suspend fun lastSearches(): List<String> {
+                    return emptyList()
+                }
+
+                override suspend fun registerNewSearch(term: String) {}
+            }
         )
 
         val stateContainer = ConfigChangesAwareStateContainer<FactsPresentation>(
