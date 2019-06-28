@@ -31,6 +31,10 @@ allprojects {
     }
 
     apply(plugin = BuildPlugins.Ids.detekt)
+
+    detekt {
+        config = files("$rootDir/default-detekt-config.yml")
+    }
 }
 
 tasks.register("clean").configure {
@@ -42,8 +46,4 @@ apply(plugin = BuildPlugins.Ids.sonarCloud)
 
 configure<JunitJacocoExtension> {
     jacocoVersion = "0.8.4"
-}
-
-detekt {
-    config = files("default-detekt-config.yml")
 }
