@@ -1,4 +1,5 @@
 import com.vanniktech.android.junit.jacoco.JunitJacocoExtension
+import io.gitlab.arturbosch.detekt.detekt
 
 buildscript {
 
@@ -17,15 +18,19 @@ buildscript {
         classpath(BuildPlugins.Dependencies.ktlint)
         classpath(BuildPlugins.Dependencies.jacocoUnified)
         classpath(BuildPlugins.Dependencies.sonarCloud)
+        classpath(BuildPlugins.Dependencies.detekt)
     }
 }
 
 allprojects {
+
     repositories {
         google()
         jcenter()
         maven(url = "https://kotlin.bintray.com/kotlinx")
     }
+
+    apply(plugin = BuildPlugins.Ids.detekt)
 }
 
 tasks.register("clean").configure {
@@ -37,4 +42,8 @@ apply(plugin = BuildPlugins.Ids.sonarCloud)
 
 configure<JunitJacocoExtension> {
     jacocoVersion = "0.8.4"
+}
+
+detekt {
+    config = files("default-detekt-config.yml")
 }
