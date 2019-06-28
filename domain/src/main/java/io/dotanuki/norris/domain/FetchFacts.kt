@@ -3,10 +3,14 @@ package io.dotanuki.norris.domain
 import io.dotanuki.norris.domain.errors.SearchFactsError.EmptyTerm
 import io.dotanuki.norris.domain.errors.SearchFactsError.NoResultsFound
 import io.dotanuki.norris.domain.services.RemoteFactsService
+import io.dotanuki.norris.domain.services.SearchesHistoryService
 
-class FetchFacts(private val service: RemoteFactsService) {
+class FetchFacts(
+    private val factsService: RemoteFactsService,
+    private val historyService: SearchesHistoryService
+) {
 
-    suspend fun randomFacts() = with(service) {
+    suspend fun randomFacts() = with(factsService) {
         val randomCategory = availableCategories().random().name
         search(randomCategory)
     }
@@ -15,7 +19,8 @@ class FetchFacts(private val service: RemoteFactsService) {
         when {
             term.isEmpty() -> throw EmptyTerm
             else -> {
-                val facts = service.fetchFacts(term)
+                val facts = factsService.fetchFacts(term)
+                historyService.registerNewSearch(term)
                 if (facts.isEmpty()) throw NoResultsFound else facts
             }
         }
