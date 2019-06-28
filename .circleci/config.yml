@@ -24,6 +24,9 @@ jobs:
           name: Check code style
           command: ./gradlew clean ktlintCheck --no-daemon
       - run:
+          name: Run Detekt
+          command: ./gradlew clean detekt --no-daemon
+      - run:
           name: Generate all unit test reports
           command: ./gradlew clean jacocoTestReport jacocoTestReportDebug --no-daemon
       - run:
