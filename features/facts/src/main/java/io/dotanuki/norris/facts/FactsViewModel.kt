@@ -15,17 +15,18 @@ class FactsViewModel(
     fun bind() = machine.states()
 
     fun handle(interaction: UserInteraction) =
-        machine.forward(
-            interpret(interaction)
-        )
+        interpret(interaction)
+            .let { task ->
+                machine.forward(task)
+            }
 
     private fun interpret(interaction: UserInteraction) =
         when (interaction) {
-            OpenedScreen, RequestedFreshContent -> ::fetchFromRemote
+            OpenedScreen, RequestedFreshContent -> ::showRandomFacts
             else -> throw UnsupportedUserInteraction
         }
 
-    private suspend fun fetchFromRemote() =
+    private suspend fun showRandomFacts() =
         usecase
             .randomFacts()
             .map { FactDisplayRow(it) }
