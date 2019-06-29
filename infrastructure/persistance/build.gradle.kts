@@ -12,8 +12,11 @@ plugins {
 }
 
 dependencies {
+
     implementation(project(ModuleNames.Domain))
     implementation(Libraries.coroutinesCore)
+    implementation(Libraries.kodein)
+
     testImplementation(project(ModuleNames.CoroutinesTestUtils))
 
     unitTest {
