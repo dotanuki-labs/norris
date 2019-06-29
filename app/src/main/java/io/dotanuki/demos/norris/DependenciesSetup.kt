@@ -3,6 +3,8 @@ package io.dotanuki.demos.norris
 import io.dotanuki.demos.norris.di.applicationModule
 import io.dotanuki.norris.domain.di.restInfrastructureModule
 import io.dotanuki.norris.facts.di.factsModule
+import io.dotanuki.norris.persistance.di.persistanceModule
+import io.dotanuki.norris.search.di.searchModule
 import org.kodein.di.conf.ConfigurableKodein
 
 object DependenciesSetup {
@@ -16,6 +18,8 @@ object DependenciesSetup {
     private val modules = listOf(
         applicationModule,
         restInfrastructureModule,
-        factsModule
+        persistanceModule,
+        factsModule,
+        searchModule
     )
 }
