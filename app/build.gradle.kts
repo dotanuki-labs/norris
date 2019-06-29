@@ -88,7 +88,10 @@ dependencies {
     implementation(project(ModuleNames.Infrastructure.Rest))
     implementation(project(ModuleNames.Infrastructure.Networking))
     implementation(project(ModuleNames.Features.SharedAssets))
+    implementation(project(ModuleNames.Features.SharedUtilities))
+    implementation(project(ModuleNames.Features.Navigator))
     implementation(project(ModuleNames.Features.Facts))
+    implementation(project(ModuleNames.Features.Search))
 
     unitTest {
         forEachDependency { testImplementation(it) }

@@ -17,6 +17,7 @@ include(
     Features.Facts,
     Features.Search,
     Features.Architecture,
+    Features.Navigator,
     Features.SharedUtilities,
     Features.SharedAssets
 )
