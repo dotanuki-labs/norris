@@ -15,6 +15,7 @@ include(
     Infrastructure.Persistance,
     Infrastructure.Rest,
     Features.Facts,
+    Features.Search,
     Features.Architecture,
     Features.SharedUtilities,
     Features.SharedAssets

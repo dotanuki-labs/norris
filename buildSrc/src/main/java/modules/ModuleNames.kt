@@ -18,5 +18,6 @@ object ModuleNames {
         const val SharedAssets = ":features:shared-assets"
         const val SharedUtilities = ":features:shared-utilities"
         const val Facts = ":features:facts"
+        const val Search = ":features:search"
     }
 }
