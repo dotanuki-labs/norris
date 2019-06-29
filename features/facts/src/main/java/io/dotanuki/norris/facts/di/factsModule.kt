@@ -14,7 +14,7 @@ import org.kodein.di.generic.bind
 import org.kodein.di.generic.instance
 import org.kodein.di.generic.provider
 
-val factsModule = Kodein.Module("facts") {
+val factsModule = Kodein.Module("menu_facts_list") {
 
     bind() from provider {
 

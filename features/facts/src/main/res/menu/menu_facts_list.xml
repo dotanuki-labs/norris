@@ -1,0 +1,15 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/menu_item_search_facts"
+        android:icon="@drawable/ic_search_black"
+        android:title="Search Facts"
+        app:showAsAction="always" />
+
+    <item
+        android:id="@+id/menu_item_learn_more"
+        android:title="About"
+        app:showAsAction="never" />
+
+</menu>

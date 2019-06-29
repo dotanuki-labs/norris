@@ -2,6 +2,8 @@ package io.dotanuki.norris.facts
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
@@ -14,6 +16,8 @@ import io.dotanuki.norris.architecture.ViewState.Failed
 import io.dotanuki.norris.architecture.ViewState.FirstLaunch
 import io.dotanuki.norris.architecture.ViewState.Loading
 import io.dotanuki.norris.architecture.ViewState.Success
+import io.dotanuki.norris.features.navigator.Navigator
+import io.dotanuki.norris.features.navigator.Screen
 import io.dotanuki.norris.features.utilties.selfBind
 import io.dotanuki.norris.features.utilties.toast
 import kotlinx.android.synthetic.main.activity_main.*
@@ -28,11 +32,32 @@ class FactsActivity : AppCompatActivity(), KodeinAware {
 
     private val viewModel by instance<FactsViewModel>()
     private val logger by instance<Logger>()
+    private val navigator by instance<Navigator>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         setup()
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.menu_facts_list, menu)
+        return super.onCreateOptionsMenu(menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+
+        item?.let {
+            when (it.itemId) {
+                R.id.menu_item_search_facts -> goToSearch()
+            }
+        }
+
+        return super.onOptionsItemSelected(item)
+    }
+
+    private fun goToSearch() {
+        navigator.navigate(Screen.SearchQuery)
     }
 
     private fun loadFacts() {
@@ -44,6 +69,7 @@ class FactsActivity : AppCompatActivity(), KodeinAware {
     }
 
     private fun setup() {
+        setSupportActionBar(factsToolbar)
         factsRecyclerView.layoutManager = LinearLayoutManager(this)
         factsSwipeToRefresh.setOnRefreshListener { refresh() }
 

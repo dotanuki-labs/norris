@@ -19,6 +19,7 @@ dependencies {
     implementation(project(ModuleNames.Features.Architecture))
     implementation(project(ModuleNames.Features.SharedAssets))
     implementation(project(ModuleNames.Features.SharedUtilities))
+    implementation(project(ModuleNames.Features.Navigator))
 
     implementation(Libraries.kotlinStdlib)
     implementation(Libraries.kodein)

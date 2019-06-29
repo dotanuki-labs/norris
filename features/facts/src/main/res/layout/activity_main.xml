@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/factsScreenRoot"
@@ -52,8 +53,7 @@
         <View
             android:layout_width="1dp"
             android:layout_height="0dp"
-            android:layout_weight="1"
-            />
+            android:layout_weight="1" />
 
         <ImageView
             android:id="@+id/errorStateImage"
@@ -73,17 +73,17 @@
             tools:text="Sorry, no results for this search." />
 
         <com.google.android.material.button.MaterialButton
-            android:layout_marginTop="16dp"
             android:id="@+id/retryButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
+            android:layout_marginTop="16dp"
             android:text="@string/button_retry" />
 
         <View
             android:layout_width="1dp"
             android:layout_height="0dp"
-            android:layout_weight="1"
-            />
+            android:layout_weight="1" />
+
     </LinearLayout>
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
