@@ -22,6 +22,7 @@ dependencies {
     implementation(Libraries.materialDesign)
 
     implementation(project(ModuleNames.Domain))
+    implementation(project(ModuleNames.Logger))
     implementation(project(ModuleNames.Features.Architecture))
     implementation(project(ModuleNames.Features.SharedAssets))
     implementation(project(ModuleNames.Features.SharedUtilities))

@@ -20,7 +20,7 @@
             app:layout_collapseMode="pin"
             app:layout_scrollFlags="noScroll"
             app:navigationIcon="@drawable/ic_arrow_back_black"
-            app:title="Search for facts"
+            app:title="@string/title_search_screen"
             app:titleTextColor="@android:color/black" />
 
     </com.google.android.material.appbar.AppBarLayout>
@@ -53,7 +53,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:backgroundTint="@android:color/transparent"
-                    android:hint="Type your search query"
+                    android:hint="@string/hint_inputfield_search_query"
                     android:imeOptions="actionDone"
                     android:inputType="text"
                     android:maxLines="1" />
@@ -65,7 +65,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:layout_marginBottom="16dp"
-                android:text="Suggestions" />
+                android:text="@string/label_chipsground_suggestions" />
 
             <com.google.android.material.chip.ChipGroup
                 android:id="@+id/suggestionChipGroup"
@@ -77,7 +77,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:layout_marginBottom="16dp"
-                android:text="Recent Searches" />
+                android:text="@string/label_chipsground_history" />
 
             <com.google.android.material.chip.ChipGroup
                 android:id="@+id/historyChipGroup"
@@ -87,5 +87,11 @@
         </LinearLayout>
 
     </ScrollView>
+
+    <ProgressBar
+        android:id="@+id/loadingSuggestions"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_gravity="center" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -1,0 +1,6 @@
+<resources>
+    <string name="title_search_screen">Search for facts</string>
+    <string name="hint_inputfield_search_query">Type your search query</string>
+    <string name="label_chipsground_suggestions">Suggestions</string>
+    <string name="label_chipsground_history">Recent Searches</string>
+</resources>
