@@ -5,5 +5,5 @@ import org.kodein.di.KodeinAware
 
 class NorrisApplication : Application(), KodeinAware {
 
-    override val kodein = DependenciesSetup.container
+    override val kodein = DependenciesSetup(this).container
 }
