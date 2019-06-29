@@ -14,12 +14,17 @@ plugins {
 dependencies {
     implementation(Libraries.kotlinStdlib)
     implementation(Libraries.kodein)
+    implementation(Libraries.coroutinesCore)
+    implementation(Libraries.coroutinesAndroid)
+    implementation(Libraries.lifecycleRuntime)
+    implementation(Libraries.coreAndroidx)
     implementation(Libraries.appCompat)
-    implementation(Libraries.lifecycleExtensions)
-    implementation(Libraries.lifecycleViewModel)
+    implementation(Libraries.materialDesign)
 
     implementation(project(ModuleNames.Domain))
     implementation(project(ModuleNames.Features.Architecture))
+    implementation(project(ModuleNames.Features.SharedAssets))
+    implementation(project(ModuleNames.Features.SharedUtilities))
 
     unitTest { forEachDependency { testImplementation(it) } }
     testImplementation(project(ModuleNames.CoroutinesTestUtils))

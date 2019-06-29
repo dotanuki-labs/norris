@@ -1,2 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest package="io.dotanuki.norris.features.search"/>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="io.dotanuki.norris.search">
+
+    <application>
+        <activity android:name=".SearchQueryActivity">
+    </activity>
+
+</application>
+
+</manifest>
