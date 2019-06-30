@@ -8,6 +8,7 @@ buildscript {
         jcenter()
         maven(url = "https://kotlin.bintray.com/kotlinx")
         maven(url = "https://plugins.gradle.org/m2/")
+        maven(url = "https://oss.sonatype.org/content/repositories/snapshots")
     }
 
     dependencies {
@@ -28,6 +29,7 @@ allprojects {
         google()
         jcenter()
         maven(url = "https://kotlin.bintray.com/kotlinx")
+        maven(url = "https://oss.sonatype.org/content/repositories/snapshots")
     }
 
     apply(plugin = BuildPlugins.Ids.detekt)
@@ -45,5 +47,5 @@ apply(plugin = BuildPlugins.Ids.jacocoUnified)
 apply(plugin = BuildPlugins.Ids.sonarCloud)
 
 configure<JunitJacocoExtension> {
-    jacocoVersion = "0.8.5.201906070146"
+    jacocoVersion = "0.8.5-SNAPSHOT"
 }
