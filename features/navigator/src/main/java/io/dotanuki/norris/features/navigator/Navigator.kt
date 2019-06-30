@@ -2,6 +2,7 @@ package io.dotanuki.norris.features.navigator
 
 import android.app.Activity
 import android.content.Intent
+import android.os.Bundle
 import androidx.fragment.app.FragmentActivity
 
 class Navigator(
@@ -9,9 +10,17 @@ class Navigator(
     private val links: Map<Screen, Class<Activity>>
 ) {
 
-    fun navigate(destination: Screen) {
+    fun delegateWork(destination: Screen, work: DelegatableWork) {
         val next = Intent(host, find(destination))
-        host.startActivity(next)
+        host.startActivityForResult(next, work.tag)
+    }
+
+    fun notityWorkDone(payload: Bundle) {
+        val data = Intent().apply { putExtras(payload) }
+        host.run {
+            setResult(Activity.RESULT_OK, data)
+            finish()
+        }
     }
 
     private fun find(target: Screen) =
