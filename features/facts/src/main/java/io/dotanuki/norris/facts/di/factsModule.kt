@@ -3,7 +3,6 @@ package io.dotanuki.norris.facts.di
 import io.dotanuki.norris.architecture.StateMachine
 import io.dotanuki.norris.architecture.TaskExecutor
 import io.dotanuki.norris.domain.FetchFacts
-import io.dotanuki.norris.domain.services.SearchesHistoryService
 import io.dotanuki.norris.facts.FactsPresentation
 import io.dotanuki.norris.facts.FactsViewModel
 import io.dotanuki.norris.features.utilties.ConfigChangesAwareStateContainer
@@ -20,13 +19,7 @@ val factsModule = Kodein.Module("menu_facts_list") {
 
         val usecase = FetchFacts(
             factsService = instance(),
-            historyService = object : SearchesHistoryService {
-                override suspend fun lastSearches(): List<String> {
-                    return emptyList()
-                }
-
-                override suspend fun registerNewSearch(term: String) {}
-            }
+            historyService = instance()
         )
 
         val stateContainer = ConfigChangesAwareStateContainer<FactsPresentation>(

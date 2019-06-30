@@ -54,7 +54,7 @@ class FactsViewModelTests {
             val emissions = viewModel.bind().collectForTesting()
 
             // When
-            whenever(factsService.availableCategories())
+            whenever(factsService.fetchFacts(anyString()))
                 .thenAnswer { throw UnexpectedResponse }
 
             // And

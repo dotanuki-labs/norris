@@ -16,7 +16,10 @@ import io.dotanuki.norris.architecture.ViewState.Failed
 import io.dotanuki.norris.architecture.ViewState.FirstLaunch
 import io.dotanuki.norris.architecture.ViewState.Loading
 import io.dotanuki.norris.architecture.ViewState.Success
+import io.dotanuki.norris.features.navigator.DefineSearchQuery
+import io.dotanuki.norris.features.navigator.HandleDelegatedWork
 import io.dotanuki.norris.features.navigator.Navigator
+import io.dotanuki.norris.features.navigator.PostFlow
 import io.dotanuki.norris.features.navigator.Screen
 import io.dotanuki.norris.features.utilties.selfBind
 import io.dotanuki.norris.features.utilties.toast
@@ -56,8 +59,22 @@ class FactsActivity : AppCompatActivity(), KodeinAware {
         return super.onOptionsItemSelected(item)
     }
 
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        val result = HandleDelegatedWork(requestCode, resultCode, data, DefineSearchQuery)
+
+        when (result) {
+            PostFlow.NoResults -> logger.i("No query terms returned")
+            is PostFlow.WithResults -> {
+                val query = DefineSearchQuery.unwrapQuery(result.payload)
+                viewModel.handle(NewSearch(query))
+            }
+        }
+    }
+
     private fun goToSearch() {
-        navigator.navigate(Screen.SearchQuery)
+        navigator.delegateWork(Screen.SearchQuery, DefineSearchQuery)
     }
 
     private fun loadFacts() {

@@ -12,6 +12,8 @@ class FactsViewModel(
     private val machine: StateMachine<FactsPresentation>
 ) {
 
+    private var currentQuery = DEFAULT_QUERY
+
     fun bind() = machine.states()
 
     fun handle(interaction: UserInteraction) =
@@ -22,15 +24,22 @@ class FactsViewModel(
 
     private fun interpret(interaction: UserInteraction) =
         when (interaction) {
-            OpenedScreen, RequestedFreshContent -> ::showRandomFacts
+            OpenedScreen, RequestedFreshContent -> ::showFacts
+            is NewSearch -> {
+                currentQuery = (interaction as NewSearch).query
+                ::showFacts
+            }
             else -> throw UnsupportedUserInteraction
         }
 
-    private suspend fun showRandomFacts() =
-        usecase
-            .randomFacts()
+    private suspend fun showFacts() =
+        usecase.search(currentQuery)
             .map { FactDisplayRow(it) }
             .let { rows ->
                 FactsPresentation(rows)
             }
+
+    private companion object {
+        const val DEFAULT_QUERY = "code"
+    }
 }
