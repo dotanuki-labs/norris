@@ -44,7 +44,6 @@ Last, but not least, the choice for the `Flow<T>` over the conflated channel jus
 ![udf-architecture](.github/udf-architecture.png)
 
 
-
 This project has some remaining tasks. Follow the [project board](https://github.com/dotanuki-labs/norris/projects/1) to learn about what is going on
 
 ## Related blog posts
@@ -55,7 +54,7 @@ Coming soon at [ubiratansoares.dev](https://ubiratansoares.dev)
 
 ## Building and Running
 
-If you want a simple run, jus use the companion script
+If you want a simple run, just use the companion script
 
 ```
 ./emulate-ci-build.sh
@@ -82,7 +81,7 @@ To run Espresso tests
 
 ## Author
 
-Coded by Ubiratan Soares (you can follow me on [Twitter](https://twitter.com/ubiratanfsoares))
+Coded by Ubiratan Soares (follow me on [Twitter](https://twitter.com/ubiratanfsoares))
 
 
 
