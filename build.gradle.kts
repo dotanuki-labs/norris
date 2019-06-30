@@ -45,5 +45,5 @@ apply(plugin = BuildPlugins.Ids.jacocoUnified)
 apply(plugin = BuildPlugins.Ids.sonarCloud)
 
 configure<JunitJacocoExtension> {
-    jacocoVersion = "0.8.4"
+    jacocoVersion = "0.8.5.201906070146"
 }
