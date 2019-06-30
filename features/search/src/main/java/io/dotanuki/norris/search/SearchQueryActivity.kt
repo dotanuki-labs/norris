@@ -12,8 +12,9 @@ import io.dotanuki.norris.architecture.ViewState.Failed
 import io.dotanuki.norris.architecture.ViewState.FirstLaunch
 import io.dotanuki.norris.architecture.ViewState.Loading
 import io.dotanuki.norris.architecture.ViewState.Success
+import io.dotanuki.norris.features.navigator.DefineSearchQuery
+import io.dotanuki.norris.features.navigator.Navigator
 import io.dotanuki.norris.features.utilties.selfBind
-import io.dotanuki.norris.features.utilties.toast
 import kotlinx.android.synthetic.main.activity_search_query.*
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
@@ -26,6 +27,7 @@ class SearchQueryActivity : AppCompatActivity(), KodeinAware {
 
     private val viewModel by instance<SearchViewModel>()
     private val logger by instance<Logger>()
+    private val navigator by instance<Navigator>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -93,6 +95,7 @@ class SearchQueryActivity : AppCompatActivity(), KodeinAware {
     }
 
     private fun searchForQuery(query: String) {
-        toast(query)
+        val payload = DefineSearchQuery.toPayload(query)
+        navigator.notityWorkDone(payload)
     }
 }
