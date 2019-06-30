@@ -1,4 +1,4 @@
-package io.dotanuki.norris.features.navigator
+package io.dotanuki.norris.navigator
 
 sealed class Screen {
     object FactsList : Screen()

@@ -1,10 +1,7 @@
-package io.dotanuki.norris.features.navigator.tests
+package io.dotanuki.norris.navigator
 
 import android.app.Activity
 import android.content.Intent
-import io.dotanuki.norris.features.navigator.DefineSearchQuery
-import io.dotanuki.norris.features.navigator.HandleDelegatedWork
-import io.dotanuki.norris.features.navigator.PostFlow
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.Test
 import org.junit.runner.RunWith

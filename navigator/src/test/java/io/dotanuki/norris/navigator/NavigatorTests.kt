@@ -1,4 +1,4 @@
-package io.dotanuki.norris.features.navigator.tests
+package io.dotanuki.norris.navigator
 
 import android.app.Activity
 import android.content.Intent
@@ -7,10 +7,7 @@ import com.nhaarman.mockitokotlin2.any
 import com.nhaarman.mockitokotlin2.argumentCaptor
 import com.nhaarman.mockitokotlin2.mock
 import com.nhaarman.mockitokotlin2.verify
-import io.dotanuki.norris.features.navigator.DefineSearchQuery
-import io.dotanuki.norris.features.navigator.Navigator
-import io.dotanuki.norris.features.navigator.Screen
-import io.dotanuki.norris.features.navigator.Screen.SearchQuery
+import io.dotanuki.norris.navigator.Screen.SearchQuery
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.Before
 import org.junit.Test

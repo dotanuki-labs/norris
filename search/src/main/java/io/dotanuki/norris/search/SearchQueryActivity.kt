@@ -12,8 +12,8 @@ import io.dotanuki.norris.architecture.ViewState.Failed
 import io.dotanuki.norris.architecture.ViewState.FirstLaunch
 import io.dotanuki.norris.architecture.ViewState.Loading
 import io.dotanuki.norris.architecture.ViewState.Success
-import io.dotanuki.norris.features.navigator.DefineSearchQuery
-import io.dotanuki.norris.features.navigator.Navigator
+import io.dotanuki.norris.navigator.DefineSearchQuery
+import io.dotanuki.norris.navigator.Navigator
 import io.dotanuki.norris.features.utilties.selfBind
 import kotlinx.android.synthetic.main.activity_search_query.*
 import kotlinx.coroutines.flow.collect
