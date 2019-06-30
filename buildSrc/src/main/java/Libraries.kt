@@ -43,6 +43,7 @@ object Libraries {
     val androidTestRunner = "androidx.test:runner:${Versions.androidxTest}"
     val androidTestRules = "androidx.test:rules:${Versions.androidxTest}"
     val espressoCore = "androidx.test.espresso:espresso-core:${Versions.espresso}"
+    val roboletric = "org.robolectric:robolectric:${Versions.roboletric}"
     val mockWebServer = "com.squareup.okhttp3:mockwebserver:${Versions.okHttp}"
     val slf4jNoOp = "org.slf4j:slf4j-nop:${Versions.slf4j}"
 
@@ -66,6 +67,7 @@ object Libraries {
         const val jUnitKtx = "1.1.2-alpha01"
         const val androidxTest = "1.2.0"
         const val espresso = "3.2.0"
+        const val roboletric = "4.3"
         const val barista = "3.1.0"
         const val slf4j = "1.7.25"
     }
