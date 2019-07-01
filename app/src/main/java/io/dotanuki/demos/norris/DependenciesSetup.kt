@@ -4,6 +4,7 @@ import android.app.Application
 import io.dotanuki.demos.norris.di.applicationModule
 import io.dotanuki.norris.domain.di.restInfrastructureModule
 import io.dotanuki.norris.facts.di.factsModule
+import io.dotanuki.norris.navigator.di.navigatorModule
 import io.dotanuki.norris.persistance.di.persistanceModule
 import io.dotanuki.norris.search.di.searchModule
 import org.kodein.di.conf.ConfigurableKodein
@@ -26,6 +27,7 @@ class DependenciesSetup(private val app: Application) {
         applicationModule,
         restInfrastructureModule,
         persistanceModule,
+        navigatorModule,
         factsModule,
         searchModule
     )
