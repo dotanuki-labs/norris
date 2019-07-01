@@ -2,4 +2,5 @@
 <resources>
     <string name="button_share_fact">SHARE</string>
     <string name="button_retry">Retry</string>
+    <string name="headline_facts">The facts for :</string>
 </resources>

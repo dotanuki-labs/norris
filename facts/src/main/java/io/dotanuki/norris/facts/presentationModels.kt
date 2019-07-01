@@ -4,6 +4,7 @@ import io.dotanuki.norris.domain.model.ChuckNorrisFact
 import io.dotanuki.norris.domain.model.RelatedCategory
 
 data class FactsPresentation(
+    val relatedQuery: String,
     val facts: List<FactDisplayRow>
 )
 

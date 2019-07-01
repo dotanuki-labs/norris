@@ -36,10 +36,10 @@ class FactsViewModel(
         usecase.search(currentQuery)
             .map { FactDisplayRow(it) }
             .let { rows ->
-                FactsPresentation(rows)
+                FactsPresentation(currentQuery, rows)
             }
 
-    private companion object {
+    companion object {
         const val DEFAULT_QUERY = "code"
     }
 }

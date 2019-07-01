@@ -98,6 +98,7 @@ class FactsViewModelTests {
 
             // And
             val presentation = FactsPresentation(
+                FactsViewModel.DEFAULT_QUERY,
                 listOf(
                     FactDisplayRow(
                         tag = RelatedCategory.Available("dev"),

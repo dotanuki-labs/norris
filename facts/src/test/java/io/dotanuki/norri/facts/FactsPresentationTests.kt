@@ -26,6 +26,7 @@ class FactsPresentationTests {
         )
 
         val expected = FactsPresentation(
+            "god like",
             listOf(
                 FactDisplayRow(
                     tag = RelatedCategory.Available("math"),
@@ -42,7 +43,7 @@ class FactsPresentationTests {
             )
         )
 
-        val presentation = FactsPresentation(facts.map { FactDisplayRow(it) })
+        val presentation = FactsPresentation("god like", facts.map { FactDisplayRow(it) })
         assertThat(expected).isEqualTo(presentation)
     }
 }

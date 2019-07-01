@@ -1,7 +1,12 @@
 package io.dotanuki.norris.facts
 
 import android.content.Intent
+import android.graphics.Typeface
 import android.os.Bundle
+import android.text.Spannable.SPAN_EXCLUSIVE_INCLUSIVE
+import android.text.SpannableString
+import android.text.SpannableStringBuilder
+import android.text.style.StyleSpan
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -16,13 +21,13 @@ import io.dotanuki.norris.architecture.ViewState.Failed
 import io.dotanuki.norris.architecture.ViewState.FirstLaunch
 import io.dotanuki.norris.architecture.ViewState.Loading
 import io.dotanuki.norris.architecture.ViewState.Success
+import io.dotanuki.norris.features.utilties.selfBind
+import io.dotanuki.norris.features.utilties.toast
 import io.dotanuki.norris.navigator.DefineSearchQuery
 import io.dotanuki.norris.navigator.HandleDelegatedWork
 import io.dotanuki.norris.navigator.Navigator
 import io.dotanuki.norris.navigator.PostFlow
 import io.dotanuki.norris.navigator.Screen
-import io.dotanuki.norris.features.utilties.selfBind
-import io.dotanuki.norris.features.utilties.toast
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
@@ -115,6 +120,17 @@ class FactsActivity : AppCompatActivity(), KodeinAware {
     private fun showFacts(presentation: FactsPresentation) {
         factsSwipeToRefresh.isRefreshing = false
         factsRecyclerView.adapter = FactsAdapter(presentation) { shareFact(it) }
+        showHeadline(presentation.relatedQuery)
+    }
+
+    private fun showHeadline(query: String) {
+        val highlightedFact = SpannableString(query).apply {
+            setSpan(StyleSpan(Typeface.BOLD), 0, query.length, SPAN_EXCLUSIVE_INCLUSIVE)
+        }
+
+        val prefix = getString(R.string.headline_facts)
+        val headline = SpannableStringBuilder(prefix).append(highlightedFact)
+        factsHeadlineLabel.text = headline
     }
 
     private fun handleError(failed: Throwable) {

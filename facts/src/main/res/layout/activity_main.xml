@@ -1,28 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/factsScreenRoot"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:fitsSystemWindows="true">
+    android:layout_height="match_parent">
 
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:elevation="0dp">
+        android:background="@color/screenBackground">
 
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/factsToolbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/screenBackground"
+            android:background="@null"
             android:minHeight="?android:attr/actionBarSize"
-            app:layout_collapseMode="pin"
-            app:layout_scrollFlags="noScroll"
+            app:layout_collapseMode="none"
+            app:layout_scrollFlags="scroll|enterAlways"
             app:title="@string/app_name"
             app:titleTextColor="@android:color/black" />
+
+        <TextView
+            android:id="@+id/factsHeadlineLabel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@null"
+            android:paddingLeft="16dp"
+            android:paddingTop="8dp"
+            android:paddingBottom="16dp"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
+            android:textColor="@color/primary_dark"
+            app:contentScrim="?colorPrimary"
+            app:layout_collapseMode="pin"
+            tools:text="The facts for : code" />
 
     </com.google.android.material.appbar.AppBarLayout>
 
