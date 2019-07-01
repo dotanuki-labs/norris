@@ -15,6 +15,8 @@ class ChipsGroupPopulator(
 
     fun populate(entries: List<String>, onChipClicked: (String) -> Unit) {
 
+        group.removeAllViews()
+
         entries.forEach { entry ->
             val chip = inflater.inflate(chipLayout, null) as Chip
             group.addView(

@@ -19,7 +19,10 @@ import io.dotanuki.norris.domain.ComposeSearchOptions
 import io.dotanuki.norris.domain.errors.NetworkingError.OperationTimeout
 import io.dotanuki.norris.domain.model.SearchOptions
 import io.dotanuki.norris.search.SearchPresentation
+import io.dotanuki.norris.search.SearchPresentation.QueryValidation
+import io.dotanuki.norris.search.SearchPresentation.Suggestions
 import io.dotanuki.norris.search.SearchViewModel
+import io.dotanuki.norris.search.ValidateQuery
 import kotlinx.coroutines.runBlocking
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.Before
@@ -76,7 +79,7 @@ class SearchViewModelTests {
         assertThat(unwrapError(result)).isEqualTo(UnsupportedUserInteraction)
     }
 
-    @Test fun `should display search options`() {
+    @Test fun `should display suggestions`() {
         runBlocking {
 
             // Given
@@ -96,7 +99,32 @@ class SearchViewModelTests {
             val viewStates = listOf(
                 FirstLaunch,
                 Loading.FromEmpty,
-                Success(SearchPresentation(options))
+                Success(
+                    Suggestions(options)
+                )
+            )
+
+            assertThat(emissions).isEqualTo(viewStates)
+        }
+    }
+
+    @Test fun `should validate incoming query`() {
+        runBlocking {
+
+            // Given
+            val emissions = viewModel.bind().collectForTesting()
+
+            // When
+            viewModel.handle(ValidateQuery("Norris")).join()
+
+            // Then
+
+            val viewStates = listOf(
+                FirstLaunch,
+                Loading.FromEmpty,
+                Success(
+                    QueryValidation(true)
+                )
             )
 
             assertThat(emissions).isEqualTo(viewStates)
