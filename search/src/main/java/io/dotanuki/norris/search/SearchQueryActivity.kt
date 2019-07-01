@@ -105,42 +105,44 @@ class SearchQueryActivity : AppCompatActivity(), KodeinAware {
 
     private fun fillChips(content: Suggestions) {
         logger.i("Filling Content")
-
+        recommendationsHeadline.visibility = View.VISIBLE
+        historyHeadline.visibility = View.VISIBLE
         loadingSuggestions.visibility = View.GONE
 
         val (suggestions, history) = content.options
 
         ChipsGroupPopulator(suggestionChipGroup, R.layout.chip_item_query).run {
-            populate(suggestions) {
-                proceedIfAllowed(it)
-            }
+            populate(suggestions) { returnQuery(it) }
         }
 
         ChipsGroupPopulator(historyChipGroup, R.layout.chip_item_query).run {
-            populate(history) {
-                proceedIfAllowed(it)
-            }
+            populate(history) { returnQuery(it) }
         }
     }
 
     private fun handleError(reason: Throwable) {
         logger.e("Failed on loading suggestions -> $reason")
         loadingSuggestions.visibility = View.GONE
+        showErrorReport(R.string.error_snackbar_cannot_load_suggestions)
     }
 
     private fun proceedIfAllowed(query: String) {
         if (allowedToProceed) {
-            val payload = DefineSearchQuery.toPayload(query)
-            navigator.notityWorkDone(payload)
+            returnQuery(query)
             return
         }
 
-        reportInvalidQuery()
+        showErrorReport(R.string.error_snackbar_cannot_proceed)
     }
 
-    private fun reportInvalidQuery() {
+    private fun returnQuery(query: String) {
+        val payload = DefineSearchQuery.toPayload(query)
+        navigator.notityWorkDone(payload)
+    }
+
+    private fun showErrorReport(targetMessageId: Int) {
         Snackbar
-            .make(searchScreenRoot, R.string.error_snackbar_cannot_proceed, Snackbar.LENGTH_INDEFINITE)
+            .make(searchScreenRoot, targetMessageId, Snackbar.LENGTH_INDEFINITE)
             .setAction("OK") { queryTextInput.error = null }
             .show()
     }

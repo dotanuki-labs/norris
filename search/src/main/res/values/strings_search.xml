@@ -5,4 +5,5 @@
     <string name="label_chipsground_history">Recent Searches</string>
     <string name="error_querytextfield_invalid_query">Invalid query</string>
     <string name="error_snackbar_cannot_proceed">Cannot proceed with an invalid query</string>
+    <string name="error_snackbar_cannot_load_suggestions">Cannot load search suggestions</string>
 </resources>
