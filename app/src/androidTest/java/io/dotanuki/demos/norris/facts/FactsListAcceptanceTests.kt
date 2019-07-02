@@ -1,19 +1,23 @@
 package io.dotanuki.demos.norris.facts
 
 import androidx.test.ext.junit.runners.AndroidJUnit4
+import com.nhaarman.mockitokotlin2.any
 import com.nhaarman.mockitokotlin2.mock
-import io.dotanuki.demos.norris.facts.ErrorImage.IMAGE_BUG_FOUND
-import io.dotanuki.demos.norris.facts.ErrorMessage.MESSAGE_BUG_FOUND
-import io.dotanuki.demos.norris.facts.FactsContent.ABSENT
-import io.dotanuki.demos.norris.facts.Visibility.DISPLAYED
-import io.dotanuki.demos.norris.facts.Visibility.HIDDEN
+import com.nhaarman.mockitokotlin2.whenever
+import io.dotanuki.demos.norris.dsl.ErrorImage.IMAGE_BUG_FOUND
+import io.dotanuki.demos.norris.dsl.ErrorMessage.MESSAGE_BUG_FOUND
+import io.dotanuki.demos.norris.dsl.FactsContent.ABSENT
+import io.dotanuki.demos.norris.dsl.Visibility.DISPLAYED
+import io.dotanuki.demos.norris.dsl.Visibility.HIDDEN
+import io.dotanuki.demos.norris.dsl.shouldBe
 import io.dotanuki.demos.norris.util.ActivityScenarioLauncher.Companion.scenarioLauncher
 import io.dotanuki.demos.norris.util.BindingsOverrider
+import io.dotanuki.norris.domain.errors.RemoteServiceIntegrationError.UnexpectedResponse
 import io.dotanuki.norris.domain.rest.ChuckNorrisDotIO
 import io.dotanuki.norris.domain.rest.RawFact
 import io.dotanuki.norris.domain.rest.RawSearch
-import io.dotanuki.norris.domain.errors.RemoteServiceIntegrationError.UnexpectedResponse
 import io.dotanuki.norris.facts.FactsActivity
+import kotlinx.coroutines.runBlocking
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -49,15 +53,11 @@ class FactsListAcceptanceTests {
         scenarioLauncher<FactsActivity>().run {
 
             beforeLaunch {
-                configureService(mockChuckNorris) {
-                    newSearchMatches {
-                        criteria = SuccessfulSearch(apiResponse)
-                    }
-                }
+                searchWillReturnWithSuccess(apiResponse)
             }
 
             onResume {
-                assertThat {
+                factsListChecks {
                     loadingIndicator shouldBe HIDDEN
                     errorState shouldBe HIDDEN
                     chuckNorrisFact shouldBe DISPLAYED
@@ -71,15 +71,11 @@ class FactsListAcceptanceTests {
         scenarioLauncher<FactsActivity>().run {
 
             beforeLaunch {
-                configureService(mockChuckNorris) {
-                    newSearchMatches {
-                        criteria = IssueFound(UnexpectedResponse)
-                    }
-                }
+                searchWillFailWithError(UnexpectedResponse)
             }
 
             onResume {
-                assertThat {
+                factsListChecks {
                     loadingIndicator shouldBe HIDDEN
                     errorState shouldBe DISPLAYED
                     errorStateImage shows IMAGE_BUG_FOUND
@@ -87,6 +83,18 @@ class FactsListAcceptanceTests {
                     content shouldBe ABSENT
                 }
             }
+        }
+    }
+
+    private fun searchWillReturnWithSuccess(payload: RawSearch) {
+        runBlocking {
+            whenever(mockChuckNorris.search(any())).thenReturn(payload)
+        }
+    }
+
+    private fun searchWillFailWithError(error: Throwable) {
+        runBlocking {
+            whenever(mockChuckNorris.search(any())).thenAnswer { throw error }
         }
     }
 }
