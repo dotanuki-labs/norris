@@ -1,4 +1,4 @@
-package io.dotanuki.norris.domain
+package io.dotanuki.norris.domain.rest
 
 import io.dotanuki.norris.domain.services.RemoteFactsService
 

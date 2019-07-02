@@ -1,8 +1,8 @@
 package io.dotanuki.norris.domain.di
 
 import io.dotanuki.norris.networking.RetrofitBuilder
-import io.dotanuki.norris.domain.ChuckNorrisDotIO
-import io.dotanuki.norris.domain.FactsInfrastructure
+import io.dotanuki.norris.domain.rest.ChuckNorrisDotIO
+import io.dotanuki.norris.domain.rest.FactsInfrastructure
 import io.dotanuki.norris.domain.services.RemoteFactsService
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor

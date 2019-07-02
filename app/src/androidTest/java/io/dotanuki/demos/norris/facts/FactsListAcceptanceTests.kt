@@ -9,9 +9,9 @@ import io.dotanuki.demos.norris.facts.Visibility.DISPLAYED
 import io.dotanuki.demos.norris.facts.Visibility.HIDDEN
 import io.dotanuki.demos.norris.util.ActivityScenarioLauncher.Companion.scenarioLauncher
 import io.dotanuki.demos.norris.util.BindingsOverrider
-import io.dotanuki.norris.domain.ChuckNorrisDotIO
-import io.dotanuki.norris.domain.RawFact
-import io.dotanuki.norris.domain.RawSearch
+import io.dotanuki.norris.domain.rest.ChuckNorrisDotIO
+import io.dotanuki.norris.domain.rest.RawFact
+import io.dotanuki.norris.domain.rest.RawSearch
 import io.dotanuki.norris.domain.errors.RemoteServiceIntegrationError.UnexpectedResponse
 import io.dotanuki.norris.facts.FactsActivity
 import org.junit.Rule

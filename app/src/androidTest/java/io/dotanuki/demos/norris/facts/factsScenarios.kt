@@ -2,9 +2,9 @@ package io.dotanuki.demos.norris.facts
 
 import com.nhaarman.mockitokotlin2.any
 import com.nhaarman.mockitokotlin2.whenever
-import io.dotanuki.norris.domain.ChuckNorrisDotIO
-import io.dotanuki.norris.domain.RawCategories
-import io.dotanuki.norris.domain.RawSearch
+import io.dotanuki.norris.domain.rest.ChuckNorrisDotIO
+import io.dotanuki.norris.domain.rest.RawCategories
+import io.dotanuki.norris.domain.rest.RawSearch
 import kotlinx.coroutines.runBlocking
 
 fun configureService(mockService: ChuckNorrisDotIO, block: ScenarioBuilder.() -> Unit) =
