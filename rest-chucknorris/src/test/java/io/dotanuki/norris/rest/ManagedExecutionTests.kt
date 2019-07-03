@@ -1,11 +1,11 @@
-package io.dotanuki.norris.domain
+package io.dotanuki.norris.rest
 
 import io.dotanuki.burster.using
 import io.dotanuki.norris.domain.errors.NetworkingError.HostUnreachable
 import io.dotanuki.norris.domain.errors.RemoteServiceIntegrationError.RemoteSystem
 import io.dotanuki.norris.domain.errors.RemoteServiceIntegrationError.UnexpectedResponse
 import io.dotanuki.norris.domain.rest.managedExecution
-import io.dotanuki.norris.domain.util.unwrapCaughtError
+import io.dotanuki.norris.rest.util.unwrapCaughtError
 import kotlinx.coroutines.runBlocking
 import kotlinx.serialization.SerializationException
 import okhttp3.MediaType.Companion.toMediaTypeOrNull

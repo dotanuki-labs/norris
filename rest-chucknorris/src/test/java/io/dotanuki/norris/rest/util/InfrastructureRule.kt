@@ -1,4 +1,4 @@
-package io.dotanuki.norris.domain.util
+package io.dotanuki.norris.rest.util
 
 import io.dotanuki.norris.networking.RetrofitBuilder
 import io.dotanuki.norris.domain.rest.ChuckNorrisDotIO
