@@ -52,7 +52,7 @@ object Libraries {
         const val okHttp = "4.0.0-RC1"
         const val retrofit = "2.6.0"
         const val retrofitKotlinSerialization = "0.4.0"
-        const val coroutines = "1.3.0-M1"
+        const val coroutines = "1.3.0-M2"
         const val kodein = "6.2.1"
         const val lifecycle = "2.2.0-alpha01"
         const val coreAndroidx = "1.2.0-alpha01"
