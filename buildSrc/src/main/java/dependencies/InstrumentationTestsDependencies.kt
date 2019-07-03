@@ -9,7 +9,6 @@ class InstrumentationTestsDependencies {
             Libraries.mockitoKotlin,
             Libraries.mockitoDexMaker,
             Libraries.espressoCore,
-            Libraries.espressoIntents,
             Libraries.barista,
             Libraries.androidTestCore,
             Libraries.androidTestCoreKtx,
