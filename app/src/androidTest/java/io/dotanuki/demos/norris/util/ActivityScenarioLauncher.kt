@@ -13,10 +13,10 @@ class ActivityScenarioLauncher<T : Activity>(private val scenario: ActivityScena
         beforeLaunch = block
     }
 
-    fun onResume(afterLaunch: () -> Any) {
+    fun onResume(afterLaunch: (ActivityScenario<*>) -> Any) {
         beforeLaunch.invoke()
         scenario.moveToState(Lifecycle.State.RESUMED)
-        afterLaunch.invoke()
+        afterLaunch.invoke(scenario)
         scenario.close()
     }
 

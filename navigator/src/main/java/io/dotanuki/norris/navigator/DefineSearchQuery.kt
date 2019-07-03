@@ -4,7 +4,7 @@ import android.os.Bundle
 
 object DefineSearchQuery : DelegatableWork {
     override val tag = 0xABCD
-    private const val KEY_SEARCH_QUERY = "key.search.query"
+    const val KEY_SEARCH_QUERY = "key.search.query"
 
     fun toPayload(query: String) = Bundle().apply {
         putString(KEY_SEARCH_QUERY, query)

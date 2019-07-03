@@ -5,6 +5,7 @@ import com.nhaarman.mockitokotlin2.mock
 import com.nhaarman.mockitokotlin2.whenever
 import io.dotanuki.demos.norris.dsl.Visibility.DISPLAYED
 import io.dotanuki.demos.norris.dsl.Visibility.HIDDEN
+import io.dotanuki.demos.norris.dsl.shouldBe
 import io.dotanuki.demos.norris.util.ActivityScenarioLauncher.Companion.scenarioLauncher
 import io.dotanuki.demos.norris.util.BindingsOverrider
 import io.dotanuki.norris.domain.errors.NetworkingError
@@ -79,6 +80,62 @@ class SearchQueryAcceptanceTests {
                 searchQueryChecks {
                     loading shouldBe HIDDEN
                     errorOnSuggestions shouldBe DISPLAYED
+                }
+            }
+        }
+    }
+
+    @Test fun shouldReportInvalidQuery() {
+        scenarioLauncher<SearchQueryActivity>().run {
+
+            beforeLaunch {
+                runBlocking {
+                    whenever(mockPersistance.lastSearches()).thenReturn(emptyList())
+                    whenever(mockChuckNorris.categories())
+                        .thenReturn(
+                            RawCategories(emptyList())
+                        )
+                }
+            }
+
+            onResume {
+                searchInteractions {
+                    textInputField received "U2"
+                }
+
+                searchQueryChecks {
+                    validationError shouldBe DISPLAYED
+                    confirmQuery()
+                    "Cannot proceed with an invalid query" shouldBe DISPLAYED
+                }
+            }
+        }
+    }
+
+    @Test fun shouldProceedWithValidQuery() {
+        scenarioLauncher<SearchQueryActivity>().run {
+
+            beforeLaunch {
+                runBlocking {
+                    whenever(mockPersistance.lastSearches())
+                        .thenReturn(emptyList())
+
+                    whenever(mockChuckNorris.categories())
+                        .thenReturn(RawCategories(emptyList()))
+                }
+            }
+
+            onResume { scenario ->
+
+                val query = "Code"
+
+                searchInteractions {
+                    textInputField received query
+                }
+
+                searchQueryChecks {
+                    confirmQuery()
+                    willForward(scenario, query)
                 }
             }
         }
