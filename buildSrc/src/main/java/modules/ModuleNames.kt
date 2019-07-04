@@ -19,6 +19,7 @@ object ModuleNames {
         const val SharedUtilities = ":shared-utilities"
         const val Facts = ":facts"
         const val Search = ":search"
+        const val Onboarding = ":onboarding"
         const val Navigator = ":navigator"
     }
 }

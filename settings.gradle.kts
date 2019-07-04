@@ -16,6 +16,7 @@ include(
     Infrastructure.Rest,
     Features.Facts,
     Features.Search,
+    Features.Onboarding,
     Features.Architecture,
     Features.Navigator,
     Features.SharedUtilities,

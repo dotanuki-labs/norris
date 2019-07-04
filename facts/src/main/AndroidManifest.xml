@@ -3,14 +3,7 @@
     package="io.dotanuki.norris.facts">
 
     <application>
-
-        <activity android:name=".FactsActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
-
+        <activity android:name=".FactsActivity" />
     </application>
 
 </manifest>

@@ -10,6 +10,11 @@ class Navigator(
     private val links: Map<Screen, Class<Activity>>
 ) {
 
+    fun navigateTo(destination: Screen) {
+        val next = Intent(host, find(destination))
+        host.startActivity(next)
+    }
+
     fun delegateWork(destination: Screen, work: DelegatableWork) {
         val next = Intent(host, find(destination))
         host.startActivityForResult(next, work.tag)

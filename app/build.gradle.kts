@@ -91,6 +91,7 @@ dependencies {
     implementation(project(ModuleNames.Features.SharedAssets))
     implementation(project(ModuleNames.Features.SharedUtilities))
     implementation(project(ModuleNames.Features.Navigator))
+    implementation(project(ModuleNames.Features.Onboarding))
     implementation(project(ModuleNames.Features.Facts))
     implementation(project(ModuleNames.Features.Search))
 
