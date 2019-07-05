@@ -76,7 +76,7 @@ class OnboardingViewModelTests {
         val result = runCatching {
             viewModel.handle(RequestedFreshContent)
         }
-        
+
         val error = unwrapError(result)
 
         assertThat(error).isEqualTo(UnsupportedUserInteraction)
