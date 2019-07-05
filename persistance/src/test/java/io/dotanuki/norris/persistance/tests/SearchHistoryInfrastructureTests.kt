@@ -1,11 +1,11 @@
 package io.dotanuki.norris.persistance.tests
 
+import io.dotanuki.coroutines.testutils.SuspendableErrorChecker.Companion.errorOnSuspendable
 import io.dotanuki.norris.domain.errors.SearchHistoryError
 import io.dotanuki.norris.domain.services.SearchesHistoryService
 import io.dotanuki.norris.persistance.SearchHistoryInfrastructure
 import kotlinx.coroutines.runBlocking
 import org.assertj.core.api.Assertions.assertThat
-import org.assertj.core.api.Assertions.assertThatThrownBy
 import org.junit.Before
 import org.junit.Test
 
@@ -46,12 +46,20 @@ internal class SearchHistoryInfrastructureTests {
     }
 
     @Test fun `should report broken preferences history`() {
-        FakePreferences.brokenMode = true
 
-        assertThatThrownBy {
-            runBlocking { service.lastSearches() }
-        }.isEqualTo(
-            SearchHistoryError
-        )
+        errorOnSuspendable<List<String>> {
+            take {
+                FakePreferences.brokenMode = true
+                emptyList()
+            }
+
+            once {
+                service.lastSearches()
+            }
+
+            check { error ->
+                assertThat(error).isEqualTo(SearchHistoryError)
+            }
+        }
     }
 }
