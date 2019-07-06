@@ -10,11 +10,6 @@ class FetchFacts(
     private val historyService: SearchesHistoryService
 ) {
 
-    suspend fun randomFacts() = with(factsService) {
-        val randomCategory = availableCategories().random().name
-        search(randomCategory)
-    }
-
     suspend fun search(term: String) =
         when {
             term.isEmpty() -> throw EmptyTerm

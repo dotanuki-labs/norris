@@ -3,6 +3,7 @@ package io.dotanuki.norris.search.di
 import io.dotanuki.norris.architecture.StateMachine
 import io.dotanuki.norris.architecture.TaskExecutor
 import io.dotanuki.norris.domain.ComposeSearchOptions
+import io.dotanuki.norris.domain.FetchCategories
 import io.dotanuki.norris.features.utilties.ConfigChangesAwareStateContainer
 import io.dotanuki.norris.features.utilties.KodeinTags
 import io.dotanuki.norris.search.SearchPresentation
@@ -17,9 +18,13 @@ val searchModule = Kodein.Module("search") {
 
     bind() from provider {
 
+        val fetchCategories = FetchCategories(
+            categoriesCache = instance(),
+            remoteFacts = instance()
+        )
         val usecase = ComposeSearchOptions(
             searches = instance(),
-            facts = instance()
+            categories = fetchCategories
         )
 
         val stateContainer = ConfigChangesAwareStateContainer<SearchPresentation>(

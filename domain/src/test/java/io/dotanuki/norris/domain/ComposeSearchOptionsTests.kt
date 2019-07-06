@@ -4,7 +4,6 @@ import com.nhaarman.mockitokotlin2.mock
 import com.nhaarman.mockitokotlin2.whenever
 import io.dotanuki.norris.domain.model.RelatedCategory.Available
 import io.dotanuki.norris.domain.model.SearchOptions
-import io.dotanuki.norris.domain.services.RemoteFactsService
 import io.dotanuki.norris.domain.services.SearchesHistoryService
 import kotlinx.coroutines.runBlocking
 import org.assertj.core.api.Assertions.assertThat
@@ -12,8 +11,8 @@ import org.junit.Test
 
 class ComposeSearchOptionsTests {
 
-    private val factsService = mock<RemoteFactsService>()
     private val searchHistory = mock<SearchesHistoryService>()
+    private val fetchCategories = mock<FetchCategories>()
 
     private val categories by lazy {
         listOf(
@@ -36,10 +35,10 @@ class ComposeSearchOptionsTests {
 
             // Given
 
-            val usecase = ComposeSearchOptions(searchHistory, factsService)
+            val usecase = ComposeSearchOptions(searchHistory, fetchCategories)
 
             // When
-            whenever(factsService.availableCategories()).thenReturn(categories)
+            whenever(fetchCategories.execute()).thenReturn(categories)
             whenever(searchHistory.lastSearches()).thenReturn(pastSearches)
 
             // And

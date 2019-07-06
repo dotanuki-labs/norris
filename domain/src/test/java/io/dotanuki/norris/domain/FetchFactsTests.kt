@@ -49,12 +49,6 @@ class FetchFactsTests {
         }
     }
 
-    @Test fun `should fetch random term`() {
-        runBlocking {
-            assertThat(usecase.randomFacts()).isEqualTo(facts)
-        }
-    }
-
     @Test fun `should fetch valid term`() {
         runBlocking {
             assertThat(usecase.search("Trump")).isEqualTo(facts)
