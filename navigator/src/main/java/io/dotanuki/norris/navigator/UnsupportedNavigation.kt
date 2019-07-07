@@ -1,5 +1,5 @@
 package io.dotanuki.norris.navigator
 
-class UnsupportedNavigation(destination: Screen) : RuntimeException(
+data class UnsupportedNavigation(val destination: Screen) : RuntimeException(
     "Cannot navigate to this destination -> $destination"
 )

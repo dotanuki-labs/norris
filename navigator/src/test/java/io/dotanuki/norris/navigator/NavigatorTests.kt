@@ -7,8 +7,10 @@ import com.nhaarman.mockitokotlin2.any
 import com.nhaarman.mockitokotlin2.argumentCaptor
 import com.nhaarman.mockitokotlin2.mock
 import com.nhaarman.mockitokotlin2.verify
+import io.dotanuki.norris.navigator.Screen.FactsList
 import io.dotanuki.norris.navigator.Screen.SearchQuery
 import org.assertj.core.api.Assertions.assertThat
+import org.assertj.core.api.Assertions.assertThatThrownBy
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -27,6 +29,22 @@ class NavigatorTests {
 
     @Before fun `before each test`() {
         navigator = Navigator(mockActivity, links)
+    }
+
+    @Test fun `should navigate to supported screen`() {
+        navigator.navigateTo(SearchQuery)
+        argumentCaptor<Intent>().apply {
+            verify(mockActivity).startActivity(capture())
+            assertThat(firstValue).isNotNull()
+        }
+    }
+
+    @Test fun `should throw when navigating to unsupported screen`() {
+
+        assertThatThrownBy { navigator.navigateTo(FactsList) }
+            .isEqualTo(
+                UnsupportedNavigation(FactsList)
+            )
     }
 
     @Test fun `should delegate work to supported screen`() {
