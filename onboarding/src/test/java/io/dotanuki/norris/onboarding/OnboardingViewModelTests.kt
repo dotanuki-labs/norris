@@ -51,7 +51,7 @@ class OnboardingViewModelTests {
         runBlocking {
 
             // Given
-            val emissions = viewModel.bind().collectForTesting()
+            val emissions = viewModel.bind().collectForTesting(helper.scope)
 
             // When
 

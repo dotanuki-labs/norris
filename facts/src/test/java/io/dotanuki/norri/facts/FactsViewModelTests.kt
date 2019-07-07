@@ -51,7 +51,7 @@ class FactsViewModelTests {
         runBlocking {
 
             // Given
-            val emissions = viewModel.bind().collectForTesting()
+            val emissions = viewModel.bind().collectForTesting(helper.scope)
 
             // When
             whenever(factsService.fetchFacts(anyString()))
@@ -75,7 +75,7 @@ class FactsViewModelTests {
         runBlocking {
 
             // Given
-            val emissions = viewModel.bind().collectForTesting()
+            val emissions = viewModel.bind().collectForTesting(helper.scope)
             val categories = listOf(
                 RelatedCategory.Available("dev")
             )

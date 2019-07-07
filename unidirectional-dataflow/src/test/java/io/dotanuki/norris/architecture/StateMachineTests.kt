@@ -32,7 +32,7 @@ internal class StateMachineTests {
         runBlocking {
 
             // Given
-            val emissions = machine.states().collectForTesting()
+            val emissions = machine.states().collectForTesting(helper.scope)
 
             // When
             machine.forward(::successfulExecution).join()
@@ -52,7 +52,7 @@ internal class StateMachineTests {
         runBlocking {
 
             // Given
-            val emissions = machine.states().collectForTesting()
+            val emissions = machine.states().collectForTesting(helper.scope)
 
             // When
             machine.forward(::brokenExecution).join()
@@ -72,7 +72,7 @@ internal class StateMachineTests {
         runBlocking {
 
             // Given
-            val emissions = machine.states().collectForTesting()
+            val emissions = machine.states().collectForTesting(helper.scope)
 
             // When
             machine.forward(::successfulExecution).join()
@@ -95,7 +95,7 @@ internal class StateMachineTests {
         runBlocking {
 
             // Given
-            val emissions = machine.states().collectForTesting()
+            val emissions = machine.states().collectForTesting(helper.scope)
 
             // When
             machine.forward(::brokenExecution).join()

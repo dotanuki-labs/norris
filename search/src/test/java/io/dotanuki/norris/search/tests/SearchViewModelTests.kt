@@ -51,7 +51,7 @@ class SearchViewModelTests {
         runBlocking {
 
             // Given
-            val emissions = viewModel.bind().collectForTesting()
+            val emissions = viewModel.bind().collectForTesting(helper.scope)
 
             // When
             whenever(usecase.execute()).thenAnswer { throw OperationTimeout }
@@ -83,7 +83,7 @@ class SearchViewModelTests {
         runBlocking {
 
             // Given
-            val emissions = viewModel.bind().collectForTesting()
+            val emissions = viewModel.bind().collectForTesting(helper.scope)
             val options = SearchOptions(
                 history = emptyList(),
                 recommendations = listOf("dev", "humor", "money")
@@ -112,7 +112,7 @@ class SearchViewModelTests {
         runBlocking {
 
             // Given
-            val emissions = viewModel.bind().collectForTesting()
+            val emissions = viewModel.bind().collectForTesting(helper.scope)
 
             // When
             viewModel.handle(ValidateQuery("Norris")).join()
