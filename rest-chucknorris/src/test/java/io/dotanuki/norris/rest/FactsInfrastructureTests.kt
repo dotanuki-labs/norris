@@ -4,7 +4,6 @@ import io.dotanuki.norris.domain.errors.RemoteServiceIntegrationError
 import io.dotanuki.norris.domain.model.ChuckNorrisFact
 import io.dotanuki.norris.domain.model.RelatedCategory.Available
 import io.dotanuki.norris.domain.model.RelatedCategory.Missing
-import io.dotanuki.norris.domain.rest.FactsInfrastructure
 import io.dotanuki.norris.rest.util.InfrastructureRule
 import io.dotanuki.norris.rest.util.assertErrorTransformed
 import io.dotanuki.norris.rest.util.loadFile

@@ -4,7 +4,6 @@ import io.dotanuki.burster.using
 import io.dotanuki.norris.domain.errors.NetworkingError.HostUnreachable
 import io.dotanuki.norris.domain.errors.RemoteServiceIntegrationError.RemoteSystem
 import io.dotanuki.norris.domain.errors.RemoteServiceIntegrationError.UnexpectedResponse
-import io.dotanuki.norris.domain.rest.managedExecution
 import io.dotanuki.norris.rest.util.unwrapCaughtError
 import kotlinx.coroutines.runBlocking
 import kotlinx.serialization.SerializationException

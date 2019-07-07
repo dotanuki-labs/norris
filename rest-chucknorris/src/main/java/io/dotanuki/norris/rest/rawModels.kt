@@ -1,4 +1,4 @@
-package io.dotanuki.norris.domain.rest
+package io.dotanuki.norris.rest
 
 import kotlinx.serialization.Decoder
 import kotlinx.serialization.Encoder
