@@ -6,11 +6,13 @@ import android.os.Bundle
 import android.text.Spannable.SPAN_EXCLUSIVE_INCLUSIVE
 import android.text.SpannableString
 import android.text.SpannableStringBuilder
+import android.text.style.ForegroundColorSpan
 import android.text.style.StyleSpan
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import io.dotanuki.logger.Logger
@@ -33,6 +35,7 @@ import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import org.kodein.di.KodeinAware
 import org.kodein.di.generic.instance
+import io.dotanuki.norris.sharedassets.R as SharedR
 
 class FactsActivity : AppCompatActivity(), KodeinAware {
 
@@ -124,12 +127,16 @@ class FactsActivity : AppCompatActivity(), KodeinAware {
     }
 
     private fun showHeadline(query: String) {
+
+        val highlightColor = ContextCompat.getColor(this, SharedR.color.colorAccent)
+
         val highlightedFact = SpannableString(query).apply {
             setSpan(StyleSpan(Typeface.BOLD), 0, query.length, SPAN_EXCLUSIVE_INCLUSIVE)
+            setSpan(ForegroundColorSpan(highlightColor), 0, query.length, SPAN_EXCLUSIVE_INCLUSIVE)
         }
 
         val prefix = getString(R.string.headline_facts)
-        val headline = SpannableStringBuilder(prefix).append(highlightedFact)
+        val headline = SpannableStringBuilder(prefix).append(" : ").append(highlightedFact)
         factsHeadlineLabel.text = headline
     }
 

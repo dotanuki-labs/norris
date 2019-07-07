@@ -3,6 +3,7 @@ package io.dotanuki.norris.facts
 import io.dotanuki.norris.domain.errors.NetworkingError
 import io.dotanuki.norris.domain.errors.RemoteServiceIntegrationError.RemoteSystem
 import io.dotanuki.norris.domain.errors.SearchFactsError
+import io.dotanuki.norris.sharedassets.R
 
 data class ErrorStateResources(
     val image: Int,
