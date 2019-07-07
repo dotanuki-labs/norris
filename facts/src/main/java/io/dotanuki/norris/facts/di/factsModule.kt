@@ -7,7 +7,6 @@ import io.dotanuki.norris.facts.FactsPresentation
 import io.dotanuki.norris.facts.FactsViewModel
 import io.dotanuki.norris.features.utilties.ConfigChangesAwareStateContainer
 import io.dotanuki.norris.features.utilties.KodeinTags
-import kotlinx.coroutines.Dispatchers
 import org.kodein.di.Kodein
 import org.kodein.di.generic.bind
 import org.kodein.di.generic.instance
@@ -30,7 +29,7 @@ val factsModule = Kodein.Module("menu_facts_list") {
             container = stateContainer,
             executor = TaskExecutor.Concurrent(
                 scope = stateContainer.emissionScope,
-                dispatcher = Dispatchers.IO
+                dispatcher = instance()
             )
         )
 

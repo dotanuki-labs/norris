@@ -6,7 +6,6 @@ import io.dotanuki.norris.domain.FetchCategories
 import io.dotanuki.norris.features.utilties.ConfigChangesAwareStateContainer
 import io.dotanuki.norris.features.utilties.KodeinTags
 import io.dotanuki.norris.onboarding.OnboardingViewModel
-import kotlinx.coroutines.Dispatchers
 import org.kodein.di.Kodein
 import org.kodein.di.generic.bind
 import org.kodein.di.generic.instance
@@ -29,7 +28,7 @@ val onboardingModule = Kodein.Module("onboarding") {
             container = stateContainer,
             executor = TaskExecutor.Concurrent(
                 scope = stateContainer.emissionScope,
-                dispatcher = Dispatchers.IO
+                dispatcher = instance()
             )
         )
 

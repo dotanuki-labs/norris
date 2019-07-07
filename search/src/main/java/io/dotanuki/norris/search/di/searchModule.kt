@@ -8,7 +8,6 @@ import io.dotanuki.norris.features.utilties.ConfigChangesAwareStateContainer
 import io.dotanuki.norris.features.utilties.KodeinTags
 import io.dotanuki.norris.search.SearchPresentation
 import io.dotanuki.norris.search.SearchViewModel
-import kotlinx.coroutines.Dispatchers
 import org.kodein.di.Kodein
 import org.kodein.di.generic.bind
 import org.kodein.di.generic.instance
@@ -35,7 +34,7 @@ val searchModule = Kodein.Module("search") {
             container = stateContainer,
             executor = TaskExecutor.Concurrent(
                 scope = stateContainer.emissionScope,
-                dispatcher = Dispatchers.IO
+                dispatcher = instance()
             )
         )
 
