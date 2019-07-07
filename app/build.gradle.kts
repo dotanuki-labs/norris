@@ -41,6 +41,15 @@ android {
         resConfig("en")
     }
 
+    signingConfigs {
+        create("release") {
+            storeFile = rootProject.file("dotanuki-demos.jks")
+            storePassword = "dotanuki"
+            keyAlias = "dotanuki-alias"
+            keyPassword = "dotanuki"
+        }
+    }
+
     buildTypes {
 
         getByName("debug") {
@@ -56,6 +65,8 @@ android {
             val proguardConfig = ProguardConfig("$rootDir/proguard")
             proguardFiles(*(proguardConfig.customRules))
             proguardFiles(getDefaultProguardFile(proguardConfig.androidRules))
+
+            signingConfig = signingConfigs.findByName("release")
         }
     }
 
