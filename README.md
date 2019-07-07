@@ -17,9 +17,10 @@ Here you will find a codebase powered by tests in all semantic levels (unit, int
 
 This project leverages on [api.chucknorris.io](https://api.chucknorris.io/) as remote data source to implement the following use cases
 
-- User can search for Chuck Norris facts
-- Application will offer suggestions for queries, as well track past query terms
-- User can share a Chuck Norris fact
+- User can search for Chuck Norris facts and share them
+- Related categories are fetched in the application boostraped and cached
+- Application will offer suggestions for queries based on categories names and track query terms provided by user as well
+
 
 ![showcase-norris](.github/showcase-norris.png)
 
@@ -37,9 +38,9 @@ The design of abstractions enforce that Coroutine's Scopes related to the emissi
 
 You may want to check the [ConfigChangesAwareStateContainer](https://github.com/dotanuki-labs/norris/blob/master/shared-utilities/src/main/java/io/dotanuki/norris/features/utilties/ConfigChangesAwareStateContainer.kt) abstraction, which leverages on Jetpack's ViewModel to keep the reference of the aforementioned ConflatedChannel, as well to provide the proper emission scope for states. An unbounded implementation is also defined for test purposes.
 
-In this way, none of the ViewModels of this project derives from `AAC ViewModel`, but `AAC ViewModel` ensures state persistance across device configuration changes.
+In this way, none of the ViewModels of this project derives from `AAC ViewModel`, but `AAC ViewModel` ensures the `UI` state persistance across device configuration changes.
 
-Last, but not least, the choice for the `Flow<T>` over the conflated channel just allows us to follow the reactive way for UIs without any LiveDatas. Just beautiful and simple.
+Last, but not least, the choice for the `Flow<T>` over the conflated channel allows us to follow the reactive way for UIs without any LiveDatas. Just beautiful and simple.
 
 ![udf-architecture](.github/udf-architecture.png)
 
@@ -66,7 +67,7 @@ It will
 - Run all unit tests and generate all JaCoCo reports
 - Assemble the debug APK
 
-To run Espresso tests
+For running acceptance tests
 
 ```
 ./gradlew connectedCheck
@@ -74,10 +75,10 @@ To run Espresso tests
 
 ## Credits
 
-- [Mathias Schilling](https://github.com/matchilling), for the Chuck Norris Facts [rest api](https://api.chucknorris.io/)
+- [Mathias Schilling](https://github.com/matchilling), for the Chuck Norris facts [REST api](https://api.chucknorris.io/)
 - [Material Design Icons](https://materialdesignicons.com/) for the error states images
+- [Jetbrains](https://www.jetbrains.com/) for the amazing developer experience around Kotlin and Coroutines
 - Someone in the Web for the Norris clipart ❤️ _(I'll be happy to put your name here, ping me!)_
-- Jetbrains for the amazing developer experience around Kotlin and Coroutines
 
 ## Author
 
