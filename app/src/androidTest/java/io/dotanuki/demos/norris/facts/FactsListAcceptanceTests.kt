@@ -13,10 +13,10 @@ import io.dotanuki.demos.norris.dsl.shouldBe
 import io.dotanuki.demos.norris.util.ActivityScenarioLauncher.Companion.scenarioLauncher
 import io.dotanuki.demos.norris.util.BindingsOverrider
 import io.dotanuki.norris.domain.errors.RemoteServiceIntegrationError.UnexpectedResponse
-import io.dotanuki.norris.domain.rest.ChuckNorrisDotIO
-import io.dotanuki.norris.domain.rest.RawFact
-import io.dotanuki.norris.domain.rest.RawSearch
 import io.dotanuki.norris.facts.FactsActivity
+import io.dotanuki.norris.rest.ChuckNorrisDotIO
+import io.dotanuki.norris.rest.RawFact
+import io.dotanuki.norris.rest.RawSearch
 import kotlinx.coroutines.runBlocking
 import org.junit.Rule
 import org.junit.Test
