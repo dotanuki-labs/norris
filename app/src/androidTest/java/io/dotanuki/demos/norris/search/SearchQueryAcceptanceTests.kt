@@ -1,6 +1,7 @@
 package io.dotanuki.demos.norris.search
 
 import androidx.test.ext.junit.runners.AndroidJUnit4
+import com.nhaarman.mockitokotlin2.any
 import com.nhaarman.mockitokotlin2.mock
 import com.nhaarman.mockitokotlin2.whenever
 import io.dotanuki.demos.norris.dsl.Visibility.DISPLAYED
@@ -11,12 +12,11 @@ import io.dotanuki.demos.norris.util.BindingsOverrider
 import io.dotanuki.norris.domain.errors.NetworkingError
 import io.dotanuki.norris.domain.services.CategoriesCacheService
 import io.dotanuki.norris.domain.services.SearchesHistoryService
-import io.dotanuki.norris.persistance.CachedCategoriesInfrastructure
 import io.dotanuki.norris.rest.ChuckNorrisDotIO
 import io.dotanuki.norris.rest.RawCategories
 import io.dotanuki.norris.search.SearchQueryActivity
 import kotlinx.coroutines.runBlocking
-import org.junit.Ignore
+import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -36,12 +36,19 @@ class SearchQueryAcceptanceTests {
         }
 
         bind<CategoriesCacheService>(overrides = true) with provider {
-            CachedCategoriesInfrastructure
+            mockCache
         }
     }
 
+    private val mockCache = mock<CategoriesCacheService>()
     private val mockChuckNorris = mock<ChuckNorrisDotIO>()
     private val mockPersistance = mock<SearchesHistoryService>()
+
+
+    @Before fun beforeEachTest() {
+        whenever(mockCache.cached()).thenReturn(null)
+        whenever(mockCache.save(any())).thenAnswer { Unit }
+    }
 
     @Test fun givenAvailableHistory_andAvailableCategories_shouldDisplaySuggestions() {
 
@@ -114,35 +121,6 @@ class SearchQueryAcceptanceTests {
                     validationError shouldBe DISPLAYED
                     confirmQuery()
                     "Cannot proceed with an invalid query" shouldBe DISPLAYED
-                }
-            }
-        }
-    }
-
-    @Ignore @Test fun shouldProceedWithValidQuery() {
-        scenarioLauncher<SearchQueryActivity>().run {
-
-            beforeLaunch {
-                runBlocking {
-                    whenever(mockPersistance.lastSearches())
-                        .thenReturn(emptyList())
-
-                    whenever(mockChuckNorris.categories())
-                        .thenReturn(RawCategories(emptyList()))
-                }
-            }
-
-            onResume { scenario ->
-
-                val query = "Code"
-
-                searchInteractions {
-                    textInputField received query
-                }
-
-                searchQueryChecks {
-                    confirmQuery()
-                    willForward(scenario, query)
                 }
             }
         }
