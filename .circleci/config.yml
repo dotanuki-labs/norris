@@ -9,14 +9,14 @@ jobs:
     steps:
       - checkout
       - restore_cache:
-          key: jars-{{ checksum "buildSrc/src/main/java/Libraries.kt" }}-{{ checksum  "buildSrc/src/main/java/configs/KotlinConfig.kt" }}-{{ checksum  "buildSrc/src/main/java/BuildPlugins.kt" }}
+          key: jars-{{ checksum "gradlew" }}-{{ checksum "buildSrc/src/main/java/Libraries.kt" }}-{{ checksum  "buildSrc/src/main/java/configs/KotlinConfig.kt" }}-{{ checksum  "buildSrc/src/main/java/BuildPlugins.kt" }}
       - run:
           name: Download Dependencies
           command: ./gradlew androidDependencies --no-daemon
       - save_cache:
           paths:
             - ~/.gradle
-          key: jars-{{ checksum "buildSrc/src/main/java/Libraries.kt" }}-{{ checksum  "buildSrc/src/main/java/configs/KotlinConfig.kt" }}-{{ checksum  "buildSrc/src/main/java/BuildPlugins.kt" }}
+          key: jars-{{ checksum "gradlew" }}-{{ checksum "buildSrc/src/main/java/Libraries.kt" }}-{{ checksum  "buildSrc/src/main/java/configs/KotlinConfig.kt" }}-{{ checksum  "buildSrc/src/main/java/BuildPlugins.kt" }}
       - run:
           name: Check code style
           command: ./gradlew clean ktlintCheck --no-daemon
