@@ -11,9 +11,9 @@ data class Version(
 )
 
 object Versioning {
-    private const val major = 0
-    private const val minor = 2
-    private const val patch = 2
+    private const val major = 1
+    private const val minor = 0
+    private const val patch = 0
     private const val code = 100 * major + 10 * minor + patch
 
     private val timestamp by lazy {
