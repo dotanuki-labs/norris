@@ -18,35 +18,33 @@ class StateMachine<T>(
         }
 
     private suspend fun wrapWithStates(execution: suspend () -> T) {
-        executionStarted()
-
-        val executionCompleted =
-            try {
-                Success(execution())
-            } catch (error: Throwable) {
-                Failed(error)
-            }
-
-        container.store(executionCompleted)
+        val first = executionStarted()
+        moveTo(first)
+        val next = perform(execution)
+        moveTo(next)
     }
 
-    private suspend fun executionStarted() {
-        when (val actual = container.current()) {
+    private suspend fun perform(execution: suspend () -> T) =
+        try {
+            Success(execution())
+        } catch (error: Throwable) {
+            Failed(error)
+        }
+
+    private fun executionStarted() =
+        when (val state = container.current()) {
             is FirstLaunch,
-            is Failed -> loadFromBeginning()
-            else -> loadFromPreviousExecution(actual)
+            is Failed -> Loading.FromEmpty
+            else -> restoreIfSuccess(state)
         }
-    }
 
-    private suspend fun loadFromBeginning() {
-        container.store(Loading.FromEmpty)
-    }
-
-    private suspend fun loadFromPreviousExecution(previous: ViewState<T>) {
-        if (previous is Success) {
-            container.store(
-                Loading.FromPrevious(previous.value)
-            )
+    private fun restoreIfSuccess(state: ViewState<T>) =
+        when (state) {
+            is Success -> Loading.FromPrevious(state.value)
+            else -> state
         }
+
+    private suspend fun moveTo(state: ViewState<T>) {
+        container.store(state)
     }
 }
