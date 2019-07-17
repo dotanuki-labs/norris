@@ -3,7 +3,7 @@ package io.dotanuki.norris.search.tests
 import com.nhaarman.mockitokotlin2.mock
 import com.nhaarman.mockitokotlin2.whenever
 import io.dotanuki.coroutines.testutils.CoroutinesTestHelper
-import io.dotanuki.coroutines.testutils.collectForTesting
+import io.dotanuki.coroutines.testutils.FlowTest.Companion.flowTest
 import io.dotanuki.coroutines.testutils.unwrapError
 import io.dotanuki.norris.architecture.StateContainer
 import io.dotanuki.norris.architecture.StateMachine
@@ -11,7 +11,7 @@ import io.dotanuki.norris.architecture.TaskExecutor
 import io.dotanuki.norris.architecture.UnsupportedUserInteraction
 import io.dotanuki.norris.architecture.UserInteraction
 import io.dotanuki.norris.architecture.UserInteraction.OpenedScreen
-import io.dotanuki.norris.architecture.ViewState.Failed
+import io.dotanuki.norris.architecture.ViewState
 import io.dotanuki.norris.architecture.ViewState.FirstLaunch
 import io.dotanuki.norris.architecture.ViewState.Loading
 import io.dotanuki.norris.architecture.ViewState.Success
@@ -23,7 +23,6 @@ import io.dotanuki.norris.search.SearchPresentation.QueryValidation
 import io.dotanuki.norris.search.SearchPresentation.Suggestions
 import io.dotanuki.norris.search.SearchViewModel
 import io.dotanuki.norris.search.ValidateQuery
-import kotlinx.coroutines.runBlocking
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.Before
 import org.junit.Rule
@@ -48,25 +47,30 @@ class SearchViewModelTests {
     }
 
     @Test fun `should report failure when fetching from remote`() {
-        runBlocking {
 
-            // Given
-            val emissions = viewModel.bind().collectForTesting(helper.scope)
+        // Given
+        flowTest(viewModel.bind()) {
 
-            // When
-            whenever(usecase.execute()).thenAnswer { throw OperationTimeout }
+            triggerEmissions {
 
-            // And
-            viewModel.handle(OpenedScreen).join()
+                // When
+                whenever(usecase.execute()).thenAnswer { throw OperationTimeout }
 
-            // Then
-            val viewStates = listOf(
-                FirstLaunch,
-                Loading.FromEmpty,
-                Failed(OperationTimeout)
-            )
+                // And
+                viewModel.handle(OpenedScreen)
+            }
 
-            assertThat(emissions).isEqualTo(viewStates)
+            afterCollect { emissions ->
+
+                // Then
+                val viewStates = listOf(
+                    FirstLaunch,
+                    Loading.FromEmpty,
+                    ViewState.Failed(OperationTimeout)
+                )
+
+                assertThat(emissions).isEqualTo(viewStates)
+            }
         }
     }
 
@@ -80,54 +84,66 @@ class SearchViewModelTests {
     }
 
     @Test fun `should display suggestions`() {
-        runBlocking {
 
-            // Given
-            val emissions = viewModel.bind().collectForTesting(helper.scope)
-            val options = SearchOptions(
-                history = emptyList(),
-                recommendations = listOf("dev", "humor", "money")
-            )
-            // When
-            whenever(usecase.execute()).thenReturn(options)
+        // Given
+        val options = SearchOptions(
+            history = emptyList(),
+            recommendations = listOf("dev", "humor", "money")
+        )
 
-            // And
-            viewModel.handle(OpenedScreen).join()
+        flowTest(viewModel.bind()) {
 
-            // Then
+            triggerEmissions {
 
-            val viewStates = listOf(
-                FirstLaunch,
-                Loading.FromEmpty,
-                Success(
-                    Suggestions(options)
+                // When
+                whenever(usecase.execute()).thenReturn(options)
+
+                // And
+                viewModel.handle(OpenedScreen)
+            }
+
+            afterCollect { emissions ->
+
+                // Then
+                val viewStates = listOf(
+                    FirstLaunch,
+                    Loading.FromEmpty,
+                    Success(
+                        Suggestions(options)
+                    )
                 )
-            )
 
-            assertThat(emissions).isEqualTo(viewStates)
+                assertThat(emissions).isEqualTo(viewStates)
+            }
         }
     }
 
     @Test fun `should validate incoming query`() {
-        runBlocking {
 
-            // Given
-            val emissions = viewModel.bind().collectForTesting(helper.scope)
+        flowTest(viewModel.bind()) {
 
-            // When
-            viewModel.handle(ValidateQuery("Norris")).join()
+            triggerEmissions {
 
-            // Then
+                // When
+                viewModel.handle(ValidateQuery("Norris"))
 
-            val viewStates = listOf(
-                FirstLaunch,
-                Loading.FromEmpty,
-                Success(
-                    QueryValidation(true)
+                // And
+                viewModel.handle(OpenedScreen)
+            }
+
+            afterCollect { emissions ->
+
+                // Then
+                val viewStates = listOf(
+                    FirstLaunch,
+                    Loading.FromEmpty,
+                    Success(
+                        QueryValidation(true)
+                    )
                 )
-            )
 
-            assertThat(emissions).isEqualTo(viewStates)
+                assertThat(emissions).isEqualTo(viewStates)
+            }
         }
     }
 }

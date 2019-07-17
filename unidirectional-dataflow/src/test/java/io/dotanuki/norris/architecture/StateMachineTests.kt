@@ -1,12 +1,11 @@
 package io.dotanuki.norris.architecture
 
 import io.dotanuki.coroutines.testutils.CoroutinesTestHelper
-import io.dotanuki.coroutines.testutils.collectForTesting
+import io.dotanuki.coroutines.testutils.FlowTest.Companion.flowTest
 import io.dotanuki.norris.architecture.ViewState.Failed
 import io.dotanuki.norris.architecture.ViewState.FirstLaunch
 import io.dotanuki.norris.architecture.ViewState.Loading
 import io.dotanuki.norris.architecture.ViewState.Success
-import kotlinx.coroutines.runBlocking
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.Before
 import org.junit.Rule
@@ -29,88 +28,112 @@ internal class StateMachineTests {
     }
 
     @Test fun `should generate states, successful execution`() {
-        runBlocking {
 
-            // Given
-            val emissions = machine.states().collectForTesting(helper.scope)
+        // Given
+        flowTest(machine.states()) {
 
             // When
-            machine.forward(::successfulExecution).join()
+            triggerEmissions {
+                machine.forward(::successfulExecution)
+            }
 
             // Then
-            val expectedStates = listOf(
-                FirstLaunch,
-                Loading.FromEmpty,
-                Success(MESSAGE)
-            )
+            afterCollect { emissions ->
 
-            assertThat(emissions).isEqualTo(expectedStates)
+                val expectedStates = listOf(
+                    FirstLaunch,
+                    Loading.FromEmpty,
+                    Success(MESSAGE)
+                )
+
+                assertThat(emissions).isEqualTo(expectedStates)
+            }
         }
     }
 
     @Test fun `should generate states, error execution`() {
-        runBlocking {
 
-            // Given
-            val emissions = machine.states().collectForTesting(helper.scope)
+        // Given
+        flowTest(machine.states()) {
 
             // When
-            machine.forward(::brokenExecution).join()
+            triggerEmissions {
+                machine.forward(::successfulExecution)
+            }
 
             // Then
-            val expectedStates = listOf(
-                FirstLaunch,
-                Loading.FromEmpty,
-                Failed(ERROR)
-            )
+            afterCollect { emissions ->
 
-            assertThat(emissions).isEqualTo(expectedStates)
+                val expectedStates = listOf(
+                    FirstLaunch,
+                    Loading.FromEmpty,
+                    Failed(ERROR)
+                )
+
+                assertThat(emissions).isEqualTo(expectedStates)
+            }
         }
     }
 
     @Test fun `should generate states, with previous execution`() {
-        runBlocking {
 
-            // Given
-            val emissions = machine.states().collectForTesting(helper.scope)
+        // Given
+        flowTest(machine.states()) {
 
             // When
-            machine.forward(::successfulExecution).join()
-            machine.forward(::successfulExecution).join()
+            triggerEmissions {
+                machine.forward(::successfulExecution)
+            }
+
+            // And
+            triggerEmissions {
+                machine.forward(::successfulExecution)
+            }
 
             // Then
-            val expectedStates = listOf(
-                FirstLaunch,
-                Loading.FromEmpty,
-                Success(MESSAGE),
-                Loading.FromPrevious(MESSAGE),
-                Success(MESSAGE)
-            )
+            afterCollect { emissions ->
 
-            assertThat(emissions).isEqualTo(expectedStates)
+                val expectedStates = listOf(
+                    FirstLaunch,
+                    Loading.FromEmpty,
+                    Success(MESSAGE),
+                    Loading.FromPrevious(MESSAGE),
+                    Success(MESSAGE)
+                )
+
+                assertThat(emissions).isEqualTo(expectedStates)
+            }
         }
     }
 
     @Test fun `should generate states, ignoring previous broken execution`() {
-        runBlocking {
 
-            // Given
-            val emissions = machine.states().collectForTesting(helper.scope)
+        // Given
+        flowTest(machine.states()) {
 
             // When
-            machine.forward(::brokenExecution).join()
-            machine.forward(::successfulExecution).join()
+            triggerEmissions {
+                machine.forward(::brokenExecution)
+            }
+
+            // And
+            triggerEmissions {
+                machine.forward(::successfulExecution)
+            }
 
             // Then
-            val expectedStates = listOf(
-                FirstLaunch,
-                Loading.FromEmpty,
-                Failed(ERROR),
-                Loading.FromEmpty,
-                Success(MESSAGE)
-            )
+            afterCollect { emissions ->
 
-            assertThat(emissions).isEqualTo(expectedStates)
+                val expectedStates = listOf(
+                    FirstLaunch,
+                    Loading.FromEmpty,
+                    Failed(ERROR),
+                    Loading.FromEmpty,
+                    Success(MESSAGE)
+                )
+
+                assertThat(emissions).isEqualTo(expectedStates)
+            }
         }
     }
 

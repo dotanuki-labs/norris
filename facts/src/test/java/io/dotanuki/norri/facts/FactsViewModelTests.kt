@@ -3,7 +3,7 @@ package io.dotanuki.norri.facts
 import com.nhaarman.mockitokotlin2.mock
 import com.nhaarman.mockitokotlin2.whenever
 import io.dotanuki.coroutines.testutils.CoroutinesTestHelper
-import io.dotanuki.coroutines.testutils.collectForTesting
+import io.dotanuki.coroutines.testutils.FlowTest.Companion.flowTest
 import io.dotanuki.norris.architecture.StateContainer
 import io.dotanuki.norris.architecture.StateMachine
 import io.dotanuki.norris.architecture.TaskExecutor
@@ -21,7 +21,6 @@ import io.dotanuki.norris.domain.services.SearchesHistoryService
 import io.dotanuki.norris.facts.FactDisplayRow
 import io.dotanuki.norris.facts.FactsPresentation
 import io.dotanuki.norris.facts.FactsViewModel
-import kotlinx.coroutines.runBlocking
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.Before
 import org.junit.Rule
@@ -48,75 +47,86 @@ class FactsViewModelTests {
     }
 
     @Test fun `should report failure when fetching from remote`() {
-        runBlocking {
 
-            // Given
-            val emissions = viewModel.bind().collectForTesting(helper.scope)
+        // Given
+        flowTest(viewModel.bind()) {
 
-            // When
-            whenever(factsService.fetchFacts(anyString()))
-                .thenAnswer { throw UnexpectedResponse }
+            triggerEmissions {
 
-            // And
-            viewModel.handle(UserInteraction.OpenedScreen).join()
+                // When
+                whenever(factsService.fetchFacts(anyString()))
+                    .thenAnswer { throw UnexpectedResponse }
 
-            // Then
-            val viewStates = listOf(
-                FirstLaunch,
-                Loading.FromEmpty,
-                Failed(UnexpectedResponse)
-            )
+                // And
+                viewModel.handle(UserInteraction.OpenedScreen)
+            }
 
-            assertThat(emissions).isEqualTo(viewStates)
+            afterCollect { emissions ->
+
+                // Then
+                val viewStates = listOf(
+                    FirstLaunch,
+                    Loading.FromEmpty,
+                    Failed(UnexpectedResponse)
+                )
+
+                assertThat(emissions).isEqualTo(viewStates)
+            }
         }
     }
 
     @Test fun `should fetch article from remote data source with success`() {
-        runBlocking {
 
-            // Given
-            val emissions = viewModel.bind().collectForTesting(helper.scope)
-            val categories = listOf(
-                RelatedCategory.Available("dev")
+        // Given
+
+        val categories = listOf(
+            RelatedCategory.Available("dev")
+        )
+
+        val facts = listOf(
+            ChuckNorrisFact(
+                id = "2wzginmks8azrbaxnamxdw",
+                shareableUrl = "https://api.chucknorris.io/jokes/2wzginmks8azrbaxnamxdw",
+                textual = "Chuck Norris commits before Git repo even exits",
+                category = RelatedCategory.Available("dev")
             )
+        )
 
-            val facts = listOf(
-                ChuckNorrisFact(
-                    id = "2wzginmks8azrbaxnamxdw",
-                    shareableUrl = "https://api.chucknorris.io/jokes/2wzginmks8azrbaxnamxdw",
-                    textual = "Chuck Norris commits before Git repo even exits",
-                    category = RelatedCategory.Available("dev")
+        val presentation = FactsPresentation(
+            FactsViewModel.DEFAULT_QUERY,
+            listOf(
+                FactDisplayRow(
+                    tag = RelatedCategory.Available("dev"),
+                    url = "https://api.chucknorris.io/jokes/2wzginmks8azrbaxnamxdw",
+                    fact = "Chuck Norris commits before Git repo even exits",
+                    displayWithSmallerFontSize = false
                 )
             )
+        )
 
-            // When
-            whenever(factsService.availableCategories()).thenReturn(categories)
-            whenever(factsService.fetchFacts(anyString())).thenReturn(facts)
+        flowTest(viewModel.bind()) {
 
-            // And
-            viewModel.handle(UserInteraction.OpenedScreen).join()
+            triggerEmissions {
 
-            // And
-            val presentation = FactsPresentation(
-                FactsViewModel.DEFAULT_QUERY,
-                listOf(
-                    FactDisplayRow(
-                        tag = RelatedCategory.Available("dev"),
-                        url = "https://api.chucknorris.io/jokes/2wzginmks8azrbaxnamxdw",
-                        fact = "Chuck Norris commits before Git repo even exits",
-                        displayWithSmallerFontSize = false
-                    )
+                // When
+                whenever(factsService.availableCategories()).thenReturn(categories)
+                whenever(factsService.fetchFacts(anyString())).thenReturn(facts)
+
+                // And
+                viewModel.handle(UserInteraction.OpenedScreen)
+            }
+
+            afterCollect { emissions ->
+
+                // Then
+                val viewStates = listOf(
+                    FirstLaunch,
+                    Loading.FromEmpty,
+                    Success(presentation)
                 )
-            )
 
-            // Then
-            val viewStates = listOf(
-                FirstLaunch,
-                Loading.FromEmpty,
-                Success(presentation)
-            )
-
-            assertThat(emissions).isEqualTo(viewStates)
+                assertThat(emissions).isEqualTo(viewStates)
+            }
         }
     }
 }

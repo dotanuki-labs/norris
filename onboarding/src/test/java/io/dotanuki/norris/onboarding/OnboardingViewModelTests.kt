@@ -3,7 +3,7 @@ package io.dotanuki.norris.onboarding
 import com.nhaarman.mockitokotlin2.mock
 import com.nhaarman.mockitokotlin2.whenever
 import io.dotanuki.coroutines.testutils.CoroutinesTestHelper
-import io.dotanuki.coroutines.testutils.collectForTesting
+import io.dotanuki.coroutines.testutils.FlowTest.Companion.flowTest
 import io.dotanuki.coroutines.testutils.unwrapError
 import io.dotanuki.norris.architecture.StateContainer
 import io.dotanuki.norris.architecture.StateMachine
@@ -16,7 +16,6 @@ import io.dotanuki.norris.architecture.ViewState.Loading
 import io.dotanuki.norris.architecture.ViewState.Success
 import io.dotanuki.norris.domain.FetchCategories
 import io.dotanuki.norris.domain.model.RelatedCategory.Available
-import kotlinx.coroutines.runBlocking
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.Before
 import org.junit.Rule
@@ -48,26 +47,30 @@ class OnboardingViewModelTests {
     }
 
     @Test fun `should fetch categories when opening screen`() {
-        runBlocking {
 
-            // Given
-            val emissions = viewModel.bind().collectForTesting(helper.scope)
+        // Given
+        flowTest(viewModel.bind()) {
 
-            // When
+            triggerEmissions {
 
-            whenever(usecase.execute()).thenReturn(categories)
+                // When
+                whenever(usecase.execute()).thenReturn(categories)
 
-            // And
-            viewModel.handle(OpenedScreen).join()
+                // And
+                viewModel.handle(OpenedScreen)
+            }
 
-            // Then
-            val viewStates = listOf(
-                FirstLaunch,
-                Loading.FromEmpty,
-                Success(Unit)
-            )
+            afterCollect { emissions ->
 
-            assertThat(emissions).isEqualTo(viewStates)
+                // Then
+                val viewStates = listOf(
+                    FirstLaunch,
+                    Loading.FromEmpty,
+                    Success(Unit)
+                )
+
+                assertThat(emissions).isEqualTo(viewStates)
+            }
         }
     }
 
