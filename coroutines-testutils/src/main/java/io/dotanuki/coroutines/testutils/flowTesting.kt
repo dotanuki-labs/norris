@@ -32,9 +32,7 @@ class FlowTest<T>(private val parentJob: Job, private val emissions: List<T>) {
             scope: CoroutineScope = GlobalScope,
             block: FlowTest<T>.() -> Unit
         ) {
-            val emissions = mutableListOf<T>()
-            val job = scope.launch { target.toList(emissions) }
-            FlowTest(job, emissions).apply(block)
+            target.test(scope, block)
         }
     }
 }
