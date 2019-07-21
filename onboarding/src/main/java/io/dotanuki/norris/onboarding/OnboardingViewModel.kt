@@ -1,6 +1,7 @@
 package io.dotanuki.norris.onboarding
 
 import io.dotanuki.norris.architecture.StateMachine
+import io.dotanuki.norris.architecture.StateTransition
 import io.dotanuki.norris.architecture.UnsupportedUserInteraction
 import io.dotanuki.norris.architecture.UserInteraction
 import io.dotanuki.norris.architecture.UserInteraction.OpenedScreen
@@ -14,14 +15,13 @@ class OnboardingViewModel(
     fun bind() = machine.states()
 
     fun handle(interaction: UserInteraction) =
-        interpret(interaction)
-            .let { task ->
-                machine.forward(task)
-            }
+        interpret(interaction).let {
+            machine.consume(it)
+        }
 
     private fun interpret(interaction: UserInteraction) =
         when (interaction) {
-            is OpenedScreen -> ::fetchCategories
+            is OpenedScreen -> StateTransition(::fetchCategories)
             else -> throw UnsupportedUserInteraction
         }
 
