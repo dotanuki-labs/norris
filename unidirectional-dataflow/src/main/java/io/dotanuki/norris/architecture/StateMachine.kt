@@ -1,5 +1,7 @@
 package io.dotanuki.norris.architecture
 
+import io.dotanuki.norris.architecture.StateTransition.Parametrized
+import io.dotanuki.norris.architecture.StateTransition.Unparametrized
 import io.dotanuki.norris.architecture.ViewState.Failed
 import io.dotanuki.norris.architecture.ViewState.FirstLaunch
 import io.dotanuki.norris.architecture.ViewState.Loading
@@ -12,24 +14,30 @@ class StateMachine<T>(
 
     fun states() = container.observableStates()
 
-    fun forward(task: suspend () -> T) =
+    fun consume(execution: StateTransition<T>) =
         executor.execute {
-            wrapWithStates(task)
+            wrapWithStates(execution)
         }
 
-    private suspend fun wrapWithStates(execution: suspend () -> T) {
+    private suspend fun wrapWithStates(execution: StateTransition<T>) {
         val first = executionStarted()
         moveTo(first)
-        val next = perform(execution)
+        val next = executeWith(execution)
         moveTo(next)
     }
 
-    private suspend fun perform(execution: suspend () -> T) =
-        try {
-            Success(execution())
+    private suspend fun executeWith(transition: StateTransition<T>): ViewState<T> {
+        return try {
+            val execution =
+                when (transition) {
+                    is Unparametrized -> transition.task.invoke()
+                    is Parametrized -> with(transition) { this.task.invoke(parameters) }
+                }
+            Success(execution)
         } catch (error: Throwable) {
             Failed(error)
         }
+    }
 
     private fun executionStarted() =
         when (val state = container.current()) {

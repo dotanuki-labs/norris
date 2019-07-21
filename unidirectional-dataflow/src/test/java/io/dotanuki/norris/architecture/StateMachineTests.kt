@@ -34,7 +34,9 @@ internal class StateMachineTests {
 
             // When
             triggerEmissions {
-                machine.forward(::successfulExecution)
+                machine.consume(
+                    StateTransition(::successfulExecution)
+                )
             }
 
             // Then
@@ -58,7 +60,9 @@ internal class StateMachineTests {
 
             // When
             triggerEmissions {
-                machine.forward(::successfulExecution)
+                machine.consume(
+                    StateTransition(::successfulExecution)
+                )
             }
 
             // Then
@@ -82,12 +86,16 @@ internal class StateMachineTests {
 
             // When
             triggerEmissions {
-                machine.forward(::successfulExecution)
+                machine.consume(
+                    StateTransition(::successfulExecution)
+                )
             }
 
             // And
             triggerEmissions {
-                machine.forward(::successfulExecution)
+                machine.consume(
+                    StateTransition(::successfulExecution, Interaction)
+                )
             }
 
             // Then
@@ -98,7 +106,7 @@ internal class StateMachineTests {
                     Loading.FromEmpty,
                     Success(MESSAGE),
                     Loading.FromPrevious(MESSAGE),
-                    Success(MESSAGE)
+                    Success(Interaction.DATA)
                 )
 
                 assertThat(emissions).isEqualTo(expectedStates)
@@ -113,12 +121,16 @@ internal class StateMachineTests {
 
             // When
             triggerEmissions {
-                machine.forward(::brokenExecution)
+                machine.consume(
+                    StateTransition(::brokenExecution)
+                )
             }
 
             // And
             triggerEmissions {
-                machine.forward(::successfulExecution)
+                machine.consume(
+                    StateTransition(::successfulExecution)
+                )
             }
 
             // Then
@@ -143,6 +155,13 @@ internal class StateMachineTests {
         }
     }
 
+    private suspend fun successfulExecution(parameters: StateTransition.Parameters): String {
+        return suspendCoroutine { continuation ->
+            val interaction = parameters as Interaction
+            continuation.resume(interaction.DATA)
+        }
+    }
+
     private suspend fun brokenExecution(): String {
         return suspendCoroutine { continuation ->
             continuation.resumeWithException(ERROR)
@@ -152,5 +171,9 @@ internal class StateMachineTests {
     private companion object {
         const val MESSAGE = "Kotlin is awesome"
         val ERROR = IllegalStateException("Ouch")
+    }
+
+    object Interaction : StateTransition.Parameters {
+        const val DATA = "Hello"
     }
 }
