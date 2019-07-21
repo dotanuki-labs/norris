@@ -8,7 +8,7 @@ import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 
-fun <T> Flow<T>.test( scope: CoroutineScope = GlobalScope, block: FlowTest<T>.() -> Unit) {
+fun <T> Flow<T>.test(scope: CoroutineScope = GlobalScope, block: FlowTest<T>.() -> Unit) {
     val emissions = mutableListOf<T>()
     val job = scope.launch { toList(emissions) }
     FlowTest(job, emissions).apply(block)
