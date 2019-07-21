@@ -13,12 +13,11 @@ class HandleDelegatedWorkTests {
     @Test fun `should handle delegated work with results`() {
 
         val work = DefineSearchQuery
-        val payload = work.toPayload("Norris")
 
         val result = HandleDelegatedWork(
             requestCode = work.tag,
             resultCode = Activity.RESULT_OK,
-            data = Intent().apply { putExtras(payload) },
+            data = Intent(),
             flow = work
         )
 
@@ -42,12 +41,11 @@ class HandleDelegatedWorkTests {
     @Test fun `should report no results for diferent flow tag`() {
 
         val work = DefineSearchQuery
-        val payload = work.toPayload("Norris")
 
         val result = HandleDelegatedWork(
             requestCode = 0xCAFE,
             resultCode = Activity.RESULT_OK,
-            data = Intent().apply { putExtras(payload) },
+            data = Intent(),
             flow = work
         )
 

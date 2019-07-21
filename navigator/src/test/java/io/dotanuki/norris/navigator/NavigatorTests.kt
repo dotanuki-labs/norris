@@ -48,19 +48,18 @@ class NavigatorTests {
     }
 
     @Test fun `should delegate work to supported screen`() {
-        navigator.delegateWork(SearchQuery, DefineSearchQuery)
+        navigator.requestWork(SearchQuery, DefineSearchQuery)
         argumentCaptor<Int>().apply {
             verify(mockActivity).startActivityForResult(any(), capture())
             assertThat(firstValue).isEqualTo(DefineSearchQuery.tag)
         }
     }
 
-    @Test fun `should returned from work with success`() {
-        val payload = DefineSearchQuery.toPayload("Norris")
-        navigator.notityWorkDone(payload)
-        argumentCaptor<Intent>().apply {
-            verify(mockActivity).setResult(any(), capture())
-            assertThat(firstValue.extras).isEqualToComparingFieldByField(payload)
+    @Test fun `should return from work with success`() {
+        navigator.returnFromWork()
+        argumentCaptor<Int>().apply {
+            verify(mockActivity).setResult(capture())
+            assertThat(firstValue).isEqualTo(Activity.RESULT_OK)
         }
     }
 }
