@@ -13,11 +13,10 @@ import io.dotanuki.norris.architecture.ViewState.FirstLaunch
 import io.dotanuki.norris.architecture.ViewState.Loading
 import io.dotanuki.norris.architecture.ViewState.Success
 import io.dotanuki.norris.domain.FetchFacts
+import io.dotanuki.norris.domain.ManageSearchQuery
 import io.dotanuki.norris.domain.errors.RemoteServiceIntegrationError.UnexpectedResponse
 import io.dotanuki.norris.domain.model.ChuckNorrisFact
 import io.dotanuki.norris.domain.model.RelatedCategory
-import io.dotanuki.norris.domain.services.RemoteFactsService
-import io.dotanuki.norris.domain.services.SearchesHistoryService
 import io.dotanuki.norris.facts.FactDisplayRow
 import io.dotanuki.norris.facts.FactsPresentation
 import io.dotanuki.norris.facts.FactsViewModel
@@ -31,8 +30,8 @@ class FactsViewModelTests {
 
     @get:Rule val helper = CoroutinesTestHelper()
 
-    private val factsService = mock<RemoteFactsService>()
-    private val searchHistory = mock<SearchesHistoryService>()
+    private val fetchFacts = mock<FetchFacts>()
+    private val manageQuery = mock<ManageSearchQuery>()
 
     private lateinit var viewModel: FactsViewModel
 
@@ -42,8 +41,7 @@ class FactsViewModelTests {
             container = StateContainer.Unbounded(helper.scope)
         )
 
-        val usecase = FetchFacts(factsService, searchHistory)
-        viewModel = FactsViewModel(usecase, stateMachine)
+        viewModel = FactsViewModel(fetchFacts, manageQuery, stateMachine)
     }
 
     @Test fun `should report failure when fetching from remote`() {
@@ -54,7 +52,7 @@ class FactsViewModelTests {
             triggerEmissions {
 
                 // When
-                whenever(factsService.fetchFacts(anyString()))
+                whenever(fetchFacts.search(anyString()))
                     .thenAnswer { throw UnexpectedResponse }
 
                 // And
@@ -93,7 +91,7 @@ class FactsViewModelTests {
         )
 
         val presentation = FactsPresentation(
-            FactsViewModel.DEFAULT_QUERY,
+            ManageSearchQuery.FALLBACK,
             listOf(
                 FactDisplayRow(
                     tag = RelatedCategory.Available("dev"),
@@ -109,8 +107,7 @@ class FactsViewModelTests {
             triggerEmissions {
 
                 // When
-                whenever(factsService.availableCategories()).thenReturn(categories)
-                whenever(factsService.fetchFacts(anyString())).thenReturn(facts)
+                whenever(fetchFacts.search(anyString())).thenReturn(facts)
 
                 // And
                 viewModel.handle(UserInteraction.OpenedScreen)

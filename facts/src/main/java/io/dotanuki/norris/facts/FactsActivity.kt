@@ -28,7 +28,8 @@ import io.dotanuki.norris.features.utilties.toast
 import io.dotanuki.norris.navigator.DefineSearchQuery
 import io.dotanuki.norris.navigator.HandleDelegatedWork
 import io.dotanuki.norris.navigator.Navigator
-import io.dotanuki.norris.navigator.PostFlow
+import io.dotanuki.norris.navigator.PostFlow.NoResults
+import io.dotanuki.norris.navigator.PostFlow.WithResults
 import io.dotanuki.norris.navigator.Screen
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.coroutines.flow.collect
@@ -70,27 +71,14 @@ class FactsActivity : AppCompatActivity(), KodeinAware {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
-        val result = HandleDelegatedWork(
-            requestCode,
-            resultCode,
-            data,
-            DefineSearchQuery
-        )
-
-        when (result) {
-            PostFlow.NoResults -> logger.i("No query terms returned")
-            is PostFlow.WithResults -> {
-                val query = DefineSearchQuery.unwrapQuery(result.payload)
-                viewModel.handle(NewSearch(query))
-            }
+        when (HandleDelegatedWork(requestCode, resultCode, data, DefineSearchQuery)) {
+            NoResults -> logger.i("No query terms returned")
+            is WithResults -> refresh()
         }
     }
 
     private fun goToSearch() {
-        navigator.delegateWork(
-            Screen.SearchQuery,
-            DefineSearchQuery
-        )
+        navigator.requestWork(Screen.SearchQuery, DefineSearchQuery)
     }
 
     private fun loadFacts() {

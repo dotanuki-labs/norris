@@ -3,6 +3,7 @@ package io.dotanuki.norris.facts.di
 import io.dotanuki.norris.architecture.StateMachine
 import io.dotanuki.norris.architecture.TaskExecutor
 import io.dotanuki.norris.domain.FetchFacts
+import io.dotanuki.norris.domain.ManageSearchQuery
 import io.dotanuki.norris.facts.FactsPresentation
 import io.dotanuki.norris.facts.FactsViewModel
 import io.dotanuki.norris.features.utilties.ConfigChangesAwareStateContainer
@@ -16,13 +17,17 @@ val factsModule = Kodein.Module("menu_facts_list") {
 
     bind() from provider {
 
-        val usecase = FetchFacts(
+        val fetchFacts = FetchFacts(
             factsService = instance(),
             historyService = instance()
         )
 
         val stateContainer = ConfigChangesAwareStateContainer<FactsPresentation>(
             host = instance(KodeinTags.hostActivity)
+        )
+
+        val manageSearchQuery = ManageSearchQuery(
+            historyService = instance()
         )
 
         val stateMachine = StateMachine(
@@ -33,6 +38,6 @@ val factsModule = Kodein.Module("menu_facts_list") {
             )
         )
 
-        FactsViewModel(usecase, stateMachine)
+        FactsViewModel(fetchFacts, manageSearchQuery, stateMachine)
     }
 }

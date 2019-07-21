@@ -1,45 +1,41 @@
 package io.dotanuki.norris.facts
 
 import io.dotanuki.norris.architecture.StateMachine
+import io.dotanuki.norris.architecture.StateTransition
 import io.dotanuki.norris.architecture.UnsupportedUserInteraction
 import io.dotanuki.norris.architecture.UserInteraction
 import io.dotanuki.norris.architecture.UserInteraction.OpenedScreen
 import io.dotanuki.norris.architecture.UserInteraction.RequestedFreshContent
 import io.dotanuki.norris.domain.FetchFacts
+import io.dotanuki.norris.domain.ManageSearchQuery
 
 class FactsViewModel(
-    private val usecase: FetchFacts,
+    private val factsFetcher: FetchFacts,
+    private val queryManager: ManageSearchQuery,
     private val machine: StateMachine<FactsPresentation>
 ) {
-
-    private var currentQuery = DEFAULT_QUERY
 
     fun bind() = machine.states()
 
     fun handle(interaction: UserInteraction) =
         interpret(interaction)
-            .let { task ->
-                machine.forward(task)
+            .let { transition ->
+                machine.consume(transition)
             }
 
     private fun interpret(interaction: UserInteraction) =
         when (interaction) {
-            OpenedScreen, RequestedFreshContent -> ::showFacts
-            is NewSearch -> {
-                currentQuery = (interaction as NewSearch).query
-                ::showFacts
-            }
+            OpenedScreen, RequestedFreshContent -> StateTransition(::showFacts)
             else -> throw UnsupportedUserInteraction
         }
 
     private suspend fun showFacts() =
-        usecase.search(currentQuery)
-            .map { FactDisplayRow(it) }
-            .let { rows ->
-                FactsPresentation(currentQuery, rows)
-            }
-
-    companion object {
-        const val DEFAULT_QUERY = "code"
-    }
+        queryManager.actualQuery().let { query ->
+            factsFetcher
+                .search(query)
+                .map { FactDisplayRow(it) }
+                .let { rows ->
+                    FactsPresentation(query, rows)
+                }
+        }
 }
