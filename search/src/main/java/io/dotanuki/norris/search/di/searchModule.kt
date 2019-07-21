@@ -1,9 +1,11 @@
 package io.dotanuki.norris.search.di
 
+import io.dotanuki.norris.architecture.CommandsProcessor
 import io.dotanuki.norris.architecture.StateMachine
 import io.dotanuki.norris.architecture.TaskExecutor
 import io.dotanuki.norris.domain.ComposeSearchOptions
 import io.dotanuki.norris.domain.FetchCategories
+import io.dotanuki.norris.domain.ManageSearchQuery
 import io.dotanuki.norris.features.utilties.ConfigChangesAwareStateContainer
 import io.dotanuki.norris.features.utilties.KodeinTags
 import io.dotanuki.norris.search.SearchPresentation
@@ -21,9 +23,13 @@ val searchModule = Kodein.Module("search") {
             categoriesCache = instance(),
             remoteFacts = instance()
         )
-        val usecase = ComposeSearchOptions(
+        val composeSearchOptions = ComposeSearchOptions(
             searches = instance(),
             categories = fetchCategories
+        )
+
+        val manageSearchQuery = ManageSearchQuery(
+            historyService = instance()
         )
 
         val stateContainer = ConfigChangesAwareStateContainer<SearchPresentation>(
@@ -38,6 +44,18 @@ val searchModule = Kodein.Module("search") {
             )
         )
 
-        SearchViewModel(usecase, stateMachine)
+        val commandProcessor = CommandsProcessor(
+            executor = TaskExecutor.Concurrent(
+                scope = stateContainer.emissionScope,
+                dispatcher = instance()
+            )
+        )
+
+        SearchViewModel(
+            composeSearchOptions,
+            manageSearchQuery,
+            commandProcessor,
+            stateMachine
+        )
     }
 }

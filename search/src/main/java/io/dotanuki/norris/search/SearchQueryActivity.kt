@@ -10,13 +10,13 @@ import androidx.lifecycle.lifecycleScope
 import com.google.android.material.snackbar.Snackbar
 import io.dotanuki.logger.Logger
 import io.dotanuki.norris.architecture.UserInteraction
+import io.dotanuki.norris.architecture.ViewCommand
 import io.dotanuki.norris.architecture.ViewState
 import io.dotanuki.norris.architecture.ViewState.Failed
 import io.dotanuki.norris.architecture.ViewState.FirstLaunch
 import io.dotanuki.norris.architecture.ViewState.Loading
 import io.dotanuki.norris.architecture.ViewState.Success
 import io.dotanuki.norris.features.utilties.selfBind
-import io.dotanuki.norris.navigator.DefineSearchQuery
 import io.dotanuki.norris.navigator.Navigator
 import io.dotanuki.norris.search.SearchPresentation.QueryValidation
 import io.dotanuki.norris.search.SearchPresentation.Suggestions
@@ -46,8 +46,14 @@ class SearchQueryActivity : AppCompatActivity(), KodeinAware {
         setupTextInputField()
         searchToolbar.setNavigationOnClickListener { finish() }
 
-        lifecycleScope.launch {
-            viewModel.bind().collect { renderState(it) }
+        viewModel.run {
+            lifecycleScope.launch {
+                bindToStates().collect { renderState(it) }
+            }
+
+            lifecycleScope.launch {
+                bindToCommands().collect { executeCommand(it) }
+            }
         }
     }
 
@@ -77,6 +83,13 @@ class SearchQueryActivity : AppCompatActivity(), KodeinAware {
             is Loading.FromPrevious -> handlePresentation(state.previous)
             is FirstLaunch -> launch()
         }
+
+    private fun executeCommand(command: ViewCommand) {
+        when (command) {
+            is ReturnFromSearch -> navigator.returnFromWork()
+            else -> throw IllegalArgumentException("Cannot process command -> $command")
+        }
+    }
 
     private fun handlePresentation(presentation: SearchPresentation) {
         when (presentation) {
@@ -136,8 +149,9 @@ class SearchQueryActivity : AppCompatActivity(), KodeinAware {
     }
 
     private fun returnQuery(query: String) {
-        val payload = DefineSearchQuery.toPayload(query)
-        navigator.notityWorkDone(payload)
+        viewModel.handle(
+            QueryDefined(query)
+        )
     }
 
     private fun showErrorReport(targetMessageId: Int) {
