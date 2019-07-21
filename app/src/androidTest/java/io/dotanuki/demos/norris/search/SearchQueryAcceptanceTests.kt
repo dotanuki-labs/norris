@@ -44,7 +44,6 @@ class SearchQueryAcceptanceTests {
     private val mockChuckNorris = mock<ChuckNorrisDotIO>()
     private val mockPersistance = mock<SearchesHistoryService>()
 
-
     @Before fun beforeEachTest() {
         whenever(mockCache.cached()).thenReturn(null)
         whenever(mockCache.save(any())).thenAnswer { Unit }
