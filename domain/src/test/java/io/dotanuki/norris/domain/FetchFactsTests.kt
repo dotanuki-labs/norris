@@ -1,15 +1,12 @@
 package io.dotanuki.norris.domain
 
-import com.nhaarman.mockitokotlin2.argumentCaptor
 import com.nhaarman.mockitokotlin2.mock
-import com.nhaarman.mockitokotlin2.verify
 import com.nhaarman.mockitokotlin2.whenever
 import io.dotanuki.coroutines.testutils.SuspendableErrorChecker.Companion.errorOnSuspendable
 import io.dotanuki.norris.domain.errors.SearchFactsError
 import io.dotanuki.norris.domain.model.ChuckNorrisFact
 import io.dotanuki.norris.domain.model.RelatedCategory.Available
 import io.dotanuki.norris.domain.services.RemoteFactsService
-import io.dotanuki.norris.domain.services.SearchesHistoryService
 import kotlinx.coroutines.runBlocking
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.Before
@@ -19,7 +16,6 @@ import org.mockito.ArgumentMatchers.anyString
 class FetchFactsTests {
 
     private val factsService = mock<RemoteFactsService>()
-    private val searchHistory = mock<SearchesHistoryService>()
     private lateinit var usecase: FetchFacts
 
     private val facts by lazy {
@@ -33,18 +29,10 @@ class FetchFactsTests {
         )
     }
 
-    private val categories by lazy {
-        listOf(
-            Available("dev"),
-            Available("humor")
-        )
-    }
-
     @Before fun `before each test`() {
-        usecase = FetchFacts(factsService, searchHistory)
+        usecase = FetchFacts(factsService)
 
         runBlocking {
-            whenever(factsService.availableCategories()).thenReturn(categories)
             whenever(factsService.fetchFacts(anyString())).thenReturn(facts)
         }
     }
@@ -52,11 +40,6 @@ class FetchFactsTests {
     @Test fun `should fetch valid term`() {
         runBlocking {
             assertThat(usecase.search("Trump")).isEqualTo(facts)
-
-            argumentCaptor<String>().apply {
-                verify(searchHistory).registerNewSearch(capture())
-                assertThat(firstValue).isEqualTo("Trump")
-            }
         }
     }
 

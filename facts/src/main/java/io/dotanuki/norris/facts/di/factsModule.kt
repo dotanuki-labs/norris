@@ -18,8 +18,7 @@ val factsModule = Kodein.Module("menu_facts_list") {
     bind() from provider {
 
         val fetchFacts = FetchFacts(
-            factsService = instance(),
-            historyService = instance()
+            factsService = instance()
         )
 
         val stateContainer = ConfigChangesAwareStateContainer<FactsPresentation>(
