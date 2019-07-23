@@ -4,8 +4,10 @@ import io.dotanuki.burster.using
 import io.dotanuki.norris.domain.errors.RemoteServiceIntegrationError
 import io.dotanuki.norris.domain.errors.RemoteServiceIntegrationError.ClientOrigin
 import io.dotanuki.norris.domain.errors.RemoteServiceIntegrationError.RemoteSystem
+import io.dotanuki.norris.networking.CheckErrorTransformation.Companion.checkTransformation
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.ResponseBody.Companion.toResponseBody
+import org.assertj.core.api.Assertions.assertThat
 import org.junit.Test
 import retrofit2.HttpException
 import retrofit2.Response
@@ -22,10 +24,10 @@ class HttpIntegrationErrorTransformerTests {
             }
 
             thenWith { status, message, expected ->
-                assertTransformed(
+                checkTransformation(
                     from = httpException<Any>(status, message),
-                    to = expected,
-                    using = HttpIntegrationErrorTransformer
+                    using = HttpIntegrationErrorTransformer,
+                    check = { transformed -> assertThat(transformed).isEqualTo(expected) }
                 )
             }
         }
@@ -33,10 +35,11 @@ class HttpIntegrationErrorTransformerTests {
 
     @Test fun `should propagate any other error`() {
         val otherError = IllegalStateException("Houston, we have a problem!")
-        assertTransformed(
+
+        checkTransformation(
             from = otherError,
-            to = otherError,
-            using = HttpIntegrationErrorTransformer
+            using = HttpIntegrationErrorTransformer,
+            check = { transformed -> assertThat(transformed).isEqualTo(otherError) }
         )
     }
 

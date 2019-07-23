@@ -6,6 +6,8 @@ import io.dotanuki.norris.domain.errors.NetworkingError.ConnectionSpike
 import io.dotanuki.norris.domain.errors.NetworkingError.HostUnreachable
 import io.dotanuki.norris.domain.errors.NetworkingError.OperationTimeout
 import io.dotanuki.norris.domain.errors.RemoteServiceIntegrationError
+import io.dotanuki.norris.networking.CheckErrorTransformation.Companion.checkTransformation
+import org.assertj.core.api.Assertions.assertThat
 import org.junit.Test
 import java.io.IOException
 import java.net.ConnectException
@@ -27,10 +29,10 @@ class NetworkingErrorTransformerTests {
             }
 
             thenWith { incoming, expected ->
-                assertTransformed(
+                checkTransformation(
                     from = incoming,
-                    to = expected,
-                    using = NetworkingErrorTransformer
+                    using = NetworkingErrorTransformer,
+                    check = { transformed -> assertThat(transformed).isEqualTo(expected) }
                 )
             }
         }
@@ -39,10 +41,10 @@ class NetworkingErrorTransformerTests {
     @Test fun `should propagate any other error`() {
         val otherError = RemoteServiceIntegrationError.RemoteSystem
 
-        assertTransformed(
+        checkTransformation(
             from = otherError,
-            to = otherError,
-            using = NetworkingErrorTransformer
+            using = NetworkingErrorTransformer,
+            check = { transformed -> assertThat(transformed).isEqualTo(otherError) }
         )
     }
 }
