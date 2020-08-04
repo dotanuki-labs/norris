@@ -1,6 +1,5 @@
 import modules.LibraryModule
 import modules.LibraryType
-import modules.ModuleNames
 
 val module = LibraryModule(rootDir, LibraryType.Android)
 
@@ -17,5 +16,5 @@ dependencies {
     implementation(Libraries.lifecycleExtensions)
     implementation(Libraries.lifecycleViewModel)
 
-    implementation(project(ModuleNames.Features.Architecture))
+    implementation(project(":unidirectional-dataflow"))
 }

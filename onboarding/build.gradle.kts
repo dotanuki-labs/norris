@@ -1,7 +1,6 @@
 import dependencies.UnitTestDependencies.Companion.unitTest
 import modules.LibraryModule
 import modules.LibraryType
-import modules.ModuleNames
 
 val module = LibraryModule(rootDir, LibraryType.Android)
 
@@ -12,12 +11,12 @@ plugins {
 }
 
 dependencies {
-    implementation(project(ModuleNames.Logger))
-    implementation(project(ModuleNames.Domain))
-    implementation(project(ModuleNames.Features.Architecture))
-    implementation(project(ModuleNames.Features.SharedAssets))
-    implementation(project(ModuleNames.Features.SharedUtilities))
-    implementation(project(ModuleNames.Features.Navigator))
+    implementation(project(":logger"))
+    implementation(project(":domain"))
+    implementation(project(":unidirectional-dataflow"))
+    implementation(project(":shared-assets"))
+    implementation(project(":shared-utilities"))
+    implementation(project(":navigator"))
 
     implementation(Libraries.kotlinStdlib)
     implementation(Libraries.kodein)
@@ -30,5 +29,5 @@ dependencies {
     implementation(Libraries.materialDesign)
 
     unitTest { forEachDependency { testImplementation(it) } }
-    testImplementation(project(ModuleNames.CoroutinesTestUtils))
+    testImplementation(project(":coroutines-testutils"))
 }

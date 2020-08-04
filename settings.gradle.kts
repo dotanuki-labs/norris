@@ -1,24 +1,16 @@
-
-import modules.ModuleNames.CoroutinesTestUtils
-import modules.ModuleNames.Domain
-import modules.ModuleNames.Features
-import modules.ModuleNames.Infrastructure
-import modules.ModuleNames.Logger
-import modules.ModuleNames.MainApp
-
 include(
-    MainApp,
-    Logger,
-    Domain,
-    CoroutinesTestUtils,
-    Infrastructure.Networking,
-    Infrastructure.Persistance,
-    Infrastructure.Rest,
-    Features.Facts,
-    Features.Search,
-    Features.Onboarding,
-    Features.Architecture,
-    Features.Navigator,
-    Features.SharedUtilities,
-    Features.SharedAssets
+    ":app",
+    ":domain",
+    ":logger",
+    ":coroutines-testutils",
+    ":networking",
+    ":persistance",
+    ":rest-chucknorris",
+    ":unidirectional-dataflow",
+    ":shared-assets",
+    ":shared-utilities",
+    ":facts",
+    ":search",
+    ":onboarding",
+    ":navigator"
 )

@@ -1,7 +1,6 @@
 import dependencies.UnitTestDependencies.Companion.unitTest
 import modules.LibraryModule
 import modules.LibraryType
-import modules.ModuleNames
 
 val module = LibraryModule(rootDir, LibraryType.Android)
 
@@ -13,11 +12,11 @@ plugins {
 
 dependencies {
 
-    implementation(project(ModuleNames.Domain))
+    implementation(project(":domain"))
     implementation(Libraries.coroutinesCore)
     implementation(Libraries.kodein)
 
-    testImplementation(project(ModuleNames.CoroutinesTestUtils))
+    testImplementation(project(":coroutines-testutils"))
 
     unitTest {
         forEachDependency { testImplementation(it) }

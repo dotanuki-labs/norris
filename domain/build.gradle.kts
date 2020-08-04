@@ -1,7 +1,6 @@
 import dependencies.UnitTestDependencies.Companion.unitTest
 import modules.LibraryModule
 import modules.LibraryType
-import modules.ModuleNames
 
 val module = LibraryModule(rootDir, LibraryType.Kotlin)
 
@@ -19,5 +18,5 @@ dependencies {
         forEachDependency { testImplementation(it) }
     }
 
-    testImplementation(project(ModuleNames.CoroutinesTestUtils))
+    testImplementation(project(":coroutines-testutils"))
 }

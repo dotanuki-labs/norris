@@ -1,7 +1,6 @@
 import dependencies.UnitTestDependencies.Companion.unitTest
 import modules.LibraryModule
 import modules.LibraryType
-import modules.ModuleNames
 
 val module = LibraryModule(rootDir, LibraryType.Android)
 
@@ -21,13 +20,13 @@ dependencies {
     implementation(Libraries.appCompat)
     implementation(Libraries.materialDesign)
 
-    implementation(project(ModuleNames.Domain))
-    implementation(project(ModuleNames.Logger))
-    implementation(project(ModuleNames.Features.Navigator))
-    implementation(project(ModuleNames.Features.Architecture))
-    implementation(project(ModuleNames.Features.SharedAssets))
-    implementation(project(ModuleNames.Features.SharedUtilities))
+    implementation(project(":domain"))
+    implementation(project(":logger"))
+    implementation(project(":navigator"))
+    implementation(project(":unidirectional-dataflow"))
+    implementation(project(":shared-assets"))
+    implementation(project(":shared-utilities"))
 
     unitTest { forEachDependency { testImplementation(it) } }
-    testImplementation(project(ModuleNames.CoroutinesTestUtils))
+    testImplementation(project(":coroutines-testutils"))
 }

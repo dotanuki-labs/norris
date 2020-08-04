@@ -1,7 +1,6 @@
 import dependencies.UnitTestDependencies.Companion.unitTest
 import modules.LibraryModule
 import modules.LibraryType
-import modules.ModuleNames
 
 val module = LibraryModule(rootDir, LibraryType.Kotlin)
 
@@ -12,9 +11,9 @@ plugins {
 }
 
 dependencies {
-    implementation(project(ModuleNames.Logger))
+    implementation(project(":logger"))
     implementation(Libraries.coroutinesCore)
 
     unitTest { forEachDependency { testImplementation(it) } }
-    testImplementation(project(ModuleNames.CoroutinesTestUtils))
+    testImplementation(project(":coroutines-testutils"))
 }

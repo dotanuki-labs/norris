@@ -3,7 +3,6 @@ import configs.KotlinConfig
 import configs.ProguardConfig
 import dependencies.InstrumentationTestsDependencies.Companion.instrumentationTest
 import dependencies.UnitTestDependencies.Companion.unitTest
-import modules.ModuleNames
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
@@ -94,17 +93,17 @@ dependencies {
     implementation(Libraries.lifecycleExtensions)
     implementation(Libraries.kodein)
     implementation(Libraries.kodeinConf)
-    implementation(project(ModuleNames.Logger))
-    implementation(project(ModuleNames.Domain))
-    implementation(project(ModuleNames.Infrastructure.Rest))
-    implementation(project(ModuleNames.Infrastructure.Networking))
-    implementation(project(ModuleNames.Infrastructure.Persistance))
-    implementation(project(ModuleNames.Features.SharedAssets))
-    implementation(project(ModuleNames.Features.SharedUtilities))
-    implementation(project(ModuleNames.Features.Navigator))
-    implementation(project(ModuleNames.Features.Onboarding))
-    implementation(project(ModuleNames.Features.Facts))
-    implementation(project(ModuleNames.Features.Search))
+    implementation(project(":logger"))
+    implementation(project(":domain"))
+    implementation(project(":rest-chucknorris"))
+    implementation(project(":networking"))
+    implementation(project(":persistance"))
+    implementation(project(":shared-assets"))
+    implementation(project(":shared-utilities"))
+    implementation(project(":navigator"))
+    implementation(project(":onboarding"))
+    implementation(project(":facts"))
+    implementation(project(":search"))
 
     unitTest {
         forEachDependency { testImplementation(it) }
