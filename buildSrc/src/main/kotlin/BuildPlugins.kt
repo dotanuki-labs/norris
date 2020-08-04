@@ -26,7 +26,7 @@ object BuildPlugins {
     }
 
     private object Versions {
-        const val agp = "3.4.1"
+        const val agp = "4.0.1"
         const val testLogger = "1.7.0"
         const val ktlint = "8.1.0"
         const val jacocoUnified = "0.15.0"

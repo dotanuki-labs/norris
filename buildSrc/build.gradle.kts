@@ -1,13 +1,8 @@
-import org.gradle.kotlin.dsl.`kotlin-dsl`
-
 repositories {
     jcenter()
 }
 
 plugins {
+    java
     `kotlin-dsl`
-}
-
-kotlinDslPluginOptions {
-    experimentalWarning.set(false)
 }
