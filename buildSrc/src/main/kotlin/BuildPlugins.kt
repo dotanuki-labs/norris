@@ -28,7 +28,7 @@ object BuildPlugins {
     private object Versions {
         const val agp = "4.0.1"
         const val testLogger = "2.1.0"
-        const val ktlint = "8.1.0"
+        const val ktlint = "9.3.0"
         const val jacocoUnified = "0.15.0"
         const val sonarCloud = "2.7.1"
         const val detekt = "1.0.0-RC15"
