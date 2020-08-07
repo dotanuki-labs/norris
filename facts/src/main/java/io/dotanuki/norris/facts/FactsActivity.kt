@@ -38,6 +38,7 @@ import org.kodein.di.KodeinAware
 import org.kodein.di.generic.instance
 import io.dotanuki.norris.sharedassets.R as SharedR
 
+@Suppress("TooManyFunctions")
 class FactsActivity : AppCompatActivity(), KodeinAware {
 
     override val kodein by selfBind()
