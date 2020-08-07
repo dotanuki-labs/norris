@@ -1,0 +1,11 @@
+# EditorConfig is awesome: http://EditorConfig.org
+
+# top-most EditorConfig file
+root = true
+
+# space indentation for Kotlin
+[*.{kt,kts}]
+indent_style = space
+indent_size = 4
+continuation_indent_size = 4
+disabled_rules=final-newline
