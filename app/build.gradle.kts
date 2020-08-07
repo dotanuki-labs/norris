@@ -88,6 +88,7 @@ dependencies {
 
     implementation(Libraries.kotlinStdlib)
     implementation(Libraries.appCompat)
+    implementation(Libraries.swipeToRefresh)
     implementation(Libraries.coreAndroidx)
     implementation(Libraries.lifecycleViewModel)
     implementation(Libraries.lifecycleExtensions)

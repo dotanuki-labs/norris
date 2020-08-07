@@ -61,10 +61,10 @@ object Libraries {
         const val burster = "0.1.1"
         const val mockitoKotlin = "2.1.0"
         const val mockitoDexMaker = "2.19.0"
-        const val jUnitKtx = "1.1.2-alpha01"
-        const val androidxTest = "1.2.0"
-        const val espresso = "3.2.0"
+        const val jUnitKtx = "1.1.2-beta02"
+        const val androidxTest = "1.3.0-beta02"
+        const val espresso = "3.3.0-beta02"
         const val roboletric = "4.3"
-        const val barista = "3.1.0"
+        const val barista = "3.5.0"
     }
 }
