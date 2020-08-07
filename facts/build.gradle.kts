@@ -28,6 +28,7 @@ dependencies {
     implementation(Libraries.lifecycleRuntime)
     implementation(Libraries.coreAndroidx)
     implementation(Libraries.appCompat)
+    implementation(Libraries.swipeToRefresh)
     implementation(Libraries.materialDesign)
 
     unitTest { forEachDependency { testImplementation(it) } }

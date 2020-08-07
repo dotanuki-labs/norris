@@ -57,9 +57,9 @@ class FactsActivity : AppCompatActivity(), KodeinAware {
         return super.onCreateOptionsMenu(menu)
     }
 
-    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
 
-        item?.let {
+        item.let {
             when (it.itemId) {
                 R.id.menu_item_search_facts -> goToSearch()
             }
