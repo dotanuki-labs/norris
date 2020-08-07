@@ -56,7 +56,7 @@ object Libraries {
         const val coreAndroidx = "1.3.1"
         const val materialDesign = "1.2.0"
         const val appCompat = "1.2.0"
-        const val junit = "4.12"
+        const val junit = "4.13"
         const val assertj = "3.11.1"
         const val burster = "0.1.1"
         const val mockitoKotlin = "2.1.0"
