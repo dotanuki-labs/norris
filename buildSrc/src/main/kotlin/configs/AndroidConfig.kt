@@ -10,7 +10,7 @@ object AndroidConfig {
     const val minSdk = 23
     const val targetSdk = compileSdk
 
-    const val buildToolsVersion = "29.0.5"
+    const val buildToolsVersion = "30.0.1"
 
     const val instrumentationTestRunner = "androidx.test.runner.AndroidJUnitRunner"
 
