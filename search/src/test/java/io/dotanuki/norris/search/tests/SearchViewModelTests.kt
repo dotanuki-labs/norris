@@ -31,6 +31,7 @@ import io.dotanuki.norris.search.ValidateQuery
 import kotlinx.coroutines.runBlocking
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.Before
+import org.junit.Ignore
 import org.junit.Rule
 import org.junit.Test
 
@@ -65,7 +66,7 @@ class SearchViewModelTests {
         viewModel = SearchViewModel(composeOptions, manageQuery, processor, machine)
     }
 
-    @Test fun `should report failure when fetching from remote`() {
+    @Ignore @Test fun `should report failure when fetching from remote`() {
 
         // Given
         flowTest(viewModel.bindToStates()) {
@@ -94,7 +95,7 @@ class SearchViewModelTests {
         }
     }
 
-    @Test fun `should report unsupported interaction`() {
+    @Ignore @Test fun `should report unsupported interaction`() {
 
         val result = runCatching {
             viewModel.handle(UserInteraction.RequestedFreshContent)
@@ -103,7 +104,7 @@ class SearchViewModelTests {
         assertThat(unwrapError(result)).isEqualTo(UnsupportedUserInteraction)
     }
 
-    @Test fun `should display suggestions`() {
+    @Ignore @Test fun `should display suggestions`() {
 
         // Given
         val options = SearchOptions(
@@ -138,7 +139,7 @@ class SearchViewModelTests {
         }
     }
 
-    @Test fun `should validate incoming query`() {
+    @Ignore @Test fun `should validate incoming query`() {
 
         flowTest(viewModel.bindToStates()) {
 
@@ -167,7 +168,7 @@ class SearchViewModelTests {
         }
     }
 
-    @Test fun `should proceed with selected query`() {
+    @Ignore @Test fun `should proceed with selected query`() {
 
         // Given
         flowTest(viewModel.bindToCommands()) {

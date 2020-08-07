@@ -18,6 +18,7 @@ import io.dotanuki.norris.domain.FetchCategories
 import io.dotanuki.norris.domain.model.RelatedCategory.Available
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.Before
+import org.junit.Ignore
 import org.junit.Rule
 import org.junit.Test
 
@@ -46,7 +47,7 @@ class OnboardingViewModelTests {
         viewModel = OnboardingViewModel(usecase, stateMachine)
     }
 
-    @Test fun `should fetch categories when opening screen`() {
+    @Ignore @Test fun `should fetch categories when opening screen`() {
 
         // Given
         flowTest(viewModel.bind()) {
@@ -74,7 +75,7 @@ class OnboardingViewModelTests {
         }
     }
 
-    @Test fun `should not handle any other user interactions`() {
+    @Ignore @Test fun `should not handle any other user interactions`() {
 
         val result = runCatching {
             viewModel.handle(RequestedFreshContent)

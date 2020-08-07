@@ -3,6 +3,7 @@ package io.dotanuki.norris.navigator
 import android.app.Activity
 import android.content.Intent
 import org.assertj.core.api.Assertions.assertThat
+import org.junit.Ignore
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RobolectricTestRunner
@@ -10,7 +11,7 @@ import org.robolectric.RobolectricTestRunner
 @RunWith(RobolectricTestRunner::class)
 class HandleDelegatedWorkTests {
 
-    @Test fun `should handle delegated work with results`() {
+    @Ignore @Test fun `should handle delegated work with results`() {
 
         val work = DefineSearchQuery
 
@@ -24,7 +25,7 @@ class HandleDelegatedWorkTests {
         assertThat(result).isInstanceOf(PostFlow.WithResults::class.java)
     }
 
-    @Test fun `should handle delegated work with no results`() {
+    @Ignore @Test fun `should handle delegated work with no results`() {
 
         val work = DefineSearchQuery
         val result = HandleDelegatedWork(
@@ -38,7 +39,7 @@ class HandleDelegatedWorkTests {
         assertThat(result).isEqualTo(expected)
     }
 
-    @Test fun `should report no results for diferent flow tag`() {
+    @Ignore @Test fun `should report no results for diferent flow tag`() {
 
         val work = DefineSearchQuery
 

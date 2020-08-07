@@ -12,6 +12,7 @@ import io.dotanuki.norris.navigator.Screen.SearchQuery
 import org.assertj.core.api.Assertions.assertThat
 import org.assertj.core.api.Assertions.assertThatThrownBy
 import org.junit.Before
+import org.junit.Ignore
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RobolectricTestRunner
@@ -31,7 +32,7 @@ class NavigatorTests {
         navigator = Navigator(mockActivity, links)
     }
 
-    @Test fun `should navigate to supported screen`() {
+    @Ignore @Test fun `should navigate to supported screen`() {
         navigator.navigateTo(SearchQuery)
         argumentCaptor<Intent>().apply {
             verify(mockActivity).startActivity(capture())
@@ -39,7 +40,7 @@ class NavigatorTests {
         }
     }
 
-    @Test fun `should throw when navigating to unsupported screen`() {
+    @Ignore @Test fun `should throw when navigating to unsupported screen`() {
 
         assertThatThrownBy { navigator.navigateTo(FactsList) }
             .isEqualTo(
@@ -47,7 +48,7 @@ class NavigatorTests {
             )
     }
 
-    @Test fun `should delegate work to supported screen`() {
+    @Ignore @Test fun `should delegate work to supported screen`() {
         navigator.requestWork(SearchQuery, DefineSearchQuery)
         argumentCaptor<Int>().apply {
             verify(mockActivity).startActivityForResult(any(), capture())
@@ -55,7 +56,7 @@ class NavigatorTests {
         }
     }
 
-    @Test fun `should return from work with success`() {
+    @Ignore @Test fun `should return from work with success`() {
         navigator.returnFromWork()
         argumentCaptor<Int>().apply {
             verify(mockActivity).setResult(capture())
