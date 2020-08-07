@@ -7,6 +7,5 @@ sealed class Screen {
     override fun toString() = when (this) {
         FactsList -> "Facts Screen"
         SearchQuery -> "SearchQuery Query Screen"
-        else -> super.toString()
     }
 }
