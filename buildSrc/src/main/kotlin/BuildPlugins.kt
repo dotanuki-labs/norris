@@ -8,7 +8,7 @@ object BuildPlugins {
         const val ktlint = "org.jlleitschuh.gradle:ktlint-gradle:${Versions.ktlint}"
         const val kotlinSupport = "org.jetbrains.kotlin:kotlin-gradle-plugin:${KotlinConfig.version}"
         const val kotlinxSerialization = "org.jetbrains.kotlin:kotlin-serialization:${KotlinConfig.version}"
-        const val jacocoUnified = "com.vanniktech:gradle-android-junit-jacoco-plugin:${Versions.jacocoUnified}"
+            const val jacocoUnified = "com.vanniktech:gradle-android-junit-jacoco-plugin:${Versions.jacocoUnified}"
         const val sonarCloud = "org.sonarsource.scanner.gradle:sonarqube-gradle-plugin:${Versions.sonarCloud}"
         const val detekt = "io.gitlab.arturbosch.detekt:detekt-gradle-plugin:${Versions.detekt}"
     }
@@ -29,7 +29,7 @@ object BuildPlugins {
         const val agp = "4.0.1"
         const val testLogger = "2.1.0"
         const val ktlint = "9.3.0"
-        const val jacocoUnified = "0.15.0"
+        const val jacocoUnified = "0.16.0"
         const val sonarCloud = "2.7.1"
         const val detekt = "1.0.0-RC15"
     }
