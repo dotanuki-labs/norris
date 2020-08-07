@@ -58,7 +58,7 @@ object Libraries {
         const val junit = "4.12"
         const val assertj = "3.11.1"
         const val burster = "0.1.1"
-        const val mockitoKotlin = "2.1.0"
+        const val mockitoKotlin = "2.2.0"
         const val mockitoDexMaker = "2.19.0"
         const val jUnitKtx = "1.1.2-alpha01"
         const val androidxTest = "1.2.0"

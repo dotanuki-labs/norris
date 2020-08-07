@@ -1,12 +1,8 @@
 package io.dotanuki.norris.rest
 
-import kotlinx.serialization.Decoder
-import kotlinx.serialization.Encoder
-import kotlinx.serialization.KSerializer
-import kotlinx.serialization.Serializable
-import kotlinx.serialization.internal.ArrayClassDesc
-import kotlinx.serialization.internal.ArrayListSerializer
-import kotlinx.serialization.internal.StringSerializer
+import kotlinx.serialization.*
+import kotlinx.serialization.builtins.ListSerializer
+import kotlinx.serialization.builtins.serializer
 
 @Serializable
 data class RawSearch(
@@ -26,14 +22,15 @@ class RawCategories(
     val raw: List<String>
 )
 
+@OptIn(InternalSerializationApi::class)
 internal object RawCategoriesSerializer : KSerializer<RawCategories> {
 
-    private val serializer = ArrayListSerializer(StringSerializer)
+    private val serializer = ListSerializer(String.serializer())
 
-    override val descriptor = ArrayClassDesc(serializer.descriptor)
+    override val descriptor = serializer.descriptor
 
-    override fun serialize(encoder: Encoder, obj: RawCategories) {
-        encoder.encodeSerializableValue(serializer, obj.raw)
+    override fun serialize(encoder: Encoder, value: RawCategories) {
+        encoder.encodeSerializableValue(serializer, value.raw)
     }
 
     override fun deserialize(decoder: Decoder) =
