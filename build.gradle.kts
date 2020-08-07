@@ -17,7 +17,6 @@ buildscript {
         classpath(BuildPlugins.Dependencies.kotlinxSerialization)
         classpath(BuildPlugins.Dependencies.ktlint)
         classpath(BuildPlugins.Dependencies.jacocoUnified)
-        classpath(BuildPlugins.Dependencies.sonarCloud)
         classpath(BuildPlugins.Dependencies.detekt)
     }
 }
@@ -42,7 +41,6 @@ tasks.register("clean").configure {
 }
 
 apply(plugin = BuildPlugins.Ids.jacocoUnified)
-apply(plugin = BuildPlugins.Ids.sonarCloud)
 
 configure<JunitJacocoExtension> {
     jacocoVersion = "0.8.4"
