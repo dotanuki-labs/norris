@@ -32,5 +32,10 @@ gradlePlugin {
             id = "kotlin-module"
             implementationClass = "plugins.SetupKotlinModulePlugin"
         }
+
+        register("android-module") {
+            id = "android-module"
+            implementationClass = "plugins.SetupAndroidModulePlugin"
+        }
     }
 }
