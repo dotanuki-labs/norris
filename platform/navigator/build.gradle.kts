@@ -1,14 +1,8 @@
 
 import dependencies.UnitTestDependencies.Companion.unitTest
-import modules.LibraryModule
-import modules.LibraryType
-
-val module = LibraryModule(rootDir, LibraryType.Android)
-
-apply(from = module.script())
 
 plugins {
-    id(BuildPlugins.Ids.androidLibrary)
+    id(BuildPlugins.Ids.androidModule)
 }
 
 dependencies {
