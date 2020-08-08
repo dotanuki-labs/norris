@@ -30,6 +30,8 @@ allprojects {
     }
 
     apply(plugin = BuildPlugins.Ids.detekt)
+    apply(plugin = BuildPlugins.Ids.ktlint)
+    apply(plugin = BuildPlugins.Ids.testLogger)
 
     detekt {
         config = files("$rootDir/default-detekt-config.yml")

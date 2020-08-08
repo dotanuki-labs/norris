@@ -20,8 +20,9 @@ object BuildPlugins {
         const val kotlinAndroid = "kotlin-android"
         const val kotlinAndroidExtensions = "kotlin-android-extensions"
         const val jacocoUnified = "com.vanniktech.android.junit.jacoco"
-        const val sonarCloud = "org.sonarqube"
+        const val ktlint = "org.jlleitschuh.gradle.ktlint"
         const val detekt = "io.gitlab.arturbosch.detekt"
+        const val testLogger = "com.adarshr.test-logger"
     }
 
     private object Versions {
