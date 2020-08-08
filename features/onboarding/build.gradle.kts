@@ -11,8 +11,16 @@ plugins {
 }
 
 dependencies {
+    implementation(project(":platform:logger"))
+    implementation(project(":platform:domain"))
+    implementation(project(":platform:state-machine"))
+    implementation(project(":platform:shared-assets"))
+    implementation(project(":platform:shared-utilities"))
+    implementation(project(":platform:navigator"))
+
     implementation(Libraries.kotlinStdlib)
     implementation(Libraries.kodein)
+
     implementation(Libraries.coroutinesCore)
     implementation(Libraries.coroutinesAndroid)
     implementation(Libraries.lifecycleRuntime)
@@ -20,13 +28,6 @@ dependencies {
     implementation(Libraries.appCompat)
     implementation(Libraries.materialDesign)
 
-    implementation(project(":domain"))
-    implementation(project(":logger"))
-    implementation(project(":navigator"))
-    implementation(project(":unidirectional-dataflow"))
-    implementation(project(":shared-assets"))
-    implementation(project(":shared-utilities"))
-
     unitTest { forEachDependency { testImplementation(it) } }
-    testImplementation(project(":coroutines-testutils"))
+    testImplementation(project(":platform:coroutines-testutils"))
 }

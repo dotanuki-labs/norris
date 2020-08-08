@@ -1,3 +1,4 @@
+
 import dependencies.UnitTestDependencies.Companion.unitTest
 import modules.LibraryModule
 import modules.LibraryType
@@ -11,14 +12,11 @@ plugins {
 }
 
 dependencies {
-
-    implementation(project(":domain"))
-    implementation(Libraries.coroutinesCore)
+    implementation(Libraries.kotlinStdlib)
+    implementation(Libraries.appCompat)
     implementation(Libraries.kodein)
+    implementation(project(":platform:shared-utilities"))
 
-    testImplementation(project(":coroutines-testutils"))
-
-    unitTest {
-        forEachDependency { testImplementation(it) }
-    }
+    testImplementation(Libraries.roboletric)
+    unitTest { forEachDependency { testImplementation(it) } }
 }

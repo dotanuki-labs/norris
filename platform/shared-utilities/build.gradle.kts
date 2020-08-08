@@ -16,5 +16,5 @@ dependencies {
     implementation(Libraries.lifecycleExtensions)
     implementation(Libraries.lifecycleViewModel)
 
-    implementation(project(":unidirectional-dataflow"))
+    implementation(project(":platform:state-machine"))
 }

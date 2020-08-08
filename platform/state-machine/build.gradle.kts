@@ -11,9 +11,9 @@ plugins {
 }
 
 dependencies {
-    implementation(project(":logger"))
+    implementation(project(":platform:logger"))
     implementation(Libraries.coroutinesCore)
 
     unitTest { forEachDependency { testImplementation(it) } }
-    testImplementation(project(":coroutines-testutils"))
+    testImplementation(project(":platform:coroutines-testutils"))
 }

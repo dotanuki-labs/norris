@@ -1,4 +1,3 @@
-
 import dependencies.UnitTestDependencies.Companion.unitTest
 import modules.LibraryModule
 import modules.LibraryType
@@ -12,25 +11,22 @@ plugins {
 }
 
 dependencies {
-
-    implementation(project(":logger"))
-    implementation(project(":domain"))
-    implementation(project(":unidirectional-dataflow"))
-    implementation(project(":shared-assets"))
-    implementation(project(":shared-utilities"))
-    implementation(project(":navigator"))
-
     implementation(Libraries.kotlinStdlib)
     implementation(Libraries.kodein)
-
     implementation(Libraries.coroutinesCore)
     implementation(Libraries.coroutinesAndroid)
     implementation(Libraries.lifecycleRuntime)
     implementation(Libraries.coreAndroidx)
     implementation(Libraries.appCompat)
-    implementation(Libraries.swipeToRefresh)
     implementation(Libraries.materialDesign)
 
+    implementation(project(":platform:domain"))
+    implementation(project(":platform:logger"))
+    implementation(project(":platform:navigator"))
+    implementation(project(":platform:state-machine"))
+    implementation(project(":platform:shared-assets"))
+    implementation(project(":platform:shared-utilities"))
+
     unitTest { forEachDependency { testImplementation(it) } }
-    testImplementation(project(":coroutines-testutils"))
+    testImplementation(project(":platform:coroutines-testutils"))
 }

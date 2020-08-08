@@ -22,12 +22,12 @@ dependencies {
 
     implementation(Libraries.kodein)
 
-    implementation(project(":logger"))
-    implementation(project(":domain"))
+    implementation(project(":platform:logger"))
+    implementation(project(":platform:domain"))
 
     unitTest {
         forEachDependency { testImplementation(it) }
     }
 
-    testImplementation(project(":coroutines-testutils"))
+    testImplementation(project(":platform:coroutines-testutils"))
 }
