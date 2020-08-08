@@ -8,9 +8,11 @@ import org.hamcrest.Matcher
 
 object SwipeRefreshLayoutMatcher {
 
-    @JvmStatic fun isRefreshing(): Matcher<View> {
+    @JvmStatic
+    fun isRefreshing(): Matcher<View> {
         return object : BoundedMatcher<View, SwipeRefreshLayout>(
-            SwipeRefreshLayout::class.java) {
+            SwipeRefreshLayout::class.java
+        ) {
 
             override fun describeTo(description: Description) {
                 description.appendText("is refreshing")
