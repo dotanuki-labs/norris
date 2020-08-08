@@ -23,6 +23,8 @@ object BuildPlugins {
         const val ktlint = "org.jlleitschuh.gradle.ktlint"
         const val detekt = "io.gitlab.arturbosch.detekt"
         const val testLogger = "com.adarshr.test-logger"
+
+        const val kotlinModule = "kotlin-module"
     }
 
     private object Versions {
