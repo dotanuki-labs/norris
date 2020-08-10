@@ -6,7 +6,7 @@ import androidx.fragment.app.FragmentActivity
 
 class Navigator(
     private val host: FragmentActivity,
-    private val links: Map<Screen, Class<Activity>>
+    private val links: Map<Screen, Class<out Activity>>
 ) {
 
     fun navigateTo(destination: Screen) {

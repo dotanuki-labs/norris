@@ -1,66 +1,52 @@
 package io.dotanuki.norris.navigator
 
 import android.app.Activity
-import android.content.Intent
+import android.os.Bundle
 import androidx.fragment.app.FragmentActivity
-import com.nhaarman.mockitokotlin2.any
-import com.nhaarman.mockitokotlin2.argumentCaptor
-import com.nhaarman.mockitokotlin2.mock
-import com.nhaarman.mockitokotlin2.verify
 import io.dotanuki.norris.navigator.Screen.FactsList
 import io.dotanuki.norris.navigator.Screen.SearchQuery
 import org.assertj.core.api.Assertions.assertThat
 import org.assertj.core.api.Assertions.assertThatThrownBy
 import org.junit.Before
-import org.junit.Ignore
 import org.junit.Test
 import org.junit.runner.RunWith
+import org.robolectric.Robolectric
 import org.robolectric.RobolectricTestRunner
+import org.robolectric.Shadows.shadowOf
 
 @RunWith(RobolectricTestRunner::class)
 class NavigatorTests {
 
+    class LauncherActivity : FragmentActivity()
+    class DestinationActivity : Activity()
+
     private lateinit var navigator: Navigator
+    private lateinit var launcher: LauncherActivity
 
-    private val mockActivity = mock<FragmentActivity>()
-
-    private val links = mapOf<Screen, Class<Activity>>(
-        SearchQuery to Activity::class.java
+    private val links = mapOf<Screen, Class<out Activity>>(
+        SearchQuery to DestinationActivity::class.java
     )
 
     @Before fun `before each test`() {
-        navigator = Navigator(mockActivity, links)
+        val origin = LauncherActivity::class.java
+        launcher = Robolectric.buildActivity(origin).create(Bundle.EMPTY).get()
+        navigator = Navigator(launcher, links)
     }
 
-    @Ignore @Test fun `should navigate to supported screen`() {
+    @Test fun `should navigate to supported screen`() {
+        val shadowActivity = shadowOf(launcher)
+
         navigator.navigateTo(SearchQuery)
-        argumentCaptor<Intent>().apply {
-            verify(mockActivity).startActivity(capture())
-            assertThat(firstValue).isNotNull()
-        }
+
+        val launched = shadowActivity.nextStartedActivity
+        assertThat(launched.component?.shortClassName).isEqualTo(DestinationActivity::class.java.name)
     }
 
-    @Ignore @Test fun `should throw when navigating to unsupported screen`() {
+    @Test fun `should throw when navigating to unsupported screen`() {
 
         assertThatThrownBy { navigator.navigateTo(FactsList) }
             .isEqualTo(
                 UnsupportedNavigation(FactsList)
             )
-    }
-
-    @Ignore @Test fun `should delegate work to supported screen`() {
-        navigator.requestWork(SearchQuery, DefineSearchQuery)
-        argumentCaptor<Int>().apply {
-            verify(mockActivity).startActivityForResult(any(), capture())
-            assertThat(firstValue).isEqualTo(DefineSearchQuery.tag)
-        }
-    }
-
-    @Ignore @Test fun `should return from work with success`() {
-        navigator.returnFromWork()
-        argumentCaptor<Int>().apply {
-            verify(mockActivity).setResult(capture())
-            assertThat(firstValue).isEqualTo(Activity.RESULT_OK)
-        }
     }
 }

@@ -9,7 +9,6 @@ class UnitTestDependencies {
             Libraries.jUnit,
             Libraries.assertj,
             Libraries.burster,
-            Libraries.mockitoKotlin,
             Libraries.mockWebServer
         )
     }
