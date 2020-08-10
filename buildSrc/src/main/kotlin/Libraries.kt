@@ -32,6 +32,7 @@ object Libraries {
     const val jUnit = "junit:junit:${Versions.junit}"
     const val assertj = "org.assertj:assertj-core:${Versions.assertj}"
     const val burster = "com.github.ubiratansoares:burster:${Versions.burster}"
+    const val turbine = "app.cash.turbine:turbine:0.1.1"
     const val barista = "com.schibsted.spain:barista:${Versions.barista}"
     const val mockitoKotlin = "com.nhaarman.mockitokotlin2:mockito-kotlin:${Versions.mockitoKotlin}"
     const val mockitoDexMaker = "com.linkedin.dexmaker:dexmaker-mockito:${Versions.mockitoDexMaker}"
