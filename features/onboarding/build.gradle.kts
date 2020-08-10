@@ -24,4 +24,5 @@ dependencies {
 
     unitTest { forEachDependency { testImplementation(it) } }
     testImplementation(project(":platform:coroutines-testutils"))
+    testImplementation(Libraries.turbine)
 }
