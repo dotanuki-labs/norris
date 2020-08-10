@@ -1,10 +1,7 @@
 package io.dotanuki.norris.search.tests
 
-import com.nhaarman.mockitokotlin2.any
-import com.nhaarman.mockitokotlin2.mock
-import com.nhaarman.mockitokotlin2.whenever
+import app.cash.turbine.test
 import io.dotanuki.coroutines.testutils.CoroutinesTestHelper
-import io.dotanuki.coroutines.testutils.FlowTest.Companion.flowTest
 import io.dotanuki.coroutines.testutils.unwrapError
 import io.dotanuki.norris.architecture.CommandsProcessor
 import io.dotanuki.norris.architecture.StateContainer
@@ -13,42 +10,61 @@ import io.dotanuki.norris.architecture.TaskExecutor
 import io.dotanuki.norris.architecture.UnsupportedUserInteraction
 import io.dotanuki.norris.architecture.UserInteraction
 import io.dotanuki.norris.architecture.UserInteraction.OpenedScreen
-import io.dotanuki.norris.architecture.ViewState
 import io.dotanuki.norris.architecture.ViewState.FirstLaunch
 import io.dotanuki.norris.architecture.ViewState.Loading
 import io.dotanuki.norris.architecture.ViewState.Success
 import io.dotanuki.norris.domain.ComposeSearchOptions
+import io.dotanuki.norris.domain.FetchCategories
 import io.dotanuki.norris.domain.ManageSearchQuery
-import io.dotanuki.norris.domain.errors.NetworkingError.OperationTimeout
+import io.dotanuki.norris.domain.model.ChuckNorrisFact
+import io.dotanuki.norris.domain.model.RelatedCategory
 import io.dotanuki.norris.domain.model.SearchOptions
-import io.dotanuki.norris.search.QueryDefined
-import io.dotanuki.norris.search.ReturnFromSearch
+import io.dotanuki.norris.domain.services.CategoriesCacheService
+import io.dotanuki.norris.domain.services.RemoteFactsService
+import io.dotanuki.norris.domain.services.SearchesHistoryService
 import io.dotanuki.norris.search.SearchPresentation
 import io.dotanuki.norris.search.SearchPresentation.QueryValidation
 import io.dotanuki.norris.search.SearchPresentation.Suggestions
 import io.dotanuki.norris.search.SearchViewModel
 import io.dotanuki.norris.search.ValidateQuery
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.runBlocking
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.Before
-import org.junit.Ignore
 import org.junit.Rule
 import org.junit.Test
+import kotlin.time.ExperimentalTime
 
 class SearchViewModelTests {
 
     @get:Rule val helper = CoroutinesTestHelper()
 
-    private val composeOptions = mock<ComposeSearchOptions>()
-    private val manageQuery = mock<ManageSearchQuery>()
-
     private lateinit var viewModel: SearchViewModel
 
-    init {
-        runBlocking {
-            whenever(manageQuery.actualQuery()).thenReturn("Code")
-            whenever(manageQuery.save(any())).thenAnswer { Unit }
-        }
+    class FakeSearchesHistoryService : SearchesHistoryService {
+        override suspend fun lastSearches(): List<String> = listOf("Code")
+
+        override suspend fun registerNewSearch(term: String) = Unit
+    }
+
+    class FakeCategoriesCacheService : CategoriesCacheService {
+        override fun save(categories: List<RelatedCategory.Available>) = Unit
+
+        override fun cached(): List<RelatedCategory.Available>? = listOf(
+            RelatedCategory.Available("dev"),
+            RelatedCategory.Available("humor")
+        )
+    }
+
+    class FakeRemoteFactsService : RemoteFactsService {
+        override suspend fun availableCategories(): List<RelatedCategory.Available> =
+            listOf(
+                RelatedCategory.Available("dev"),
+                RelatedCategory.Available("humor"),
+                RelatedCategory.Available("soccer")
+            )
+
+        override suspend fun fetchFacts(searchTerm: String): List<ChuckNorrisFact> = emptyList()
     }
 
     @Before fun `before each test`() {
@@ -63,39 +79,15 @@ class SearchViewModelTests {
 
         val processor = CommandsProcessor(taskExecutor)
 
+        val manageQuery = ManageSearchQuery(FakeSearchesHistoryService())
+        val fetchCategories = FetchCategories(FakeCategoriesCacheService(), FakeRemoteFactsService())
+
+        val composeOptions = ComposeSearchOptions(FakeSearchesHistoryService(), fetchCategories)
+
         viewModel = SearchViewModel(composeOptions, manageQuery, processor, machine)
     }
 
-    @Ignore @Test fun `should report failure when fetching from remote`() {
-
-        // Given
-        flowTest(viewModel.bindToStates()) {
-
-            triggerEmissions {
-
-                // When
-                whenever(composeOptions.execute())
-                    .thenAnswer { throw OperationTimeout }
-
-                // And
-                viewModel.handle(OpenedScreen)
-            }
-
-            afterCollect { emissions ->
-
-                // Then
-                val viewStates = listOf(
-                    FirstLaunch,
-                    Loading.FromEmpty,
-                    ViewState.Failed(OperationTimeout)
-                )
-
-                assertThat(emissions).isEqualTo(viewStates)
-            }
-        }
-    }
-
-    @Ignore @Test fun `should report unsupported interaction`() {
+    @Test fun `should report unsupported interaction`() {
 
         val result = runCatching {
             viewModel.handle(UserInteraction.RequestedFreshContent)
@@ -104,86 +96,51 @@ class SearchViewModelTests {
         assertThat(unwrapError(result)).isEqualTo(UnsupportedUserInteraction)
     }
 
-    @Ignore @Test fun `should display suggestions`() {
+    @ExperimentalTime
+    @ExperimentalCoroutinesApi
+    @Test fun `should display suggestions`() {
+        runBlocking {
+            viewModel.run {
+                bindToStates().test {
+                    handle(OpenedScreen)
 
-        // Given
-        val options = SearchOptions(
-            history = emptyList(),
-            recommendations = listOf("dev", "humor", "money")
-        )
-
-        flowTest(viewModel.bindToStates()) {
-
-            triggerEmissions {
-
-                // When
-                whenever(composeOptions.execute()).thenReturn(options)
-
-                // And
-                viewModel.handle(OpenedScreen)
-            }
-
-            afterCollect { emissions ->
-
-                // Then
-                val viewStates = listOf(
-                    FirstLaunch,
-                    Loading.FromEmpty,
-                    Success(
-                        Suggestions(options)
+                    val options = SearchOptions(
+                        history = listOf("Code"),
+                        recommendations = listOf("dev", "humor")
                     )
-                )
 
-                assertThat(emissions).isEqualTo(viewStates)
+                    val emissions = listOf(expectItem(), expectItem(), expectItem())
+
+                    val viewStates = listOf(
+                        FirstLaunch,
+                        Loading.FromEmpty,
+                        Success(Suggestions(options))
+                    )
+
+                    assertThat(emissions).isEqualTo(viewStates)
+                }
             }
         }
     }
 
-    @Ignore @Test fun `should validate incoming query`() {
+    @ExperimentalTime
+    @ExperimentalCoroutinesApi
+    @Test fun `should validate incoming query`() {
+        runBlocking {
+            viewModel.run {
+                bindToStates().test {
+                    handle(ValidateQuery("Norris"))
 
-        flowTest(viewModel.bindToStates()) {
+                    val emissions = listOf(expectItem(), expectItem(), expectItem())
 
-            triggerEmissions {
-
-                // When
-                viewModel.handle(ValidateQuery("Norris"))
-
-                // And
-                viewModel.handle(OpenedScreen)
-            }
-
-            afterCollect { emissions ->
-
-                // Then
-                val viewStates = listOf(
-                    FirstLaunch,
-                    Loading.FromEmpty,
-                    Success(
-                        QueryValidation(true)
+                    val viewStates = listOf(
+                        FirstLaunch,
+                        Loading.FromEmpty,
+                        Success(QueryValidation(true))
                     )
-                )
 
-                assertThat(emissions).isEqualTo(viewStates)
-            }
-        }
-    }
-
-    @Ignore @Test fun `should proceed with selected query`() {
-
-        // Given
-        flowTest(viewModel.bindToCommands()) {
-
-            triggerEmissions {
-
-                // When
-                viewModel.handle(QueryDefined("Norris"))
-            }
-
-            afterCollect { emissions ->
-
-                // Then
-                val commands = listOf(ReturnFromSearch)
-                assertThat(emissions).isEqualTo(commands)
+                    assertThat(emissions).isEqualTo(viewStates)
+                }
             }
         }
     }
