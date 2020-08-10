@@ -1,21 +1,18 @@
 package io.dotanuki.norris.domain
 
-import com.nhaarman.mockitokotlin2.mock
-import com.nhaarman.mockitokotlin2.whenever
-import io.dotanuki.coroutines.testutils.SuspendableErrorChecker.Companion.errorOnSuspendable
 import io.dotanuki.norris.domain.errors.SearchFactsError
 import io.dotanuki.norris.domain.model.ChuckNorrisFact
 import io.dotanuki.norris.domain.model.RelatedCategory.Available
 import io.dotanuki.norris.domain.services.RemoteFactsService
 import kotlinx.coroutines.runBlocking
 import org.assertj.core.api.Assertions.assertThat
+import org.assertj.core.api.Assertions.assertThatThrownBy
+import org.assertj.core.api.ThrowableAssert
 import org.junit.Before
 import org.junit.Test
-import org.mockito.ArgumentMatchers.anyString
 
 class FetchFactsTests {
 
-    private val factsService = mock<RemoteFactsService>()
     private lateinit var usecase: FetchFacts
 
     private val facts by lazy {
@@ -29,51 +26,49 @@ class FetchFactsTests {
         )
     }
 
-    @Before fun `before each test`() {
-        usecase = FetchFacts(factsService)
+    private val categories by lazy {
+        listOf(Available("dev"))
+    }
 
-        runBlocking {
-            whenever(factsService.fetchFacts(anyString())).thenReturn(facts)
-        }
+    class FakeRemoteFactsService(
+        private val fakeFacts: List<ChuckNorrisFact>,
+        private val fakeCategories: List<Available>
+    ) : RemoteFactsService {
+
+        override suspend fun availableCategories(): List<Available> = fakeCategories
+
+        override suspend fun fetchFacts(searchTerm: String): List<ChuckNorrisFact> =
+            when (searchTerm) {
+                "Norris" -> fakeFacts
+                else -> emptyList()
+            }
+    }
+
+    @Before fun `before each test`() {
+        val service = FakeRemoteFactsService(facts, categories)
+        usecase = FetchFacts(service)
     }
 
     @Test fun `should fetch valid term`() {
         runBlocking {
-            assertThat(usecase.search("Trump")).isEqualTo(facts)
+            val searched = usecase.search("Norris")
+            assertThat(searched).isEqualTo(facts)
         }
     }
 
     @Test fun `should throw with invalid term`() {
-        errorOnSuspendable<List<ChuckNorrisFact>> {
-            take {
-                facts
-            }
+        val execution = ThrowableAssert.ThrowingCallable { runBlocking { usecase.search("") } }
 
-            once {
-                usecase.search("")
-            }
+        val expectedError = SearchFactsError.EmptyTerm
 
-            check { error ->
-                assertThat(error).isEqualTo(SearchFactsError.EmptyTerm)
-            }
-        }
+        assertThatThrownBy(execution).isEqualTo(expectedError)
     }
 
     @Test fun `should throw with empty result`() {
+        val execution = ThrowableAssert.ThrowingCallable { runBlocking { usecase.search("Trump") } }
 
-        errorOnSuspendable<List<ChuckNorrisFact>> {
-            take {
-                emptyList()
-            }
+        val expectedError = SearchFactsError.NoResultsFound
 
-            once { facts ->
-                whenever(factsService.fetchFacts(anyString())).thenReturn(facts)
-                usecase.search("Norris")
-            }
-
-            check { error ->
-                assertThat(error).isEqualTo(SearchFactsError.NoResultsFound)
-            }
-        }
+        assertThatThrownBy(execution).isEqualTo(expectedError)
     }
 }
