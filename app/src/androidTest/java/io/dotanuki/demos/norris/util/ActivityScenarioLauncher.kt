@@ -7,14 +7,7 @@ import androidx.test.core.app.launchActivity
 
 class ActivityScenarioLauncher<T : Activity>(private val scenario: ActivityScenario<T>) {
 
-    private lateinit var beforeLaunch: () -> Any
-
-    fun beforeLaunch(block: () -> Any) {
-        beforeLaunch = block
-    }
-
     fun onResume(afterLaunch: (ActivityScenario<*>) -> Any) {
-        beforeLaunch.invoke()
         scenario.moveToState(Lifecycle.State.RESUMED)
         afterLaunch.invoke(scenario)
         scenario.close()

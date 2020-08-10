@@ -1,22 +1,20 @@
 package io.dotanuki.demos.norris.search
 
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import com.nhaarman.mockitokotlin2.any
-import com.nhaarman.mockitokotlin2.mock
-import com.nhaarman.mockitokotlin2.whenever
 import io.dotanuki.demos.norris.dsl.Visibility.DISPLAYED
 import io.dotanuki.demos.norris.dsl.Visibility.HIDDEN
 import io.dotanuki.demos.norris.dsl.shouldBe
+import io.dotanuki.demos.norris.fakes.FakeApi
+import io.dotanuki.demos.norris.fakes.FakeApi.Mode
+import io.dotanuki.demos.norris.fakes.FakeCategoriesCache
+import io.dotanuki.demos.norris.fakes.FakePersistance
+import io.dotanuki.demos.norris.fakes.FakePersistance.Availability
 import io.dotanuki.demos.norris.util.ActivityScenarioLauncher.Companion.scenarioLauncher
 import io.dotanuki.demos.norris.util.BindingsOverrider
-import io.dotanuki.norris.domain.errors.NetworkingError
 import io.dotanuki.norris.domain.services.CategoriesCacheService
 import io.dotanuki.norris.domain.services.SearchesHistoryService
 import io.dotanuki.norris.rest.ChuckNorrisDotIO
-import io.dotanuki.norris.rest.RawCategories
 import io.dotanuki.norris.search.SearchQueryActivity
-import kotlinx.coroutines.runBlocking
-import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -26,47 +24,42 @@ import org.kodein.di.generic.provider
 @RunWith(AndroidJUnit4::class)
 class SearchQueryAcceptanceTests {
 
+    private val fakeApi by lazy {
+        FakeApi()
+    }
+
+    private val fakePersistance by lazy {
+        FakePersistance()
+    }
+
+    private val fakeCache by lazy {
+        FakeCategoriesCache()
+    }
+
     @get:Rule val overrider = BindingsOverrider {
         bind<ChuckNorrisDotIO>(overrides = true) with provider {
-            mockChuckNorris
+            fakeApi
         }
 
         bind<SearchesHistoryService>(overrides = true) with provider {
-            mockPersistance
+            fakePersistance
         }
 
         bind<CategoriesCacheService>(overrides = true) with provider {
-            mockCache
+            fakeCache
         }
-    }
-
-    private val mockCache = mock<CategoriesCacheService>()
-    private val mockChuckNorris = mock<ChuckNorrisDotIO>()
-    private val mockPersistance = mock<SearchesHistoryService>()
-
-    @Before fun beforeEachTest() {
-        whenever(mockCache.cached()).thenReturn(null)
-        whenever(mockCache.save(any())).thenAnswer { Unit }
     }
 
     @Test fun givenAvailableHistory_andAvailableCategories_shouldDisplaySuggestions() {
 
-        val categories = listOf("dev", "code")
-        val history = listOf("conjegate", "morobloco")
+        fakeApi.mode = Mode.SUCCESS
+        fakePersistance.availability = Availability.AVAILABLE
 
         scenarioLauncher<SearchQueryActivity>().run {
-
-            beforeLaunch {
-                runBlocking {
-                    whenever(mockPersistance.lastSearches())
-                        .thenReturn(history)
-
-                    whenever(mockChuckNorris.categories())
-                        .thenReturn(RawCategories(categories))
-                }
-            }
-
             onResume {
+                val categories = listOf("dev", "humor")
+                val history = listOf("conjegate", "morobloco")
+
                 searchQueryChecks {
                     loading shouldBe HIDDEN
                     suggestions shouldDisplay categories
@@ -78,17 +71,10 @@ class SearchQueryAcceptanceTests {
 
     @Test fun givenUnavailableHistory_shouldReportError() {
 
+        fakeApi.mode = Mode.SUCCESS
+        fakePersistance.availability = Availability.UNAVAILABLE
+
         scenarioLauncher<SearchQueryActivity>().run {
-
-            beforeLaunch {
-                runBlocking {
-                    whenever(mockPersistance.lastSearches()).thenReturn(emptyList())
-
-                    whenever(mockChuckNorris.categories())
-                        .thenAnswer { throw NetworkingError.HostUnreachable }
-                }
-            }
-
             onResume {
                 searchQueryChecks {
                     loading shouldBe HIDDEN
@@ -99,18 +85,10 @@ class SearchQueryAcceptanceTests {
     }
 
     @Test fun shouldReportInvalidQuery() {
+        fakeApi.mode = Mode.SUCCESS
+        fakePersistance.availability = Availability.UNAVAILABLE
+
         scenarioLauncher<SearchQueryActivity>().run {
-
-            beforeLaunch {
-                runBlocking {
-                    whenever(mockPersistance.lastSearches()).thenReturn(emptyList())
-                    whenever(mockChuckNorris.categories())
-                        .thenReturn(
-                            RawCategories(emptyList())
-                        )
-                }
-            }
-
             onResume {
                 searchInteractions {
                     textInputField received "U2"
