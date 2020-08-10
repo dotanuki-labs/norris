@@ -1,8 +1,7 @@
 package io.dotanuki.norris.domain
 
-import com.nhaarman.mockitokotlin2.mock
-import com.nhaarman.mockitokotlin2.whenever
 import io.dotanuki.norris.domain.errors.NetworkingError
+import io.dotanuki.norris.domain.model.ChuckNorrisFact
 import io.dotanuki.norris.domain.model.RelatedCategory
 import io.dotanuki.norris.domain.services.CategoriesCacheService
 import io.dotanuki.norris.domain.services.RemoteFactsService
@@ -13,9 +12,8 @@ import org.junit.Test
 
 class FetchCategoriesTests {
 
-    private val categoriesCache = mock<CategoriesCacheService>()
-    private val remoteFacts = mock<RemoteFactsService>()
-    private lateinit var usecase: FetchCategories
+    private lateinit var categoriesCache: CategoriesCacheService
+    private lateinit var remoteFacts: RemoteFactsService
 
     private val categories = mutableListOf(
         RelatedCategory.Available("dev"),
@@ -23,13 +21,14 @@ class FetchCategoriesTests {
     )
 
     @Before fun `before each test`() {
-        usecase = FetchCategories(categoriesCache, remoteFacts)
     }
 
     @Test fun `should fetch from cache from available`() {
         runBlocking {
             `given that remote service not available`()
             `given that cache returns categories`()
+
+            val usecase = FetchCategories(categoriesCache, remoteFacts)
 
             assertThat(usecase.execute()).isEqualTo(categories)
         }
@@ -40,25 +39,43 @@ class FetchCategoriesTests {
             `given that remote service returns categories`()
             `given that cache is absent`()
 
+            val usecase = FetchCategories(categoriesCache, remoteFacts)
+
             assertThat(usecase.execute()).isEqualTo(categories)
         }
     }
 
     private fun `given that cache is absent`() {
-        whenever(categoriesCache.cached()).thenReturn(null)
-    }
+        categoriesCache = object : CategoriesCacheService {
+            override fun save(categories: List<RelatedCategory.Available>) = Unit
 
-    private suspend fun `given that remote service returns categories`() {
-        whenever(remoteFacts.availableCategories()).thenReturn(categories)
+            override fun cached(): List<RelatedCategory.Available>? = null
+        }
     }
 
     private fun `given that cache returns categories`() {
-        whenever(categoriesCache.cached()).thenReturn(categories)
+        categoriesCache = object : CategoriesCacheService {
+            override fun save(categories: List<RelatedCategory.Available>) = Unit
+
+            override fun cached(): List<RelatedCategory.Available>? = categories
+        }
     }
 
-    private suspend fun `given that remote service not available`() {
-        whenever(remoteFacts.availableCategories()).thenAnswer {
-            throw NetworkingError.HostUnreachable
+    private fun `given that remote service returns categories`() {
+        remoteFacts = object : RemoteFactsService {
+            override suspend fun availableCategories(): List<RelatedCategory.Available> = categories
+
+            override suspend fun fetchFacts(searchTerm: String): List<ChuckNorrisFact> = emptyList()
+        }
+    }
+
+    private fun `given that remote service not available`() {
+        remoteFacts = object : RemoteFactsService {
+            override suspend fun availableCategories(): List<RelatedCategory.Available> {
+                throw NetworkingError.HostUnreachable
+            }
+
+            override suspend fun fetchFacts(searchTerm: String): List<ChuckNorrisFact> = emptyList()
         }
     }
 }
