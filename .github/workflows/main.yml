@@ -44,8 +44,36 @@ jobs:
       - name: Run tests and collect reports
         run: ./gradlew clean jacocoTestReport jacocoTestReportDebug --no-daemon
 
-      - name: Upload test reports to Codecov
-        uses: codecov/codecov-action@v1.0.12
-
       - name: Assemble APK
         run: ./gradlew assembleDebug -xlint --no-daemon --stacktrace
+
+      - name: Upload build outputs
+        if: always()
+        uses: actions/upload-artifact@v2.1.3
+        with:
+          name: build-outputs
+          path: app/build/outputs
+
+      - name: Archive build reports
+        if: always()
+        uses: actions/upload-artifact@v2.1.3
+        with:
+          name: build-reports
+          path: app/build/reports
+
+      - name: Collect all test results from all modules
+        if: always()
+        run: |
+          mkdir -p junit
+          find . -type f -regex ".*/build/test-results/.*xml" -exec cp {} junit/ \;
+
+      - name: Archive test results
+        if: always()
+        uses: actions/upload-artifact@v2.1.3
+        with:
+          name: junit-results
+          path: junit
+
+      - name: Share test reports with Codecov
+        uses: codecov/codecov-action@v1.0.12
+
