@@ -50,8 +50,9 @@ jobs:
       - name: Run functional acceptance tests with Espresso
         uses: reactivecircus/android-emulator-runner@v2.11.0
         with:
-          api-level: 28
-          script: ./gradlew app:connectedAndroidTest --stacktrace
+          api-level: 29
+          arch: x86_64
+          script: ./gradlew app:connectedDebugAndroidTest --stacktrace
 
       - name: Archive build reports
         if: always()
