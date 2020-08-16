@@ -5,7 +5,7 @@ on: [push]
 jobs:
   build:
 
-    runs-on: ubuntu-latest
+    runs-on: macOS-latest
 
     steps:
       - name: Project Checkout
@@ -41,13 +41,26 @@ jobs:
       - name: Check code smells
         run: ./gradlew detekt --no-daemon --stacktrace
 
-      - name: Run tests and collect reports
+      - name: Run unit tests and capture code coverage
         run: ./gradlew clean jacocoTestReport jacocoTestReportDebug --no-daemon
 
       - name: Assemble APK
         run: ./gradlew assembleDebug -xlint --no-daemon --stacktrace
 
-      - name: Upload build outputs
+      - name: Run functional acceptance tests with Espresso
+        uses: reactivecircus/android-emulator-runner@v2.11.0
+        with:
+          api-level: 28
+          script: ./gradlew app:connectedAndroidTest --stacktrace
+
+      - name: Archive build reports
+        if: always()
+        uses: actions/upload-artifact@v2.1.3
+        with:
+          name: build-reports
+          path: app/build/reports
+
+      - name: Archive build outputs
         if: always()
         uses: actions/upload-artifact@v2.1.3
         with:
