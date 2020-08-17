@@ -9,7 +9,7 @@ jobs:
 
     steps:
       - name: Project Checkout
-        uses: actions/checkout@v2.3.1
+        uses: actions/checkout@v2.3.2
 
       - name: Compute key for CI cache
         run: ./compute-ci-cache-key.sh key.txt
