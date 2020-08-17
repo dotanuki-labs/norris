@@ -4,7 +4,6 @@ on: [push]
 
 jobs:
   build:
-
     runs-on: macOS-latest
 
     steps:
@@ -67,13 +66,6 @@ jobs:
         with:
           name: build-outputs
           path: app/build/outputs
-
-      - name: Archive build reports
-        if: always()
-        uses: actions/upload-artifact@v2.1.4
-        with:
-          name: build-reports
-          path: app/build/reports
 
       - name: Collect all test results from all modules
         if: always()
