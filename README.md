@@ -43,7 +43,7 @@ Coming soon at [ubiratansoares.dev](https://ubiratansoares.dev)
 If you want a simple run emulating the PR pipeline, just use the companion script
 
 ```
-./devops/emulate-pr-build.sh
+./emulate-pr-build.sh
 ```
 
 It will
