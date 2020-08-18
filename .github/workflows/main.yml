@@ -65,7 +65,7 @@ jobs:
           cp .github/githubci-gradle.properties ~/.gradle/gradle.properties
 
       - name: Run unit tests and capture code coverage
-        run: ./gradlew clean jacocoTestReport jacocoTestReportDebug --no-daemon
+        run: ./gradlew clean jacocoTestReport jacocoTestReportDebug --stacktrace
 
       - name: Collect all test results from all modules
         if: always()
@@ -111,7 +111,7 @@ jobs:
           cp .github/githubci-gradle.properties ~/.gradle/gradle.properties
 
       - name: Assemble APK
-        run: ./gradlew clean app:assembleDebug
+        run: ./gradlew clean app:assembleDebug --stacktrace
 
   acceptance_tests:
     runs-on: macOS-latest
@@ -161,21 +161,5 @@ jobs:
         with:
           name: build-outputs
           path: app/build/outputs
-
-      - name: Collect all test results from all modules
-        if: always()
-        run: |
-          mkdir -p junit
-          find . -type f -regex ".*/build/test-results/.*xml" -exec cp {} junit/ \;
-
-      - name: Archive test results
-        if: always()
-        uses: actions/upload-artifact@v2.1.4
-        with:
-          name: junit-results-espresso-tests
-          path: junit
-
-      - name: Share test reports with Codecov
-        uses: codecov/codecov-action@v1.0.13
 
 
