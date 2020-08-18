@@ -3,9 +3,9 @@ name: Main
 on: [push]
 
 jobs:
-  build:
-    runs-on: macOS-latest
 
+  static_analysis:
+    runs-on: ubuntu-latest
     steps:
       - name: Project Checkout
         uses: actions/checkout@v2.3.2
@@ -20,7 +20,7 @@ jobs:
           path: ~/.gradle/caches
           key: ${{ runner.os }}-gradle-${{ hashFiles('key.txt') }}
           restore-keys: ${{ runner.os }}-gradle-
-      
+
       - name: Setup JDK 1.8
         uses: actions/setup-java@v1.4.1
         with:
@@ -31,20 +31,115 @@ jobs:
           mkdir -p ~/.gradle
           cp .github/githubci-gradle.properties ~/.gradle/gradle.properties
 
-      - name: Resolve dependencies
-        run: ./gradlew androidDependencies --no-daemon --stacktrace
-
       - name: Check code formatting
-        run: ./gradlew ktlintCheck --no-daemon --stacktrace
+        run: ./gradlew ktlintCheck --stacktrace
 
       - name: Check code smells
-        run: ./gradlew detekt --no-daemon --stacktrace
+        run: ./gradlew detekt --stacktrace
+
+  unit_tests:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Project Checkout
+        uses: actions/checkout@v2.3.2
+
+      - name: Compute key for CI cache
+        run: ./compute-ci-cache-key.sh key.txt
+
+      - name: Setup cache
+        uses: actions/cache@v2.1.0
+        continue-on-error: true
+        with:
+          path: ~/.gradle/caches
+          key: ${{ runner.os }}-gradle-${{ hashFiles('key.txt') }}
+          restore-keys: ${{ runner.os }}-gradle-
+
+      - name: Setup JDK 1.8
+        uses: actions/setup-java@v1.4.1
+        with:
+          java-version: 1.8
+
+      - name: Copy CI gradle.properties
+        run: |
+          mkdir -p ~/.gradle
+          cp .github/githubci-gradle.properties ~/.gradle/gradle.properties
 
       - name: Run unit tests and capture code coverage
         run: ./gradlew clean jacocoTestReport jacocoTestReportDebug --no-daemon
 
+      - name: Collect all test results from all modules
+        if: always()
+        run: |
+          mkdir -p junit
+          find . -type f -regex ".*/build/test-results/.*xml" -exec cp {} junit/ \;
+
+      - name: Archive test results
+        if: always()
+        uses: actions/upload-artifact@v2.1.4
+        with:
+          name: junit-results-unit-tests
+          path: junit
+
+      - name: Share test reports with Codecov
+        uses: codecov/codecov-action@v1.0.12
+
+  assemble_apk:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Project Checkout
+        uses: actions/checkout@v2.3.2
+
+      - name: Compute key for CI cache
+        run: ./compute-ci-cache-key.sh key.txt
+
+      - name: Setup cache
+        uses: actions/cache@v2.1.0
+        continue-on-error: true
+        with:
+          path: ~/.gradle/caches
+          key: ${{ runner.os }}-gradle-${{ hashFiles('key.txt') }}
+          restore-keys: ${{ runner.os }}-gradle-
+
+      - name: Setup JDK 1.8
+        uses: actions/setup-java@v1.4.1
+        with:
+          java-version: 1.8
+
+      - name: Copy CI gradle.properties
+        run: |
+          mkdir -p ~/.gradle
+          cp .github/githubci-gradle.properties ~/.gradle/gradle.properties
+
       - name: Assemble APK
-        run: ./gradlew assembleDebug -xlint --no-daemon --stacktrace
+        run: ./gradlew clean app:assembleDebug
+
+  acceptance_tests:
+    runs-on: macOS-latest
+    needs: assemble_apk
+    steps:
+      - name: Project Checkout
+        uses: actions/checkout@v2.3.2
+
+      - name: Compute key for CI cache
+        run: ./compute-ci-cache-key.sh key.txt
+
+      - name: Setup cache
+        uses: actions/cache@v2.1.0
+        continue-on-error: true
+        with:
+          path: ~/.gradle/caches
+          key: ${{ runner.os }}-gradle-${{ hashFiles('key.txt') }}
+          restore-keys: ${{ runner.os }}-gradle-
+
+      - name: Setup JDK 1.8
+        uses: actions/setup-java@v1.4.1
+        with:
+          java-version: 1.8
+
+      - name: Copy CI gradle.properties
+        run: |
+          mkdir -p ~/.gradle
+          cp .github/githubci-gradle.properties ~/.gradle/gradle.properties
 
       - name: Run functional acceptance tests with Espresso
         uses: reactivecircus/android-emulator-runner@v2.11.0
@@ -77,9 +172,10 @@ jobs:
         if: always()
         uses: actions/upload-artifact@v2.1.4
         with:
-          name: junit-results
+          name: junit-results-espresso-tests
           path: junit
 
       - name: Share test reports with Codecov
         uses: codecov/codecov-action@v1.0.12
+
 
