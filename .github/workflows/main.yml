@@ -81,7 +81,7 @@ jobs:
           path: junit
 
       - name: Share test reports with Codecov
-        uses: codecov/codecov-action@v1.0.12
+        uses: codecov/codecov-action@v1.0.13
 
   assemble_apk:
     runs-on: ubuntu-latest
@@ -176,6 +176,6 @@ jobs:
           path: junit
 
       - name: Share test reports with Codecov
-        uses: codecov/codecov-action@v1.0.12
+        uses: codecov/codecov-action@v1.0.13
 
 
