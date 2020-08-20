@@ -1,12 +1,12 @@
 # Adapted from https://doc.mergify.io/examples.html#running-ci-pipelines-automatically
 # Validate your changes with:
-# curl -F 'data=@.mergify.yml' https://gh.mergify.io/validate/
+#   $ curl -F 'data=@.mergify.yml' https://gh.mergify.io/validate/
 
 pull_request_rules:
   - name: Automatic merge for Dependabot pull requests
     conditions:
-      - author=dependabot
-      - status-success=Main / acceptance_tests (push)
+      - author~=^dependabot(|-preview)\[bot\]$
+      - status-success=acceptance_tests
     actions:
       merge:
         method: squash
