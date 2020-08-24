@@ -146,14 +146,7 @@ jobs:
         with:
           api-level: 29
           arch: x86_64
-          script: ./gradlew clean :app:connectedDebugAndroidTest :app:combinedTestReportDebug --stacktrace
-
-      - name: Archive build reports
-        if: always()
-        uses: actions/upload-artifact@v2.1.4
-        with:
-          name: build-reports
-          path: app/build/reports
+          script: ./gradlew clean :app:connectedDebugAndroidTest --stacktrace
 
       - name: Archive build outputs
         if: always()
