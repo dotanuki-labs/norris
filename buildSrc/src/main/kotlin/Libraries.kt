@@ -61,7 +61,7 @@ object Libraries {
         const val jUnitKtx = "1.1.2-beta02"
         const val androidxTest = "1.3.0-beta02"
         const val espresso = "3.3.0-beta02"
-        const val roboletric = "4.3"
+        const val roboletric = "4.4"
         const val barista = "3.5.0"
     }
 }
