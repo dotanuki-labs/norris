@@ -58,9 +58,9 @@ object Libraries {
         const val junit = "4.13"
         const val assertj = "3.16.1"
         const val burster = "0.1.1"
-        const val jUnitKtx = "1.1.2-beta02"
-        const val androidxTest = "1.3.0-beta02"
-        const val espresso = "3.3.0-beta02"
+        const val jUnitKtx = "1.1.2"
+        const val androidxTest = "1.3.0"
+        const val espresso = "3.3.0"
         const val roboletric = "4.4"
         const val barista = "3.5.0"
     }
