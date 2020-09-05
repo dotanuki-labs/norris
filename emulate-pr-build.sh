@@ -2,4 +2,9 @@
 
 set -ex
 
-act push -P ubuntu-latest=nektos/act-environments-ubuntu:18.04-full --env-file act.env
+./gradlew clean --no-daemon
+./gradlew ktlintCheck --no-daemon --stacktrace
+./gradlew detekt --no-daemon --stacktrace
+./gradlew jacocoTestReport jacocoTestReportDebug --no-daemon --stacktrace
+./gradlew app:assembleDebug --no-daemon --stacktrace
+./gradlew :app:connectedDebugAndroidTest --no-daemon --stacktrace
