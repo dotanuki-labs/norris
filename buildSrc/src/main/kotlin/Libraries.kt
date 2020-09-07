@@ -48,7 +48,7 @@ object Libraries {
         const val kotlinSerialization = "1.0.0-RC"
         const val okHttp = "4.8.1"
         const val retrofit = "2.9.0"
-        const val retrofitKotlinSerialization = "0.5.0"
+        const val retrofitKotlinSerialization = "0.7.0"
         const val coroutines = "1.3.8"
         const val kodein = "6.3.3"
         const val lifecycle = "2.2.0"
