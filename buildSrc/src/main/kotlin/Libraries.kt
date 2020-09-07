@@ -5,7 +5,7 @@ import configs.KotlinConfig
 object Libraries {
 
     const val kotlinStdlib = "org.jetbrains.kotlin:kotlin-stdlib-jdk8:${KotlinConfig.version}"
-    const val kotlinSerialization = "org.jetbrains.kotlinx:kotlinx-serialization-runtime:${Versions.kotlinSerialization}"
+    const val kotlinSerialization = "org.jetbrains.kotlinx:kotlinx-serialization-core:${Versions.kotlinSerialization}"
 
     const val okhttp = "com.squareup.okhttp3:okhttp:${Versions.okHttp}"
     const val okhttpLogger = "com.squareup.okhttp3:logging-interceptor:${Versions.okHttp}"
@@ -32,7 +32,7 @@ object Libraries {
     const val jUnit = "junit:junit:${Versions.junit}"
     const val assertj = "org.assertj:assertj-core:${Versions.assertj}"
     const val burster = "com.github.ubiratansoares:burster:${Versions.burster}"
-    const val turbine = "app.cash.turbine:turbine:0.1.1"
+    const val turbine = "app.cash.turbine:turbine:${Versions.turbine}"
     const val barista = "com.schibsted.spain:barista:${Versions.barista}"
     const val androidTestCore = "androidx.test:core:${Versions.androidxTest}"
     const val androidTestCoreKtx = "androidx.test:core-ktx:${Versions.androidxTest}"
@@ -49,7 +49,8 @@ object Libraries {
         const val okHttp = "4.8.1"
         const val retrofit = "2.9.0"
         const val retrofitKotlinSerialization = "0.7.0"
-        const val coroutines = "1.3.8"
+        const val coroutines = "1.3.9"
+        const val turbine = "0.2.1"
         const val kodein = "6.3.3"
         const val lifecycle = "2.2.0"
         const val coreAndroidx = "1.3.1"
