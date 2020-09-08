@@ -14,7 +14,7 @@ alt="Norris logo" title="The logo himself" align="right" />
 
 Norris is a showcase for modern and well-crafted Android code. 
 
-Here you will find a codebase powered by tests in all semantic levels (unit, integratation, acceptance) as well an architectural design that promotes discipline over state, using Kotlin Coroutines as foundation for a pragmatic unidirectional dataflow implementation.
+Here you will find a codebase powered by tests in all semantic levels (unit, integration, acceptance) as well an architectural design that promotes discipline over state, using Kotlin Coroutines as foundation for a pragmatic unidirectional dataflow implementation.
 
 
 ## Project Overview
@@ -51,12 +51,9 @@ It will
 - Run static analysers ([Ktlint](https://github.com/pinterest/ktlint) and [Detekt](https://arturbosch.github.io/detekt/))
 - Run all unit tests and generate all JaCoCo reports
 - Assemble the debug APK
+- Run Espresso tests
 
-For running acceptance tests
-
-```
-./gradlew connectedCheck
-```
+Please note that an online emulator is required to run this script sucessfully.
 
 ## Credits
 
