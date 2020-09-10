@@ -8,14 +8,14 @@ import io.dotanuki.norris.onboarding.di.onboardingModule
 import io.dotanuki.norris.persistance.di.persistanceModule
 import io.dotanuki.norris.rest.di.restInfrastructureModule
 import io.dotanuki.norris.search.di.searchModule
-import org.kodein.di.conf.ConfigurableKodein
-import org.kodein.di.generic.bind
-import org.kodein.di.generic.singleton
+import org.kodein.di.bind
+import org.kodein.di.conf.ConfigurableDI
+import org.kodein.di.singleton
 
 class DependenciesSetup(private val app: Application) {
 
     val container by lazy {
-        ConfigurableKodein(mutable = true).apply {
+        ConfigurableDI(mutable = true).apply {
             modules.forEach { addImport(it) }
 
             addConfig {

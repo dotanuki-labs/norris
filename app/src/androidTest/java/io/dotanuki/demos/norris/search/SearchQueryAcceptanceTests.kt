@@ -18,8 +18,8 @@ import io.dotanuki.norris.search.SearchQueryActivity
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
-import org.kodein.di.generic.bind
-import org.kodein.di.generic.provider
+import org.kodein.di.bind
+import org.kodein.di.provider
 
 @RunWith(AndroidJUnit4::class)
 class SearchQueryAcceptanceTests {

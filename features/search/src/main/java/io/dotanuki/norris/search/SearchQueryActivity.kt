@@ -23,12 +23,12 @@ import io.dotanuki.norris.search.SearchPresentation.Suggestions
 import kotlinx.android.synthetic.main.activity_search_query.*
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
-import org.kodein.di.KodeinAware
-import org.kodein.di.generic.instance
+import org.kodein.di.DIAware
+import org.kodein.di.instance
 
-class SearchQueryActivity : AppCompatActivity(), KodeinAware {
+class SearchQueryActivity : AppCompatActivity(), DIAware {
 
-    override val kodein by selfBind()
+    override val di by selfBind()
 
     private val viewModel by instance<SearchViewModel>()
     private val logger by instance<Logger>()

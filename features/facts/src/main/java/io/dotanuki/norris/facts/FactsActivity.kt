@@ -34,14 +34,14 @@ import io.dotanuki.norris.navigator.Screen
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
-import org.kodein.di.KodeinAware
-import org.kodein.di.generic.instance
+import org.kodein.di.DIAware
+import org.kodein.di.instance
 import io.dotanuki.norris.sharedassets.R as SharedR
 
 @Suppress("TooManyFunctions")
-class FactsActivity : AppCompatActivity(), KodeinAware {
+class FactsActivity : AppCompatActivity(), DIAware {
 
-    override val kodein by selfBind()
+    override val di by selfBind()
 
     private val viewModel by instance<FactsViewModel>()
     private val logger by instance<Logger>()

@@ -15,14 +15,14 @@ import io.dotanuki.norris.navigator.Screen
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
-import org.kodein.di.KodeinAware
-import org.kodein.di.generic.instance
+import org.kodein.di.DIAware
+import org.kodein.di.instance
 import android.R.anim.fade_in as FadeIn
 import android.R.anim.fade_out as FadeOut
 
-class OnboardingActivity : AppCompatActivity(), KodeinAware {
+class OnboardingActivity : AppCompatActivity(), DIAware {
 
-    override val kodein by selfBind()
+    override val di by selfBind()
 
     private val logger by instance<Logger>()
     private val navigator by instance<Navigator>()

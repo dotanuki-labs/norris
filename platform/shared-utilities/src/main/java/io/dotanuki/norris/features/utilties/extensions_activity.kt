@@ -3,14 +3,14 @@ package io.dotanuki.norris.features.utilties
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.FragmentActivity
-import org.kodein.di.Kodein
-import org.kodein.di.KodeinAware
-import org.kodein.di.generic.bind
-import org.kodein.di.generic.provider
+import org.kodein.di.DI
+import org.kodein.di.DIAware
+import org.kodein.di.bind
+import org.kodein.di.provider
 
-fun AppCompatActivity.selfBind(bindings: Kodein.MainBuilder.() -> Unit = {}) = Kodein.lazy {
+fun AppCompatActivity.selfBind(bindings: DI.MainBuilder.() -> Unit = {}) = DI.lazy {
 
-    val parentContainer = (applicationContext as KodeinAware).kodein
+    val parentContainer = (applicationContext as DIAware).di
     extend(parentContainer)
 
     bind<FragmentActivity>(tag = KodeinTags.hostActivity) with provider {

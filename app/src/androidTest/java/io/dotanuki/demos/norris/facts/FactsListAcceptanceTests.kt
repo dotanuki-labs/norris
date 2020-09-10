@@ -16,8 +16,8 @@ import io.dotanuki.norris.rest.ChuckNorrisDotIO
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
-import org.kodein.di.generic.bind
-import org.kodein.di.generic.provider
+import org.kodein.di.bind
+import org.kodein.di.provider
 
 @RunWith(AndroidJUnit4::class)
 class FactsListAcceptanceTests {

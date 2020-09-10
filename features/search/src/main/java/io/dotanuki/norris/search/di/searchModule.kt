@@ -10,12 +10,12 @@ import io.dotanuki.norris.features.utilties.ConfigChangesAwareStateContainer
 import io.dotanuki.norris.features.utilties.KodeinTags
 import io.dotanuki.norris.search.SearchPresentation
 import io.dotanuki.norris.search.SearchViewModel
-import org.kodein.di.Kodein
-import org.kodein.di.generic.bind
-import org.kodein.di.generic.instance
-import org.kodein.di.generic.provider
+import org.kodein.di.DI
+import org.kodein.di.bind
+import org.kodein.di.instance
+import org.kodein.di.provider
 
-val searchModule = Kodein.Module("search") {
+val searchModule = DI.Module("search") {
 
     bind() from provider {
 

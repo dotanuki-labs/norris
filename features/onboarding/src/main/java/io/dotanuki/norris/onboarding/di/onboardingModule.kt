@@ -6,12 +6,12 @@ import io.dotanuki.norris.domain.FetchCategories
 import io.dotanuki.norris.features.utilties.ConfigChangesAwareStateContainer
 import io.dotanuki.norris.features.utilties.KodeinTags
 import io.dotanuki.norris.onboarding.OnboardingViewModel
-import org.kodein.di.Kodein
-import org.kodein.di.generic.bind
-import org.kodein.di.generic.instance
-import org.kodein.di.generic.provider
+import org.kodein.di.DI
+import org.kodein.di.bind
+import org.kodein.di.instance
+import org.kodein.di.provider
 
-val onboardingModule = Kodein.Module("onboarding") {
+val onboardingModule = DI.Module("onboarding") {
 
     bind() from provider {
 
