@@ -26,7 +26,7 @@ object Libraries {
     const val coroutinesTest = "org.jetbrains.kotlinx:kotlinx-coroutines-test:${Versions.coroutines}"
     const val coroutinesDebug = "org.jetbrains.kotlinx:kotlinx-coroutines-debug:${Versions.coroutines}"
 
-    const val kodein = "org.kodein.di:kodein-di-generic-jvm:${Versions.kodein}"
+    const val kodein = "org.kodein.di:kodein-di-jvm:${Versions.kodein}"
     const val kodeinConf = "org.kodein.di:kodein-di-conf-jvm:${Versions.kodein}"
 
     const val jUnit = "junit:junit:${Versions.junit}"
@@ -51,7 +51,7 @@ object Libraries {
         const val retrofitKotlinSerialization = "0.7.0"
         const val coroutines = "1.3.9"
         const val turbine = "0.2.1"
-        const val kodein = "6.3.3"
+        const val kodein = "7.0.0"
         const val lifecycle = "2.2.0"
         const val coreAndroidx = "1.3.1"
         const val materialDesign = "1.2.0"
