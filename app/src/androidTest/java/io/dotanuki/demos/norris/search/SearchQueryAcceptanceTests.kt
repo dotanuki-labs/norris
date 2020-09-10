@@ -4,61 +4,48 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import io.dotanuki.demos.norris.dsl.Visibility.DISPLAYED
 import io.dotanuki.demos.norris.dsl.Visibility.HIDDEN
 import io.dotanuki.demos.norris.dsl.shouldBe
-import io.dotanuki.demos.norris.fakes.FakeApi
-import io.dotanuki.demos.norris.fakes.FakeApi.Mode
-import io.dotanuki.demos.norris.fakes.FakeCategoriesCache
-import io.dotanuki.demos.norris.fakes.FakePersistance
-import io.dotanuki.demos.norris.fakes.FakePersistance.Availability
 import io.dotanuki.demos.norris.util.ActivityScenarioLauncher.Companion.scenarioLauncher
-import io.dotanuki.demos.norris.util.BindingsOverrider
-import io.dotanuki.norris.domain.services.CategoriesCacheService
-import io.dotanuki.norris.domain.services.SearchesHistoryService
-import io.dotanuki.norris.rest.ChuckNorrisDotIO
 import io.dotanuki.norris.search.SearchQueryActivity
-import org.junit.Rule
+import okhttp3.mockwebserver.MockResponse
+import okhttp3.mockwebserver.MockWebServer
+import org.junit.After
+import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
-import org.kodein.di.bind
-import org.kodein.di.provider
 
 @RunWith(AndroidJUnit4::class)
 class SearchQueryAcceptanceTests {
 
-    private val fakeApi by lazy {
-        FakeApi()
-    }
+    lateinit var server: MockWebServer
 
-    private val fakePersistance by lazy {
-        FakePersistance()
-    }
-
-    private val fakeCache by lazy {
-        FakeCategoriesCache()
-    }
-
-    @get:Rule val overrider = BindingsOverrider {
-        bind<ChuckNorrisDotIO>(overrides = true) with provider {
-            fakeApi
-        }
-
-        bind<SearchesHistoryService>(overrides = true) with provider {
-            fakePersistance
-        }
-
-        bind<CategoriesCacheService>(overrides = true) with provider {
-            fakeCache
+    @Before fun beforeEachTest() {
+        server = MockWebServer().apply {
+            start(port = 4242)
         }
     }
 
-    @Test fun givenAvailableHistory_andAvailableCategories_shouldDisplaySuggestions() {
+    @After fun afterEachTest() {
+        server.shutdown()
+    }
 
-        fakeApi.mode = Mode.SUCCESS
-        fakePersistance.availability = Availability.AVAILABLE
+    @Test fun shouldDisplaySuggestions() {
+        val payload =
+            """
+            [
+                "career",
+                "celebrity",
+                "dev"
+            ]
+            """.trimIndent()
+
+        server.enqueue(
+            MockResponse().setResponseCode(200).setBody(payload)
+        )
 
         scenarioLauncher<SearchQueryActivity>().run {
             onResume {
-                val categories = listOf("dev", "humor")
-                val history = listOf("conjegate", "morobloco")
+                val categories = listOf("career", "celebrity", "dev")
+                val history = emptyList<String>()
 
                 searchQueryChecks {
                     loading shouldBe HIDDEN
@@ -69,24 +56,7 @@ class SearchQueryAcceptanceTests {
         }
     }
 
-    @Test fun givenUnavailableHistory_shouldReportError() {
-
-        fakeApi.mode = Mode.SUCCESS
-        fakePersistance.availability = Availability.UNAVAILABLE
-
-        scenarioLauncher<SearchQueryActivity>().run {
-            onResume {
-                searchQueryChecks {
-                    loading shouldBe HIDDEN
-                    errorOnSuggestions shouldBe DISPLAYED
-                }
-            }
-        }
-    }
-
     @Test fun shouldReportInvalidQuery() {
-        fakeApi.mode = Mode.SUCCESS
-        fakePersistance.availability = Availability.AVAILABLE
 
         scenarioLauncher<SearchQueryActivity>().run {
             onResume {

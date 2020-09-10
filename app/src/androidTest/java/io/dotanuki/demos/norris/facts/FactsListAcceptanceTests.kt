@@ -7,33 +7,54 @@ import io.dotanuki.demos.norris.dsl.FactsContent.ABSENT
 import io.dotanuki.demos.norris.dsl.Visibility.DISPLAYED
 import io.dotanuki.demos.norris.dsl.Visibility.HIDDEN
 import io.dotanuki.demos.norris.dsl.shouldBe
-import io.dotanuki.demos.norris.fakes.FakeApi
-import io.dotanuki.demos.norris.fakes.FakeApi.Mode
 import io.dotanuki.demos.norris.util.ActivityScenarioLauncher.Companion.scenarioLauncher
-import io.dotanuki.demos.norris.util.BindingsOverrider
 import io.dotanuki.norris.facts.FactsActivity
-import io.dotanuki.norris.rest.ChuckNorrisDotIO
-import org.junit.Rule
+import okhttp3.mockwebserver.MockResponse
+import okhttp3.mockwebserver.MockWebServer
+import org.junit.After
+import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
-import org.kodein.di.bind
-import org.kodein.di.provider
 
 @RunWith(AndroidJUnit4::class)
 class FactsListAcceptanceTests {
 
-    private val fakeApi by lazy {
-        FakeApi()
-    }
+    lateinit var server: MockWebServer
 
-    @get:Rule val overrider = BindingsOverrider {
-        bind<ChuckNorrisDotIO>(overrides = true) with provider {
-            fakeApi
+    @Before fun beforeEachTest() {
+        server = MockWebServer().apply {
+            start(port = 4242)
         }
     }
 
+    @After fun afterEachTest() {
+        server.shutdown()
+    }
+
     @Test fun givenSuccessfulResponse_shouldDisplayFacts() {
-        fakeApi.mode = Mode.SUCCESS
+        val payload =
+            """
+            {
+              "total": 1,
+              "result": [
+                {
+                  "categories": [
+                    "humor"
+                  ],
+                  "created_at": "2016-05-01 10:51:41.584544",
+                  "icon_url": "https://assets.chucknorris.host/img/avatar/chuck-norris.png",
+                  "id": "2wzginmks8azrbaxnamxdw",
+                  "updated_at": "2016-05-01 10:51:41.584544",
+                  "url": "https://api.chucknorris.io/jokes/2wzginmks8azrbaxnamxdw",
+                  "value": "Chuck Norris can divide by zero"
+                }
+              ]
+            }
+            """.trimIndent()
+
+        server.enqueue(
+            MockResponse().setResponseCode(200).setBody(payload)
+        )
 
         scenarioLauncher<FactsActivity>().run {
             onResume {
@@ -47,7 +68,10 @@ class FactsListAcceptanceTests {
     }
 
     @Test fun givenUnexpectedServerResponse_shouldReportProperly() {
-        fakeApi.mode = Mode.ERROR
+
+        server.enqueue(
+            MockResponse().setResponseCode(400)
+        )
 
         scenarioLauncher<FactsActivity>().run {
             onResume {

@@ -1,6 +1,7 @@
 package io.dotanuki.demos.norris.search
 
 import androidx.test.espresso.Espresso.onView
+import com.schibsted.spain.barista.assertion.BaristaVisibilityAssertions
 import com.schibsted.spain.barista.interaction.BaristaKeyboardInteractions.pressImeActionButton
 import com.schibsted.spain.barista.internal.matcher.DisplayedMatchers.displayedWithId
 import io.dotanuki.demos.norris.R
@@ -26,6 +27,10 @@ class SearchQueryChecker {
 
 class ChipsContentChecker(private val chipGroupId: Int) {
 
-    infix fun shouldDisplay(chips: List<String>) =
-        onView(displayedWithId(chipGroupId)).check(ChipGroupContentAssertion(chips))
+    infix fun shouldDisplay(chips: List<String>) {
+        when {
+            chips.isEmpty() -> BaristaVisibilityAssertions.assertNotDisplayed(chipGroupId)
+            else -> onView(displayedWithId(chipGroupId)).check(ChipGroupContentAssertion(chips))
+        }
+    }
 }

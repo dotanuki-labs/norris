@@ -2,6 +2,7 @@ package io.dotanuki.norris.rest.util
 
 import io.dotanuki.norris.networking.RetrofitBuilder
 import io.dotanuki.norris.rest.ChuckNorrisDotIO
+import okhttp3.HttpUrl.Companion.toHttpUrl
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import okhttp3.mockwebserver.MockResponse
@@ -22,7 +23,7 @@ internal class InfrastructureRule : ExternalResource() {
             .addInterceptor(HttpLoggingInterceptor())
             .build()
 
-        api = RetrofitBuilder(url, client).create(ChuckNorrisDotIO::class.java)
+        api = RetrofitBuilder(url.toHttpUrl(), client).create(ChuckNorrisDotIO::class.java)
     }
 
     override fun after() {

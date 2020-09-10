@@ -25,7 +25,7 @@ val restInfrastructureModule = DI.Module("rest-infrastructure") {
             .build()
 
         val retrofit = RetrofitBuilder(
-            apiURL = ChuckNorrisDotIO.API_URL,
+            apiURL = instance(),
             httpClient = okHttp
         )
 

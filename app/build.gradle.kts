@@ -55,6 +55,8 @@ android {
             applicationIdSuffix = ".debug"
             versionNameSuffix = "-DEBUG"
             isTestCoverageEnabled = true
+            buildConfigField("String", "CHUCKNORRIS_API_URL", "\"${project.evaluateAPIUrl()}\"")
+            resValue("bool", "clear_networking_traffic_enabled", "${project.evaluateTestMode()}")
         }
 
         getByName("release") {
@@ -65,6 +67,8 @@ android {
             proguardFiles(*(proguardConfig.customRules))
             proguardFiles(getDefaultProguardFile(proguardConfig.androidRules))
 
+            buildConfigField("String", "CHUCKNORRIS_API_URL", "\"${project.evaluateAPIUrl()}\"")
+            resValue("bool", "clear_networking_traffic_enabled", "${project.evaluateTestMode()}")
             signingConfig = signingConfigs.findByName("release")
         }
     }
@@ -93,7 +97,7 @@ dependencies {
     implementation(Libraries.lifecycleViewModel)
     implementation(Libraries.lifecycleExtensions)
     implementation(Libraries.kodein)
-    implementation(Libraries.kodeinConf)
+    implementation(Libraries.okhttp)
     implementation(project(":platform:logger"))
     implementation(project(":platform:domain"))
     implementation(project(":platform:rest-chucknorris"))
@@ -105,6 +109,9 @@ dependencies {
     implementation(project(":features:onboarding"))
     implementation(project(":features:facts"))
     implementation(project(":features:search"))
+
+    androidTestImplementation(Libraries.mockWebServer)
+    androidTestImplementation("com.squareup.okhttp3:okhttp-tls:4.8.1")
 
     unitTest {
         forEachDependency { testImplementation(it) }
@@ -118,3 +125,9 @@ dependencies {
 androidExtensions {
     extensions.add("experimental", true)
 }
+
+fun Project.evaluateTestMode(): Boolean =
+    properties["testMode"]?.let { true } ?: false
+
+fun Project.evaluateAPIUrl(): String =
+    properties["testMode"]?.let { "http://localhost:4242" } ?: "https://api.chucknorris.io"
