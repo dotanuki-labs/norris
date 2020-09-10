@@ -63,6 +63,6 @@ object Libraries {
         const val androidxTest = "1.3.0"
         const val espresso = "3.3.0"
         const val roboletric = "4.4"
-        const val barista = "3.5.0"
+        const val barista = "3.6.0"
     }
 }
