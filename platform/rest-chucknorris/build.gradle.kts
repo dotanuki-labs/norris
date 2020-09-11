@@ -1,4 +1,3 @@
-import dependencies.UnitTestDependencies.Companion.unitTest
 
 plugins {
     id(BuildPlugins.Ids.kotlinModule)
@@ -6,6 +5,10 @@ plugins {
 }
 
 dependencies {
+    implementation(project(":platform:logger"))
+    implementation(project(":platform:domain"))
+    implementation(project(":platform:networking"))
+
     implementation(Libraries.kotlinStdlib)
     implementation(Libraries.okhttp)
     implementation(Libraries.okhttpLogger)
@@ -14,11 +17,10 @@ dependencies {
     implementation(Libraries.coroutinesCore)
     implementation(Libraries.kodein)
 
-    implementation(project(":platform:logger"))
-    implementation(project(":platform:domain"))
-    implementation(project(":platform:networking"))
+    testImplementation(project(":platform:coroutines-testutils"))
 
-    unitTest {
-        forEachDependency { testImplementation(it) }
-    }
+    testImplementation(Libraries.jUnit)
+    testImplementation(Libraries.assertj)
+    testImplementation(Libraries.burster)
+    testImplementation(Libraries.mockWebServer)
 }

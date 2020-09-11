@@ -1,6 +1,4 @@
 
-import dependencies.UnitTestDependencies.Companion.unitTest
-
 plugins {
     id(BuildPlugins.Ids.androidModule)
 }
@@ -11,6 +9,8 @@ dependencies {
     implementation(Libraries.kodein)
     implementation(project(":platform:shared-utilities"))
 
+    testImplementation(project(":platform:coroutines-testutils"))
     testImplementation(Libraries.roboletric)
-    unitTest { forEachDependency { testImplementation(it) } }
+    testImplementation(Libraries.jUnit)
+    testImplementation(Libraries.assertj)
 }

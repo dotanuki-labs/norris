@@ -1,4 +1,3 @@
-import dependencies.UnitTestDependencies.Companion.unitTest
 
 plugins {
     id(BuildPlugins.Ids.androidModule)
@@ -11,8 +10,6 @@ dependencies {
     implementation(Libraries.kodein)
 
     testImplementation(project(":platform:coroutines-testutils"))
-
-    unitTest {
-        forEachDependency { testImplementation(it) }
-    }
+    testImplementation(Libraries.jUnit)
+    testImplementation(Libraries.assertj)
 }

@@ -1,6 +1,4 @@
 
-import dependencies.UnitTestDependencies.Companion.unitTest
-
 plugins {
     id(BuildPlugins.Ids.androidModule)
 }
@@ -25,7 +23,9 @@ dependencies {
     implementation(Libraries.swipeToRefresh)
     implementation(Libraries.materialDesign)
 
-    unitTest { forEachDependency { testImplementation(it) } }
     testImplementation(project(":platform:coroutines-testutils"))
+    testImplementation(Libraries.jUnit)
+    testImplementation(Libraries.assertj)
+    testImplementation(Libraries.burster)
     testImplementation(Libraries.turbine)
 }
