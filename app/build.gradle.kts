@@ -9,6 +9,7 @@ plugins {
     id(BuildPlugins.Ids.androidApplication)
     id(BuildPlugins.Ids.kotlinAndroid)
     id(BuildPlugins.Ids.kotlinAndroidExtensions)
+    id(BuildPlugins.Ids.keeper) version BuildPlugins.Versions.keeper
 }
 
 repositories {
@@ -38,11 +39,13 @@ android {
         }
 
         resConfig("en")
+
+        testBuildType = "release"
     }
 
     signingConfigs {
         create("release") {
-            storeFile = rootProject.file("dotanuki-demos.jks")
+            storeFile = rootProject.file("signing/dotanuki-demos.jks")
             storePassword = "dotanuki"
             keyAlias = "dotanuki-alias"
             keyPassword = "dotanuki"
@@ -111,7 +114,6 @@ dependencies {
     implementation(project(":features:search"))
 
     androidTestImplementation(Libraries.mockWebServer)
-    androidTestImplementation("com.squareup.okhttp3:okhttp-tls:4.8.1")
 
     unitTest {
         forEachDependency { testImplementation(it) }

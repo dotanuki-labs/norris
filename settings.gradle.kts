@@ -1,3 +1,10 @@
+pluginManagement {
+    repositories {
+        mavenCentral()
+        gradlePluginPortal()
+    }
+}
+
 include(
     ":app",
     ":platform:domain",

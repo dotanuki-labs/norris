@@ -23,16 +23,17 @@ object BuildPlugins {
         const val ktlint = "org.jlleitschuh.gradle.ktlint"
         const val detekt = "io.gitlab.arturbosch.detekt"
         const val testLogger = "com.adarshr.test-logger"
-
+        const val keeper = "com.slack.keeper"
         const val kotlinModule = "kotlin-module"
         const val androidModule = "android-module"
     }
 
-    private object Versions {
+    object Versions {
         const val agp = "4.0.1"
         const val testLogger = "2.1.0"
         const val ktlint = "9.4.0"
         const val jacocoUnified = "0.16.0"
         const val detekt = "1.11.0-RC1"
+        const val keeper = "0.6.0"
     }
 }
