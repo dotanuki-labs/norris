@@ -1,8 +1,6 @@
 import configs.AndroidConfig
 import configs.KotlinConfig
 import configs.ProguardConfig
-import dependencies.InstrumentationTestsDependencies.Companion.instrumentationTest
-import dependencies.UnitTestDependencies.Companion.unitTest
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
@@ -93,14 +91,6 @@ android {
 
 dependencies {
 
-    implementation(Libraries.kotlinStdlib)
-    implementation(Libraries.appCompat)
-    implementation(Libraries.swipeToRefresh)
-    implementation(Libraries.coreAndroidx)
-    implementation(Libraries.lifecycleViewModel)
-    implementation(Libraries.lifecycleExtensions)
-    implementation(Libraries.kodein)
-    implementation(Libraries.okhttp)
     implementation(project(":platform:logger"))
     implementation(project(":platform:domain"))
     implementation(project(":platform:rest-chucknorris"))
@@ -113,15 +103,26 @@ dependencies {
     implementation(project(":features:facts"))
     implementation(project(":features:search"))
 
+    implementation(Libraries.kotlinStdlib)
+    implementation(Libraries.appCompat)
+    implementation(Libraries.swipeToRefresh)
+    implementation(Libraries.coreAndroidx)
+    implementation(Libraries.lifecycleViewModel)
+    implementation(Libraries.lifecycleExtensions)
+    implementation(Libraries.kodein)
+    implementation(Libraries.okhttp)
+
+    androidTestImplementation(Libraries.jUnit)
+    androidTestImplementation(Libraries.androidTestCoreKtx)
+    androidTestImplementation(Libraries.androidTestExtJunit)
+    androidTestImplementation(Libraries.androidTestExtJunitKtx)
+    androidTestImplementation(Libraries.androidTestRunner)
+    androidTestImplementation(Libraries.androidTestRules)
+    androidTestImplementation(Libraries.androidTestCore)
+    androidTestImplementation(Libraries.espressoCore)
+    androidTestImplementation(Libraries.barista)
+    androidTestImplementation(Libraries.assertj)
     androidTestImplementation(Libraries.mockWebServer)
-
-    unitTest {
-        forEachDependency { testImplementation(it) }
-    }
-
-    instrumentationTest {
-        forEachDependency { androidTestImplementation(it) }
-    }
 }
 
 androidExtensions {
