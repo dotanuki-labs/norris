@@ -146,7 +146,7 @@ jobs:
         with:
           api-level: 29
           arch: x86_64
-          script: ./gradlew clean :app:connectedDebugAndroidTest --stacktrace -PtestMode=true
+          script: ./gradlew clean :app:connectedAndroidTest --stacktrace -PtestMode=true
 
       - name: Archive build outputs
         if: always()
