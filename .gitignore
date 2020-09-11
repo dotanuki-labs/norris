@@ -41,7 +41,6 @@ captures/
 .idea/libraries
 
 # Keystore files
-*.jks
 !test_keystore.jks
 !release_keystore.jks
 keystore.properties
