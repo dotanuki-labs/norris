@@ -3,6 +3,8 @@
 # Adapted from https://github.com/chrisbanes/tivi/blob/main/checksum.sh
 set -e
 
+cd ..
+
 RESULT_FILE=$1
 
 if [ -f $RESULT_FILE ]; then
