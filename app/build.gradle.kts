@@ -92,6 +92,7 @@ android {
 
 dependencies {
     coreLibraryDesugaring(Libraries.coreLibrariesDesugaring)
+    implementation(Libraries.ticktock)
 
     implementation(project(":platform:logger"))
     implementation(project(":platform:domain"))

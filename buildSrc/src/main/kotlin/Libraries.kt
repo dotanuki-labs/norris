@@ -28,6 +28,7 @@ object Libraries {
 
     const val kodein = "org.kodein.di:kodein-di-jvm:${Versions.kodein}"
     const val coreLibrariesDesugaring = "com.android.tools:desugar_jdk_libs:1.0.9"
+    const val ticktock = "dev.zacsweers.ticktock:ticktock-android-tzdb:0.1.1"
 
     const val jUnit = "junit:junit:${Versions.junit}"
     const val assertj = "org.assertj:assertj-core:${Versions.assertj}"
