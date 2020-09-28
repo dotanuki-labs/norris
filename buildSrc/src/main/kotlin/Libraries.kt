@@ -27,6 +27,7 @@ object Libraries {
     const val coroutinesDebug = "org.jetbrains.kotlinx:kotlinx-coroutines-debug:${Versions.coroutines}"
 
     const val kodein = "org.kodein.di:kodein-di-jvm:${Versions.kodein}"
+    const val coreLibrariesDesugaring = "com.android.tools:desugar_jdk_libs:1.0.9"
 
     const val jUnit = "junit:junit:${Versions.junit}"
     const val assertj = "org.assertj:assertj-core:${Versions.assertj}"

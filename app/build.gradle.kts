@@ -77,6 +77,7 @@ android {
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
+        coreLibraryDesugaringEnabled = true
     }
 
     tasks.withType<KotlinCompile> {
@@ -90,6 +91,7 @@ android {
 }
 
 dependencies {
+    coreLibraryDesugaring(Libraries.coreLibrariesDesugaring)
 
     implementation(project(":platform:logger"))
     implementation(project(":platform:domain"))
