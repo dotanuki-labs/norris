@@ -9,7 +9,7 @@ find  . -name "*.apk" -print -exec adb install {} \;
 
 echo "\n🔥 Running instrumentation"
 RUNNER="io.dotanuki.demos.norris.test/androidx.test.runner.AndroidJUnitRunner"
-adb shell am instrument -w -r $RUNNER |& tee adb-test.log
+adb shell am instrument -w -r $RUNNER > adb-test.log
 
 if [ $? -eq 0 ]; then
     echo "\n🔥 Instrumentation test execution failed! Aborting\n"
