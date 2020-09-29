@@ -11,7 +11,7 @@ echo "\n🔥 Running instrumentation"
 
 adb shell 'am instrument -w io.dotanuki.demos.norris.test/androidx.test.runner.AndroidJUnitRunner; echo $?' | grep 'FAILURES'
 
-if [ $? -eq 0 ]; then
+if [ $? -eq 0 ;] then
   echo "\n🔥 Instrumentation test execution failed! Aborting\n"
   exit 1
 fi

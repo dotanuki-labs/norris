@@ -178,11 +178,3 @@ jobs:
           api-level: ${{ matrix.android_sdk }}
           arch: x86_64
           script: ./scripts/espresso-run.sh
-
-      - name: Archive instrumentation results
-        if: always()
-        uses: actions/upload-artifact@v2.1.4
-        with:
-          name: instrumentation-logs
-          path: instrumentation-outputs
-
