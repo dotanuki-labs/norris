@@ -77,7 +77,6 @@ android {
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
-        coreLibraryDesugaringEnabled = true
     }
 
     tasks.withType<KotlinCompile> {
@@ -91,9 +90,6 @@ android {
 }
 
 dependencies {
-    coreLibraryDesugaring(Libraries.coreLibrariesDesugaring)
-    implementation(Libraries.ticktock)
-
     implementation(project(":platform:logger"))
     implementation(project(":platform:domain"))
     implementation(project(":platform:rest-chucknorris"))
@@ -124,7 +120,7 @@ dependencies {
     androidTestImplementation(Libraries.androidTestCore)
     androidTestImplementation(Libraries.espressoCore)
     androidTestImplementation(Libraries.barista)
-    androidTestImplementation(Libraries.assertj)
+    androidTestImplementation(Libraries.assertjJava7)
     androidTestImplementation(Libraries.mockWebServer)
 }
 
