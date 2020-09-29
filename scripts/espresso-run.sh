@@ -11,10 +11,10 @@ echo "\n🔥 Running instrumentation"
 
 mkdir instrumentation-outputs
 
-adb logcat -d | grep 'norris' | tee instrumentation-outputs/log.txt &
+adb logcat &
 
 RUNNER="io.dotanuki.demos.norris.test/androidx.test.runner.AndroidJUnitRunner"
-adb shell am instrument -w -r $RUNNER > instrumentation-outputs/adb-test.log
+adb shell am instrument -w -r $RUNNER | tee instrumentation-outputs/adb-test.log
 
 if [ $? -eq 0 ]; then
     echo "\n🔥 Instrumentation test execution failed! Aborting\n"
