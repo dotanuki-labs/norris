@@ -161,7 +161,7 @@ jobs:
     strategy:
       fail-fast: true
       matrix:
-        android_sdk: [26, 27, 28, 29]
+        android_sdk: [27, 28, 29]
 
     runs-on: macOS-latest
     needs: [assemble_apk, espresso_prepare]
@@ -178,4 +178,11 @@ jobs:
           api-level: ${{ matrix.android_sdk }}
           arch: x86_64
           script: ./scripts/espresso-run.sh
+
+      - name: Archive instrumentation results
+        if: always()
+        uses: actions/upload-artifact@v2.1.4
+        with:
+          name: instrumentation-log
+          path: adb-test.log
 
