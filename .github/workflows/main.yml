@@ -183,6 +183,6 @@ jobs:
         if: always()
         uses: actions/upload-artifact@v2.1.4
         with:
-          name: instrumentation-log
-          path: adb-test.log
+          name: instrumentation-logs
+          path: instrumentation-outputs
 
