@@ -11,15 +11,13 @@ echo "\n🔥 Running instrumentation"
 
 EXECUTION=`adb shell am instrument -w io.dotanuki.demos.norris.test/androidx.test.runner.AndroidJUnitRunner`
 
-echo $EXECUTION
+ERRORS_FOUND=`echo $EXECUTION | grep FAILURES`
 
-FAILURES=`echo $EXECUTION | grep FAILURES`
-
-if [ -z "$FAILURES" ] then
+if [[ -z "$ERRORS_FOUND" ]]; then
   echo "\n🔥 Instrumentation tests ran with success!\n"
   exit 0
 fi
 
 echo "\n🔥 Instrumentation test execution failed!\n"
+echo $EXECUTION
 exit 1
-
