@@ -1,6 +1,6 @@
 #! /bin/bash
 
-set -ex
+set -exu
 
 cd ..
 
@@ -11,9 +11,9 @@ echo "\n🔥 Running instrumentation"
 
 EXECUTION=`adb shell am instrument -w io.dotanuki.demos.norris.test/androidx.test.runner.AndroidJUnitRunner`
 
-ERRORS_FOUND=`echo $EXECUTION | grep FAILURES`
+ERRORS_FOUND=`echo $EXECUTION | grep FAILURES | tr -d ' '`
 
-if [[ -n "$ERRORS_FOUND" ]]; then
+if [ -n "$ERRORS_FOUND" ]; then
 	echo "\n🔥 Instrumentation test execution failed!\n"
 	echo $EXECUTION
 	exit 1
