@@ -1,6 +1,6 @@
-#! /bin/sh
+#! /bin/bash
 
-set -e
+set -ex
 
 cd ..
 
@@ -15,10 +15,11 @@ echo $EXECUTION
 
 FAILURES=`echo $EXECUTION | grep FAILURES`
 
-if [ ! -z "$FAILURES" ] then
-  echo "\n🔥 Instrumentation test execution failed!\n"
-  more execution.log
-  exit 1
+if [ -z "$FAILURES" ] then
+  echo "\n🔥 Instrumentation tests ran with success!\n"
+  exit 0
 fi
 
-echo "\n🔥 Instrumentation tests ran with success!\n"
+echo "\n🔥 Instrumentation test execution failed!\n"
+exit 1
+
