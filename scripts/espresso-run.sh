@@ -9,11 +9,16 @@ find  . -name "*.apk" -print -exec adb install {} \;
 
 echo "\n🔥 Running instrumentation"
 
-adb logcat &
-adb shell 'am instrument -w io.dotanuki.demos.norris.test/androidx.test.runner.AndroidJUnitRunner; echo $?' | grep 'FAILURES'
+TEST_RUNNER="io.dotanuki.demos.norris.test/androidx.test.runner.AndroidJUnitRunner"
+adb shell am instrument -w $ > /sdcard/execution.log
 
-if [ $? -eq 0 ;] then
-  echo "\n🔥 Instrumentation test execution failed! Aborting\n"
+adb pull /sdcard/execution.log .
+
+FAILURES=`cat execution.log | grep FAILURES`
+
+if [ ! -z "$FAILURES" ] then
+  echo "\n🔥 Instrumentation test execution failed!\n"
+  more execution.log
   exit 1
 fi
 
