@@ -10,9 +10,7 @@ find  . -name "*.apk" -print -exec adb install {} \;
 echo "\n🔥 Running instrumentation"
 
 TEST_RUNNER="io.dotanuki.demos.norris.test/androidx.test.runner.AndroidJUnitRunner"
-adb shell am instrument -w $ > /sdcard/execution.log
-
-adb pull /sdcard/execution.log .
+adb shell am instrument -w $TEST_RUNNER > execution.log
 
 FAILURES=`cat execution.log | grep FAILURES`
 
