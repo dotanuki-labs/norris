@@ -13,7 +13,7 @@ EXECUTION=`adb shell am instrument -w io.dotanuki.demos.norris.test/androidx.tes
 
 ERRORS_FOUND=`echo $EXECUTION | grep FAILURES`
 
-if [[ $ERRORS_FOUND ]]; then
+if [[ -n "$ERRORS_FOUND" ]]; then
 	echo "\n🔥 Instrumentation test execution failed!\n"
 	echo $EXECUTION
 	exit 1
