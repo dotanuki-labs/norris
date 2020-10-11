@@ -161,7 +161,7 @@ jobs:
     strategy:
       fail-fast: true
       matrix:
-        android_sdk: [23, 25, 28, 29]
+        android_sdk: [25, 28, 29]
 
     runs-on: macOS-latest
     needs: [assemble_apk, espresso_prepare]
