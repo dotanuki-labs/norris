@@ -13,7 +13,8 @@ dependencies {
     implementation(Libraries.okhttp)
     implementation(Libraries.okhttpLogger)
     implementation(Libraries.retrofit)
-    implementation(Libraries.kotlinSerialization)
+    implementation(Libraries.kotlinSerializationCore)
+    implementation(Libraries.kotlinSerializationJson)
     implementation(Libraries.coroutinesCore)
     implementation(Libraries.kodein)
 

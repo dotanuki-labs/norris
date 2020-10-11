@@ -8,7 +8,8 @@ dependencies {
     implementation(project(":platform:domain"))
 
     implementation(Libraries.kotlinStdlib)
-    implementation(Libraries.kotlinSerialization)
+    implementation(Libraries.kotlinSerializationCore)
+    implementation(Libraries.kotlinSerializationJson)
     implementation(Libraries.okhttp)
     implementation(Libraries.okhttpLogger)
     implementation(Libraries.retrofit)

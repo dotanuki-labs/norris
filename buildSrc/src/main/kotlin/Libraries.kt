@@ -5,7 +5,8 @@ import configs.KotlinConfig
 object Libraries {
 
     const val kotlinStdlib = "org.jetbrains.kotlin:kotlin-stdlib-jdk8:${KotlinConfig.version}"
-    const val kotlinSerialization = "org.jetbrains.kotlinx:kotlinx-serialization-core:${Versions.kotlinSerialization}"
+    const val kotlinSerializationCore = "org.jetbrains.kotlinx:kotlinx-serialization-core:${Versions.kotlinSerialization}"
+    const val kotlinSerializationJson = "org.jetbrains.kotlinx:kotlinx-serialization-json:${Versions.kotlinSerialization}"
 
     const val okhttp = "com.squareup.okhttp3:okhttp:${Versions.okHttp}"
     const val okhttpLogger = "com.squareup.okhttp3:logging-interceptor:${Versions.okHttp}"
@@ -45,10 +46,10 @@ object Libraries {
     const val mockWebServer = "com.squareup.okhttp3:mockwebserver:${Versions.okHttp}"
 
     private object Versions {
-        const val kotlinSerialization = "1.0.0-RC"
+        const val kotlinSerialization = "1.0.0"
         const val okHttp = "4.8.1"
         const val retrofit = "2.9.0"
-        const val retrofitKotlinSerialization = "0.7.0"
+        const val retrofitKotlinSerialization = "0.8.0"
         const val coroutines = "1.3.9"
         const val turbine = "0.2.1"
         const val kodein = "7.1.0"
