@@ -34,6 +34,6 @@ object BuildPlugins {
         const val ktlint = "9.4.0"
         const val detekt = "1.12.0"
         const val jacocoUnified = "0.16.0"
-        const val keeper = "0.6.0"
+        const val keeper = "0.7.0"
     }
 }

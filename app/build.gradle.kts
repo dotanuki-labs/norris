@@ -90,7 +90,6 @@ android {
 }
 
 dependencies {
-
     implementation(project(":platform:logger"))
     implementation(project(":platform:domain"))
     implementation(project(":platform:rest-chucknorris"))
@@ -121,7 +120,7 @@ dependencies {
     androidTestImplementation(Libraries.androidTestCore)
     androidTestImplementation(Libraries.espressoCore)
     androidTestImplementation(Libraries.barista)
-    androidTestImplementation(Libraries.assertj)
+    androidTestImplementation(Libraries.assertjJava7)
     androidTestImplementation(Libraries.mockWebServer)
 }
 

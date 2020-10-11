@@ -30,6 +30,7 @@ object Libraries {
 
     const val jUnit = "junit:junit:${Versions.junit}"
     const val assertj = "org.assertj:assertj-core:${Versions.assertj}"
+    const val assertjJava7 = "org.assertj:assertj-core:2.9.1"
     const val burster = "com.github.ubiratansoares:burster:${Versions.burster}"
     const val turbine = "app.cash.turbine:turbine:${Versions.turbine}"
     const val barista = "com.schibsted.spain:barista:${Versions.barista}"
