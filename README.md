@@ -2,7 +2,6 @@
 ![Main](https://github.com/dotanuki-labs/norris/workflows/Main/badge.svg)
 [![ktlint](https://img.shields.io/badge/code%20style-%E2%9D%A4-FF4081.svg)](https://ktlint.github.io/) [![Maintainability](https://api.codeclimate.com/v1/badges/42704b7b56bbdba33b99/maintainability)](https://codeclimate.com/github/dotanuki-labs/norris/maintainability) 
 [![codecov](https://codecov.io/gh/dotanuki-labs/norris/branch/master/graph/badge.svg)](https://codecov.io/gh/dotanuki-labs/norris) 
-[![codebeat badge](https://codebeat.co/badges/23b02036-2aaf-4325-a856-add0e46d6832)](https://codebeat.co/projects/github-com-dotanuki-labs-norris-master) 
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/b1d3c2abc602421680d2324045b9829a)](https://www.codacy.com/app/ubiratansoares/norris?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=dotanuki-labs/norris&amp;utm_campaign=Badge_Grade)
 
 <img src=".github/assets/norris-logo.png" 
