@@ -1,6 +1,6 @@
 #! /bin/bash
 
-set -exu
+set -eu
 
 cd ..
 
