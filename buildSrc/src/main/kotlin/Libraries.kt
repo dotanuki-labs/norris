@@ -46,7 +46,7 @@ object Libraries {
     const val mockWebServer = "com.squareup.okhttp3:mockwebserver:${Versions.okHttp}"
 
     private object Versions {
-        const val kotlinSerialization = "1.0.0"
+        const val kotlinSerialization = "1.0.1"
         const val okHttp = "4.8.1"
         const val retrofit = "2.9.0"
         const val retrofitKotlinSerialization = "0.8.0"
