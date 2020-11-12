@@ -47,7 +47,7 @@ object Libraries {
 
     private object Versions {
         const val kotlinSerialization = "1.0.1"
-        const val okHttp = "4.8.1"
+        const val okHttp = "4.9.0"
         const val retrofit = "2.9.0"
         const val retrofitKotlinSerialization = "0.8.0"
         const val coroutines = "1.3.9"
