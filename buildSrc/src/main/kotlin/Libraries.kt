@@ -50,7 +50,7 @@ object Libraries {
         const val okHttp = "4.9.0"
         const val retrofit = "2.9.0"
         const val retrofitKotlinSerialization = "0.8.0"
-        const val coroutines = "1.3.9"
+        const val coroutines = "1.4.1"
         const val turbine = "0.2.1"
         const val kodein = "7.1.0"
         const val lifecycle = "2.2.0"
