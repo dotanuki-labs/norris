@@ -56,11 +56,3 @@ fun Project.configureAsAndroidLibrary() {
         }
     }
 }
-
-fun Project.configureAndroidExtensions() {
-    val androidExtensions = extensions.findByName("androidExtensions") as AndroidExtensionsExtension
-
-    androidExtensions.apply {
-        isExperimental = true
-    }
-}
