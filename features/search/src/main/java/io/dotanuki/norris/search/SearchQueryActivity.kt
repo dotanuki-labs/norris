@@ -17,10 +17,11 @@ import io.dotanuki.norris.architecture.ViewState.FirstLaunch
 import io.dotanuki.norris.architecture.ViewState.Loading
 import io.dotanuki.norris.architecture.ViewState.Success
 import io.dotanuki.norris.features.utilties.selfBind
+import io.dotanuki.norris.features.utilties.viewBinding
 import io.dotanuki.norris.navigator.Navigator
 import io.dotanuki.norris.search.SearchPresentation.QueryValidation
 import io.dotanuki.norris.search.SearchPresentation.Suggestions
-import kotlinx.android.synthetic.main.activity_search_query.*
+import io.dotanuki.norris.search.databinding.ActivitySearchQueryBinding
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import org.kodein.di.DIAware
@@ -30,6 +31,7 @@ class SearchQueryActivity : AppCompatActivity(), DIAware {
 
     override val di by selfBind()
 
+    private val viewBindings by viewBinding(ActivitySearchQueryBinding::inflate)
     private val viewModel by instance<SearchViewModel>()
     private val logger by instance<Logger>()
     private val navigator by instance<Navigator>()
@@ -38,13 +40,13 @@ class SearchQueryActivity : AppCompatActivity(), DIAware {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_search_query)
+        setContentView(viewBindings.root)
         setup()
     }
 
     private fun setup() {
         setupTextInputField()
-        searchToolbar.setNavigationOnClickListener { finish() }
+        viewBindings.searchToolbar.setNavigationOnClickListener { finish() }
 
         viewModel.run {
             lifecycleScope.launch {
@@ -58,10 +60,11 @@ class SearchQueryActivity : AppCompatActivity(), DIAware {
     }
 
     private fun setupTextInputField() {
-        queryTextInput.run {
+        val input = viewBindings.queryTextInput
+        input.run {
             setOnEditorActionListener { _, actionId, _ ->
                 if (actionId == EditorInfo.IME_ACTION_DONE) {
-                    proceedIfAllowed(queryTextInput.editableText.toString())
+                    proceedIfAllowed(input.editableText.toString())
                 }
 
                 return@setOnEditorActionListener false
@@ -99,7 +102,7 @@ class SearchQueryActivity : AppCompatActivity(), DIAware {
     }
 
     private fun renderValidation(validation: QueryValidation) {
-        queryTextInput.error =
+        viewBindings.queryTextInput.error =
             when (validation.valid) {
                 false -> getString(R.string.error_querytextfield_invalid_query)
                 else -> null
@@ -109,7 +112,7 @@ class SearchQueryActivity : AppCompatActivity(), DIAware {
     }
 
     private fun startExecution() {
-        loadingSuggestions.visibility = View.VISIBLE
+        viewBindings.loadingSuggestions.visibility = View.VISIBLE
     }
 
     private fun launch() {
@@ -117,25 +120,27 @@ class SearchQueryActivity : AppCompatActivity(), DIAware {
     }
 
     private fun fillChips(content: Suggestions) {
-        logger.i("Filling Content")
-        recommendationsHeadline.visibility = View.VISIBLE
-        historyHeadline.visibility = View.VISIBLE
-        loadingSuggestions.visibility = View.GONE
+        viewBindings.run {
+            logger.i("Filling Content")
+            recommendationsHeadline.visibility = View.VISIBLE
+            historyHeadline.visibility = View.VISIBLE
+            loadingSuggestions.visibility = View.GONE
 
-        val (suggestions, history) = content.options
+            val (suggestions, history) = content.options
 
-        ChipsGroupPopulator(suggestionChipGroup, R.layout.chip_item_query).run {
-            populate(suggestions) { returnQuery(it) }
-        }
+            ChipsGroupPopulator(suggestionChipGroup, R.layout.chip_item_query).run {
+                populate(suggestions) { returnQuery(it) }
+            }
 
-        ChipsGroupPopulator(historyChipGroup, R.layout.chip_item_query).run {
-            populate(history) { returnQuery(it) }
+            ChipsGroupPopulator(historyChipGroup, R.layout.chip_item_query).run {
+                populate(history) { returnQuery(it) }
+            }
         }
     }
 
     private fun handleError(reason: Throwable) {
         logger.e("Failed on loading suggestions -> $reason")
-        loadingSuggestions.visibility = View.GONE
+        viewBindings.loadingSuggestions.visibility = View.GONE
         showErrorReport(R.string.error_snackbar_cannot_load_suggestions)
     }
 
@@ -155,9 +160,11 @@ class SearchQueryActivity : AppCompatActivity(), DIAware {
     }
 
     private fun showErrorReport(targetMessageId: Int) {
-        Snackbar
-            .make(searchScreenRoot, targetMessageId, Snackbar.LENGTH_INDEFINITE)
-            .setAction("OK") { queryTextInput.error = null }
-            .show()
+        viewBindings.run {
+            Snackbar
+                .make(searchScreenRoot, targetMessageId, Snackbar.LENGTH_INDEFINITE)
+                .setAction("OK") { queryTextInput.error = null }
+                .show()
+        }
     }
 }

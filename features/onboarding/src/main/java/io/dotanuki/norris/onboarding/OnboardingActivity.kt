@@ -10,8 +10,10 @@ import io.dotanuki.norris.architecture.ViewState.Failed
 import io.dotanuki.norris.architecture.ViewState.FirstLaunch
 import io.dotanuki.norris.architecture.ViewState.Success
 import io.dotanuki.norris.features.utilties.selfBind
+import io.dotanuki.norris.features.utilties.viewBinding
 import io.dotanuki.norris.navigator.Navigator
 import io.dotanuki.norris.navigator.Screen
+import io.dotanuki.norris.onboarding.databinding.ActivityOnboardingBinding
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
@@ -24,13 +26,14 @@ class OnboardingActivity : AppCompatActivity(), DIAware {
 
     override val di by selfBind()
 
+    private val viewBindings by viewBinding(ActivityOnboardingBinding::inflate)
     private val logger by instance<Logger>()
     private val navigator by instance<Navigator>()
     private val viewModel by instance<OnboardingViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_onboarding)
+        setContentView(viewBindings.root)
 
         lifecycleScope.launch {
             delay(1000)

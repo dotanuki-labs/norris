@@ -10,13 +10,11 @@ class SetupAndroidModulePlugin : Plugin<Project> {
         target.run {
             plugins.apply(BuildPlugins.Ids.androidLibrary)
             plugins.apply(BuildPlugins.Ids.kotlinAndroid)
-            plugins.apply(BuildPlugins.Ids.kotlinAndroidExtensions)
             plugins.apply(BuildPlugins.Ids.testLogger)
 
             configureKotlinTasks()
             configureTestLogger()
             configureAsAndroidLibrary()
-            configureAndroidExtensions()
         }
     }
 }

@@ -23,15 +23,16 @@ import io.dotanuki.norris.architecture.ViewState.Failed
 import io.dotanuki.norris.architecture.ViewState.FirstLaunch
 import io.dotanuki.norris.architecture.ViewState.Loading
 import io.dotanuki.norris.architecture.ViewState.Success
+import io.dotanuki.norris.facts.databinding.ActivityFactsBinding
 import io.dotanuki.norris.features.utilties.selfBind
 import io.dotanuki.norris.features.utilties.toast
+import io.dotanuki.norris.features.utilties.viewBinding
 import io.dotanuki.norris.navigator.DefineSearchQuery
 import io.dotanuki.norris.navigator.HandleDelegatedWork
 import io.dotanuki.norris.navigator.Navigator
 import io.dotanuki.norris.navigator.PostFlow.NoResults
 import io.dotanuki.norris.navigator.PostFlow.WithResults
 import io.dotanuki.norris.navigator.Screen
-import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import org.kodein.di.DIAware
@@ -43,13 +44,14 @@ class FactsActivity : AppCompatActivity(), DIAware {
 
     override val di by selfBind()
 
+    private val viewBindings by viewBinding(ActivityFactsBinding::inflate)
     private val viewModel by instance<FactsViewModel>()
     private val logger by instance<Logger>()
     private val navigator by instance<Navigator>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        setContentView(viewBindings.root)
         setup()
     }
 
@@ -91,12 +93,14 @@ class FactsActivity : AppCompatActivity(), DIAware {
     }
 
     private fun setup() {
-        setSupportActionBar(factsToolbar)
-        factsRecyclerView.layoutManager = LinearLayoutManager(this)
-        factsSwipeToRefresh.setOnRefreshListener { refresh() }
+        viewBindings.run {
+            setSupportActionBar(factsToolbar)
+            factsRecyclerView.layoutManager = LinearLayoutManager(this@FactsActivity)
+            factsSwipeToRefresh.setOnRefreshListener { refresh() }
 
-        lifecycleScope.launch {
-            viewModel.bind().collect { renderState(it) }
+            lifecycleScope.launch {
+                viewModel.bind().collect { renderState(it) }
+            }
         }
     }
 
@@ -110,8 +114,10 @@ class FactsActivity : AppCompatActivity(), DIAware {
         }
 
     private fun showFacts(presentation: FactsPresentation) {
-        factsSwipeToRefresh.isRefreshing = false
-        factsRecyclerView.adapter = FactsAdapter(presentation) { shareFact(it) }
+        viewBindings.run {
+            factsSwipeToRefresh.isRefreshing = false
+            factsRecyclerView.adapter = FactsAdapter(presentation) { shareFact(it) }
+        }
         showHeadline(presentation.relatedQuery)
     }
 
@@ -126,28 +132,31 @@ class FactsActivity : AppCompatActivity(), DIAware {
 
         val prefix = getString(R.string.headline_facts)
         val headline = SpannableStringBuilder(prefix).append(" : ").append(highlightedFact)
-        factsHeadlineLabel.text = headline
+        viewBindings.factsHeadlineLabel.text = headline
     }
 
     private fun handleError(failed: Throwable) {
         logger.e("Error -> $failed")
-        factsSwipeToRefresh.isRefreshing = false
 
-        val (errorImage, errorMessage) = ErrorStateResources(failed)
-        val hasPreviousContent =
-            factsRecyclerView.adapter
-                ?.let { it.itemCount != 0 }
-                ?: false
+        viewBindings.run {
+            factsSwipeToRefresh.isRefreshing = false
 
-        when {
-            hasPreviousContent -> toast(errorMessage)
-            else -> showErrorState(errorImage, errorMessage)
+            val (errorImage, errorMessage) = ErrorStateResources(failed)
+            val hasPreviousContent =
+                factsRecyclerView.adapter
+                    ?.let { it.itemCount != 0 }
+                    ?: false
+
+            when {
+                hasPreviousContent -> toast(errorMessage)
+                else -> showErrorState(errorImage, errorMessage)
+            }
         }
     }
 
     private fun showErrorState(errorImage: Int, errorMessage: Int) {
-        with(errorStateView) {
-            visibility = View.VISIBLE
+        with(viewBindings) {
+            errorStateView.visibility = View.VISIBLE
             errorStateImage.setImageResource(errorImage)
             errorStateLabel.setText(errorMessage)
             retryButton.setOnClickListener { loadFacts() }
@@ -155,8 +164,10 @@ class FactsActivity : AppCompatActivity(), DIAware {
     }
 
     private fun startExecution() {
-        errorStateView.visibility = View.GONE
-        factsSwipeToRefresh.isRefreshing = true
+        viewBindings.run {
+            errorStateView.visibility = View.GONE
+            factsSwipeToRefresh.isRefreshing = true
+        }
     }
 
     private fun shareFact(row: FactDisplayRow) {

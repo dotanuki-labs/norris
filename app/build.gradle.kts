@@ -6,7 +6,6 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 plugins {
     id(BuildPlugins.Ids.androidApplication)
     id(BuildPlugins.Ids.kotlinAndroid)
-    id(BuildPlugins.Ids.kotlinAndroidExtensions)
     id(BuildPlugins.Ids.keeper) version BuildPlugins.Versions.keeper
 }
 
@@ -122,10 +121,6 @@ dependencies {
     androidTestImplementation(Libraries.barista)
     androidTestImplementation(Libraries.assertjJava7)
     androidTestImplementation(Libraries.mockWebServer)
-}
-
-androidExtensions {
-    extensions.add("experimental", true)
 }
 
 fun Project.evaluateTestMode(): Boolean =
