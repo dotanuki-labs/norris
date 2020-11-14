@@ -3,8 +3,8 @@ package io.dotanuki.norris.facts
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import kotlinx.android.synthetic.main.list_item_fact.view.*
 
 class FactsAdapter(
     private val presentation: FactsPresentation,
@@ -28,6 +28,8 @@ class FactHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
     fun bind(row: FactDisplayRow, action: (FactDisplayRow) -> Unit) {
         itemView.run {
+
+            val factLabel = itemView.findViewById<TextView>(R.id.factLabel)
 
             val appearance =
                 if (row.displayWithSmallerFontSize) R.style.BigFact
