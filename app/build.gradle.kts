@@ -123,10 +123,6 @@ dependencies {
     androidTestImplementation(Libraries.mockWebServer)
 }
 
-androidExtensions {
-    extensions.add("experimental", true)
-}
-
 fun Project.evaluateTestMode(): Boolean =
     properties["testMode"]?.let { true } ?: false
 
