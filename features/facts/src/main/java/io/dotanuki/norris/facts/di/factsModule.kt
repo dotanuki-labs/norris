@@ -1,12 +1,11 @@
 package io.dotanuki.norris.facts.di
 
-import io.dotanuki.norris.architecture.StateMachine
-import io.dotanuki.norris.architecture.TaskExecutor
+import androidx.fragment.app.FragmentActivity
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
 import io.dotanuki.norris.domain.FetchFacts
 import io.dotanuki.norris.domain.ManageSearchQuery
-import io.dotanuki.norris.facts.FactsPresentation
 import io.dotanuki.norris.facts.FactsViewModel
-import io.dotanuki.norris.features.utilties.ConfigChangesAwareStateContainer
 import io.dotanuki.norris.features.utilties.KodeinTags
 import org.kodein.di.DI
 import org.kodein.di.bind
@@ -21,22 +20,16 @@ val factsModule = DI.Module("menu_facts_list") {
             factsService = instance()
         )
 
-        val stateContainer = ConfigChangesAwareStateContainer<FactsPresentation>(
-            host = instance(KodeinTags.hostActivity)
-        )
-
         val manageSearchQuery = ManageSearchQuery(
             historyService = instance()
         )
 
-        val stateMachine = StateMachine(
-            container = stateContainer,
-            executor = TaskExecutor.Concurrent(
-                scope = stateContainer.emissionScope,
-                dispatcher = instance()
-            )
-        )
+        val factory = object : ViewModelProvider.Factory {
+            override fun <VM : ViewModel> create(klass: Class<VM>) =
+                FactsViewModel(fetchFacts, manageSearchQuery) as VM
+        }
 
-        FactsViewModel(fetchFacts, manageSearchQuery, stateMachine)
+        val host: FragmentActivity = instance(KodeinTags.hostActivity)
+        ViewModelProvider(host, factory).get(FactsViewModel::class.java)
     }
 }

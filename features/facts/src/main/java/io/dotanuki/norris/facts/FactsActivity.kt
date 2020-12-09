@@ -16,13 +16,12 @@ import androidx.core.content.ContextCompat
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import io.dotanuki.logger.Logger
-import io.dotanuki.norris.architecture.UserInteraction.OpenedScreen
-import io.dotanuki.norris.architecture.UserInteraction.RequestedFreshContent
-import io.dotanuki.norris.architecture.ViewState
-import io.dotanuki.norris.architecture.ViewState.Failed
-import io.dotanuki.norris.architecture.ViewState.FirstLaunch
-import io.dotanuki.norris.architecture.ViewState.Loading
-import io.dotanuki.norris.architecture.ViewState.Success
+import io.dotanuki.norris.facts.FactsScreenState.Failed
+import io.dotanuki.norris.facts.FactsScreenState.Idle
+import io.dotanuki.norris.facts.FactsScreenState.Loading
+import io.dotanuki.norris.facts.FactsScreenState.Success
+import io.dotanuki.norris.facts.FactsUserInteraction.OpenedScreen
+import io.dotanuki.norris.facts.FactsUserInteraction.RequestedFreshContent
 import io.dotanuki.norris.facts.databinding.ActivityFactsBinding
 import io.dotanuki.norris.features.utilties.selfBind
 import io.dotanuki.norris.features.utilties.toast
@@ -97,20 +96,19 @@ class FactsActivity : AppCompatActivity(), DIAware {
             setSupportActionBar(factsToolbar)
             factsRecyclerView.layoutManager = LinearLayoutManager(this@FactsActivity)
             factsSwipeToRefresh.setOnRefreshListener { refresh() }
+        }
 
-            lifecycleScope.launch {
-                viewModel.bind().collect { renderState(it) }
-            }
+        lifecycleScope.launch {
+            viewModel.bind().collect { renderState(it) }
         }
     }
 
-    private fun renderState(state: ViewState<FactsPresentation>) =
+    private fun renderState(state: FactsScreenState) =
         when (state) {
             is Failed -> handleError(state.reason)
             is Success -> showFacts(state.value)
-            is Loading.FromEmpty -> startExecution()
-            is Loading.FromPrevious -> showFacts(state.previous)
-            is FirstLaunch -> loadFacts()
+            is Loading -> startExecution()
+            is Idle -> loadFacts()
         }
 
     private fun showFacts(presentation: FactsPresentation) {
