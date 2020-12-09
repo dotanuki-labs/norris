@@ -16,6 +16,7 @@ import androidx.core.content.ContextCompat
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import io.dotanuki.logger.Logger
+import io.dotanuki.norris.facts.FactsScreenState.*
 import io.dotanuki.norris.facts.FactsUserInteraction.*
 import io.dotanuki.norris.facts.databinding.ActivityFactsBinding
 import io.dotanuki.norris.features.utilties.selfBind
@@ -100,10 +101,10 @@ class FactsActivity : AppCompatActivity(), DIAware {
 
     private fun renderState(state: FactsScreenState) =
         when (state) {
-            is FactsScreenState.Failed -> handleError(state.reason)
-            is FactsScreenState.Success -> showFacts(state.value)
-            is FactsScreenState.Loading -> startExecution()
-            is FactsScreenState.Idle -> loadFacts()
+            is Failed -> handleError(state.reason)
+            is Success -> showFacts(state.value)
+            is Loading -> startExecution()
+            is Idle -> loadFacts()
         }
 
     private fun showFacts(presentation: FactsPresentation) {
