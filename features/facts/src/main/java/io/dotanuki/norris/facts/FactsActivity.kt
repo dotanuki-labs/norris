@@ -16,8 +16,12 @@ import androidx.core.content.ContextCompat
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import io.dotanuki.logger.Logger
-import io.dotanuki.norris.facts.FactsScreenState.*
-import io.dotanuki.norris.facts.FactsUserInteraction.*
+import io.dotanuki.norris.facts.FactsScreenState.Failed
+import io.dotanuki.norris.facts.FactsScreenState.Idle
+import io.dotanuki.norris.facts.FactsScreenState.Loading
+import io.dotanuki.norris.facts.FactsScreenState.Success
+import io.dotanuki.norris.facts.FactsUserInteraction.OpenedScreen
+import io.dotanuki.norris.facts.FactsUserInteraction.RequestedFreshContent
 import io.dotanuki.norris.facts.databinding.ActivityFactsBinding
 import io.dotanuki.norris.features.utilties.selfBind
 import io.dotanuki.norris.features.utilties.toast
