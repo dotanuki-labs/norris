@@ -16,6 +16,7 @@ import androidx.core.content.ContextCompat
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import io.dotanuki.logger.Logger
+import io.dotanuki.norris.facts.FactsUserInteraction.*
 import io.dotanuki.norris.facts.databinding.ActivityFactsBinding
 import io.dotanuki.norris.features.utilties.selfBind
 import io.dotanuki.norris.features.utilties.toast
@@ -78,11 +79,11 @@ class FactsActivity : AppCompatActivity(), DIAware {
     }
 
     private fun loadFacts() {
-        viewModel.handle(FactsUserInteraction.OpenedScreen)
+        viewModel.handle(OpenedScreen)
     }
 
     private fun refresh() {
-        viewModel.handle(FactsUserInteraction.RequestedFreshContent)
+        viewModel.handle(RequestedFreshContent)
     }
 
     private fun setup() {
@@ -90,10 +91,10 @@ class FactsActivity : AppCompatActivity(), DIAware {
             setSupportActionBar(factsToolbar)
             factsRecyclerView.layoutManager = LinearLayoutManager(this@FactsActivity)
             factsSwipeToRefresh.setOnRefreshListener { refresh() }
+        }
 
-            lifecycleScope.launch {
-                viewModel.bind().collect { renderState(it) }
-            }
+        lifecycleScope.launch {
+            viewModel.bind().collect { renderState(it) }
         }
     }
 
