@@ -7,7 +7,6 @@ dependencies {
 
     implementation(project(":platform:logger"))
     implementation(project(":platform::domain"))
-    implementation(project(":platform:state-machine"))
     implementation(project(":platform:shared-assets"))
     implementation(project(":platform:shared-utilities"))
     implementation(project(":platform:navigator"))
@@ -17,7 +16,9 @@ dependencies {
 
     implementation(Libraries.coroutinesCore)
     implementation(Libraries.coroutinesAndroid)
+    implementation(Libraries.lifecycleExtensions)
     implementation(Libraries.lifecycleRuntime)
+    implementation(Libraries.lifecycleViewModel)
     implementation(Libraries.coreAndroidx)
     implementation(Libraries.appCompat)
     implementation(Libraries.swipeToRefresh)

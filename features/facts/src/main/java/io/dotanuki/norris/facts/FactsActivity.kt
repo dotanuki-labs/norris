@@ -16,13 +16,6 @@ import androidx.core.content.ContextCompat
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import io.dotanuki.logger.Logger
-import io.dotanuki.norris.architecture.UserInteraction.OpenedScreen
-import io.dotanuki.norris.architecture.UserInteraction.RequestedFreshContent
-import io.dotanuki.norris.architecture.ViewState
-import io.dotanuki.norris.architecture.ViewState.Failed
-import io.dotanuki.norris.architecture.ViewState.FirstLaunch
-import io.dotanuki.norris.architecture.ViewState.Loading
-import io.dotanuki.norris.architecture.ViewState.Success
 import io.dotanuki.norris.facts.databinding.ActivityFactsBinding
 import io.dotanuki.norris.features.utilties.selfBind
 import io.dotanuki.norris.features.utilties.toast
@@ -85,11 +78,11 @@ class FactsActivity : AppCompatActivity(), DIAware {
     }
 
     private fun loadFacts() {
-        viewModel.handle(OpenedScreen)
+        viewModel.handle(FactsUserInteraction.OpenedScreen)
     }
 
     private fun refresh() {
-        viewModel.handle(RequestedFreshContent)
+        viewModel.handle(FactsUserInteraction.RequestedFreshContent)
     }
 
     private fun setup() {
@@ -104,13 +97,12 @@ class FactsActivity : AppCompatActivity(), DIAware {
         }
     }
 
-    private fun renderState(state: ViewState<FactsPresentation>) =
+    private fun renderState(state: FactsScreenState) =
         when (state) {
-            is Failed -> handleError(state.reason)
-            is Success -> showFacts(state.value)
-            is Loading.FromEmpty -> startExecution()
-            is Loading.FromPrevious -> showFacts(state.previous)
-            is FirstLaunch -> loadFacts()
+            is FactsScreenState.Failed -> handleError(state.reason)
+            is FactsScreenState.Success -> showFacts(state.value)
+            is FactsScreenState.Loading -> startExecution()
+            is FactsScreenState.Idle -> loadFacts()
         }
 
     private fun showFacts(presentation: FactsPresentation) {
