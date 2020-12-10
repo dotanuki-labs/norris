@@ -2,21 +2,14 @@ package io.dotanuki.norris.onboarding
 
 import app.cash.turbine.test
 import io.dotanuki.coroutines.testutils.CoroutinesTestHelper
-import io.dotanuki.coroutines.testutils.unwrapError
-import io.dotanuki.norris.architecture.StateContainer
-import io.dotanuki.norris.architecture.StateMachine
-import io.dotanuki.norris.architecture.TaskExecutor
-import io.dotanuki.norris.architecture.UnsupportedUserInteraction
-import io.dotanuki.norris.architecture.UserInteraction
-import io.dotanuki.norris.architecture.UserInteraction.OpenedScreen
-import io.dotanuki.norris.architecture.ViewState.FirstLaunch
-import io.dotanuki.norris.architecture.ViewState.Loading
-import io.dotanuki.norris.architecture.ViewState.Success
 import io.dotanuki.norris.domain.FetchCategories
 import io.dotanuki.norris.domain.model.ChuckNorrisFact
 import io.dotanuki.norris.domain.model.RelatedCategory.Available
 import io.dotanuki.norris.domain.services.CategoriesCacheService
 import io.dotanuki.norris.domain.services.RemoteFactsService
+import io.dotanuki.norris.onboarding.OnboardingScreenState.Idle
+import io.dotanuki.norris.onboarding.OnboardingScreenState.Launching
+import io.dotanuki.norris.onboarding.OnboardingScreenState.Success
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.runBlocking
 import org.assertj.core.api.Assertions.assertThat
@@ -32,10 +25,6 @@ class OnboardingViewModelTests {
     private lateinit var viewModel: OnboardingViewModel
 
     @Before fun `before each test`() {
-        val stateMachine = StateMachine<Unit>(
-            executor = TaskExecutor.Synchronous(helper.scope),
-            container = StateContainer.Unbounded(helper.scope)
-        )
 
         val cache = object : CategoriesCacheService {
             override fun save(categories: List<Available>) = Unit
@@ -55,7 +44,7 @@ class OnboardingViewModelTests {
 
         val usecase = FetchCategories(cache, remote)
 
-        viewModel = OnboardingViewModel(usecase, stateMachine)
+        viewModel = OnboardingViewModel(usecase)
     }
 
     @ExperimentalTime
@@ -64,27 +53,14 @@ class OnboardingViewModelTests {
         runBlocking {
             viewModel.run {
                 bind().test {
-                    handle(OpenedScreen)
+                    val expectedStates = listOf(Idle, Launching, Success)
 
-                    val emissions = listOf(expectItem(), expectItem(), expectItem())
-                    val viewStates = listOf(FirstLaunch, Loading.FromEmpty, Success(Unit))
+                    handleApplicationLaunch()
 
-                    assertThat(emissions).isEqualTo(viewStates)
+                    val receivedStates = listOf(expectItem(), expectItem(), expectItem())
+                    assertThat(receivedStates).isEqualTo(expectedStates)
                 }
             }
         }
-    }
-
-    @ExperimentalTime
-    @ExperimentalCoroutinesApi
-    @Test fun `should not handle any other user interactions`() {
-
-        val result = runCatching {
-            viewModel.handle(UserInteraction.RequestedFreshContent)
-        }
-
-        val error = unwrapError(result)
-
-        assertThat(error).isEqualTo(UnsupportedUserInteraction)
     }
 }

@@ -1,9 +1,9 @@
 package io.dotanuki.norris.onboarding.di
 
-import io.dotanuki.norris.architecture.StateMachine
-import io.dotanuki.norris.architecture.TaskExecutor
+import androidx.fragment.app.FragmentActivity
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
 import io.dotanuki.norris.domain.FetchCategories
-import io.dotanuki.norris.features.utilties.ConfigChangesAwareStateContainer
 import io.dotanuki.norris.features.utilties.KodeinTags
 import io.dotanuki.norris.onboarding.OnboardingViewModel
 import org.kodein.di.DI
@@ -20,18 +20,12 @@ val onboardingModule = DI.Module("onboarding") {
             remoteFacts = instance()
         )
 
-        val stateContainer = ConfigChangesAwareStateContainer<Unit>(
-            host = instance(KodeinTags.hostActivity)
-        )
+        val factory = object : ViewModelProvider.Factory {
+            override fun <VM : ViewModel> create(klass: Class<VM>) =
+                OnboardingViewModel(usecase) as VM
+        }
 
-        val stateMachine = StateMachine(
-            container = stateContainer,
-            executor = TaskExecutor.Concurrent(
-                scope = stateContainer.emissionScope,
-                dispatcher = instance()
-            )
-        )
-
-        OnboardingViewModel(usecase, stateMachine)
+        val host: FragmentActivity = instance(KodeinTags.hostActivity)
+        ViewModelProvider(host, factory).get(OnboardingViewModel::class.java)
     }
 }
