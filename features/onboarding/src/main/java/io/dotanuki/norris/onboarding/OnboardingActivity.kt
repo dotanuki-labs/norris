@@ -4,15 +4,13 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import io.dotanuki.logger.Logger
-import io.dotanuki.norris.architecture.UserInteraction
-import io.dotanuki.norris.architecture.ViewState
-import io.dotanuki.norris.architecture.ViewState.Failed
-import io.dotanuki.norris.architecture.ViewState.FirstLaunch
-import io.dotanuki.norris.architecture.ViewState.Success
 import io.dotanuki.norris.features.utilties.selfBind
 import io.dotanuki.norris.features.utilties.viewBinding
 import io.dotanuki.norris.navigator.Navigator
 import io.dotanuki.norris.navigator.Screen
+import io.dotanuki.norris.onboarding.OnboardingScreenState.Failed
+import io.dotanuki.norris.onboarding.OnboardingScreenState.Idle
+import io.dotanuki.norris.onboarding.OnboardingScreenState.Success
 import io.dotanuki.norris.onboarding.databinding.ActivityOnboardingBinding
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collect
@@ -41,14 +39,14 @@ class OnboardingActivity : AppCompatActivity(), DIAware {
         }
     }
 
-    private fun render(state: ViewState<Unit>) {
+    private fun render(state: OnboardingScreenState) {
         when (state) {
-            FirstLaunch -> launch()
-            is Success -> {
+            Idle -> launch()
+            Success -> {
                 logger.i("Success -> Categories fetched, proceding to facts")
                 proceedToFacts()
             }
-            is Failed -> {
+            Failed -> {
                 logger.e("Error -> $state")
                 proceedToFacts()
             }
@@ -56,7 +54,7 @@ class OnboardingActivity : AppCompatActivity(), DIAware {
     }
 
     private fun launch() {
-        viewModel.handle(UserInteraction.OpenedScreen)
+        viewModel.handleApplicationLaunch()
     }
 
     private fun proceedToFacts() {
