@@ -2,6 +2,7 @@ package io.dotanuki.norris.navigator
 
 import android.app.Activity
 import android.content.Intent
+import androidx.activity.result.ActivityResultCallback
 import androidx.fragment.app.FragmentActivity
 
 class Navigator(
@@ -14,20 +15,23 @@ class Navigator(
         host.startActivity(next)
     }
 
-    fun requestWork(destination: Screen, work: DelegatableWork) {
+    fun navigateForResult(destination: Screen, callback: ActivityResultCallback<String?>) {
         val next = Intent(host, find(destination))
-        host.startActivityForResult(next, work.tag)
+        val contract = DefineSearchQuery(next)
+        val launcher = host.registerForActivityResult(contract, callback)
+        launcher.launch(Unit)
     }
 
-    fun returnFromWork() {
+    fun returnWithResult(query: String) {
         host.run {
-            setResult(Activity.RESULT_OK)
+            val data = Intent().apply {
+                putExtra(DefineSearchQuery.DATA_KEY, query)
+            }
+            setResult(Activity.RESULT_OK, data)
             finish()
         }
     }
 
     private fun find(target: Screen) =
-        links[target]
-            ?.let { it }
-            ?: throw UnsupportedNavigation(target)
+        links[target] ?: throw UnsupportedNavigation(target)
 }

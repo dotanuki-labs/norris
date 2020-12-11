@@ -1,14 +1,11 @@
 package io.dotanuki.norris.search.di
 
-import io.dotanuki.norris.architecture.CommandsProcessor
-import io.dotanuki.norris.architecture.StateMachine
-import io.dotanuki.norris.architecture.TaskExecutor
-import io.dotanuki.norris.domain.ComposeSearchOptions
+import androidx.fragment.app.FragmentActivity
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
 import io.dotanuki.norris.domain.FetchCategories
-import io.dotanuki.norris.domain.ManageSearchQuery
-import io.dotanuki.norris.features.utilties.ConfigChangesAwareStateContainer
+import io.dotanuki.norris.domain.services.SearchesHistoryService
 import io.dotanuki.norris.features.utilties.KodeinTags
-import io.dotanuki.norris.search.SearchPresentation
 import io.dotanuki.norris.search.SearchViewModel
 import org.kodein.di.DI
 import org.kodein.di.bind
@@ -18,44 +15,20 @@ import org.kodein.di.provider
 val searchModule = DI.Module("search") {
 
     bind() from provider {
+        val factory = object : ViewModelProvider.Factory {
 
-        val fetchCategories = FetchCategories(
-            categoriesCache = instance(),
-            remoteFacts = instance()
-        )
-        val composeSearchOptions = ComposeSearchOptions(
-            searches = instance(),
-            categories = fetchCategories
-        )
-
-        val manageSearchQuery = ManageSearchQuery(
-            historyService = instance()
-        )
-
-        val stateContainer = ConfigChangesAwareStateContainer<SearchPresentation>(
-            host = instance(KodeinTags.hostActivity)
-        )
-
-        val stateMachine = StateMachine(
-            container = stateContainer,
-            executor = TaskExecutor.Concurrent(
-                scope = stateContainer.emissionScope,
-                dispatcher = instance()
+            val fetchCategories = FetchCategories(
+                categoriesCache = instance(),
+                remoteFacts = instance()
             )
-        )
 
-        val commandProcessor = CommandsProcessor(
-            executor = TaskExecutor.Concurrent(
-                scope = stateContainer.emissionScope,
-                dispatcher = instance()
-            )
-        )
+            val searchService = instance<SearchesHistoryService>()
 
-        SearchViewModel(
-            composeSearchOptions,
-            manageSearchQuery,
-            commandProcessor,
-            stateMachine
-        )
+            override fun <VM : ViewModel> create(klass: Class<VM>) =
+                SearchViewModel(searchService, fetchCategories) as VM
+        }
+
+        val host: FragmentActivity = instance(KodeinTags.hostActivity)
+        ViewModelProvider(host, factory).get(SearchViewModel::class.java)
     }
 }
