@@ -15,7 +15,7 @@ import org.kodein.di.provider
 val searchModule = DI.Module("search") {
 
     bind() from provider {
-        val factory = object : ViewModelProvider.Factory {
+        @Suppress("UNCHECKED_CAST") val factory = object : ViewModelProvider.Factory {
 
             val fetchCategories = FetchCategories(
                 categoriesCache = instance(),

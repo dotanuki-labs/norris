@@ -14,13 +14,13 @@ import org.kodein.di.provider
 val onboardingModule = DI.Module("onboarding") {
 
     bind() from provider {
+        @Suppress("UNCHECKED_CAST") val factory = object : ViewModelProvider.Factory {
 
-        val usecase = FetchCategories(
-            categoriesCache = instance(),
-            remoteFacts = instance()
-        )
+            val usecase = FetchCategories(
+                categoriesCache = instance(),
+                remoteFacts = instance()
+            )
 
-        val factory = object : ViewModelProvider.Factory {
             override fun <VM : ViewModel> create(klass: Class<VM>) =
                 OnboardingViewModel(usecase) as VM
         }
