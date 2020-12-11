@@ -9,6 +9,4 @@ dependencies {
     implementation(Libraries.appCompat)
     implementation(Libraries.lifecycleExtensions)
     implementation(Libraries.lifecycleViewModel)
-
-    implementation(project(":platform:state-machine"))
 }

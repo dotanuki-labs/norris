@@ -1,69 +1,88 @@
 package io.dotanuki.norris.search
 
-import io.dotanuki.norris.architecture.CommandTrigger
-import io.dotanuki.norris.architecture.CommandsProcessor
-import io.dotanuki.norris.architecture.StateMachine
-import io.dotanuki.norris.architecture.StateTransition
-import io.dotanuki.norris.architecture.UnsupportedUserInteraction
-import io.dotanuki.norris.architecture.UserInteraction
-import io.dotanuki.norris.architecture.UserInteraction.OpenedScreen
-import io.dotanuki.norris.architecture.ViewCommand
-import io.dotanuki.norris.domain.ComposeSearchOptions
-import io.dotanuki.norris.domain.ManageSearchQuery
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import io.dotanuki.norris.domain.FetchCategories
 import io.dotanuki.norris.domain.SearchQueryValidation
-import kotlin.coroutines.resume
-import kotlin.coroutines.suspendCoroutine
+import io.dotanuki.norris.domain.services.SearchesHistoryService
+import io.dotanuki.norris.search.SearchInteraction.OpenedScreen
+import io.dotanuki.norris.search.SearchInteraction.QueryFieldChanged
+import io.dotanuki.norris.search.SearchScreenState.Companion.INITIAL
+import io.dotanuki.norris.search.SearchScreenState.Recommendations
+import io.dotanuki.norris.search.SearchScreenState.SearchHistory
+import io.dotanuki.norris.search.SearchScreenState.SearchQuery
+import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.consumeAsFlow
+import kotlinx.coroutines.launch
 
 class SearchViewModel(
-    private val optionsComposer: ComposeSearchOptions,
-    private val queryManager: ManageSearchQuery,
-    private val processor: CommandsProcessor,
-    private val machine: StateMachine<SearchPresentation>
-) {
+    private val searchService: SearchesHistoryService,
+    private val fetchCategories: FetchCategories
+) : ViewModel() {
 
-    fun bindToStates() = machine.states()
+    private val states = MutableStateFlow(INITIAL)
+    private val interactions = Channel<SearchInteraction>(Channel.UNLIMITED)
 
-    fun bindToCommands() = processor.commands()
-
-    fun handle(interaction: UserInteraction) =
-        when (interaction) {
-            is QueryDefined -> {
-                processor.process(
-                    CommandTrigger(::save, interaction)
-                )
-            }
-            else -> {
-                interpret(interaction)
-                    .let { transition ->
-                        machine.consume(transition)
-                    }
+    init {
+        viewModelScope.launch {
+            interactions.consumeAsFlow().collect { interaction ->
+                when (interaction) {
+                    OpenedScreen -> loadPrefilledOptions()
+                    is QueryFieldChanged -> validate(interaction.query)
+                }
             }
         }
+    }
 
-    private fun interpret(interaction: UserInteraction) =
-        when (interaction) {
-            is OpenedScreen -> StateTransition(::showSearchOptions)
-            is ValidateQuery -> StateTransition(::validate, interaction)
-            else -> throw UnsupportedUserInteraction
+    fun bind() = states as StateFlow<SearchScreenState>
+
+    fun handle(interaction: SearchInteraction) =
+        viewModelScope.launch {
+            interactions.send(interaction)
         }
 
-    private suspend fun showSearchOptions() =
-        optionsComposer
-            .execute()
-            .let { SearchPresentation.Suggestions(it) }
+    private suspend fun loadPrefilledOptions() {
+        loadCategoriesNamesAsRecommendations()
+        loadSearchHistory()
+    }
 
-    private suspend fun validate(parameters: StateTransition.Parameters): SearchPresentation =
-        suspendCoroutine { continuation ->
-            val interaction = parameters as ValidateQuery
-            val valid = SearchQueryValidation.validate(interaction.query)
-            continuation.resume(
-                SearchPresentation.QueryValidation(valid)
-            )
-        }
+    private suspend fun loadSearchHistory() {
+        val actualState = states.value
+        val loadingState = actualState.copy(searchHistory = SearchHistory.Loading)
+        states.value = loadingState
 
-    private suspend fun save(parameters: CommandTrigger.Parameters): ViewCommand =
-        with(parameters as QueryDefined) {
-            queryManager.save(query)
-            ReturnFromSearch
+        try {
+            val searchHistory = searchService.lastSearches()
+            val successState = loadingState.copy(searchHistory = SearchHistory.Success(searchHistory))
+            states.value = successState
+        } catch (error: Throwable) {
+            val errorState = loadingState.copy(searchHistory = SearchHistory.Failed(error))
+            states.value = errorState
         }
+    }
+
+    private suspend fun loadCategoriesNamesAsRecommendations() {
+        val actualState = states.value
+        val loadingState = actualState.copy(recommendations = Recommendations.Loading)
+        states.value = loadingState
+
+        try {
+            val categoriesNames = fetchCategories.execute().map { it.name }
+            val successState = loadingState.copy(recommendations = Recommendations.Success(categoriesNames))
+            states.value = successState
+        } catch (error: Throwable) {
+            val errorState = loadingState.copy(recommendations = Recommendations.Failed(error))
+            states.value = errorState
+        }
+    }
+
+    private fun validate(query: String) {
+        val actualState = states.value
+        val validatedQuery = if (SearchQueryValidation.validate(query)) SearchQuery.VALID else SearchQuery.INVALID
+        val newState = actualState.copy(searchQuery = validatedQuery)
+        states.value = newState
+    }
 }

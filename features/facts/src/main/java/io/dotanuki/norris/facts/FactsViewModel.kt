@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import io.dotanuki.norris.domain.FetchFacts
 import io.dotanuki.norris.domain.ManageSearchQuery
+import io.dotanuki.norris.facts.FactsUserInteraction.DefinedNewSearch
 import io.dotanuki.norris.facts.FactsUserInteraction.OpenedScreen
 import io.dotanuki.norris.facts.FactsUserInteraction.RequestedFreshContent
 import kotlinx.coroutines.channels.Channel
@@ -28,6 +29,10 @@ class FactsViewModel(
             interactions.consumeAsFlow().collect { interaction ->
                 when (interaction) {
                     OpenedScreen, RequestedFreshContent -> showFacts()
+                    is DefinedNewSearch -> {
+                        queryManager.save(interaction.query)
+                        showFacts()
+                    }
                 }
             }
         }

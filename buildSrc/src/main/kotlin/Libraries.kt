@@ -14,6 +14,8 @@ object Libraries {
     const val retrofitKotlinSerialization = "com.jakewharton.retrofit:retrofit2-kotlinx-serialization-converter:${Versions.retrofitKotlinSerialization}"
 
     const val appCompat = "androidx.appcompat:appcompat:${Versions.appCompat}"
+    const val activity = "androidx.activity:activity:${Versions.activityX}"
+    const val activityExtensions = "androidx.activity:activity-ktx:${Versions.activityX}"
     const val swipeToRefresh = "androidx.swiperefreshlayout:swiperefreshlayout:1.1.0"
 
     const val coreAndroidx = "androidx.core:core-ktx:${Versions.coreAndroidx}"
@@ -57,6 +59,7 @@ object Libraries {
         const val coreAndroidx = "1.3.1"
         const val materialDesign = "1.2.0"
         const val appCompat = "1.2.0"
+        const val activityX = "1.2.0-beta02"
         const val junit = "4.13"
         const val assertj = "3.16.1"
         const val burster = "0.1.1"

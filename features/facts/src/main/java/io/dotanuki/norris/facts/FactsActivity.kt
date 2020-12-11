@@ -20,17 +20,14 @@ import io.dotanuki.norris.facts.FactsScreenState.Failed
 import io.dotanuki.norris.facts.FactsScreenState.Idle
 import io.dotanuki.norris.facts.FactsScreenState.Loading
 import io.dotanuki.norris.facts.FactsScreenState.Success
+import io.dotanuki.norris.facts.FactsUserInteraction.DefinedNewSearch
 import io.dotanuki.norris.facts.FactsUserInteraction.OpenedScreen
 import io.dotanuki.norris.facts.FactsUserInteraction.RequestedFreshContent
 import io.dotanuki.norris.facts.databinding.ActivityFactsBinding
 import io.dotanuki.norris.features.utilties.selfBind
 import io.dotanuki.norris.features.utilties.toast
 import io.dotanuki.norris.features.utilties.viewBinding
-import io.dotanuki.norris.navigator.DefineSearchQuery
-import io.dotanuki.norris.navigator.HandleDelegatedWork
 import io.dotanuki.norris.navigator.Navigator
-import io.dotanuki.norris.navigator.PostFlow.NoResults
-import io.dotanuki.norris.navigator.PostFlow.WithResults
 import io.dotanuki.norris.navigator.Screen
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
@@ -60,7 +57,6 @@ class FactsActivity : AppCompatActivity(), DIAware {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-
         item.let {
             when (it.itemId) {
                 R.id.menu_item_search_facts -> goToSearch()
@@ -70,17 +66,12 @@ class FactsActivity : AppCompatActivity(), DIAware {
         return super.onOptionsItemSelected(item)
     }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-
-        when (HandleDelegatedWork(requestCode, resultCode, data, DefineSearchQuery)) {
-            NoResults -> logger.i("No query terms returned")
-            is WithResults -> refresh()
-        }
-    }
-
     private fun goToSearch() {
-        navigator.requestWork(Screen.SearchQuery, DefineSearchQuery)
+        navigator.navigateForResult(Screen.SearchQuery) { query ->
+            query?.let {
+                viewModel.handle(DefinedNewSearch(it))
+            }
+        }
     }
 
     private fun loadFacts() {

@@ -2,31 +2,18 @@ package io.dotanuki.norris.search.tests
 
 import app.cash.turbine.test
 import io.dotanuki.coroutines.testutils.CoroutinesTestHelper
-import io.dotanuki.coroutines.testutils.unwrapError
-import io.dotanuki.norris.architecture.CommandsProcessor
-import io.dotanuki.norris.architecture.StateContainer
-import io.dotanuki.norris.architecture.StateMachine
-import io.dotanuki.norris.architecture.TaskExecutor
-import io.dotanuki.norris.architecture.UnsupportedUserInteraction
-import io.dotanuki.norris.architecture.UserInteraction
-import io.dotanuki.norris.architecture.UserInteraction.OpenedScreen
-import io.dotanuki.norris.architecture.ViewState.FirstLaunch
-import io.dotanuki.norris.architecture.ViewState.Loading
-import io.dotanuki.norris.architecture.ViewState.Success
-import io.dotanuki.norris.domain.ComposeSearchOptions
 import io.dotanuki.norris.domain.FetchCategories
-import io.dotanuki.norris.domain.ManageSearchQuery
 import io.dotanuki.norris.domain.model.ChuckNorrisFact
 import io.dotanuki.norris.domain.model.RelatedCategory
-import io.dotanuki.norris.domain.model.SearchOptions
 import io.dotanuki.norris.domain.services.CategoriesCacheService
 import io.dotanuki.norris.domain.services.RemoteFactsService
 import io.dotanuki.norris.domain.services.SearchesHistoryService
-import io.dotanuki.norris.search.SearchPresentation
-import io.dotanuki.norris.search.SearchPresentation.QueryValidation
-import io.dotanuki.norris.search.SearchPresentation.Suggestions
+import io.dotanuki.norris.search.SearchInteraction
+import io.dotanuki.norris.search.SearchScreenState
+import io.dotanuki.norris.search.SearchScreenState.Recommendations
+import io.dotanuki.norris.search.SearchScreenState.SearchHistory
+import io.dotanuki.norris.search.SearchScreenState.SearchQuery
 import io.dotanuki.norris.search.SearchViewModel
-import io.dotanuki.norris.search.ValidateQuery
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.runBlocking
 import org.assertj.core.api.Assertions.assertThat
@@ -41,13 +28,13 @@ class SearchViewModelTests {
 
     private lateinit var viewModel: SearchViewModel
 
-    class FakeSearchesHistoryService : SearchesHistoryService {
+    object FakeSearchesHistoryService : SearchesHistoryService {
         override suspend fun lastSearches(): List<String> = listOf("Code")
 
         override suspend fun registerNewSearch(term: String) = Unit
     }
 
-    class FakeCategoriesCacheService : CategoriesCacheService {
+    object FakeCategoriesCacheService : CategoriesCacheService {
         override fun save(categories: List<RelatedCategory.Available>) = Unit
 
         override fun cached(): List<RelatedCategory.Available>? = listOf(
@@ -56,7 +43,7 @@ class SearchViewModelTests {
         )
     }
 
-    class FakeRemoteFactsService : RemoteFactsService {
+    object FakeRemoteFactsService : RemoteFactsService {
         override suspend fun availableCategories(): List<RelatedCategory.Available> =
             listOf(
                 RelatedCategory.Available("dev"),
@@ -68,32 +55,8 @@ class SearchViewModelTests {
     }
 
     @Before fun `before each test`() {
-
-        val taskExecutor = TaskExecutor.Synchronous(helper.scope)
-
-        val machine =
-            StateMachine<SearchPresentation>(
-                executor = taskExecutor,
-                container = StateContainer.Unbounded(helper.scope)
-            )
-
-        val processor = CommandsProcessor(taskExecutor)
-
-        val manageQuery = ManageSearchQuery(FakeSearchesHistoryService())
-        val fetchCategories = FetchCategories(FakeCategoriesCacheService(), FakeRemoteFactsService())
-
-        val composeOptions = ComposeSearchOptions(FakeSearchesHistoryService(), fetchCategories)
-
-        viewModel = SearchViewModel(composeOptions, manageQuery, processor, machine)
-    }
-
-    @Test fun `should report unsupported interaction`() {
-
-        val result = runCatching {
-            viewModel.handle(UserInteraction.RequestedFreshContent)
-        }
-
-        assertThat(unwrapError(result)).isEqualTo(UnsupportedUserInteraction)
+        val fetchCategories = FetchCategories(FakeCategoriesCacheService, FakeRemoteFactsService)
+        viewModel = SearchViewModel(FakeSearchesHistoryService, fetchCategories)
     }
 
     @ExperimentalTime
@@ -101,23 +64,23 @@ class SearchViewModelTests {
     @Test fun `should display suggestions`() {
         runBlocking {
             viewModel.run {
-                bindToStates().test {
-                    handle(OpenedScreen)
+                bind().test {
 
-                    val options = SearchOptions(
-                        history = listOf("Code"),
-                        recommendations = listOf("dev", "humor")
-                    )
+                    val recommended = listOf("dev", "humor")
+                    val previousSearch = listOf("Code")
 
-                    val emissions = listOf(expectItem(), expectItem(), expectItem())
+                    val initial = SearchScreenState.INITIAL
+                    val firstFetch = initial.copy(recommendations = Recommendations.Loading)
+                    val recomendationsLoaded = firstFetch.copy(recommendations = Recommendations.Success(recommended))
+                    val secondFetch = recomendationsLoaded.copy(searchHistory = SearchHistory.Loading)
+                    val historyLoaded = secondFetch.copy(searchHistory = SearchHistory.Success(previousSearch))
 
-                    val viewStates = listOf(
-                        FirstLaunch,
-                        Loading.FromEmpty,
-                        Success(Suggestions(options))
-                    )
+                    val expectedStates = listOf(initial, firstFetch, recomendationsLoaded, secondFetch, historyLoaded)
 
-                    assertThat(emissions).isEqualTo(viewStates)
+                    handle(SearchInteraction.OpenedScreen)
+
+                    val collectedStates = expectedStates.map { expectItem() }
+                    assertThat(collectedStates).isEqualTo(expectedStates)
                 }
             }
         }
@@ -128,18 +91,15 @@ class SearchViewModelTests {
     @Test fun `should validate incoming query`() {
         runBlocking {
             viewModel.run {
-                bindToStates().test {
-                    handle(ValidateQuery("Norris"))
+                bind().test {
+                    val initial = SearchScreenState.INITIAL
+                    val queryValidated = initial.copy(searchQuery = SearchQuery.VALID)
+                    val expectedStates = listOf(initial, queryValidated)
 
-                    val emissions = listOf(expectItem(), expectItem(), expectItem())
+                    handle(SearchInteraction.QueryFieldChanged("Norris"))
 
-                    val viewStates = listOf(
-                        FirstLaunch,
-                        Loading.FromEmpty,
-                        Success(QueryValidation(true))
-                    )
-
-                    assertThat(emissions).isEqualTo(viewStates)
+                    val collectedStates = expectedStates.map { expectItem() }
+                    assertThat(collectedStates).isEqualTo(expectedStates)
                 }
             }
         }

@@ -9,18 +9,12 @@ import androidx.core.widget.addTextChangedListener
 import androidx.lifecycle.lifecycleScope
 import com.google.android.material.snackbar.Snackbar
 import io.dotanuki.logger.Logger
-import io.dotanuki.norris.architecture.UserInteraction
-import io.dotanuki.norris.architecture.ViewCommand
-import io.dotanuki.norris.architecture.ViewState
-import io.dotanuki.norris.architecture.ViewState.Failed
-import io.dotanuki.norris.architecture.ViewState.FirstLaunch
-import io.dotanuki.norris.architecture.ViewState.Loading
-import io.dotanuki.norris.architecture.ViewState.Success
 import io.dotanuki.norris.features.utilties.selfBind
 import io.dotanuki.norris.features.utilties.viewBinding
 import io.dotanuki.norris.navigator.Navigator
-import io.dotanuki.norris.search.SearchPresentation.QueryValidation
-import io.dotanuki.norris.search.SearchPresentation.Suggestions
+import io.dotanuki.norris.search.SearchScreenState.Recommendations
+import io.dotanuki.norris.search.SearchScreenState.SearchHistory
+import io.dotanuki.norris.search.SearchScreenState.SearchQuery
 import io.dotanuki.norris.search.databinding.ActivitySearchQueryBinding
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
@@ -50,11 +44,7 @@ class SearchQueryActivity : AppCompatActivity(), DIAware {
 
         viewModel.run {
             lifecycleScope.launch {
-                bindToStates().collect { renderState(it) }
-            }
-
-            lifecycleScope.launch {
-                bindToCommands().collect { executeCommand(it) }
+                bind().collect { renderState(it) }
             }
         }
     }
@@ -72,94 +62,102 @@ class SearchQueryActivity : AppCompatActivity(), DIAware {
 
             addTextChangedListener { input: Editable? ->
                 input?.let {
-                    viewModel.handle(ValidateQuery(it.toString()))
+                    viewModel.handle(SearchInteraction.QueryFieldChanged(it.toString()))
                 }
             }
         }
     }
 
-    private fun renderState(state: ViewState<SearchPresentation>) =
+    private fun renderState(state: SearchScreenState) {
         when (state) {
-            is Failed -> handleError(state.reason)
-            is Success -> handlePresentation(state.value)
-            is Loading.FromEmpty -> startExecution()
-            is Loading.FromPrevious -> handlePresentation(state.previous)
-            is FirstLaunch -> launch()
-        }
-
-    private fun executeCommand(command: ViewCommand) {
-        when (command) {
-            is ReturnFromSearch -> navigator.returnFromWork()
-            else -> throw IllegalArgumentException("Cannot process command -> $command")
+            SearchScreenState.INITIAL -> launch()
+            else -> {
+                renderQueryState(state.searchQuery)
+                renderRecommendationsState(state.recommendations)
+                renderSearchHistoryState(state.searchHistory)
+            }
         }
     }
 
-    private fun handlePresentation(presentation: SearchPresentation) {
-        when (presentation) {
-            is Suggestions -> fillChips(presentation)
-            is QueryValidation -> renderValidation(presentation)
+    private fun renderSearchHistoryState(subState: SearchHistory) {
+        when (subState) {
+            SearchHistory.Idle -> logger.d("Substate on Idle")
+            SearchHistory.Loading -> showLoading()
+            is SearchHistory.Failed -> {
+                hideLoading()
+                handleError(subState.error)
+            }
+            is SearchHistory.Success -> {
+                hideLoading()
+                viewBindings.run {
+                    historyHeadline.visibility = View.VISIBLE
+                    ChipsGroupPopulator(historyChipGroup, R.layout.chip_item_query).run {
+                        populate(subState.items) { navigator.returnWithResult(it) }
+                    }
+                }
+            }
         }
     }
 
-    private fun renderValidation(validation: QueryValidation) {
+    private fun renderRecommendationsState(subState: Recommendations) {
+        when (subState) {
+            Recommendations.Idle -> logger.d("Substate on Idle")
+            Recommendations.Loading -> showLoading()
+            is Recommendations.Failed -> {
+                hideLoading()
+                handleError(subState.error)
+            }
+            is Recommendations.Success -> {
+                hideLoading()
+                viewBindings.run {
+                    historyHeadline.visibility = View.VISIBLE
+                    ChipsGroupPopulator(suggestionChipGroup, R.layout.chip_item_query).run {
+                        populate(subState.items) { navigator.returnWithResult(it) }
+                    }
+                }
+            }
+        }
+    }
+
+    private fun renderQueryState(substate: SearchQuery) {
+        if (substate == SearchQuery.NOT_SET) return
+
         viewBindings.queryTextInput.error =
-            when (validation.valid) {
-                false -> getString(R.string.error_querytextfield_invalid_query)
+            when (substate) {
+                SearchQuery.INVALID -> getString(R.string.error_querytextfield_invalid_query)
                 else -> null
             }
 
-        allowedToProceed = validation.valid
+        allowedToProceed = (substate == SearchQuery.VALID)
     }
 
-    private fun startExecution() {
-        viewBindings.loadingSuggestions.visibility = View.VISIBLE
+    private fun showLoading() {
+        viewBindings.searchSwipeToRefresh.isRefreshing = true
+    }
+
+    private fun hideLoading() {
+        viewBindings.searchSwipeToRefresh.isRefreshing = false
     }
 
     private fun launch() {
-        viewModel.handle(UserInteraction.OpenedScreen)
-    }
-
-    private fun fillChips(content: Suggestions) {
-        viewBindings.run {
-            logger.i("Filling Content")
-            recommendationsHeadline.visibility = View.VISIBLE
-            historyHeadline.visibility = View.VISIBLE
-            loadingSuggestions.visibility = View.GONE
-
-            val (suggestions, history) = content.options
-
-            ChipsGroupPopulator(suggestionChipGroup, R.layout.chip_item_query).run {
-                populate(suggestions) { returnQuery(it) }
-            }
-
-            ChipsGroupPopulator(historyChipGroup, R.layout.chip_item_query).run {
-                populate(history) { returnQuery(it) }
-            }
-        }
+        viewModel.handle(SearchInteraction.OpenedScreen)
     }
 
     private fun handleError(reason: Throwable) {
         logger.e("Failed on loading suggestions -> $reason")
-        viewBindings.loadingSuggestions.visibility = View.GONE
-        showErrorReport(R.string.error_snackbar_cannot_load_suggestions)
+        describeErrorToUser(R.string.error_snackbar_cannot_load_suggestions)
     }
 
     private fun proceedIfAllowed(query: String) {
         if (allowedToProceed) {
-            returnQuery(query)
+            navigator.returnWithResult(query)
             return
         }
 
-        showErrorReport(R.string.error_snackbar_cannot_proceed)
+        describeErrorToUser(R.string.error_snackbar_cannot_proceed)
     }
 
-    private fun returnQuery(query: String) {
-        viewModel.handle(
-            QueryDefined(query)
-        )
-    }
-
-    private fun showErrorReport(targetMessageId: Int) {
+    private fun describeErrorToUser(targetMessageId: Int) {
         viewBindings.run {
             Snackbar
                 .make(searchScreenRoot, targetMessageId, Snackbar.LENGTH_INDEFINITE)

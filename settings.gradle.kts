@@ -14,7 +14,6 @@ include(
     ":platform:networking",
     ":platform:persistance",
     ":platform:rest-chucknorris",
-    ":platform:state-machine",
     ":platform:shared-assets",
     ":platform:shared-utilities",
     ":features:facts",

@@ -10,12 +10,13 @@ internal class SearchHistoryInfrastructure(
     private val prefs: SharedPreferences
 ) : SearchesHistoryService {
 
-    override suspend fun lastSearches(): List<String> =
-        suspendCoroutine { continuation ->
+    override suspend fun lastSearches(): List<String> {
+        return suspendCoroutine { continuation ->
             continuation.resume(
                 retrieveFromPrefs().toList()
             )
         }
+    }
 
     override suspend fun registerNewSearch(term: String) {
         val updated = retrieveFromPrefs() + term
