@@ -6,7 +6,6 @@ import configs.AndroidConfig
 import configs.ProguardConfig
 import org.gradle.api.JavaVersion
 import org.gradle.api.Project
-import org.jetbrains.kotlin.gradle.internal.AndroidExtensionsExtension
 
 fun Project.configureAsAndroidLibrary() {
     val android = extensions.findByName("android") as BaseExtension
@@ -48,7 +47,6 @@ fun Project.configureAsAndroidLibrary() {
             sourceCompatibility = JavaVersion.VERSION_1_8
             targetCompatibility = JavaVersion.VERSION_1_8
         }
-
 
         testOptions {
             unitTests.isReturnDefaultValues = true
