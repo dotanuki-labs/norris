@@ -170,7 +170,7 @@ jobs:
       - name: Project Checkout
         uses: actions/checkout@v2.3.4
 
-      - uses: actions/download-artifact@v2.0.7
+      - uses: actions/download-artifact@v2.0.8
 
       - name: Run instrumentation tests
         uses: reactivecircus/android-emulator-runner@v2.14.2
