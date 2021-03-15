@@ -7,8 +7,11 @@ pull_request_rules:
     conditions:
       - author~=^dependabot(|-preview)\[bot\]$
       - check-success=acceptance_tests (25)
+      - check-success=acceptance_tests (26)
+      - check-success=acceptance_tests (27)      
       - check-success=acceptance_tests (28)
       - check-success=acceptance_tests (29)
+      - "#approved-reviews-by>=1"
     actions:
       merge:
         method: squash
@@ -17,6 +20,8 @@ pull_request_rules:
     conditions:
       - author~=^ubiratansoares
       - check-success=acceptance_tests (25)
+      - check-success=acceptance_tests (26)
+      - check-success=acceptance_tests (27) 
       - check-success=acceptance_tests (28)
       - check-success=acceptance_tests (29)
     actions:
