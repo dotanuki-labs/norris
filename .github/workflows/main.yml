@@ -165,7 +165,7 @@ jobs:
     strategy:
       fail-fast: true
       matrix:
-        android_sdk: [25, 28, 29]
+        android_sdk: [25, 26, 27, 28, 29]
 
     runs-on: macOS-latest
     needs: [assemble_apk, espresso_prepare, unit_tests, static_analysis]
@@ -174,9 +174,10 @@ jobs:
       - name: Project Checkout
         uses: actions/checkout@v2.3.4
 
-      - uses: actions/download-artifact@v2.0.8
+      - name: Fetch Instrumentation artefacts
+        uses: actions/download-artifact@v2.0.8
 
-      - name: Run instrumentation tests
+      - name: Run Instrumentation tests
         uses: reactivecircus/android-emulator-runner@v2.15.0
         with:
           api-level: ${{ matrix.android_sdk }}
