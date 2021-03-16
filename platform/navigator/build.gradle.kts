@@ -4,15 +4,18 @@ plugins {
 }
 
 dependencies {
-    implementation(Libraries.kotlinStdlib)
-    implementation(Libraries.appCompat)
-    implementation(Libraries.activity)
-    implementation(Libraries.activityExtensions)
-    implementation(Libraries.kodein)
-    implementation(project(":platform:shared-utilities"))
+
+    implementation(project(":platform:shared-utilities")) 
+
+    implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.4.20")
+    implementation("androidx.appcompat:appcompat:1.2.0")
+    implementation("androidx.activity:activity:1.2.0-beta02")
+    implementation("androidx.activity:activity-ktx:1.2.0-beta02")
+    implementation("org.kodein.di:kodein-di-jvm:7.1.0")
 
     testImplementation(project(":platform:coroutines-testutils"))
-    testImplementation(Libraries.roboletric)
-    testImplementation(Libraries.jUnit)
-    testImplementation(Libraries.assertj)
+    
+    testImplementation("org.robolectric:robolectric:4.4")
+    testImplementation("junit:junit:4.13")
+    testImplementation("org.assertj:assertj-core:3.16.1")
 }

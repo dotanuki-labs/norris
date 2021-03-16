@@ -6,10 +6,10 @@ plugins {
 dependencies {
 
     implementation(project(":platform:domain"))
-    implementation(Libraries.coroutinesCore)
-    implementation(Libraries.kodein)
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.4.1")
+    implementation("org.kodein.di:kodein-di-jvm:7.1.0")
 
     testImplementation(project(":platform:coroutines-testutils"))
-    testImplementation(Libraries.jUnit)
-    testImplementation(Libraries.assertj)
+    testImplementation("junit:junit:4.13")
+    testImplementation("org.assertj:assertj-core:3.16.1")
 }
