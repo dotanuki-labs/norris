@@ -7,7 +7,7 @@ dependencies {
 
     implementation(project(":platform:domain"))
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.4.1")
-    implementation("org.kodein.di:kodein-di-jvm:7.1.0")
+    implementation("org.kodein.di:kodein-di-jvm:7.3.1")
 
     testImplementation(project(":platform:coroutines-testutils"))
     testImplementation("junit:junit:4.13")

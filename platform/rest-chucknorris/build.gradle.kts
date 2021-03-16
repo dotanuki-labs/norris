@@ -16,7 +16,7 @@ dependencies {
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-core:1.0.1")
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.0.1")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.4.1")
-    implementation("org.kodein.di:kodein-di-jvm:7.1.0")
+    implementation("org.kodein.di:kodein-di-jvm:7.3.1")
 
     testImplementation(project(":platform:coroutines-testutils"))
 
