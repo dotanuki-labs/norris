@@ -6,7 +6,7 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 plugins {
     id(BuildPlugins.Ids.androidApplication)
     id(BuildPlugins.Ids.kotlinAndroid)
-    id(BuildPlugins.Ids.keeper) version BuildPlugins.Versions.keeper
+    id("com.slack.keeper") version "0.7.0"
 }
 
 repositories {

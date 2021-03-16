@@ -11,13 +11,13 @@ buildscript {
     }
 
     dependencies {
-        classpath(BuildPlugins.Dependencies.androidSupport)
-        classpath(BuildPlugins.Dependencies.kotlinSupport)
-        classpath(BuildPlugins.Dependencies.testLogger)
-        classpath(BuildPlugins.Dependencies.kotlinxSerialization)
-        classpath(BuildPlugins.Dependencies.ktlint)
-        classpath(BuildPlugins.Dependencies.jacocoUnified)
-        classpath(BuildPlugins.Dependencies.detekt)
+        classpath("com.android.tools.build:gradle:4.0.1")
+        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:1.4.20")
+        classpath("com.adarshr:gradle-test-logger-plugin:2.1.1")
+        classpath("org.jetbrains.kotlin:kotlin-serialization:1.4.20")
+        classpath("org.jlleitschuh.gradle:ktlint-gradle:9.4.0")
+        classpath("com.vanniktech:gradle-android-junit-jacoco-plugin:0.16.0")
+        classpath("io.gitlab.arturbosch.detekt:detekt-gradle-plugin:1.14.2")
     }
 }
 
