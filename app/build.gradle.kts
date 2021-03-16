@@ -107,7 +107,7 @@ dependencies {
     implementation("androidx.core:core-ktx:1.3.1")
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.2.0")
     implementation("androidx.lifecycle:lifecycle-extensions:2.2.0")
-    implementation("org.kodein.di:kodein-di-jvm:7.1.0")
+    implementation("org.kodein.di:kodein-di-jvm:7.3.1")
     implementation("com.squareup.okhttp3:okhttp:4.9.0")
 
     androidTestImplementation("junit:junit:4.13")
