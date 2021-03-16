@@ -4,5 +4,5 @@ plugins {
 }
 
 dependencies {
-    implementation(Libraries.kotlinStdlib)
+    implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.4.20")
 }
