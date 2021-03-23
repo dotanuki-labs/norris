@@ -24,5 +24,5 @@ dependencies {
     testImplementation(project(":platform:coroutines-testutils"))
     testImplementation("junit:junit:4.13")
     testImplementation("org.assertj:assertj-core:3.16.1")
-    testImplementation("app.cash.turbine:turbine:0.2.1")
+    testImplementation("app.cash.turbine:turbine:0.4.1")
 }
