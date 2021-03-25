@@ -10,7 +10,7 @@ dependencies {
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.4.32")
     implementation("androidx.appcompat:appcompat:1.2.0")
     implementation("androidx.activity:activity:1.2.0-beta02")
-    implementation("androidx.activity:activity-ktx:1.2.0-beta02")
+    implementation("androidx.activity:activity-ktx:1.3.0-alpha05")
     implementation("org.kodein.di:kodein-di-jvm:7.3.1")
 
     testImplementation(project(":platform:coroutines-testutils"))
