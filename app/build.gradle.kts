@@ -120,7 +120,7 @@ dependencies {
     androidTestImplementation("androidx.test.espresso:espresso-core:3.3.0")
     androidTestImplementation("com.schibsted.spain:barista:3.9.0")
     androidTestImplementation("org.assertj:assertj-core:2.9.1")
-    androidTestImplementation("com.squareup.okhttp3:mockwebserver:4.9.0")
+    androidTestImplementation("com.squareup.okhttp3:mockwebserver:4.9.1")
 }
 
 fun Project.evaluateTestMode(): Boolean =
