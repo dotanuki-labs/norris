@@ -10,6 +10,7 @@ jobs:
 
   static_analysis:
     runs-on: ubuntu-latest
+    timeout-minutes: 10
     steps:
       - name: Project Checkout
         uses: actions/checkout@v2.3.4
@@ -43,6 +44,7 @@ jobs:
 
   unit_tests:
     runs-on: ubuntu-latest
+    timeout-minutes: 10
     steps:
       - name: Project Checkout
         uses: actions/checkout@v2.3.4
@@ -89,6 +91,7 @@ jobs:
 
   assemble_apk:
     runs-on: ubuntu-latest
+    timeout-minutes: 10
     steps:
       - name: Project Checkout
         uses: actions/checkout@v2.3.4
@@ -126,6 +129,7 @@ jobs:
 
   espresso_prepare:
     runs-on: ubuntu-latest
+    timeout-minutes: 10
     steps:
       - name: Project Checkout
         uses: actions/checkout@v2.3.4
@@ -168,6 +172,7 @@ jobs:
         android_sdk: [25, 26, 27, 28, 29]
 
     runs-on: macOS-latest
+    timeout-minutes: 15
     needs: [assemble_apk, espresso_prepare, unit_tests, static_analysis]
     steps:
 
