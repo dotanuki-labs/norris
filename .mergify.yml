@@ -13,6 +13,9 @@ pull_request_rules:
       - check-success=acceptance_tests (29)
       - "#approved-reviews-by>=1"
     actions:
+      comment:
+        message: Ok, I'll merge this PR for you
+        bot_account: dotanukibot
       merge:
         method: squash
         merge_bot_account: dotanukibot
@@ -26,6 +29,9 @@ pull_request_rules:
       - check-success=acceptance_tests (28)
       - check-success=acceptance_tests (29)
     actions:
+      comment:
+        message: Merging this PR automatically on your behalf
+        bot_account: dotanukibot
       merge:
         method: squash
         merge_bot_account: dotanukibot
