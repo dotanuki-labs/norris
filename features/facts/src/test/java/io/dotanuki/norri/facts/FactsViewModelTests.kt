@@ -17,13 +17,11 @@ import io.dotanuki.norris.facts.FactsScreenState.Loading
 import io.dotanuki.norris.facts.FactsScreenState.Success
 import io.dotanuki.norris.facts.FactsUserInteraction.OpenedScreen
 import io.dotanuki.norris.facts.FactsViewModel
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.runBlocking
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
-import kotlin.time.ExperimentalTime
 
 class FactsViewModelTests {
 
@@ -75,8 +73,6 @@ class FactsViewModelTests {
         viewModel = FactsViewModel(fetchFacts, manageQuery)
     }
 
-    @ExperimentalTime
-    @ExperimentalCoroutinesApi
     @Test fun `should report failure when fetching from remote`() {
         runBlocking {
 
@@ -94,13 +90,12 @@ class FactsViewModelTests {
                     )
 
                     assertThat(emissions).isEqualTo(viewStates)
+                    cancelAndIgnoreRemainingEvents()
                 }
             }
         }
     }
 
-    @ExperimentalTime
-    @ExperimentalCoroutinesApi
     @Test fun `should fetch facts from remote data source with success`() {
         runBlocking {
             viewModel.run {
@@ -127,6 +122,7 @@ class FactsViewModelTests {
                     )
 
                     assertThat(emissions).isEqualTo(viewStates)
+                    cancelAndIgnoreRemainingEvents()
                 }
             }
         }

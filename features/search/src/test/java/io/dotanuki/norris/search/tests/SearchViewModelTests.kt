@@ -14,13 +14,11 @@ import io.dotanuki.norris.search.SearchScreenState.Recommendations
 import io.dotanuki.norris.search.SearchScreenState.SearchHistory
 import io.dotanuki.norris.search.SearchScreenState.SearchQuery
 import io.dotanuki.norris.search.SearchViewModel
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.runBlocking
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
-import kotlin.time.ExperimentalTime
 
 class SearchViewModelTests {
 
@@ -59,8 +57,6 @@ class SearchViewModelTests {
         viewModel = SearchViewModel(FakeSearchesHistoryService, fetchCategories)
     }
 
-    @ExperimentalTime
-    @ExperimentalCoroutinesApi
     @Test fun `should display suggestions`() {
         runBlocking {
             viewModel.run {
@@ -81,13 +77,12 @@ class SearchViewModelTests {
 
                     val collectedStates = expectedStates.map { expectItem() }
                     assertThat(collectedStates).isEqualTo(expectedStates)
+                    cancelAndIgnoreRemainingEvents()
                 }
             }
         }
     }
 
-    @ExperimentalTime
-    @ExperimentalCoroutinesApi
     @Test fun `should validate incoming query`() {
         runBlocking {
             viewModel.run {
@@ -100,6 +95,7 @@ class SearchViewModelTests {
 
                     val collectedStates = expectedStates.map { expectItem() }
                     assertThat(collectedStates).isEqualTo(expectedStates)
+                    cancelAndIgnoreRemainingEvents()
                 }
             }
         }
