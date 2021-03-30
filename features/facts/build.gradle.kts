@@ -24,7 +24,7 @@ dependencies {
     implementation("androidx.activity:activity:1.2.0-beta02")
     implementation("androidx.activity:activity-ktx:1.2.0-beta02")
     implementation("androidx.swiperefreshlayout:swiperefreshlayout:1.1.0")
-    implementation("com.google.android.material:material:1.2.0")
+    implementation("com.google.android.material:material:1.3.0")
 
     testImplementation(project(":platform:coroutines-testutils"))
     testImplementation("junit:junit:4.13.2")
