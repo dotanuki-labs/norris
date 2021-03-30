@@ -15,6 +15,7 @@ pull_request_rules:
     actions:
       merge:
         method: squash
+        merge_bot_account: dotanukibot
 
   - name: Be author's friend
     conditions:
@@ -27,3 +28,4 @@ pull_request_rules:
     actions:
       merge:
         method: squash
+        merge_bot_account: dotanukibot
