@@ -1,5 +1,3 @@
-import configs.KotlinConfig
-
 object BuildPlugins {
 
     object Ids {
@@ -8,7 +6,6 @@ object BuildPlugins {
         const val kotlinJVM = "kotlin"
         const val kotlinxSerialization = "org.jetbrains.kotlin.plugin.serialization"
         const val kotlinAndroid = "kotlin-android"
-        const val kotlinAndroidExtensions = "kotlin-android-extensions"
         const val jacocoUnified = "com.vanniktech.android.junit.jacoco"
         const val ktlint = "org.jlleitschuh.gradle.ktlint"
         const val detekt = "io.gitlab.arturbosch.detekt"
