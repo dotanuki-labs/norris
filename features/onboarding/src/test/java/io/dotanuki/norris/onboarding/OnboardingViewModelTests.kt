@@ -10,13 +10,11 @@ import io.dotanuki.norris.domain.services.RemoteFactsService
 import io.dotanuki.norris.onboarding.OnboardingScreenState.Idle
 import io.dotanuki.norris.onboarding.OnboardingScreenState.Launching
 import io.dotanuki.norris.onboarding.OnboardingScreenState.Success
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.runBlocking
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
-import kotlin.time.ExperimentalTime
 
 class OnboardingViewModelTests {
 
@@ -47,8 +45,6 @@ class OnboardingViewModelTests {
         viewModel = OnboardingViewModel(usecase)
     }
 
-    @ExperimentalTime
-    @ExperimentalCoroutinesApi
     @Test fun `should fetch categories when opening screen`() {
         runBlocking {
             viewModel.run {
@@ -59,6 +55,7 @@ class OnboardingViewModelTests {
 
                     val receivedStates = listOf(expectItem(), expectItem(), expectItem())
                     assertThat(receivedStates).isEqualTo(expectedStates)
+                    cancelAndIgnoreRemainingEvents()
                 }
             }
         }
