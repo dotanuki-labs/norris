@@ -110,7 +110,7 @@ dependencies {
     implementation("org.kodein.di:kodein-di-jvm:7.3.1")
     implementation("com.squareup.okhttp3:okhttp:4.9.1")
 
-    androidTestImplementation("junit:junit:4.13")
+    androidTestImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test:core:1.3.0")
     androidTestImplementation("androidx.test:core-ktx:1.3.0")
     androidTestImplementation("androidx.test.ext:junit:1.1.2")

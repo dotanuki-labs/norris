@@ -15,6 +15,6 @@ dependencies {
 
     testImplementation(project(":platform:coroutines-testutils"))
     testImplementation("org.robolectric:robolectric:4.5.1")
-    testImplementation("junit:junit:4.13")
+    testImplementation("junit:junit:4.13.2")
     testImplementation("org.assertj:assertj-core:3.16.1")
 }
