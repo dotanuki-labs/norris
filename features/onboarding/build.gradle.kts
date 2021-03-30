@@ -19,7 +19,7 @@ dependencies {
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.3.1")
     implementation("androidx.core:core-ktx:1.3.2")
     implementation("androidx.appcompat:appcompat:1.2.0")
-    implementation("com.google.android.material:material:1.2.0")
+    implementation("com.google.android.material:material:1.3.0")
 
     testImplementation(project(":platform:coroutines-testutils"))
     testImplementation("junit:junit:4.13.2")
