@@ -5,9 +5,6 @@
 ![Main](https://github.com/dotanuki-labs/norris/workflows/Main/badge.svg)
 [![License](https://img.shields.io/github/license/dotanuki-labs/gradle-profiler-pttest)](https://choosealicense.com/licenses/mit)
 
-<img src=".github/assets/norris-logo.png" 
-alt="Norris logo" title="The logo himself" align="right" />
-
 > _An app that existed even before Android existed!_
 
 ## About
@@ -43,7 +40,7 @@ Coming soon at [ubiratansoares.dev](https://ubiratansoares.dev)
 If you want a simple run emulating the PR pipeline, just use the companion script
 
 ```
-./emulate-pr-build.sh
+.scripts/emulate-pr-build.sh
 ```
 
 It will
