@@ -1,7 +1,6 @@
 # Norris
 [![ktlint](https://img.shields.io/badge/code%20style-%E2%9D%A4-FF4081.svg)](https://ktlint.github.io/) [![Maintainability](https://api.codeclimate.com/v1/badges/42704b7b56bbdba33b99/maintainability)](https://codeclimate.com/github/dotanuki-labs/norris/maintainability) 
 [![codecov](https://codecov.io/gh/dotanuki-labs/norris/branch/master/graph/badge.svg)](https://codecov.io/gh/dotanuki-labs/norris) 
-[![Codacy Badge](https://api.codacy.com/project/badge/Grade/b1d3c2abc602421680d2324045b9829a)](https://www.codacy.com/app/ubiratansoares/norris?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=dotanuki-labs/norris&amp;utm_campaign=Badge_Grade)
 ![Main](https://github.com/dotanuki-labs/norris/workflows/Main/badge.svg)
 [![License](https://img.shields.io/github/license/dotanuki-labs/gradle-profiler-pttest)](https://choosealicense.com/licenses/mit)
 
@@ -13,7 +12,6 @@ Norris is a showcase for modern and well-crafted Android code.
 
 Here you will find a codebase powered by tests in all semantic levels (unit, integration, acceptance) as well an architectural design that promotes discipline over state, using Kotlin Coroutines as foundation for a pragmatic unidirectional dataflow implementation.
 
-
 ## Project Overview
 
 This project leverages on [api.chucknorris.io](https://api.chucknorris.io/) as remote data source to implement the following use cases
@@ -24,23 +22,14 @@ This project leverages on [api.chucknorris.io](https://api.chucknorris.io/) as r
 
 ![showcase-norris](.github/assets/showcase-norris.png)
 
-The code is structured in a multi-module fashion, with semantics guided by Clean Architecure; this means that high level modules (like `facts` or `search`) don't know anything about low-level ones (like `networking` or `persistance`). 
-
-The `domain` module defines the core protocols to be implemented by low level details, while aggregates them in high level policies like [FetchFacts](https://github.com/dotanuki-labs/norris/blob/master/domain/src/main/java/io/dotanuki/norris/domain/FetchFacts.kt)
-
-
-## Related blog posts
-
-I'm writing a series of blog posts related to this project. They will explain some project decisions, as well dive into some details of implementation of this approach for unidirectional data flow, specially with learnings related to Coroutines and Channels.
-
-Coming soon at [ubiratansoares.dev](https://ubiratansoares.dev)
+The code is structured in a multi-module fashion, with semantics of high-level modules (under `features`) packaging high-level pieces of funcionality (including UI details) while low-level modules (or `platform` ones) provide required infrastructure for features, like networking, storage and so on.
 
 ## Building and Running
 
 If you want a simple run emulating the PR pipeline, just use the companion script
 
 ```
-.scripts/emulate-pr-build.sh
+./scripts/emulate-pr-build.sh
 ```
 
 It will
@@ -62,7 +51,6 @@ Please note that an online emulator is required to run this script sucessfully.
 ## Author
 
 Coded by Ubiratan Soares (follow me on [Twitter](https://twitter.com/ubiratanfsoares))
-
 
 ## License
 
