@@ -9,7 +9,7 @@ on:
 jobs:
 
   static_analysis:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     timeout-minutes: 10
     steps:
       - name: Project Checkout
@@ -171,7 +171,7 @@ jobs:
       matrix:
         android_sdk: [25, 26, 27, 28, 29]
 
-    runs-on: macOS-latest
+    runs-on: macOS-10.15
     timeout-minutes: 15
     needs: [assemble_apk, espresso_prepare, unit_tests, static_analysis]
     steps:
