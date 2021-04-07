@@ -27,9 +27,10 @@ jobs:
           restore-keys: ${{ runner.os }}-gradle-
 
       - name: Setup JDK 1.8
-        uses: actions/setup-java@v1.4.3
+        uses: actions/setup-java@v2.0.0
         with:
-          java-version: 1.8
+          distribution: 'adopt'
+          java-version: 8
 
       - name: Optimize for Gradle build
         run: |
@@ -61,9 +62,10 @@ jobs:
           restore-keys: ${{ runner.os }}-gradle-
 
       - name: Setup JDK 1.8
-        uses: actions/setup-java@v1.4.3
+        uses: actions/setup-java@v2.0.0
         with:
-          java-version: 1.8
+          distribution: 'adopt'
+          java-version: 8
 
       - name: Optimize for Gradle build
         run: |
@@ -108,9 +110,10 @@ jobs:
           restore-keys: ${{ runner.os }}-gradle-
 
       - name: Setup JDK 1.8
-        uses: actions/setup-java@v1.4.3
+        uses: actions/setup-java@v2.0.0
         with:
-          java-version: 1.8
+          distribution: 'adopt'
+          java-version: 8
 
       - name: Optimize for Gradle build
         run: |
@@ -146,9 +149,10 @@ jobs:
           restore-keys: ${{ runner.os }}-gradle-
 
       - name: Setup JDK 1.8
-        uses: actions/setup-java@v1.4.3
+        uses: actions/setup-java@v2.0.0
         with:
-          java-version: 1.8
+          distribution: 'adopt'
+          java-version: 8
 
       - name: Optimize for Gradle build
         run: |
