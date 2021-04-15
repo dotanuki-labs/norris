@@ -173,7 +173,7 @@ jobs:
     strategy:
       fail-fast: true
       matrix:
-        android_sdk: [25, 26, 27, 28, 29]
+        android_sdk: [25, 26, 27, 28, 29, 30]
 
     runs-on: macOS-10.15
     timeout-minutes: 15
