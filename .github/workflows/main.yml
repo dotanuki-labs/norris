@@ -190,4 +190,5 @@ jobs:
         uses: reactivecircus/android-emulator-runner@v2.15.0
         with:
           api-level: ${{ matrix.android_sdk }}
+          arch: x86_64
           script: ./scripts/espresso-run.sh
