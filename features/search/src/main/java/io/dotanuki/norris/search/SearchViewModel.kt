@@ -6,6 +6,7 @@ import io.dotanuki.norris.domain.FetchCategories
 import io.dotanuki.norris.domain.SearchQueryValidation
 import io.dotanuki.norris.domain.services.SearchesHistoryService
 import io.dotanuki.norris.search.SearchInteraction.OpenedScreen
+import io.dotanuki.norris.search.SearchInteraction.QueryDefined
 import io.dotanuki.norris.search.SearchInteraction.QueryFieldChanged
 import io.dotanuki.norris.search.SearchScreenState.Companion.INITIAL
 import io.dotanuki.norris.search.SearchScreenState.Recommendations
@@ -32,6 +33,7 @@ class SearchViewModel(
                 when (interaction) {
                     OpenedScreen -> loadPrefilledOptions()
                     is QueryFieldChanged -> validate(interaction.query)
+                    is QueryDefined -> saveAndProceed(interaction.query)
                 }
             }
         }
@@ -56,7 +58,8 @@ class SearchViewModel(
 
         try {
             val searchHistory = searchService.lastSearches()
-            val successState = loadingState.copy(searchHistory = SearchHistory.Success(searchHistory))
+            val successState =
+                loadingState.copy(searchHistory = SearchHistory.Success(searchHistory))
             states.value = successState
         } catch (error: Throwable) {
             val errorState = loadingState.copy(searchHistory = SearchHistory.Failed(error))
@@ -71,7 +74,8 @@ class SearchViewModel(
 
         try {
             val categoriesNames = fetchCategories.execute().map { it.name }
-            val successState = loadingState.copy(recommendations = Recommendations.Success(categoriesNames))
+            val successState =
+                loadingState.copy(recommendations = Recommendations.Success(categoriesNames))
             states.value = successState
         } catch (error: Throwable) {
             val errorState = loadingState.copy(recommendations = Recommendations.Failed(error))
@@ -80,9 +84,24 @@ class SearchViewModel(
     }
 
     private fun validate(query: String) {
+
+        val searchQuery = SearchQueryValidation.validate(query).let { validated ->
+            if (validated) SearchQuery.DEFINED else SearchQuery.INVALID
+        }
+
         val actualState = states.value
-        val validatedQuery = if (SearchQueryValidation.validate(query)) SearchQuery.VALID else SearchQuery.INVALID
-        val newState = actualState.copy(searchQuery = validatedQuery)
-        states.value = newState
+        states.value = actualState.copy(searchQuery = searchQuery)
+    }
+
+    private suspend fun saveAndProceed(query: String) {
+
+        if (SearchQueryValidation.validate(query)) {
+            searchService.registerNewSearch(query)
+            states.value = SearchScreenState.FINAL
+            return
+        }
+
+        val actualState = states.value
+        states.value = SearchScreenState.WRONG_QUERY
     }
 }

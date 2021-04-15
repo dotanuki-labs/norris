@@ -67,7 +67,6 @@ class SearchQueryAcceptanceTests {
                 searchQueryChecks {
                     validationError shouldBe DISPLAYED
                     confirmQuery()
-                    "Cannot proceed with an invalid query" shouldBe DISPLAYED
                 }
             }
         }

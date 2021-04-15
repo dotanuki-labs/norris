@@ -11,7 +11,10 @@ import com.google.android.material.snackbar.Snackbar
 import io.dotanuki.logger.Logger
 import io.dotanuki.norris.features.utilties.selfBind
 import io.dotanuki.norris.features.utilties.viewBinding
-import io.dotanuki.norris.navigator.Navigator
+import io.dotanuki.norris.search.SearchInteraction.QueryDefined
+import io.dotanuki.norris.search.SearchScreenState.Companion.FINAL
+import io.dotanuki.norris.search.SearchScreenState.Companion.INITIAL
+import io.dotanuki.norris.search.SearchScreenState.Companion.WRONG_QUERY
 import io.dotanuki.norris.search.SearchScreenState.Recommendations
 import io.dotanuki.norris.search.SearchScreenState.SearchHistory
 import io.dotanuki.norris.search.SearchScreenState.SearchQuery
@@ -28,9 +31,6 @@ class SearchQueryActivity : AppCompatActivity(), DIAware {
     private val viewBindings by viewBinding(ActivitySearchQueryBinding::inflate)
     private val viewModel by instance<SearchViewModel>()
     private val logger by instance<Logger>()
-    private val navigator by instance<Navigator>()
-
-    private var allowedToProceed = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -54,7 +54,9 @@ class SearchQueryActivity : AppCompatActivity(), DIAware {
         input.run {
             setOnEditorActionListener { _, actionId, _ ->
                 if (actionId == EditorInfo.IME_ACTION_DONE) {
-                    proceedIfAllowed(input.editableText.toString())
+                    viewModel.handle(
+                        QueryDefined(input.text.toString())
+                    )
                 }
 
                 return@setOnEditorActionListener false
@@ -70,7 +72,9 @@ class SearchQueryActivity : AppCompatActivity(), DIAware {
 
     private fun renderState(state: SearchScreenState) {
         when (state) {
-            SearchScreenState.INITIAL -> launch()
+            INITIAL -> launch()
+            WRONG_QUERY -> describeErrorToUser(R.string.error_querytextfield_invalid_query)
+            FINAL -> finish()
             else -> {
                 renderQueryState(state.searchQuery)
                 renderRecommendationsState(state.recommendations)
@@ -92,7 +96,9 @@ class SearchQueryActivity : AppCompatActivity(), DIAware {
                 viewBindings.run {
                     historyHeadline.visibility = View.VISIBLE
                     ChipsGroupPopulator(historyChipGroup, R.layout.chip_item_query).run {
-                        populate(subState.items) { navigator.returnWithResult(it) }
+                        populate(subState.items) {
+                            handleSelection(it)
+                        }
                     }
                 }
             }
@@ -112,11 +118,17 @@ class SearchQueryActivity : AppCompatActivity(), DIAware {
                 viewBindings.run {
                     historyHeadline.visibility = View.VISIBLE
                     ChipsGroupPopulator(suggestionChipGroup, R.layout.chip_item_query).run {
-                        populate(subState.items) { navigator.returnWithResult(it) }
+                        populate(subState.items) { handleSelection(it) }
                     }
                 }
             }
         }
+    }
+
+    private fun handleSelection(query: String) {
+        viewModel.handle(
+            SearchInteraction.QueryFieldChanged(query)
+        )
     }
 
     private fun renderQueryState(substate: SearchQuery) {
@@ -127,8 +139,6 @@ class SearchQueryActivity : AppCompatActivity(), DIAware {
                 SearchQuery.INVALID -> getString(R.string.error_querytextfield_invalid_query)
                 else -> null
             }
-
-        allowedToProceed = (substate == SearchQuery.VALID)
     }
 
     private fun showLoading() {
@@ -146,15 +156,6 @@ class SearchQueryActivity : AppCompatActivity(), DIAware {
     private fun handleError(reason: Throwable) {
         logger.e("Failed on loading suggestions -> $reason")
         describeErrorToUser(R.string.error_snackbar_cannot_load_suggestions)
-    }
-
-    private fun proceedIfAllowed(query: String) {
-        if (allowedToProceed) {
-            navigator.returnWithResult(query)
-            return
-        }
-
-        describeErrorToUser(R.string.error_snackbar_cannot_proceed)
     }
 
     private fun describeErrorToUser(targetMessageId: Int) {
