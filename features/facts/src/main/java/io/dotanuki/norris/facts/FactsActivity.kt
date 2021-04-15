@@ -20,7 +20,6 @@ import io.dotanuki.norris.facts.FactsScreenState.Failed
 import io.dotanuki.norris.facts.FactsScreenState.Idle
 import io.dotanuki.norris.facts.FactsScreenState.Loading
 import io.dotanuki.norris.facts.FactsScreenState.Success
-import io.dotanuki.norris.facts.FactsUserInteraction.DefinedNewSearch
 import io.dotanuki.norris.facts.FactsUserInteraction.OpenedScreen
 import io.dotanuki.norris.facts.FactsUserInteraction.RequestedFreshContent
 import io.dotanuki.norris.facts.databinding.ActivityFactsBinding
@@ -51,6 +50,13 @@ class FactsActivity : AppCompatActivity(), DIAware {
         setup()
     }
 
+    override fun onStart() {
+        super.onStart()
+        lifecycleScope.launch {
+            viewModel.bind().collect { renderState(it) }
+        }
+    }
+
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.menu_facts_list, menu)
         return super.onCreateOptionsMenu(menu)
@@ -67,11 +73,7 @@ class FactsActivity : AppCompatActivity(), DIAware {
     }
 
     private fun goToSearch() {
-        navigator.navigateForResult(Screen.SearchQuery) { query ->
-            query?.let {
-                viewModel.handle(DefinedNewSearch(it))
-            }
-        }
+        navigator.navigateTo(Screen.SearchQuery)
     }
 
     private fun loadFacts() {
@@ -87,10 +89,6 @@ class FactsActivity : AppCompatActivity(), DIAware {
             setSupportActionBar(factsToolbar)
             factsRecyclerView.layoutManager = LinearLayoutManager(this@FactsActivity)
             factsSwipeToRefresh.setOnRefreshListener { refresh() }
-        }
-
-        lifecycleScope.launch {
-            viewModel.bind().collect { renderState(it) }
         }
     }
 

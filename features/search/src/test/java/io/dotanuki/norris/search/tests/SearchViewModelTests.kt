@@ -88,7 +88,7 @@ class SearchViewModelTests {
             viewModel.run {
                 bind().test {
                     val initial = SearchScreenState.INITIAL
-                    val queryValidated = initial.copy(searchQuery = SearchQuery.VALID)
+                    val queryValidated = initial.copy(searchQuery = SearchQuery.DEFINED)
                     val expectedStates = listOf(initial, queryValidated)
 
                     handle(SearchInteraction.QueryFieldChanged("Norris"))

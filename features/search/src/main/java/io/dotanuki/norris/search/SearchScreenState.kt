@@ -22,10 +22,26 @@ data class SearchScreenState(
     enum class SearchQuery {
         NOT_SET,
         INVALID,
-        VALID
+        DEFINED
     }
 
     companion object {
-        val INITIAL = SearchScreenState(SearchQuery.NOT_SET, Recommendations.Idle, SearchHistory.Idle)
+        val INITIAL = SearchScreenState(
+            SearchQuery.NOT_SET,
+            Recommendations.Idle,
+            SearchHistory.Idle
+        )
+
+        val WRONG_QUERY = SearchScreenState(
+            SearchQuery.INVALID,
+            Recommendations.Idle,
+            SearchHistory.Idle
+        )
+
+        val FINAL = SearchScreenState(
+            SearchQuery.DEFINED,
+            Recommendations.Idle,
+            SearchHistory.Idle
+        )
     }
 }
