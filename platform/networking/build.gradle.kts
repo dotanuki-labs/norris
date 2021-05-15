@@ -8,7 +8,7 @@ dependencies {
     implementation(project(":platform:domain"))
 
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.5.0")
-    implementation("org.jetbrains.kotlinx:kotlinx-serialization-core:1.2.0")
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-core:1.2.1")
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.2.1")
     implementation("com.squareup.okhttp3:okhttp:4.9.1")
     implementation("com.squareup.okhttp3:logging-interceptor:4.9.1")
