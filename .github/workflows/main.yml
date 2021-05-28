@@ -19,7 +19,7 @@ jobs:
         run: ./scripts/compute-ci-cache-key.sh key.txt
 
       - name: Setup cache
-        uses: actions/cache@v2.1.5
+        uses: actions/cache@v2.1.6
         continue-on-error: true
         with:
           path: ~/.gradle/caches
@@ -54,7 +54,7 @@ jobs:
         run: ./scripts/compute-ci-cache-key.sh key.txt
 
       - name: Setup cache
-        uses: actions/cache@v2.1.5
+        uses: actions/cache@v2.1.6
         continue-on-error: true
         with:
           path: ~/.gradle/caches
@@ -102,7 +102,7 @@ jobs:
         run: ./scripts/compute-ci-cache-key.sh key.txt
 
       - name: Setup cache
-        uses: actions/cache@v2.1.5
+        uses: actions/cache@v2.1.6
         continue-on-error: true
         with:
           path: ~/.gradle/caches
@@ -141,7 +141,7 @@ jobs:
         run: ./scripts/compute-ci-cache-key.sh key.txt
 
       - name: Setup cache
-        uses: actions/cache@v2.1.5
+        uses: actions/cache@v2.1.6
         continue-on-error: true
         with:
           path: ~/.gradle/caches
