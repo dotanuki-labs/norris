@@ -11,7 +11,7 @@ dependencies {
     implementation("androidx.appcompat:appcompat:1.2.0")
     implementation("androidx.activity:activity:1.2.0-beta02")
     implementation("androidx.activity:activity-ktx:1.2.0-beta02")
-    implementation("org.kodein.di:kodein-di-jvm:7.5.0")
+    implementation("org.kodein.di:kodein-di-jvm:7.6.0")
 
     testImplementation(project(":platform:coroutines-testutils"))
     testImplementation("org.robolectric:robolectric:4.5.1")
