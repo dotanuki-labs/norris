@@ -101,7 +101,7 @@ dependencies {
     implementation(project(":features:facts"))
     implementation(project(":features:search"))
 
-    implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.5.0")
+    implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.5.10")
     implementation("androidx.appcompat:appcompat:1.2.0")
     implementation("androidx.swiperefreshlayout:swiperefreshlayout:1.1.0")
     implementation("androidx.core:core-ktx:1.5.0")
