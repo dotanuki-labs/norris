@@ -30,5 +30,5 @@ dependencies {
     testImplementation("junit:junit:4.13.2")
     testImplementation("org.assertj:assertj-core:3.16.1")
     testImplementation("com.github.ubiratansoares:burster:0.1.1")
-    testImplementation("app.cash.turbine:turbine:0.5.0")
+    testImplementation("app.cash.turbine:turbine:0.5.2")
 }
