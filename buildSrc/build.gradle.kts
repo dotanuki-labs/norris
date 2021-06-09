@@ -19,7 +19,7 @@ buildscript {
 }
 
 dependencies {
-    implementation("com.android.tools.build:gradle:4.0.1")
+    implementation("com.android.tools.build:gradle:4.2.1")
     implementation("com.adarshr:gradle-test-logger-plugin:2.1.1")
     implementation("org.jetbrains.kotlin:kotlin-gradle-plugin:1.4.32")
     implementation(kotlin("stdlib-jdk8"))
