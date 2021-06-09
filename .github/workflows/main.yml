@@ -40,9 +40,6 @@ jobs:
       - name: Check code formatting
         run: ./gradlew ktlintCheck --stacktrace
 
-      - name: Check code smells
-        run: ./gradlew detekt --stacktrace
-
   unit_tests:
     runs-on: ubuntu-latest
     timeout-minutes: 10
