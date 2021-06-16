@@ -16,10 +16,10 @@ dependencies {
     implementation("com.jakewharton.retrofit:retrofit2-kotlinx-serialization-converter:0.8.0")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.5.0")
     implementation("org.kodein.di:kodein-di-jvm:7.6.0")
-    testImplementation(project(":platform:testing-commons"))
 
+    testImplementation(project(":platform:testing-commons"))
     testImplementation("junit:junit:4.13.2")
-    testImplementation("org.assertj:assertj-core:3.16.1")
+    testImplementation("com.google.truth:truth:1.1.3")
     testImplementation("com.github.ubiratansoares:burster:0.1.1")
     testImplementation("com.squareup.okhttp3:mockwebserver:4.9.1")
 }

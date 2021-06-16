@@ -1,5 +1,6 @@
 package io.dotanuki.norris.networking
 
+import com.google.common.truth.Truth.assertThat
 import io.dotanuki.burster.using
 import io.dotanuki.norris.domain.errors.RemoteServiceIntegrationError
 import io.dotanuki.norris.domain.errors.RemoteServiceIntegrationError.ClientOrigin
@@ -7,7 +8,6 @@ import io.dotanuki.norris.domain.errors.RemoteServiceIntegrationError.RemoteSyst
 import io.dotanuki.norris.networking.CheckErrorTransformation.Companion.checkTransformation
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.ResponseBody.Companion.toResponseBody
-import org.assertj.core.api.Assertions.assertThat
 import org.junit.Test
 import retrofit2.HttpException
 import retrofit2.Response
