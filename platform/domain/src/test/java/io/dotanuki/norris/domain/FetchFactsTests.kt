@@ -1,13 +1,13 @@
 package io.dotanuki.norris.domain
 
+import com.google.common.truth.Truth.assertAbout
 import com.google.common.truth.Truth.assertThat
 import io.dotanuki.norris.domain.errors.SearchFactsError
 import io.dotanuki.norris.domain.model.ChuckNorrisFact
 import io.dotanuki.norris.domain.model.RelatedCategory.Available
 import io.dotanuki.norris.domain.services.RemoteFactsService
+import io.dotanuki.testing.truth.EspeculativeExecution
 import kotlinx.coroutines.runBlocking
-import org.assertj.core.api.Assertions.assertThatThrownBy
-import org.assertj.core.api.ThrowableAssert
 import org.junit.Before
 import org.junit.Test
 
@@ -57,19 +57,18 @@ class FetchFactsTests {
     }
 
     @Test fun `should throw with invalid term`() {
-        val exec = AssertionError {}
-        val execution = ThrowableAssert.ThrowingCallable { runBlocking { usecase.search("") } }
+        val execution = EspeculativeExecution { runBlocking { usecase.search("") } }
 
         val expectedError = SearchFactsError.EmptyTerm
 
-        assertThatThrownBy(execution).isEqualTo(expectedError)
+        assertAbout(execution).that(expectedError).hasBeingThrown()
     }
 
     @Test fun `should throw with empty result`() {
-        val execution = ThrowableAssert.ThrowingCallable { runBlocking { usecase.search("Trump") } }
+        val execution = EspeculativeExecution { runBlocking { usecase.search("Trump") } }
 
         val expectedError = SearchFactsError.NoResultsFound
 
-        assertThatThrownBy(execution).isEqualTo(expectedError)
+        assertAbout(execution).that(expectedError).hasBeingThrown()
     }
 }

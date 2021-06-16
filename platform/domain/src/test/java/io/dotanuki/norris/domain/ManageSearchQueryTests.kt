@@ -1,8 +1,8 @@
 package io.dotanuki.norris.domain
 
+import com.google.common.truth.Truth.assertThat
 import io.dotanuki.norris.domain.services.SearchesHistoryService
 import kotlinx.coroutines.runBlocking
-import org.assertj.core.api.Assertions.assertThat
 import org.junit.Test
 
 class ManageSearchQueryTests {
