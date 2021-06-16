@@ -1,11 +1,9 @@
 package io.dotanuki.norris.rest.util
 
-import org.assertj.core.api.Assertions.assertThat
+import com.google.common.truth.Truth.assertThat
 
 fun unwrapCaughtError(result: Result<*>) =
-    result.exceptionOrNull()
-        ?.let { it }
-        ?: throw IllegalArgumentException("Not an error")
+    result.exceptionOrNull() ?: throw IllegalArgumentException("Not an error")
 
 fun assertErrorTransformed(expected: Throwable, whenRunning: () -> Any) {
     val result = runCatching { whenRunning.invoke() }

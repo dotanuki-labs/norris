@@ -11,7 +11,7 @@ import io.dotanuki.norris.domain.services.RemoteFactsService
 import io.dotanuki.norris.domain.services.SearchesHistoryService
 import io.dotanuki.norris.facts.FactDisplayRow
 import io.dotanuki.norris.facts.FactsPresentation
-import io.dotanuki.norris.facts.FactsScreenState.*
+import io.dotanuki.norris.facts.FactsScreenState
 import io.dotanuki.norris.facts.FactsUserInteraction.OpenedScreen
 import io.dotanuki.norris.facts.FactsViewModel
 import io.dotanuki.testing.coroutines.CoroutinesTestHelper
@@ -81,9 +81,9 @@ class FactsViewModelTests {
 
                     val emissions = listOf(expectItem(), expectItem(), expectItem())
                     val viewStates = listOf(
-                        Idle,
-                        Loading,
-                        Failed(UnexpectedResponse)
+                        FactsScreenState.Idle,
+                        FactsScreenState.Loading,
+                        FactsScreenState.Failed(UnexpectedResponse)
                     )
 
                     assertThat(emissions).isEqualTo(viewStates)
@@ -113,9 +113,9 @@ class FactsViewModelTests {
 
                     val emissions = listOf(expectItem(), expectItem(), expectItem())
                     val viewStates = listOf(
-                        Idle,
-                        Loading,
-                        Success(presentation)
+                        FactsScreenState.Idle,
+                        FactsScreenState.Loading,
+                        FactsScreenState.Success(presentation)
                     )
 
                     assertThat(emissions).isEqualTo(viewStates)
