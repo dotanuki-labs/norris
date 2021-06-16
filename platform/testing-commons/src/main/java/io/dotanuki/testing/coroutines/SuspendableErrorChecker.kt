@@ -1,12 +1,7 @@
-package io.dotanuki.coroutines.testutils
+package io.dotanuki.testing.coroutines
 
 import kotlinx.coroutines.runBlocking
 import kotlin.properties.Delegates
-
-fun unwrapError(result: Result<*>) =
-    result.exceptionOrNull()
-        ?.let { it }
-        ?: throw IllegalArgumentException("Not an error")
 
 class SuspendableErrorChecker<T> {
 

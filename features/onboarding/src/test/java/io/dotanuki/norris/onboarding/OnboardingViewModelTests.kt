@@ -1,7 +1,7 @@
 package io.dotanuki.norris.onboarding
 
 import app.cash.turbine.test
-import io.dotanuki.coroutines.testutils.CoroutinesTestHelper
+import io.dotanuki.testing.coroutines.CoroutinesTestHelper
 import io.dotanuki.norris.domain.FetchCategories
 import io.dotanuki.norris.domain.model.ChuckNorrisFact
 import io.dotanuki.norris.domain.model.RelatedCategory.Available

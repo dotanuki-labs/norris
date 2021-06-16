@@ -25,8 +25,8 @@ dependencies {
     implementation("androidx.activity:activity-ktx:1.3.0-beta01")
     implementation("androidx.swiperefreshlayout:swiperefreshlayout:1.1.0")
     implementation("com.google.android.material:material:1.3.0")
+    testImplementation(project(":platform:testing-commons"))
 
-    testImplementation(project(":platform:coroutines-testutils"))
     testImplementation("junit:junit:4.13.2")
     testImplementation("org.assertj:assertj-core:3.16.1")
     testImplementation("com.github.ubiratansoares:burster:0.1.1")

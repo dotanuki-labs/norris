@@ -1,6 +1,5 @@
 package io.dotanuki.norris.networking
 
-import io.dotanuki.coroutines.testutils.unwrapError
 import io.dotanuki.norris.domain.errors.ErrorTransformer
 import kotlinx.coroutines.runBlocking
 import kotlin.coroutines.resumeWithException
@@ -22,6 +21,9 @@ class CheckErrorTransformation(
         suspendCoroutine<Unit> { continuation ->
             continuation.resumeWithException(error)
         }
+
+    private fun unwrapError(result: Result<*>) =
+        result.exceptionOrNull() ?: throw IllegalArgumentException("Not an error")
 
     companion object {
         fun checkTransformation(from: Throwable, using: ErrorTransformer, check: (Throwable) -> Unit) =

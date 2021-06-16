@@ -1,6 +1,6 @@
 package io.dotanuki.norris.persistance.tests
 
-import io.dotanuki.coroutines.testutils.SuspendableErrorChecker.Companion.errorOnSuspendable
+import io.dotanuki.testing.coroutines.SuspendableErrorChecker.Companion.errorOnSuspendable
 import io.dotanuki.norris.domain.errors.SearchHistoryError
 import io.dotanuki.norris.domain.services.SearchesHistoryService
 import io.dotanuki.norris.persistance.SearchHistoryInfrastructure

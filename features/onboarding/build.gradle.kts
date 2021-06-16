@@ -20,8 +20,8 @@ dependencies {
     implementation("androidx.core:core-ktx:1.5.0")
     implementation("androidx.appcompat:appcompat:1.3.0")
     implementation("com.google.android.material:material:1.3.0")
+    testImplementation(project(":platform:testing-commons"))
 
-    testImplementation(project(":platform:coroutines-testutils"))
     testImplementation("junit:junit:4.13.2")
     testImplementation("org.assertj:assertj-core:3.16.1")
     testImplementation("app.cash.turbine:turbine:0.5.2")

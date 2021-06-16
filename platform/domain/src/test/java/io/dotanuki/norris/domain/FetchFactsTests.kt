@@ -1,11 +1,11 @@
 package io.dotanuki.norris.domain
 
+import com.google.common.truth.Truth.assertThat
 import io.dotanuki.norris.domain.errors.SearchFactsError
 import io.dotanuki.norris.domain.model.ChuckNorrisFact
 import io.dotanuki.norris.domain.model.RelatedCategory.Available
 import io.dotanuki.norris.domain.services.RemoteFactsService
 import kotlinx.coroutines.runBlocking
-import org.assertj.core.api.Assertions.assertThat
 import org.assertj.core.api.Assertions.assertThatThrownBy
 import org.assertj.core.api.ThrowableAssert
 import org.junit.Before
@@ -57,6 +57,7 @@ class FetchFactsTests {
     }
 
     @Test fun `should throw with invalid term`() {
+        val exec = AssertionError {}
         val execution = ThrowableAssert.ThrowingCallable { runBlocking { usecase.search("") } }
 
         val expectedError = SearchFactsError.EmptyTerm

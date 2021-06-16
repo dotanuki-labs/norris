@@ -1,7 +1,7 @@
 package io.dotanuki.norri.facts
 
 import app.cash.turbine.test
-import io.dotanuki.coroutines.testutils.CoroutinesTestHelper
+import io.dotanuki.testing.coroutines.CoroutinesTestHelper
 import io.dotanuki.norris.domain.FetchFacts
 import io.dotanuki.norris.domain.ManageSearchQuery
 import io.dotanuki.norris.domain.errors.RemoteServiceIntegrationError.UnexpectedResponse
