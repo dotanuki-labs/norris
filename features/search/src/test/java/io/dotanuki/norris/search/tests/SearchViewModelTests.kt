@@ -1,7 +1,7 @@
 package io.dotanuki.norris.search.tests
 
 import app.cash.turbine.test
-import io.dotanuki.testing.coroutines.CoroutinesTestHelper
+import com.google.common.truth.Truth.assertThat
 import io.dotanuki.norris.domain.FetchCategories
 import io.dotanuki.norris.domain.model.ChuckNorrisFact
 import io.dotanuki.norris.domain.model.RelatedCategory
@@ -10,12 +10,10 @@ import io.dotanuki.norris.domain.services.RemoteFactsService
 import io.dotanuki.norris.domain.services.SearchesHistoryService
 import io.dotanuki.norris.search.SearchInteraction
 import io.dotanuki.norris.search.SearchScreenState
-import io.dotanuki.norris.search.SearchScreenState.Recommendations
-import io.dotanuki.norris.search.SearchScreenState.SearchHistory
-import io.dotanuki.norris.search.SearchScreenState.SearchQuery
+import io.dotanuki.norris.search.SearchScreenState.*
 import io.dotanuki.norris.search.SearchViewModel
+import io.dotanuki.testing.coroutines.CoroutinesTestHelper
 import kotlinx.coroutines.runBlocking
-import org.assertj.core.api.Assertions.assertThat
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
