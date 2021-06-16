@@ -1,7 +1,7 @@
 package io.dotanuki.norris.search.tests
 
 import app.cash.turbine.test
-import io.dotanuki.coroutines.testutils.CoroutinesTestHelper
+import com.google.common.truth.Truth.assertThat
 import io.dotanuki.norris.domain.FetchCategories
 import io.dotanuki.norris.domain.model.ChuckNorrisFact
 import io.dotanuki.norris.domain.model.RelatedCategory
@@ -14,8 +14,8 @@ import io.dotanuki.norris.search.SearchScreenState.Recommendations
 import io.dotanuki.norris.search.SearchScreenState.SearchHistory
 import io.dotanuki.norris.search.SearchScreenState.SearchQuery
 import io.dotanuki.norris.search.SearchViewModel
+import io.dotanuki.testing.coroutines.CoroutinesTestHelper
 import kotlinx.coroutines.runBlocking
-import org.assertj.core.api.Assertions.assertThat
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -52,12 +52,14 @@ class SearchViewModelTests {
         override suspend fun fetchFacts(searchTerm: String): List<ChuckNorrisFact> = emptyList()
     }
 
-    @Before fun `before each test`() {
+    @Before
+    fun `before each test`() {
         val fetchCategories = FetchCategories(FakeCategoriesCacheService, FakeRemoteFactsService)
         viewModel = SearchViewModel(FakeSearchesHistoryService, fetchCategories)
     }
 
-    @Test fun `should display suggestions`() {
+    @Test
+    fun `should display suggestions`() {
         runBlocking {
             viewModel.run {
                 bind().test {
@@ -67,11 +69,20 @@ class SearchViewModelTests {
 
                     val initial = SearchScreenState.INITIAL
                     val firstFetch = initial.copy(recommendations = Recommendations.Loading)
-                    val recomendationsLoaded = firstFetch.copy(recommendations = Recommendations.Success(recommended))
-                    val secondFetch = recomendationsLoaded.copy(searchHistory = SearchHistory.Loading)
-                    val historyLoaded = secondFetch.copy(searchHistory = SearchHistory.Success(previousSearch))
+                    val recomendationsLoaded =
+                        firstFetch.copy(recommendations = Recommendations.Success(recommended))
+                    val secondFetch =
+                        recomendationsLoaded.copy(searchHistory = SearchHistory.Loading)
+                    val historyLoaded =
+                        secondFetch.copy(searchHistory = SearchHistory.Success(previousSearch))
 
-                    val expectedStates = listOf(initial, firstFetch, recomendationsLoaded, secondFetch, historyLoaded)
+                    val expectedStates = listOf(
+                        initial,
+                        firstFetch,
+                        recomendationsLoaded,
+                        secondFetch,
+                        historyLoaded
+                    )
 
                     handle(SearchInteraction.OpenedScreen)
 
@@ -83,7 +94,8 @@ class SearchViewModelTests {
         }
     }
 
-    @Test fun `should validate incoming query`() {
+    @Test
+    fun `should validate incoming query`() {
         runBlocking {
             viewModel.run {
                 bind().test {

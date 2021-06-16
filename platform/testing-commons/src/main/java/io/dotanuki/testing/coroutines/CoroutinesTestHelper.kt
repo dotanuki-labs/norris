@@ -1,4 +1,4 @@
-package io.dotanuki.coroutines.testutils
+package io.dotanuki.testing.coroutines
 
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers

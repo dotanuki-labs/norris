@@ -1,12 +1,12 @@
 package io.dotanuki.norris.domain
 
+import com.google.common.truth.Truth.assertThat
 import io.dotanuki.norris.domain.errors.NetworkingError
 import io.dotanuki.norris.domain.model.ChuckNorrisFact
 import io.dotanuki.norris.domain.model.RelatedCategory
 import io.dotanuki.norris.domain.services.CategoriesCacheService
 import io.dotanuki.norris.domain.services.RemoteFactsService
 import kotlinx.coroutines.runBlocking
-import org.assertj.core.api.Assertions.assertThat
 import org.junit.Before
 import org.junit.Test
 

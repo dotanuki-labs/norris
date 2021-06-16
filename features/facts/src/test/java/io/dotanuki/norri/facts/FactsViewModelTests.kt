@@ -1,7 +1,7 @@
 package io.dotanuki.norri.facts
 
 import app.cash.turbine.test
-import io.dotanuki.coroutines.testutils.CoroutinesTestHelper
+import com.google.common.truth.Truth.assertThat
 import io.dotanuki.norris.domain.FetchFacts
 import io.dotanuki.norris.domain.ManageSearchQuery
 import io.dotanuki.norris.domain.errors.RemoteServiceIntegrationError.UnexpectedResponse
@@ -11,14 +11,11 @@ import io.dotanuki.norris.domain.services.RemoteFactsService
 import io.dotanuki.norris.domain.services.SearchesHistoryService
 import io.dotanuki.norris.facts.FactDisplayRow
 import io.dotanuki.norris.facts.FactsPresentation
-import io.dotanuki.norris.facts.FactsScreenState.Failed
-import io.dotanuki.norris.facts.FactsScreenState.Idle
-import io.dotanuki.norris.facts.FactsScreenState.Loading
-import io.dotanuki.norris.facts.FactsScreenState.Success
+import io.dotanuki.norris.facts.FactsScreenState
 import io.dotanuki.norris.facts.FactsUserInteraction.OpenedScreen
 import io.dotanuki.norris.facts.FactsViewModel
+import io.dotanuki.testing.coroutines.CoroutinesTestHelper
 import kotlinx.coroutines.runBlocking
-import org.assertj.core.api.Assertions.assertThat
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -84,9 +81,9 @@ class FactsViewModelTests {
 
                     val emissions = listOf(expectItem(), expectItem(), expectItem())
                     val viewStates = listOf(
-                        Idle,
-                        Loading,
-                        Failed(UnexpectedResponse)
+                        FactsScreenState.Idle,
+                        FactsScreenState.Loading,
+                        FactsScreenState.Failed(UnexpectedResponse)
                     )
 
                     assertThat(emissions).isEqualTo(viewStates)
@@ -116,9 +113,9 @@ class FactsViewModelTests {
 
                     val emissions = listOf(expectItem(), expectItem(), expectItem())
                     val viewStates = listOf(
-                        Idle,
-                        Loading,
-                        Success(presentation)
+                        FactsScreenState.Idle,
+                        FactsScreenState.Loading,
+                        FactsScreenState.Success(presentation)
                     )
 
                     assertThat(emissions).isEqualTo(viewStates)

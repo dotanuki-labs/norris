@@ -1,7 +1,7 @@
 package io.dotanuki.norris.domain
 
+import com.google.common.truth.Truth.assertThat
 import io.dotanuki.burster.using
-import org.assertj.core.api.Assertions.assertThat
 import org.junit.Test
 
 class SearchQueryValidationTests {

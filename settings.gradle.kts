@@ -10,7 +10,7 @@ include(
     ":app",
     ":platform:domain",
     ":platform:logger",
-    ":platform:coroutines-testutils",
+    ":platform:testing-commons",
     ":platform:navigator",
     ":platform:networking",
     ":platform:persistance",

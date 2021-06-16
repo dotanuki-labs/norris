@@ -1,13 +1,10 @@
 package io.dotanuki.norris.networking
 
+import com.google.common.truth.Truth.assertThat
 import io.dotanuki.burster.using
 import io.dotanuki.norris.domain.errors.NetworkingError
-import io.dotanuki.norris.domain.errors.NetworkingError.ConnectionSpike
-import io.dotanuki.norris.domain.errors.NetworkingError.HostUnreachable
-import io.dotanuki.norris.domain.errors.NetworkingError.OperationTimeout
 import io.dotanuki.norris.domain.errors.RemoteServiceIntegrationError
 import io.dotanuki.norris.networking.CheckErrorTransformation.Companion.checkTransformation
-import org.assertj.core.api.Assertions.assertThat
 import org.junit.Test
 import java.io.IOException
 import java.net.ConnectException
@@ -21,11 +18,11 @@ class NetworkingErrorTransformerTests {
         using<Throwable, NetworkingError> {
 
             burst {
-                values(UnknownHostException("No Internet"), HostUnreachable)
-                values(ConnectException(), HostUnreachable)
-                values(NoRouteToHostException(), HostUnreachable)
-                values(SocketTimeoutException(), OperationTimeout)
-                values(IOException("Canceled"), ConnectionSpike)
+                values(UnknownHostException("No Internet"), NetworkingError.HostUnreachable)
+                values(ConnectException(), NetworkingError.HostUnreachable)
+                values(NoRouteToHostException(), NetworkingError.HostUnreachable)
+                values(SocketTimeoutException(), NetworkingError.OperationTimeout)
+                values(IOException("Canceled"), NetworkingError.ConnectionSpike)
             }
 
             thenWith { incoming, expected ->
