@@ -1,5 +1,6 @@
 package io.dotanuki.norri.facts
 
+import com.google.common.truth.Truth.assertThat
 import io.dotanuki.burster.using
 import io.dotanuki.norris.domain.errors.NetworkingError.HostUnreachable
 import io.dotanuki.norris.domain.errors.RemoteServiceIntegrationError.ClientOrigin
@@ -8,7 +9,6 @@ import io.dotanuki.norris.domain.errors.SearchFactsError.EmptyTerm
 import io.dotanuki.norris.domain.errors.SearchFactsError.NoResultsFound
 import io.dotanuki.norris.facts.ErrorStateResources
 import io.dotanuki.norris.sharedassets.R
-import org.assertj.core.api.Assertions.assertThat
 import org.junit.Test
 
 class ErrorStateResourcesTests {
