@@ -119,7 +119,7 @@ dependencies {
     androidTestImplementation("androidx.test:rules:1.3.0")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.3.0")
     androidTestImplementation("com.schibsted.spain:barista:3.9.0")
-    androidTestImplementation("org.assertj:assertj-core:2.9.1")
+    androidTestImplementation("org.assertj:assertj-core:3.20.0")
     androidTestImplementation("com.squareup.okhttp3:mockwebserver:4.9.1")
 }
 
