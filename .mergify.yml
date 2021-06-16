@@ -3,7 +3,7 @@
 #   $ curl -F 'data=@.mergify.yml' https://gh.mergify.io/validate/
 
 pull_request_rules:
-  - name: Automatic merge for Dependabot pull requests
+  - name: Automatic merges for Dependabot pull requests
     conditions:
       - author~=^dependabot(|-preview)\[bot\]$
       - check-success=acceptance_tests (25)
@@ -12,6 +12,18 @@ pull_request_rules:
       - check-success=acceptance_tests (28)
       - check-success=acceptance_tests (29)
       - "#approved-reviews-by>=1"
+    actions:
+      merge:
+        method: squash
+
+  - name: Automatic merges for Dotanukibot pull requests
+    conditions:
+      - author~=^dotanukibot
+      - check-success=acceptance_tests (25)
+      - check-success=acceptance_tests (26)
+      - check-success=acceptance_tests (27) 
+      - check-success=acceptance_tests (28)
+      - check-success=acceptance_tests (29)
     actions:
       merge:
         method: squash
