@@ -6,7 +6,7 @@ import androidx.test.espresso.NoMatchingViewException
 import androidx.test.espresso.ViewAssertion
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
-import org.assertj.core.api.Java6Assertions.assertThat
+import com.google.common.truth.Truth.assertThat
 
 class ChipGroupContentAssertion(private val chips: List<String>) : ViewAssertion {
 
