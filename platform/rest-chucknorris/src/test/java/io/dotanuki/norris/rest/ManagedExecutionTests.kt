@@ -1,5 +1,6 @@
 package io.dotanuki.norris.rest
 
+import com.google.common.truth.Truth.assertThat
 import io.dotanuki.burster.using
 import io.dotanuki.norris.domain.errors.NetworkingError.HostUnreachable
 import io.dotanuki.norris.domain.errors.RemoteServiceIntegrationError.RemoteSystem
@@ -9,7 +10,6 @@ import kotlinx.coroutines.runBlocking
 import kotlinx.serialization.SerializationException
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.ResponseBody.Companion.toResponseBody
-import org.assertj.core.api.Assertions.assertThat
 import org.junit.Test
 import retrofit2.HttpException
 import retrofit2.Response
