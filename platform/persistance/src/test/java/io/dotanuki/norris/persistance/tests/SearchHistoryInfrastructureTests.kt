@@ -1,17 +1,17 @@
 package io.dotanuki.norris.persistance.tests
 
-import io.dotanuki.testing.coroutines.SuspendableErrorChecker.Companion.errorOnSuspendable
+import com.google.common.truth.Truth.assertThat
 import io.dotanuki.norris.domain.errors.SearchHistoryError
 import io.dotanuki.norris.domain.services.SearchesHistoryService
 import io.dotanuki.norris.persistance.SearchHistoryInfrastructure
+import io.dotanuki.testing.coroutines.SuspendableErrorChecker.Companion.errorOnSuspendable
 import kotlinx.coroutines.runBlocking
-import org.assertj.core.api.Assertions.assertThat
 import org.junit.Before
 import org.junit.Test
 
 internal class SearchHistoryInfrastructureTests {
 
-    lateinit var service: SearchesHistoryService
+    private lateinit var service: SearchesHistoryService
 
     @Before fun `before each test`() {
         service = SearchHistoryInfrastructure(FakePreferences)
