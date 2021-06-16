@@ -3,10 +3,11 @@ package io.dotanuki.norris.navigator
 import android.app.Activity
 import android.os.Bundle
 import androidx.fragment.app.FragmentActivity
+import com.google.common.truth.Truth.assertAbout
+import com.google.common.truth.Truth.assertThat
 import io.dotanuki.norris.navigator.Screen.FactsList
 import io.dotanuki.norris.navigator.Screen.SearchQuery
-import org.assertj.core.api.Assertions.assertThat
-import org.assertj.core.api.Assertions.assertThatThrownBy
+import io.dotanuki.testing.truth.EspeculativeExecution
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -44,9 +45,10 @@ class NavigatorTests {
 
     @Test fun `should throw when navigating to unsupported screen`() {
 
-        assertThatThrownBy { navigator.navigateTo(FactsList) }
-            .isEqualTo(
-                UnsupportedNavigation(FactsList)
-            )
+        val execution = EspeculativeExecution { navigator.navigateTo(FactsList) }
+
+        val expectedError = UnsupportedNavigation(FactsList)
+
+        assertAbout(execution).that(expectedError).hasBeingThrown()
     }
 }
