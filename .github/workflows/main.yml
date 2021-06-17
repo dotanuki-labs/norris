@@ -80,7 +80,7 @@ jobs:
 
       - name: Archive test results
         if: always()
-        uses: actions/upload-artifact@v2.2.3
+        uses: actions/upload-artifact@v2.2.4
         with:
           name: junit-results-unit-tests
           path: junit
@@ -121,7 +121,7 @@ jobs:
         run: ./gradlew clean app:assembleRelease -PtestMode=true --stacktrace
 
       - name: Archive APK
-        uses: actions/upload-artifact@v2.2.3
+        uses: actions/upload-artifact@v2.2.4
         with:
           name: release-apk
           path: app/build/outputs/apk/release
@@ -160,7 +160,7 @@ jobs:
         run: ./gradlew clean app:assembleAndroidTest --stacktrace
 
       - name: Archive Test APK
-        uses: actions/upload-artifact@v2.2.3
+        uses: actions/upload-artifact@v2.2.4
         with:
           name: tests-apk
           path: app/build/outputs/apk/androidTest/release
