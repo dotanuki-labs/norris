@@ -14,21 +14,23 @@ import org.kodein.di.provider
 
 val searchModule = DI.Module("search") {
 
-    bind() from provider {
-        @Suppress("UNCHECKED_CAST") val factory = object : ViewModelProvider.Factory {
+    bind {
+        provider {
+            @Suppress("UNCHECKED_CAST") val factory = object : ViewModelProvider.Factory {
 
-            val fetchCategories = FetchCategories(
-                categoriesCache = instance(),
-                remoteFacts = instance()
-            )
+                val fetchCategories = FetchCategories(
+                    categoriesCache = instance(),
+                    remoteFacts = instance()
+                )
 
-            val searchService = instance<SearchesHistoryService>()
+                val searchService = instance<SearchesHistoryService>()
 
-            override fun <VM : ViewModel> create(klass: Class<VM>) =
-                SearchViewModel(searchService, fetchCategories) as VM
+                override fun <VM : ViewModel> create(klass: Class<VM>) =
+                    SearchViewModel(searchService, fetchCategories) as VM
+            }
+
+            val host: FragmentActivity = instance(KodeinTags.hostActivity)
+            ViewModelProvider(host, factory).get(SearchViewModel::class.java)
         }
-
-        val host: FragmentActivity = instance(KodeinTags.hostActivity)
-        ViewModelProvider(host, factory).get(SearchViewModel::class.java)
     }
 }

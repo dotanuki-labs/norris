@@ -17,7 +17,9 @@ class DependenciesSetup(private val app: Application) {
     val container by lazy {
         DI {
             modules.forEach { import(it) }
-            bind() from singleton { app }
+            bind {
+                singleton { app }
+            }
         }
     }
 

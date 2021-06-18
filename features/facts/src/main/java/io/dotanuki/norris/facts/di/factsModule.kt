@@ -14,21 +14,23 @@ import org.kodein.di.provider
 
 val factsModule = DI.Module("menu_facts_list") {
 
-    bind() from provider {
-        @Suppress("UNCHECKED_CAST") val factory = object : ViewModelProvider.Factory {
-            val fetchFacts = FetchFacts(
-                factsService = instance()
-            )
+    bind {
+        provider {
+            @Suppress("UNCHECKED_CAST") val factory = object : ViewModelProvider.Factory {
+                val fetchFacts = FetchFacts(
+                    factsService = instance()
+                )
 
-            val manageSearchQuery = ManageSearchQuery(
-                historyService = instance()
-            )
+                val manageSearchQuery = ManageSearchQuery(
+                    historyService = instance()
+                )
 
-            override fun <VM : ViewModel> create(klass: Class<VM>) =
-                FactsViewModel(fetchFacts, manageSearchQuery) as VM
+                override fun <VM : ViewModel> create(klass: Class<VM>) =
+                    FactsViewModel(fetchFacts, manageSearchQuery) as VM
+            }
+
+            val host: FragmentActivity = instance(KodeinTags.hostActivity)
+            ViewModelProvider(host, factory).get(FactsViewModel::class.java)
         }
-
-        val host: FragmentActivity = instance(KodeinTags.hostActivity)
-        ViewModelProvider(host, factory).get(FactsViewModel::class.java)
     }
 }
