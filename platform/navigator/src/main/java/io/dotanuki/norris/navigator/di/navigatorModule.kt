@@ -8,10 +8,12 @@ import org.kodein.di.instance
 import org.kodein.di.provider
 
 val navigatorModule = DI.Module("navigator") {
-    bind() from provider {
-        Navigator(
-            host = instance(KodeinTags.hostActivity),
-            links = instance()
-        )
+    bind {
+        provider {
+            Navigator(
+                host = instance(KodeinTags.hostActivity),
+                links = instance()
+            )
+        }
     }
 }

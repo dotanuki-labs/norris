@@ -1,6 +1,5 @@
 package io.dotanuki.norris.rest.di
 
-import io.dotanuki.norris.domain.services.RemoteFactsService
 import io.dotanuki.norris.networking.RetrofitBuilder
 import io.dotanuki.norris.rest.ChuckNorrisDotIO
 import io.dotanuki.norris.rest.FactsInfrastructure
@@ -14,27 +13,31 @@ import org.kodein.di.singleton
 
 val restInfrastructureModule = DI.Module("rest-infrastructure") {
 
-    bind() from singleton {
+    bind {
+        singleton {
 
-        val logger = HttpLoggingInterceptor().apply {
-            level = HttpLoggingInterceptor.Level.BODY
+            val logger = HttpLoggingInterceptor().apply {
+                level = HttpLoggingInterceptor.Level.BODY
+            }
+
+            val okHttp = OkHttpClient.Builder()
+                .addInterceptor(logger)
+                .build()
+
+            val retrofit = RetrofitBuilder(
+                apiURL = instance(),
+                httpClient = okHttp
+            )
+
+            retrofit.create(ChuckNorrisDotIO::class.java)
         }
-
-        val okHttp = OkHttpClient.Builder()
-            .addInterceptor(logger)
-            .build()
-
-        val retrofit = RetrofitBuilder(
-            apiURL = instance(),
-            httpClient = okHttp
-        )
-
-        retrofit.create(ChuckNorrisDotIO::class.java)
     }
 
-    bind<RemoteFactsService>() with provider {
-        FactsInfrastructure(
-            rest = instance()
-        )
+    bind {
+        provider {
+            FactsInfrastructure(
+                rest = instance()
+            )
+        }
     }
 }
