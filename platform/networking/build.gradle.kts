@@ -7,7 +7,7 @@ dependencies {
     implementation(project(":platform:logger"))
     implementation(project(":platform:domain"))
 
-    implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.5.10")
+    implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.5.20")
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-core:1.2.1")
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.2.1")
     implementation("com.squareup.okhttp3:okhttp:4.9.1")
