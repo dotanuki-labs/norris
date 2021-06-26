@@ -7,5 +7,5 @@ cd "${DIR%/*}"
 
 ./gradlew clean --no-daemon
 ./gradlew ktlintCheck --no-daemon --stacktrace
-./gradlew jacocoTestReport jacocoTestReportDebug --no-daemon --stacktrace
+./gradlew test testDebugUnitTest --no-daemon --stacktrace
 ./gradlew app:connectedAndroidTest --no-daemon --stacktrace -PtestMode=true
