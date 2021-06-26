@@ -31,7 +31,7 @@ class SearchViewModel(
             interactions.consumeAsFlow().collect { interaction ->
                 when (interaction) {
                     OpenedScreen -> loadPrefilledOptions()
-                    is QueryFieldChanged -> validate(interaction.query)
+                    is QueryFieldChanged -> validateAndSave(interaction.query)
                 }
             }
         }
@@ -56,7 +56,8 @@ class SearchViewModel(
 
         try {
             val searchHistory = searchService.lastSearches()
-            val successState = loadingState.copy(searchHistory = SearchHistory.Success(searchHistory))
+            val successState =
+                loadingState.copy(searchHistory = SearchHistory.Success(searchHistory))
             states.value = successState
         } catch (error: Throwable) {
             val errorState = loadingState.copy(searchHistory = SearchHistory.Failed(error))
@@ -71,7 +72,8 @@ class SearchViewModel(
 
         try {
             val categoriesNames = fetchCategories.execute().map { it.name }
-            val successState = loadingState.copy(recommendations = Recommendations.Success(categoriesNames))
+            val successState =
+                loadingState.copy(recommendations = Recommendations.Success(categoriesNames))
             states.value = successState
         } catch (error: Throwable) {
             val errorState = loadingState.copy(recommendations = Recommendations.Failed(error))
@@ -79,10 +81,17 @@ class SearchViewModel(
         }
     }
 
-    private fun validate(query: String) {
+    private fun validateAndSave(query: String) {
         val actualState = states.value
-        val validatedQuery = if (SearchQueryValidation.validate(query)) SearchQuery.VALID else SearchQuery.INVALID
+        val validatedQuery =
+            if (SearchQueryValidation.validate(query)) SearchQuery.VALID else SearchQuery.INVALID
         val newState = actualState.copy(searchQuery = validatedQuery)
         states.value = newState
+
+        if (SearchQueryValidation.validate(query)) {
+            viewModelScope.launch {
+                searchService.registerNewSearch(query)
+            }
+        }
     }
 }
