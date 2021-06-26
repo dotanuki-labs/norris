@@ -69,8 +69,8 @@ jobs:
           mkdir -p ~/.gradle
           cp .github/githubci-gradle.properties ~/.gradle/gradle.properties
 
-      - name: Run unit tests and capture code coverage
-        run: ./gradlew clean jacocoTestReport jacocoTestReportDebug --stacktrace
+      - name: Run unit tests
+        run: ./gradlew clean test testDebugUnitTest --stacktrace
 
       - name: Collect all test results from all modules
         if: always()
@@ -84,9 +84,6 @@ jobs:
         with:
           name: junit-results-unit-tests
           path: junit
-
-      - name: Share test reports with Codecov
-        uses: codecov/codecov-action@v1.5.2
 
   assemble_apk:
     runs-on: ubuntu-latest
