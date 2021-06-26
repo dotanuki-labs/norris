@@ -9,12 +9,12 @@ internal object FakePreferences : SharedPreferences {
     val UNSUPPORTED_OPERATION = IllegalAccessError("You are not supposed to call this method")
     var brokenMode = false
 
-    val storage = mutableSetOf<String>()
+    var storage = ""
 
     override fun edit() = FakeEditor
 
     override fun getStringSet(key: String?, defValues: MutableSet<String>?) =
-        if (!brokenMode) storage else null
+        throw UNSUPPORTED_OPERATION
 
     override fun unregisterOnSharedPreferenceChangeListener(
         listener: OnSharedPreferenceChangeListener?
@@ -30,25 +30,24 @@ internal object FakePreferences : SharedPreferences {
     override fun getAll(): MutableMap<String, *> = throw UNSUPPORTED_OPERATION
     override fun getLong(key: String?, defValue: Long) = throw UNSUPPORTED_OPERATION
     override fun getFloat(key: String?, defValue: Float) = throw UNSUPPORTED_OPERATION
-    override fun getString(key: String?, defValue: String?) = throw UNSUPPORTED_OPERATION
+    override fun getString(key: String?, defValue: String?) =
+        if (!brokenMode) storage else null
 
     object FakeEditor : Editor {
 
-        private var tempValues: MutableSet<String>? = null
+        private var tempValues: String = ""
 
-        override fun putStringSet(key: String?, values: MutableSet<String>?): Editor {
-            tempValues = values
+        override fun putString(key: String?, value: String?): Editor {
+            tempValues = requireNotNull(value)
             return this
         }
 
         override fun commit() =
             tempValues
-                ?.let {
-                    storage.clear()
-                    storage.addAll(it)
+                .let {
+                    storage = tempValues
                     true
                 }
-                ?: false
 
         override fun clear() = throw UNSUPPORTED_OPERATION
         override fun putLong(key: String?, value: Long) = throw UNSUPPORTED_OPERATION
@@ -57,6 +56,7 @@ internal object FakePreferences : SharedPreferences {
         override fun putBoolean(key: String?, value: Boolean) = throw UNSUPPORTED_OPERATION
         override fun putFloat(key: String?, value: Float) = throw UNSUPPORTED_OPERATION
         override fun apply() = throw UNSUPPORTED_OPERATION
-        override fun putString(key: String?, value: String?) = throw UNSUPPORTED_OPERATION
+        override fun putStringSet(key: String?, value: MutableSet<String>?) =
+            throw UNSUPPORTED_OPERATION
     }
 }
