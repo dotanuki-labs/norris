@@ -18,5 +18,5 @@ class FakePersistance(var availability: Availability = AVAILABLE) : SearchesHist
             UNAVAILABLE -> throw NetworkingError.HostUnreachable
         }
 
-    override suspend fun registerNewSearch(term: String) = Unit
+    override fun registerNewSearch(term: String) = Unit
 }
