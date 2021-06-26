@@ -23,7 +23,7 @@ class ComposeSearchOptionsTests {
             val searchHistory = object : SearchesHistoryService {
                 override suspend fun lastSearches(): List<String> = pastSearches
 
-                override suspend fun registerNewSearch(term: String) = Unit
+                override fun registerNewSearch(term: String) = Unit
             }
 
             val categoriesCache = object : CategoriesCacheService {
