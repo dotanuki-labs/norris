@@ -13,14 +13,16 @@ import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import io.dotanuki.logger.Logger
+import io.dotanuki.norris.domain.errors.SearchFactsError
+import io.dotanuki.norris.facts.FactsScreenState.Empty
 import io.dotanuki.norris.facts.FactsScreenState.Failed
 import io.dotanuki.norris.facts.FactsScreenState.Idle
 import io.dotanuki.norris.facts.FactsScreenState.Loading
 import io.dotanuki.norris.facts.FactsScreenState.Success
-import io.dotanuki.norris.facts.FactsUserInteraction.DefinedNewSearch
 import io.dotanuki.norris.facts.FactsUserInteraction.OpenedScreen
 import io.dotanuki.norris.facts.FactsUserInteraction.RequestedFreshContent
 import io.dotanuki.norris.facts.databinding.ActivityFactsBinding
@@ -67,18 +69,16 @@ class FactsActivity : AppCompatActivity(), DIAware {
     }
 
     private fun goToSearch() {
-        navigator.navigateForResult(Screen.SearchQuery) { query ->
-            query?.let {
-                viewModel.handle(DefinedNewSearch(it))
-            }
-        }
+        navigator.navigateTo(Screen.SearchQuery)
     }
 
     private fun loadFacts() {
+        logger.v("Requesting fresh content ...")
         viewModel.handle(OpenedScreen)
     }
 
     private fun refresh() {
+        logger.v("Requesting fresh content ...")
         viewModel.handle(RequestedFreshContent)
     }
 
@@ -90,17 +90,30 @@ class FactsActivity : AppCompatActivity(), DIAware {
         }
 
         lifecycleScope.launch {
-            viewModel.bind().collect { renderState(it) }
+            lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                loadFacts()
+                viewModel.bind().collect { renderState(it) }
+            }
         }
     }
 
     private fun renderState(state: FactsScreenState) =
         when (state) {
             is Failed -> handleError(state.reason)
+            is Empty -> handleEmptyState()
             is Success -> showFacts(state.value)
             is Loading -> startExecution()
-            is Idle -> loadFacts()
+            is Idle -> prepareScreen()
+        }.also {
+            logger.v("Actual state = $state")
         }
+
+    private fun prepareScreen() {
+        with(viewBindings) {
+            errorStateView.visibility = View.GONE
+            factsHeadlineLabel.visibility = View.GONE
+        }
+    }
 
     private fun showFacts(presentation: FactsPresentation) {
         viewBindings.run {
@@ -121,7 +134,25 @@ class FactsActivity : AppCompatActivity(), DIAware {
 
         val prefix = getString(R.string.headline_facts)
         val headline = SpannableStringBuilder(prefix).append(" : ").append(highlightedFact)
+        viewBindings.factsHeadlineLabel.visibility = View.VISIBLE
         viewBindings.factsHeadlineLabel.text = headline
+    }
+
+    private fun handleEmptyState() {
+        logger.i("Handling empty state")
+
+        viewBindings.run {
+            factsSwipeToRefresh.isRefreshing = false
+
+            val (errorImage, errorMessage) = ErrorStateResources(SearchFactsError.NoResultsFound)
+
+            with(viewBindings) {
+                errorStateView.visibility = View.VISIBLE
+                errorStateImage.setImageResource(errorImage)
+                errorStateLabel.setText(errorMessage)
+                retryButton.visibility = View.GONE
+            }
+        }
     }
 
     private fun handleError(failed: Throwable) {

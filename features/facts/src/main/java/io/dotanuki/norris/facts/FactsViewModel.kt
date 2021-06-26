@@ -4,9 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import io.dotanuki.norris.domain.FetchFacts
 import io.dotanuki.norris.domain.ManageSearchQuery
-import io.dotanuki.norris.facts.FactsUserInteraction.DefinedNewSearch
-import io.dotanuki.norris.facts.FactsUserInteraction.OpenedScreen
-import io.dotanuki.norris.facts.FactsUserInteraction.RequestedFreshContent
+import io.dotanuki.norris.domain.errors.SearchFactsError
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -26,14 +24,8 @@ class FactsViewModel(
 
     init {
         viewModelScope.launch {
-            interactions.consumeAsFlow().collect { interaction ->
-                when (interaction) {
-                    OpenedScreen, RequestedFreshContent -> showFacts()
-                    is DefinedNewSearch -> {
-                        queryManager.save(interaction.query)
-                        showFacts()
-                    }
-                }
+            interactions.consumeAsFlow().collect {
+                showFacts()
             }
         }
     }
@@ -50,7 +42,13 @@ class FactsViewModel(
         try {
             states.value = FactsScreenState.Success(fetchFacts())
         } catch (error: Throwable) {
-            states.value = FactsScreenState.Failed(error)
+
+            val newState = when (error) {
+                is SearchFactsError.EmptyTerm -> FactsScreenState.Empty
+                else -> FactsScreenState.Failed(error)
+            }
+
+            states.value = newState
         }
     }
 
