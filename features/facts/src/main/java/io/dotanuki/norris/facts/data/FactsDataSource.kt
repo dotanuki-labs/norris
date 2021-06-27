@@ -11,7 +11,7 @@ class FactsDataSource(
 ) {
 
     suspend fun search(term: String): List<ChuckNorrisFact> {
-        if (term.isEmpty()) throw FactsRetrievalError.NoResultsFound
+        if (term.isEmpty()) throw FactsRetrievalError.EmptyTerm
 
         return managedExecution {
             api.search(term).asChuckNorrisFacts()

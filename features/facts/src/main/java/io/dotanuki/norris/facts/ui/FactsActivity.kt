@@ -44,7 +44,6 @@ import org.kodein.di.DIAware
 import org.kodein.di.instance
 import io.dotanuki.norris.sharedassets.R as SharedR
 
-@Suppress("TooManyFunctions")
 class FactsActivity : AppCompatActivity(), DIAware {
 
     override val di by selfBind()
@@ -53,6 +52,8 @@ class FactsActivity : AppCompatActivity(), DIAware {
     private val viewModel by instance<FactsViewModel>()
     private val logger by instance<Logger>()
     private val navigator by instance<Navigator>()
+
+    var actualState: FactsScreenState = Idle
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -98,7 +99,6 @@ class FactsActivity : AppCompatActivity(), DIAware {
 
         lifecycleScope.launch {
             lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                loadFacts()
                 viewModel.bind().collect { renderState(it) }
             }
         }
@@ -113,6 +113,7 @@ class FactsActivity : AppCompatActivity(), DIAware {
             is Idle -> prepareScreen()
         }.also {
             logger.v("Actual state = $state")
+            actualState = state
         }
 
     private fun prepareScreen() {
@@ -120,6 +121,8 @@ class FactsActivity : AppCompatActivity(), DIAware {
             errorStateView.visibility = View.GONE
             factsHeadlineLabel.visibility = View.GONE
         }
+
+        viewModel.handle(OpenedScreen)
     }
 
     private fun showFacts(presentation: FactsPresentation) {
