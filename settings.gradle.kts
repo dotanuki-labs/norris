@@ -9,6 +9,7 @@ pluginManagement {
 include(
     ":app",
     ":platform:logger",
+    ":platform:testing-app-container",
     ":platform:testing-commons",
     ":platform:navigator",
     ":platform:networking",
