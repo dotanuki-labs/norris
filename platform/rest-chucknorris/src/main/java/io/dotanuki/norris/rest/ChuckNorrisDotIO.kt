@@ -10,8 +10,4 @@ interface ChuckNorrisDotIO {
 
     @GET("/jokes/search")
     suspend fun search(@Query("query") query: String): RawSearch
-
-    companion object {
-        const val API_URL = "https://api.chucknorris.io"
-    }
 }
