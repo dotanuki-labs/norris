@@ -17,9 +17,13 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import io.dotanuki.logger.Logger
+import io.dotanuki.norris.facts.R
+import io.dotanuki.norris.facts.databinding.ActivityFactsBinding
+import io.dotanuki.norris.facts.domain.FactsRetrievalError
+import io.dotanuki.norris.facts.presentation.ErrorStateResources
 import io.dotanuki.norris.facts.presentation.FactDisplayRow
 import io.dotanuki.norris.facts.presentation.FactsPresentation
-import io.dotanuki.norris.facts.R
+import io.dotanuki.norris.facts.presentation.FactsScreenState
 import io.dotanuki.norris.facts.presentation.FactsScreenState.Empty
 import io.dotanuki.norris.facts.presentation.FactsScreenState.Failed
 import io.dotanuki.norris.facts.presentation.FactsScreenState.Idle
@@ -27,10 +31,6 @@ import io.dotanuki.norris.facts.presentation.FactsScreenState.Loading
 import io.dotanuki.norris.facts.presentation.FactsScreenState.Success
 import io.dotanuki.norris.facts.presentation.FactsUserInteraction.OpenedScreen
 import io.dotanuki.norris.facts.presentation.FactsUserInteraction.RequestedFreshContent
-import io.dotanuki.norris.facts.databinding.ActivityFactsBinding
-import io.dotanuki.norris.facts.domain.FactsRetrievalError
-import io.dotanuki.norris.facts.presentation.ErrorStateResources
-import io.dotanuki.norris.facts.presentation.FactsScreenState
 import io.dotanuki.norris.facts.presentation.FactsViewModel
 import io.dotanuki.norris.facts.presentation.repeatOnLifecycle
 import io.dotanuki.norris.features.utilties.selfBind
@@ -38,11 +38,11 @@ import io.dotanuki.norris.features.utilties.toast
 import io.dotanuki.norris.features.utilties.viewBinding
 import io.dotanuki.norris.navigator.Navigator
 import io.dotanuki.norris.navigator.Screen
-import io.dotanuki.norris.sharedassets.R as SharedR
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import org.kodein.di.DIAware
 import org.kodein.di.instance
+import io.dotanuki.norris.sharedassets.R as SharedR
 
 @Suppress("TooManyFunctions")
 class FactsActivity : AppCompatActivity(), DIAware {
