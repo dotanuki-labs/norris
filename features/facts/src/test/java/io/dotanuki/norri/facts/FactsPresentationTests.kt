@@ -3,8 +3,8 @@ package io.dotanuki.norri.facts
 import com.google.common.truth.Truth.assertThat
 import io.dotanuki.norris.domain.model.ChuckNorrisFact
 import io.dotanuki.norris.domain.model.RelatedCategory
-import io.dotanuki.norris.facts.FactDisplayRow
-import io.dotanuki.norris.facts.FactsPresentation
+import io.dotanuki.norris.facts.presentation.FactDisplayRow
+import io.dotanuki.norris.facts.presentation.FactsPresentation
 import org.junit.Test
 
 class FactsPresentationTests {

@@ -1,10 +1,13 @@
-package io.dotanuki.norris.facts
+package io.dotanuki.norris.facts.ui
 
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import io.dotanuki.norris.facts.R
+import io.dotanuki.norris.facts.presentation.FactDisplayRow
+import io.dotanuki.norris.facts.presentation.FactsPresentation
 
 class FactsAdapter(
     private val presentation: FactsPresentation,

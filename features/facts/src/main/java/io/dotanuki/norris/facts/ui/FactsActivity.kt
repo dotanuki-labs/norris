@@ -1,4 +1,4 @@
-package io.dotanuki.norris.facts
+package io.dotanuki.norris.facts.ui
 
 import android.content.Intent
 import android.graphics.Typeface
@@ -17,15 +17,22 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import io.dotanuki.logger.Logger
-import io.dotanuki.norris.domain.errors.SearchFactsError
-import io.dotanuki.norris.facts.FactsScreenState.Empty
-import io.dotanuki.norris.facts.FactsScreenState.Failed
-import io.dotanuki.norris.facts.FactsScreenState.Idle
-import io.dotanuki.norris.facts.FactsScreenState.Loading
-import io.dotanuki.norris.facts.FactsScreenState.Success
-import io.dotanuki.norris.facts.FactsUserInteraction.OpenedScreen
-import io.dotanuki.norris.facts.FactsUserInteraction.RequestedFreshContent
+import io.dotanuki.norris.facts.presentation.FactDisplayRow
+import io.dotanuki.norris.facts.presentation.FactsPresentation
+import io.dotanuki.norris.facts.R
+import io.dotanuki.norris.facts.presentation.FactsScreenState.Empty
+import io.dotanuki.norris.facts.presentation.FactsScreenState.Failed
+import io.dotanuki.norris.facts.presentation.FactsScreenState.Idle
+import io.dotanuki.norris.facts.presentation.FactsScreenState.Loading
+import io.dotanuki.norris.facts.presentation.FactsScreenState.Success
+import io.dotanuki.norris.facts.presentation.FactsUserInteraction.OpenedScreen
+import io.dotanuki.norris.facts.presentation.FactsUserInteraction.RequestedFreshContent
 import io.dotanuki.norris.facts.databinding.ActivityFactsBinding
+import io.dotanuki.norris.facts.domain.FactsRetrievalError
+import io.dotanuki.norris.facts.presentation.ErrorStateResources
+import io.dotanuki.norris.facts.presentation.FactsScreenState
+import io.dotanuki.norris.facts.presentation.FactsViewModel
+import io.dotanuki.norris.facts.presentation.repeatOnLifecycle
 import io.dotanuki.norris.features.utilties.selfBind
 import io.dotanuki.norris.features.utilties.toast
 import io.dotanuki.norris.features.utilties.viewBinding
@@ -144,7 +151,7 @@ class FactsActivity : AppCompatActivity(), DIAware {
         viewBindings.run {
             factsSwipeToRefresh.isRefreshing = false
 
-            val (errorImage, errorMessage) = ErrorStateResources(SearchFactsError.NoResultsFound)
+            val (errorImage, errorMessage) = ErrorStateResources(FactsRetrievalError.NoResultsFound)
 
             with(viewBindings) {
                 errorStateView.visibility = View.VISIBLE

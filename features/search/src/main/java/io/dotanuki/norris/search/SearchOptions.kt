@@ -1,4 +1,4 @@
-package io.dotanuki.norris.domain.model
+package io.dotanuki.norris.search
 
 data class SearchOptions(
     val recommendations: List<String>,

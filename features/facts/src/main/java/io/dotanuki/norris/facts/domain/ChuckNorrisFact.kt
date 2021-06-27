@@ -1,8 +1,7 @@
-package io.dotanuki.norris.domain.model
+package io.dotanuki.norris.facts.domain
 
 data class ChuckNorrisFact(
     val id: String,
-    val category: RelatedCategory,
     val shareableUrl: String,
     val textual: String
 )

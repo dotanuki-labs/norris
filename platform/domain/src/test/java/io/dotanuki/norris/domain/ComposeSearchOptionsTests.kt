@@ -4,8 +4,6 @@ import com.google.common.truth.Truth.assertThat
 import io.dotanuki.norris.domain.model.ChuckNorrisFact
 import io.dotanuki.norris.domain.model.RelatedCategory.Available
 import io.dotanuki.norris.domain.model.SearchOptions
-import io.dotanuki.norris.domain.services.CategoriesCacheService
-import io.dotanuki.norris.domain.services.RemoteFactsService
 import io.dotanuki.norris.domain.services.SearchesHistoryService
 import kotlinx.coroutines.runBlocking
 import org.junit.Test

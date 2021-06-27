@@ -9,11 +9,11 @@ import io.dotanuki.norris.domain.model.ChuckNorrisFact
 import io.dotanuki.norris.domain.model.RelatedCategory
 import io.dotanuki.norris.domain.services.RemoteFactsService
 import io.dotanuki.norris.domain.services.SearchesHistoryService
-import io.dotanuki.norris.facts.FactDisplayRow
-import io.dotanuki.norris.facts.FactsPresentation
-import io.dotanuki.norris.facts.FactsScreenState
-import io.dotanuki.norris.facts.FactsUserInteraction.OpenedScreen
-import io.dotanuki.norris.facts.FactsViewModel
+import io.dotanuki.norris.facts.presentation.FactDisplayRow
+import io.dotanuki.norris.facts.presentation.FactsPresentation
+import io.dotanuki.norris.facts.presentation.FactsScreenState
+import io.dotanuki.norris.facts.presentation.FactsUserInteraction.OpenedScreen
+import io.dotanuki.norris.facts.presentation.FactsViewModel
 import io.dotanuki.testing.coroutines.CoroutinesTestHelper
 import kotlinx.coroutines.runBlocking
 import org.junit.Before

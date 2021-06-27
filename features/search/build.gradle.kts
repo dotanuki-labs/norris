@@ -3,7 +3,7 @@ plugins {
 }
 
 dependencies {
-    implementation(project(":platform:domain"))
+    implementation(project(":platform:persistance"))
     implementation(project(":platform:logger"))
     implementation(project(":platform:navigator"))
     implementation(project(":platform:shared-assets"))

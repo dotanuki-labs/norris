@@ -1,6 +1,6 @@
-package io.dotanuki.norris.facts
+package io.dotanuki.norris.facts.presentation
 
-import io.dotanuki.norris.domain.errors.SearchFactsError
+import io.dotanuki.norris.facts.domain.FactsRetrievalError
 import io.dotanuki.norris.networking.errors.NetworkingError
 import io.dotanuki.norris.networking.errors.RemoteServiceIntegrationError.RemoteSystem
 import io.dotanuki.norris.sharedassets.R
@@ -20,7 +20,7 @@ data class ErrorStateResources(
                     R.drawable.img_network_issue,
                     R.string.error_network
                 )
-                is SearchFactsError.NoResultsFound -> ErrorStateResources(
+                is FactsRetrievalError.NoResultsFound -> ErrorStateResources(
                     R.drawable.img_no_results,
                     R.string.error_no_results
                 )

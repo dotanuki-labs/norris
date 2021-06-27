@@ -1,4 +1,4 @@
-package io.dotanuki.norris.facts
+package io.dotanuki.norris.facts.presentation
 
 sealed class FactsScreenState {
     object Idle : FactsScreenState()

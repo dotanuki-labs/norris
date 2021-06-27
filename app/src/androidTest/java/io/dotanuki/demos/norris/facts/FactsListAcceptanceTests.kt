@@ -10,7 +10,7 @@ import io.dotanuki.demos.norris.dsl.Visibility.DISPLAYED
 import io.dotanuki.demos.norris.dsl.Visibility.HIDDEN
 import io.dotanuki.demos.norris.dsl.shouldBe
 import io.dotanuki.demos.norris.util.ActivityScenarioLauncher.Companion.scenarioLauncher
-import io.dotanuki.norris.facts.FactsActivity
+import io.dotanuki.norris.facts.ui.FactsActivity
 import io.dotanuki.norris.persistance.AppPreferencesWrapper
 import okhttp3.mockwebserver.MockResponse
 import okhttp3.mockwebserver.MockWebServer

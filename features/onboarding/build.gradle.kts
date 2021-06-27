@@ -5,7 +5,6 @@ plugins {
 
 dependencies {
     implementation(project(":platform:logger"))
-    implementation(project(":platform:domain"))
     implementation(project(":platform:shared-assets"))
     implementation(project(":platform:shared-utilities"))
     implementation(project(":platform:navigator"))

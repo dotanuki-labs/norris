@@ -5,7 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import io.dotanuki.norris.domain.FetchFacts
 import io.dotanuki.norris.domain.ManageSearchQuery
-import io.dotanuki.norris.facts.FactsViewModel
+import io.dotanuki.norris.facts.presentation.FactsViewModel
 import io.dotanuki.norris.features.utilties.KodeinTags
 import org.kodein.di.DI
 import org.kodein.di.bind

@@ -2,7 +2,6 @@ package io.dotanuki.norris.rest.di
 
 import io.dotanuki.norris.networking.RetrofitBuilder
 import io.dotanuki.norris.rest.ChuckNorrisDotIO
-import io.dotanuki.norris.rest.FactsInfrastructure
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import org.kodein.di.DI

@@ -1,10 +1,10 @@
-package io.dotanuki.norris.facts
+package io.dotanuki.norris.facts.presentation
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import io.dotanuki.norris.domain.FetchFacts
-import io.dotanuki.norris.domain.ManageSearchQuery
-import io.dotanuki.norris.domain.errors.SearchFactsError
+import io.dotanuki.norris.facts.data.LatestSearchesDataSource
+import io.dotanuki.norris.facts.data.RemoteFactsDataSource
+import io.dotanuki.norris.facts.domain.FactsRetrievalError
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -13,8 +13,8 @@ import kotlinx.coroutines.flow.consumeAsFlow
 import kotlinx.coroutines.launch
 
 class FactsViewModel(
-    private val factsFetcher: FetchFacts,
-    private val queryManager: ManageSearchQuery,
+    private val remoteFacts: RemoteFactsDataSource,
+    private val latestSearches: LatestSearchesDataSource
 ) : ViewModel() {
 
     private val interactions = Channel<FactsUserInteraction>(Channel.UNLIMITED)
@@ -44,7 +44,7 @@ class FactsViewModel(
         } catch (error: Throwable) {
 
             val newState = when (error) {
-                is SearchFactsError.EmptyTerm -> FactsScreenState.Empty
+                is FactsRetrievalError.EmptyTerm -> FactsScreenState.Empty
                 else -> FactsScreenState.Failed(error)
             }
 
@@ -52,11 +52,10 @@ class FactsViewModel(
         }
     }
 
-    private suspend fun fetchFacts(): FactsPresentation =
-        queryManager.actualQuery().let { query ->
-            factsFetcher
-                .search(query)
-                .map { FactDisplayRow(it) }
-                .let { rows -> FactsPresentation(query, rows) }
-        }
+    private suspend fun fetchFacts(): FactsPresentation {
+        val actualSearch = latestSearches.actualQuery()
+        val relatedFacts = remoteFacts.search(actualSearch)
+        val presentationRows = relatedFacts.map { FactDisplayRow(it) }
+        return FactsPresentation(actualSearch, presentationRows)
+    }
 }

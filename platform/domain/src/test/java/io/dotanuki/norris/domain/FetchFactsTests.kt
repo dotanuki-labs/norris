@@ -5,7 +5,6 @@ import com.google.common.truth.Truth.assertThat
 import io.dotanuki.norris.domain.errors.SearchFactsError
 import io.dotanuki.norris.domain.model.ChuckNorrisFact
 import io.dotanuki.norris.domain.model.RelatedCategory.Available
-import io.dotanuki.norris.domain.services.RemoteFactsService
 import io.dotanuki.testing.truth.EspeculativeExecution
 import kotlinx.coroutines.runBlocking
 import org.junit.Before

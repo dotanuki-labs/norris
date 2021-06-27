@@ -6,11 +6,12 @@ plugins {
 dependencies {
 
     implementation(project(":platform:logger"))
-    implementation(project(":platform::domain"))
     implementation(project(":platform:shared-assets"))
     implementation(project(":platform:shared-utilities"))
     implementation(project(":platform:navigator"))
     implementation(project(":platform:networking"))
+    implementation(project(":platform:rest-chucknorris"))
+    implementation(project(":platform:persistance"))
 
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.5.20")
     implementation("org.kodein.di:kodein-di-jvm:7.6.0")

@@ -1,7 +1,6 @@
-package io.dotanuki.norris.facts
+package io.dotanuki.norris.facts.presentation
 
-import io.dotanuki.norris.domain.model.ChuckNorrisFact
-import io.dotanuki.norris.domain.model.RelatedCategory
+import io.dotanuki.norris.facts.domain.ChuckNorrisFact
 
 data class FactsPresentation(
     val relatedQuery: String,
@@ -9,7 +8,6 @@ data class FactsPresentation(
 )
 
 data class FactDisplayRow(
-    val tag: RelatedCategory,
     val url: String,
     val fact: String,
     val displayWithSmallerFontSize: Boolean
@@ -21,7 +19,6 @@ data class FactDisplayRow(
 
         operator fun invoke(fact: ChuckNorrisFact) = with(fact) {
             FactDisplayRow(
-                tag = category,
                 url = shareableUrl,
                 fact = textual,
                 displayWithSmallerFontSize = textual.length >= SMALL_FACT_LIMIT

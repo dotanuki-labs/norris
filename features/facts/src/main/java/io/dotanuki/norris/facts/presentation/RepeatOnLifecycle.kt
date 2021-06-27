@@ -1,4 +1,4 @@
-package io.dotanuki.norris.facts
+package io.dotanuki.norris.facts.presentation
 
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
