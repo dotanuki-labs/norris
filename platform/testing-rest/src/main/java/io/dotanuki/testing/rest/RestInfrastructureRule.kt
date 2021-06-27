@@ -1,4 +1,4 @@
-package io.dotanuki.norri.facts.util
+package io.dotanuki.testing.rest
 
 import io.dotanuki.norris.networking.RetrofitBuilder
 import io.dotanuki.norris.rest.ChuckNorrisDotIO
@@ -9,14 +9,17 @@ import okhttp3.mockwebserver.MockResponse
 import okhttp3.mockwebserver.MockWebServer
 import org.junit.rules.ExternalResource
 
-internal class InfrastructureRule : ExternalResource() {
+class RestInfrastructureRule : ExternalResource() {
 
     lateinit var server: MockWebServer
     lateinit var api: ChuckNorrisDotIO
 
     override fun before() {
         super.before()
-        server = MockWebServer()
+        server = MockWebServer().apply {
+            start(port = 4242)
+        }
+
         val url = server.url("/").toString()
 
         val client = OkHttpClient.Builder()

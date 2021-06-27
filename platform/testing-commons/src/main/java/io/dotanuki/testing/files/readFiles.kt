@@ -1,4 +1,4 @@
-package io.dotanuki.norri.facts.util
+package io.dotanuki.testing.files
 
 fun Any.loadFile(path: String) =
     this.javaClass

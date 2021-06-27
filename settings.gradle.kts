@@ -11,6 +11,7 @@ include(
     ":platform:logger",
     ":platform:testing-app-container",
     ":platform:testing-commons",
+    ":platform:testing-rest",
     ":platform:navigator",
     ":platform:networking",
     ":platform:persistance",

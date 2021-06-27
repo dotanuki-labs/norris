@@ -1,11 +1,9 @@
 package io.dotanuki.norri.facts
 
-import android.arch.core.executor.testing.InstantTaskExecutorRule
 import android.os.Looper
 import androidx.lifecycle.Lifecycle
 import androidx.test.core.app.launchActivity
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import androidx.test.platform.app.InstrumentationRegistry
 import com.google.common.truth.Truth.assertThat
 import io.dotanuki.norris.facts.di.factsModule
 import io.dotanuki.norris.facts.presentation.FactDisplayRow
@@ -15,9 +13,9 @@ import io.dotanuki.norris.facts.ui.FactsActivity
 import io.dotanuki.norris.networking.errors.RemoteServiceIntegrationError
 import io.dotanuki.norris.persistance.LocalStorage
 import io.dotanuki.testing.app.ContainerApplication
+import io.dotanuki.testing.app.setupContainerApp
+import io.dotanuki.testing.rest.RestInfrastructureRule
 import okhttp3.mockwebserver.MockResponse
-import okhttp3.mockwebserver.MockWebServer
-import org.junit.After
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -31,30 +29,16 @@ import org.robolectric.annotation.LooperMode
 @RunWith(AndroidJUnit4::class)
 @Config(application = ContainerApplication::class)
 @LooperMode(LooperMode.Mode.PAUSED)
-class FactsScreenTests {
+class FactsIntegrationTests {
 
-    lateinit var server: MockWebServer
     lateinit var localStorage: LocalStorage
 
-    @get:Rule val executorRule = InstantTaskExecutorRule()
+    @get:Rule val restInfrastructure = RestInfrastructureRule()
 
-    @Before fun beforeEachTest() {
-        server = MockWebServer().apply {
-            start(port = 4242)
-        }
-
-        val app =
-            InstrumentationRegistry.getInstrumentation()
-                .targetContext
-                .applicationContext as ContainerApplication
-        val modules = app.modules
-        modules += factsModule
+    @Before fun `before each test`() {
+        val app = setupContainerApp(factsModule)
 
         localStorage = app.di.direct.instance()
-    }
-
-    @After fun afterEachTest() {
-        server.shutdown()
     }
 
     @Test fun `at first lunch, should start on empty state`() {
@@ -92,7 +76,7 @@ class FactsScreenTests {
             }
             """.trimIndent()
 
-        server.enqueue(
+        restInfrastructure.server.enqueue(
             MockResponse().setResponseCode(200).setBody(payload)
         )
 
@@ -125,7 +109,7 @@ class FactsScreenTests {
 
     @Test fun `when remote service fails, should display the error`() {
 
-        server.enqueue(
+        restInfrastructure.server.enqueue(
             MockResponse().setResponseCode(503)
         )
 

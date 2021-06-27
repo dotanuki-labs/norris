@@ -32,7 +32,8 @@ dependencies {
     implementation("com.squareup.retrofit2:retrofit:2.9.0")
 
     testImplementation(project(":platform:testing-app-container"))
-    testImplementation(project(":platform:testing-app-container"))
+    testImplementation(project(":platform:testing-commons"))
+    testImplementation(project(":platform:testing-rest"))
 
     testImplementation("app.cash.turbine:turbine:0.5.2")
     testImplementation("com.google.truth:truth:1.1.3")
@@ -40,8 +41,6 @@ dependencies {
     testImplementation("com.squareup.okhttp3:mockwebserver:4.9.1")
     testImplementation("junit:junit:4.13.2")
     testImplementation("org.robolectric:robolectric:4.5.1")
-
-    testImplementation("android.arch.core:core-testing:1.1.1")
     testImplementation("androidx.test:core:1.3.0")
     testImplementation("androidx.test:core-ktx:1.3.0")
     testImplementation("androidx.test.ext:junit:1.1.2")

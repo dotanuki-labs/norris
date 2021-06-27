@@ -4,7 +4,7 @@ import android.util.Log
 import io.dotanuki.logger.Logger
 import io.dotanuki.logger.TraceInspector
 
-object LogcatLogger : Logger {
+internal object LogcatLogger : Logger {
 
     override fun v(message: String) {
         Log.v(TraceInspector.findClassName(), message)
