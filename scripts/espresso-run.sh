@@ -4,20 +4,28 @@ set -eu
 
 cd ..
 
-echo "\n🔥 Install the apks...\n"
+echo
+echo "🔥 Install the apks.."
+
 find  . -name "*.apk" -print -exec adb install {} \;
 
-echo "\n🔥 Running instrumentation"
+echo
+echo "🔥 Running instrumentation"
 
 EXECUTION=`adb shell am instrument -w io.dotanuki.demos.norris.test/androidx.test.runner.AndroidJUnitRunner`
 
 ERRORS_FOUND=`echo $EXECUTION | grep FAILURES | tr -d ' '`
 
 if [ -n "$ERRORS_FOUND" ]; then
-	echo "\n🔥 Instrumentation test execution failed!\n"
-	echo $EXECUTION
+  echo
+	echo "🔥 Instrumentation test execution failed!"
+	echo
+	echo -e $EXECUTION
 	exit 1
 fi
 
-echo "\n🔥 Instrumentation tests ran with success!\n"
+echo
+echo "🔥 Instrumentation tests ran with success!"
+echo
+
 exit 0

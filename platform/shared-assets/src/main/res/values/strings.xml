@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">Norris</string>
 
-    <string name="error_no_results">Sorry, no results for this search</string>
+    <string name="error_no_results">No facts to show</string>
     <string name="error_bug_found">Seems that we\'ve found a bug. Please, try again</string>
     <string name="error_server_down">Remote system is facing a hard time. Please, try again later</string>
     <string name="error_network">We\'ve found an issue with the internet connection. Please, try again</string>

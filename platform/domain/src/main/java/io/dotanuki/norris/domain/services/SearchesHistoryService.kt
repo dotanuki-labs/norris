@@ -4,5 +4,5 @@ interface SearchesHistoryService {
 
     suspend fun lastSearches(): List<String>
 
-    suspend fun registerNewSearch(term: String)
+    fun registerNewSearch(term: String)
 }

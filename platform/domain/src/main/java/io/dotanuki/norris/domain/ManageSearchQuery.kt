@@ -4,16 +4,16 @@ import io.dotanuki.norris.domain.services.SearchesHistoryService
 
 class ManageSearchQuery(private val historyService: SearchesHistoryService) {
 
-    suspend fun save(query: String) {
+    fun save(query: String) {
         historyService.registerNewSearch(query)
     }
 
-    suspend fun actualQuery() =
+    suspend fun actualQuery(): String =
         with(historyService.lastSearches()) {
-            if (isEmpty()) FALLBACK else first()
+            if (isEmpty()) FALLBACK else last()
         }
 
     companion object {
-        const val FALLBACK = "code"
+        const val FALLBACK = ""
     }
 }

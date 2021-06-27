@@ -10,7 +10,7 @@ class ManageSearchQueryTests {
     class FakeSearchesHistoryService(private val history: List<String>) : SearchesHistoryService {
         override suspend fun lastSearches(): List<String> = history
 
-        override suspend fun registerNewSearch(term: String) = Unit
+        override fun registerNewSearch(term: String) = Unit
     }
 
     @Test fun `should return fallback query when no history available`() {
@@ -26,7 +26,7 @@ class ManageSearchQueryTests {
         }
     }
 
-    @Test fun `should return first search query when history available`() {
+    @Test fun `should return last search query when history available`() {
         runBlocking {
             val history = listOf("Norris", "Dev", "Kotlin")
             val service = FakeSearchesHistoryService(history)
@@ -34,7 +34,7 @@ class ManageSearchQueryTests {
 
             val actualQuery = manager.actualQuery()
 
-            assertThat(actualQuery).isEqualTo("Norris")
+            assertThat(actualQuery).isEqualTo("Kotlin")
         }
     }
 }

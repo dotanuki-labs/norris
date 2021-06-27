@@ -30,10 +30,6 @@ fun Project.configureAsAndroidLibrary() {
         }
 
         buildTypes {
-            getByName("debug") {
-                isTestCoverageEnabled = true
-            }
-
             getByName("release") {
                 isMinifyEnabled = true
 

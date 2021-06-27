@@ -1,7 +1,6 @@
 package io.dotanuki.norris.persistance
 
 import android.content.SharedPreferences
-import io.dotanuki.norris.domain.errors.SearchHistoryError
 import io.dotanuki.norris.domain.services.SearchesHistoryService
 import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine
@@ -13,24 +12,29 @@ internal class SearchHistoryInfrastructure(
     override suspend fun lastSearches(): List<String> {
         return suspendCoroutine { continuation ->
             continuation.resume(
-                retrieveFromPrefs().toList()
+                retrieveFromPrefs()
             )
         }
     }
 
-    override suspend fun registerNewSearch(term: String) {
-        val updated = retrieveFromPrefs() + term
+    override fun registerNewSearch(term: String) {
+        val updated = retrieveFromPrefs().filterNot { it == term } + term
         prefs.edit()
-            .putStringSet(KEY_TERMS, updated)
+            .putString(KEY_TERMS, updated.joinToString(separator = TERMS_SEPARATOR))
             .commit()
     }
 
-    private fun retrieveFromPrefs() =
-        prefs.getStringSet(KEY_TERMS, emptySet())
-            ?.let { it }
-            ?: throw SearchHistoryError
+    private fun retrieveFromPrefs(): List<String> =
+        prefs.getString(KEY_TERMS, NO_TERMS)?.let {
+            when {
+                it.isEmpty() -> emptyList()
+                else -> it.split(TERMS_SEPARATOR)
+            }
+        } ?: emptyList()
 
     private companion object {
+        const val NO_TERMS = ""
+        const val TERMS_SEPARATOR = "*+##+*"
         const val KEY_TERMS = "key.search.terms"
     }
 }

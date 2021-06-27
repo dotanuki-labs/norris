@@ -1,5 +1,3 @@
-import com.vanniktech.android.junit.jacoco.JunitJacocoExtension
-
 buildscript {
 
     repositories {
@@ -15,7 +13,6 @@ buildscript {
         classpath("com.adarshr:gradle-test-logger-plugin:3.0.0")
         classpath("org.jetbrains.kotlin:kotlin-serialization:1.5.20")
         classpath("org.jlleitschuh.gradle:ktlint-gradle:10.1.0")
-        classpath("com.vanniktech:gradle-android-junit-jacoco-plugin:0.16.0")
     }
 }
 
@@ -34,10 +31,4 @@ allprojects {
 
 tasks.register("clean").configure {
     delete("build")
-}
-
-apply(plugin = BuildPlugins.Ids.jacocoUnified)
-
-configure<JunitJacocoExtension> {
-    jacocoVersion = "0.8.7"
 }

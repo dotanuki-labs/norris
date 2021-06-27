@@ -29,7 +29,7 @@ class SearchViewModelTests {
     object FakeSearchesHistoryService : SearchesHistoryService {
         override suspend fun lastSearches(): List<String> = listOf("Code")
 
-        override suspend fun registerNewSearch(term: String) = Unit
+        override fun registerNewSearch(term: String) = Unit
     }
 
     object FakeCategoriesCacheService : CategoriesCacheService {

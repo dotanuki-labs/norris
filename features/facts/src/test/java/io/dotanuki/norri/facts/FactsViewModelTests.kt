@@ -4,7 +4,7 @@ import app.cash.turbine.test
 import com.google.common.truth.Truth.assertThat
 import io.dotanuki.norris.domain.FetchFacts
 import io.dotanuki.norris.domain.ManageSearchQuery
-import io.dotanuki.norris.domain.errors.RemoteServiceIntegrationError.UnexpectedResponse
+import io.dotanuki.norris.domain.errors.SearchFactsError
 import io.dotanuki.norris.domain.model.ChuckNorrisFact
 import io.dotanuki.norris.domain.model.RelatedCategory
 import io.dotanuki.norris.domain.services.RemoteFactsService
@@ -40,10 +40,6 @@ class FactsViewModelTests {
             )
         }
 
-        private val error by lazy {
-            UnexpectedResponse
-        }
-
         private val categories by lazy {
             listOf(
                 RelatedCategory.Available("dev")
@@ -53,7 +49,7 @@ class FactsViewModelTests {
         override suspend fun availableCategories(): List<RelatedCategory.Available> = categories
 
         override suspend fun fetchFacts(searchTerm: String): List<ChuckNorrisFact> =
-            if (withResults) facts else throw error
+            if (withResults) facts else emptyList()
     }
 
     @Before fun `before each test`() {
@@ -61,9 +57,9 @@ class FactsViewModelTests {
         val fetchFacts = FetchFacts(factsService)
 
         val historyService = object : SearchesHistoryService {
-            override suspend fun lastSearches(): List<String> = emptyList()
+            override suspend fun lastSearches(): List<String> = listOf("dev")
 
-            override suspend fun registerNewSearch(term: String) = Unit
+            override fun registerNewSearch(term: String) = Unit
         }
 
         val manageQuery = ManageSearchQuery(historyService)
@@ -83,7 +79,7 @@ class FactsViewModelTests {
                     val viewStates = listOf(
                         FactsScreenState.Idle,
                         FactsScreenState.Loading,
-                        FactsScreenState.Failed(UnexpectedResponse)
+                        FactsScreenState.Failed(SearchFactsError.NoResultsFound)
                     )
 
                     assertThat(emissions).isEqualTo(viewStates)
@@ -100,7 +96,7 @@ class FactsViewModelTests {
                     handle(OpenedScreen)
 
                     val presentation = FactsPresentation(
-                        ManageSearchQuery.FALLBACK,
+                        "dev",
                         listOf(
                             FactDisplayRow(
                                 tag = RelatedCategory.Available("dev"),

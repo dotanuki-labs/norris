@@ -1,10 +1,13 @@
 package io.dotanuki.demos.norris.search
 
+import android.app.Application
 import androidx.test.ext.junit.runners.AndroidJUnit4
+import androidx.test.platform.app.InstrumentationRegistry
 import io.dotanuki.demos.norris.dsl.Visibility.DISPLAYED
 import io.dotanuki.demos.norris.dsl.Visibility.HIDDEN
 import io.dotanuki.demos.norris.dsl.shouldBe
 import io.dotanuki.demos.norris.util.ActivityScenarioLauncher.Companion.scenarioLauncher
+import io.dotanuki.norris.persistance.AppPreferencesWrapper
 import io.dotanuki.norris.search.SearchQueryActivity
 import okhttp3.mockwebserver.MockResponse
 import okhttp3.mockwebserver.MockWebServer
@@ -22,6 +25,8 @@ class SearchQueryAcceptanceTests {
         server = MockWebServer().apply {
             start(port = 4242)
         }
+
+        resetSearches()
     }
 
     @After fun afterEachTest() {
@@ -48,9 +53,9 @@ class SearchQueryAcceptanceTests {
                 val history = emptyList<String>()
 
                 searchQueryChecks {
-                    loading shouldBe HIDDEN
                     suggestions shouldDisplay categories
                     pastSearches shouldDisplay history
+                    loading shouldBe HIDDEN
                 }
             }
         }
@@ -71,5 +76,11 @@ class SearchQueryAcceptanceTests {
                 }
             }
         }
+    }
+
+    private fun resetSearches() {
+        val app = InstrumentationRegistry.getInstrumentation().targetContext.applicationContext
+        val prefs = AppPreferencesWrapper(app as Application).preferences
+        prefs.edit().clear().commit()
     }
 }
