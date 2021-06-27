@@ -23,6 +23,10 @@ internal class SearchHistoryInfrastructure(
             .commit()
     }
 
+    override fun destroy() {
+        prefs.edit().clear().commit()
+    }
+
     private fun retrieveFromPrefs(): List<String> =
         prefs.getString(KEY_TERMS, NO_TERMS)?.let {
             when {
