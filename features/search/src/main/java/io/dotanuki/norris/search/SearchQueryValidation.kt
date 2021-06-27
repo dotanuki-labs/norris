@@ -1,4 +1,4 @@
-package io.dotanuki.norris.domain
+package io.dotanuki.norris.search
 
 object SearchQueryValidation {
 

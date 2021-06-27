@@ -1,7 +1,8 @@
-package io.dotanuki.norris.domain
+package io.dotanuki.norris.search.tests
 
 import com.google.common.truth.Truth.assertThat
 import io.dotanuki.burster.using
+import io.dotanuki.norris.search.SearchQueryValidation
 import org.junit.Test
 
 class SearchQueryValidationTests {
