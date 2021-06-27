@@ -6,7 +6,7 @@ import io.dotanuki.norris.rest.ChuckNorrisDotIO
 import io.dotanuki.norris.rest.RawSearch
 import io.dotanuki.norris.rest.managedExecution
 
-class RemoteFactsDataSource(
+class FactsDataSource(
     private val api: ChuckNorrisDotIO
 ) {
 

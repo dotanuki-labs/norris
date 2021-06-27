@@ -1,26 +1,25 @@
-package io.dotanuki.norris.rest
+package io.dotanuki.norri.facts
 
 import com.google.common.truth.Truth.assertThat
+import io.dotanuki.norri.facts.util.InfrastructureRule
+import io.dotanuki.norri.facts.util.assertErrorTransformed
+import io.dotanuki.norri.facts.util.loadFile
+import io.dotanuki.norris.facts.data.FactsDataSource
+import io.dotanuki.norris.facts.domain.ChuckNorrisFact
 import io.dotanuki.norris.networking.errors.RemoteServiceIntegrationError
-import io.dotanuki.norris.domain.model.ChuckNorrisFact
-import io.dotanuki.norris.domain.model.RelatedCategory.Available
-import io.dotanuki.norris.domain.model.RelatedCategory.Missing
-import io.dotanuki.norris.rest.util.InfrastructureRule
-import io.dotanuki.norris.rest.util.assertErrorTransformed
-import io.dotanuki.norris.rest.util.loadFile
 import kotlinx.coroutines.runBlocking
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 
-internal class FactsInfrastructureTests {
+internal class FactsDataSourceTests {
 
     @get:Rule val rule = InfrastructureRule()
 
-    private lateinit var infrastructure: FactsInfrastructure
+    private lateinit var dataSource: FactsDataSource
 
     @Before fun `before each test`() {
-        infrastructure = FactsInfrastructure(rule.api)
+        dataSource = FactsDataSource(rule.api)
     }
 
     @Test fun `should handle no results properly`() {
@@ -85,40 +84,18 @@ internal class FactsInfrastructureTests {
                 id = "lhan43nqsgowtaffzxouua",
                 shareableUrl = "https://api.chucknorris.io/jokes/lhan43nqsgowtaffzxouua",
                 textual = "Police label anyone attacking Chuck Norris as a Code 45-11.... A suicide.",
-                category = Missing
             ),
             ChuckNorrisFact(
                 id = "2wzginmks8azrbaxnamxdw",
                 shareableUrl = "https://api.chucknorris.io/jokes/2wzginmks8azrbaxnamxdw",
                 textual = "Every SQL statement that Chuck Norris codes has an implicit \"COMMIT\" in its end.",
-                category = Available("dev")
             )
         )
 
         assertThat(simpleSearch()).isEqualTo(facts)
     }
 
-    @Test fun `should fetch categories`() {
-
-        rule.defineScenario(
-            status = 200,
-            response = loadFile("200_categories.json")
-        )
-
-        val expected = listOf(
-            Available("career"),
-            Available("celebrity"),
-            Available("dev")
-        )
-
-        val categories = runBlocking {
-            infrastructure.availableCategories()
-        }
-
-        assertThat(categories).isEqualTo(expected)
-    }
-
     private fun simpleSearch() = runBlocking {
-        infrastructure.fetchFacts("Norris")
+        dataSource.search("Norris")
     }
 }

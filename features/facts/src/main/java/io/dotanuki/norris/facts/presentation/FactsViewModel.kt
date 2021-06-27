@@ -3,7 +3,7 @@ package io.dotanuki.norris.facts.presentation
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import io.dotanuki.norris.facts.data.ActualSearchDataSource
-import io.dotanuki.norris.facts.data.RemoteFactsDataSource
+import io.dotanuki.norris.facts.data.FactsDataSource
 import io.dotanuki.norris.facts.domain.FactsRetrievalError
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -13,7 +13,7 @@ import kotlinx.coroutines.flow.consumeAsFlow
 import kotlinx.coroutines.launch
 
 class FactsViewModel(
-    private val remoteFacts: RemoteFactsDataSource,
+    private val remoteFacts: FactsDataSource,
     private val actualSearch: ActualSearchDataSource
 ) : ViewModel() {
 

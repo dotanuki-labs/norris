@@ -2,10 +2,9 @@ package io.dotanuki.norris.rest
 
 import com.google.common.truth.Truth.assertThat
 import io.dotanuki.burster.using
-import io.dotanuki.norris.domain.errors.NetworkingError.HostUnreachable
+import io.dotanuki.norris.networking.errors.NetworkingError
 import io.dotanuki.norris.networking.errors.RemoteServiceIntegrationError.RemoteSystem
 import io.dotanuki.norris.networking.errors.RemoteServiceIntegrationError.UnexpectedResponse
-import io.dotanuki.norris.rest.util.unwrapCaughtError
 import kotlinx.coroutines.runBlocking
 import kotlinx.serialization.SerializationException
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
@@ -26,7 +25,7 @@ internal class ManagedExecutionTests {
         using<Throwable, Throwable> {
 
             burst {
-                values(UnknownHostException("No Internet"), HostUnreachable)
+                values(UnknownHostException("No Internet"), NetworkingError.HostUnreachable)
                 values(SerializationException("Ouch"), UnexpectedResponse)
                 values(httpException(), RemoteSystem)
                 values(toBePropagated, toBePropagated)
@@ -41,6 +40,9 @@ internal class ManagedExecutionTests {
             }
         }
     }
+
+    private fun unwrapCaughtError(result: Result<*>) =
+        result.exceptionOrNull() ?: throw IllegalArgumentException("Not an error")
 
     private suspend fun emulateError(error: Throwable): Unit =
         suspendCoroutine { continuation ->

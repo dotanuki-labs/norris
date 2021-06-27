@@ -7,7 +7,6 @@ import okhttp3.logging.HttpLoggingInterceptor
 import org.kodein.di.DI
 import org.kodein.di.bind
 import org.kodein.di.instance
-import org.kodein.di.provider
 import org.kodein.di.singleton
 
 val restInfrastructureModule = DI.Module("rest-infrastructure") {
@@ -29,14 +28,6 @@ val restInfrastructureModule = DI.Module("rest-infrastructure") {
             )
 
             retrofit.create(ChuckNorrisDotIO::class.java)
-        }
-    }
-
-    bind {
-        provider {
-            FactsInfrastructure(
-                rest = instance()
-            )
         }
     }
 }

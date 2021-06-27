@@ -38,11 +38,11 @@ import io.dotanuki.norris.features.utilties.toast
 import io.dotanuki.norris.features.utilties.viewBinding
 import io.dotanuki.norris.navigator.Navigator
 import io.dotanuki.norris.navigator.Screen
+import io.dotanuki.norris.sharedassets.R as SharedR
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import org.kodein.di.DIAware
 import org.kodein.di.instance
-import io.dotanuki.norris.sharedassets.R as SharedR
 
 @Suppress("TooManyFunctions")
 class FactsActivity : AppCompatActivity(), DIAware {
