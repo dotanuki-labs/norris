@@ -1,6 +1,5 @@
 package io.dotanuki.norris.networking
 
-import io.dotanuki.norris.domain.errors.ErrorTransformer
 import io.dotanuki.norris.domain.errors.NetworkingError.ConnectionSpike
 import io.dotanuki.norris.domain.errors.NetworkingError.HostUnreachable
 import io.dotanuki.norris.domain.errors.NetworkingError.OperationTimeout

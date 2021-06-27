@@ -1,6 +1,5 @@
 package io.dotanuki.norris.networking
 
-import io.dotanuki.norris.domain.errors.ErrorTransformer
 import kotlinx.coroutines.runBlocking
 import kotlin.coroutines.resumeWithException
 import kotlin.coroutines.suspendCoroutine

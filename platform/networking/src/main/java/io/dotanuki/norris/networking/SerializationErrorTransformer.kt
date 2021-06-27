@@ -1,7 +1,6 @@
 package io.dotanuki.norris.networking
 
-import io.dotanuki.norris.domain.errors.ErrorTransformer
-import io.dotanuki.norris.domain.errors.RemoteServiceIntegrationError.UnexpectedResponse
+import io.dotanuki.norris.networking.RemoteServiceIntegrationError.UnexpectedResponse
 import kotlinx.serialization.SerializationException
 
 object SerializationErrorTransformer : ErrorTransformer {

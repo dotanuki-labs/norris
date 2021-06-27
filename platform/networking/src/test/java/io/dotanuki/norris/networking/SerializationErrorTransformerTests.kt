@@ -1,7 +1,6 @@
 package io.dotanuki.norris.networking
 
 import com.google.common.truth.Truth.assertThat
-import io.dotanuki.norris.domain.errors.RemoteServiceIntegrationError
 import io.dotanuki.norris.networking.CheckErrorTransformation.Companion.checkTransformation
 import kotlinx.serialization.SerializationException
 import org.junit.Test

@@ -1,4 +1,4 @@
-package io.dotanuki.norris.domain.errors
+package io.dotanuki.norris.networking
 
 sealed class RemoteServiceIntegrationError : Throwable() {
 
