@@ -2,13 +2,7 @@ package io.dotanuki.norri.facts
 
 import app.cash.turbine.test
 import com.google.common.truth.Truth.assertThat
-import io.dotanuki.norris.domain.FetchFacts
-import io.dotanuki.norris.domain.ManageSearchQuery
-import io.dotanuki.norris.domain.errors.SearchFactsError
-import io.dotanuki.norris.domain.model.ChuckNorrisFact
-import io.dotanuki.norris.domain.model.RelatedCategory
-import io.dotanuki.norris.domain.services.RemoteFactsService
-import io.dotanuki.norris.domain.services.SearchesHistoryService
+import io.dotanuki.norris.facts.domain.ChuckNorrisFact
 import io.dotanuki.norris.facts.presentation.FactDisplayRow
 import io.dotanuki.norris.facts.presentation.FactsPresentation
 import io.dotanuki.norris.facts.presentation.FactsScreenState
@@ -35,14 +29,7 @@ class FactsViewModelTests {
                     id = "2wzginmks8azrbaxnamxdw",
                     shareableUrl = "https://api.chucknorris.io/jokes/2wzginmks8azrbaxnamxdw",
                     textual = "Chuck Norris commits before Git repo even exits",
-                    category = RelatedCategory.Available("dev")
                 )
-            )
-        }
-
-        private val categories by lazy {
-            listOf(
-                RelatedCategory.Available("dev")
             )
         }
 

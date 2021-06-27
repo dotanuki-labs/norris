@@ -2,7 +2,7 @@ package io.dotanuki.norris.facts.presentation
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import io.dotanuki.norris.facts.data.LatestSearchesDataSource
+import io.dotanuki.norris.facts.data.ActualSearchDataSource
 import io.dotanuki.norris.facts.data.RemoteFactsDataSource
 import io.dotanuki.norris.facts.domain.FactsRetrievalError
 import kotlinx.coroutines.channels.Channel
@@ -14,7 +14,7 @@ import kotlinx.coroutines.launch
 
 class FactsViewModel(
     private val remoteFacts: RemoteFactsDataSource,
-    private val latestSearches: LatestSearchesDataSource
+    private val actualSearch: ActualSearchDataSource
 ) : ViewModel() {
 
     private val interactions = Channel<FactsUserInteraction>(Channel.UNLIMITED)
@@ -53,7 +53,7 @@ class FactsViewModel(
     }
 
     private suspend fun fetchFacts(): FactsPresentation {
-        val actualSearch = latestSearches.actualQuery()
+        val actualSearch = actualSearch.actualQuery()
         val relatedFacts = remoteFacts.search(actualSearch)
         val presentationRows = relatedFacts.map { FactDisplayRow(it) }
         return FactsPresentation(actualSearch, presentationRows)
