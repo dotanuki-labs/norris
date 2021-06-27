@@ -1,8 +1,6 @@
-package io.dotanuki.norris.networking
+package io.dotanuki.norris.networking.transformers
 
-import io.dotanuki.norris.domain.errors.NetworkingError.ConnectionSpike
-import io.dotanuki.norris.domain.errors.NetworkingError.HostUnreachable
-import io.dotanuki.norris.domain.errors.NetworkingError.OperationTimeout
+import io.dotanuki.norris.networking.errors.NetworkingError
 import java.io.IOException
 import java.net.ConnectException
 import java.net.NoRouteToHostException
@@ -14,9 +12,9 @@ object NetworkingErrorTransformer : ErrorTransformer {
     override suspend fun transform(incoming: Throwable) =
         when {
             (!isNetworkingError(incoming)) -> incoming
-            isConnectionTimeout(incoming) -> OperationTimeout
-            cannotReachHost(incoming) -> HostUnreachable
-            else -> ConnectionSpike
+            isConnectionTimeout(incoming) -> NetworkingError.OperationTimeout
+            cannotReachHost(incoming) -> NetworkingError.HostUnreachable
+            else -> NetworkingError.ConnectionSpike
         }
 
     private fun isNetworkingError(error: Throwable) =

@@ -3,6 +3,9 @@ package io.dotanuki.norris.networking
 import com.google.common.truth.Truth.assertThat
 import io.dotanuki.burster.using
 import io.dotanuki.norris.networking.CheckErrorTransformation.Companion.checkTransformation
+import io.dotanuki.norris.networking.errors.NetworkingError
+import io.dotanuki.norris.networking.errors.RemoteServiceIntegrationError
+import io.dotanuki.norris.networking.transformers.NetworkingErrorTransformer
 import org.junit.Test
 import java.io.IOException
 import java.net.ConnectException

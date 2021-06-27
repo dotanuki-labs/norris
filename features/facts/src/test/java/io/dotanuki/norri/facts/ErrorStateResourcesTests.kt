@@ -5,9 +5,9 @@ import io.dotanuki.burster.using
 import io.dotanuki.norris.domain.errors.SearchFactsError.EmptyTerm
 import io.dotanuki.norris.domain.errors.SearchFactsError.NoResultsFound
 import io.dotanuki.norris.facts.ErrorStateResources
-import io.dotanuki.norris.networking.NetworkingError
-import io.dotanuki.norris.networking.RemoteServiceIntegrationError.ClientOrigin
-import io.dotanuki.norris.networking.RemoteServiceIntegrationError.RemoteSystem
+import io.dotanuki.norris.networking.errors.NetworkingError
+import io.dotanuki.norris.networking.errors.RemoteServiceIntegrationError.ClientOrigin
+import io.dotanuki.norris.networking.errors.RemoteServiceIntegrationError.RemoteSystem
 import io.dotanuki.norris.sharedassets.R
 import org.junit.Test
 

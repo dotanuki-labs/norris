@@ -1,4 +1,4 @@
-package io.dotanuki.norris.networking
+package io.dotanuki.norris.networking.transformers
 
 interface ErrorTransformer {
 

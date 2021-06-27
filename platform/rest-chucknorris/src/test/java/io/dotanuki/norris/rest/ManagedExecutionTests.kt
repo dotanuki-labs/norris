@@ -3,8 +3,8 @@ package io.dotanuki.norris.rest
 import com.google.common.truth.Truth.assertThat
 import io.dotanuki.burster.using
 import io.dotanuki.norris.domain.errors.NetworkingError.HostUnreachable
-import io.dotanuki.norris.networking.RemoteServiceIntegrationError.RemoteSystem
-import io.dotanuki.norris.networking.RemoteServiceIntegrationError.UnexpectedResponse
+import io.dotanuki.norris.networking.errors.RemoteServiceIntegrationError.RemoteSystem
+import io.dotanuki.norris.networking.errors.RemoteServiceIntegrationError.UnexpectedResponse
 import io.dotanuki.norris.rest.util.unwrapCaughtError
 import kotlinx.coroutines.runBlocking
 import kotlinx.serialization.SerializationException

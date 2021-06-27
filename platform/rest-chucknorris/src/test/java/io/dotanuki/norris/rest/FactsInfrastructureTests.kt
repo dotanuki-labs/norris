@@ -1,7 +1,7 @@
 package io.dotanuki.norris.rest
 
 import com.google.common.truth.Truth.assertThat
-import io.dotanuki.norris.networking.RemoteServiceIntegrationError
+import io.dotanuki.norris.networking.errors.RemoteServiceIntegrationError
 import io.dotanuki.norris.domain.model.ChuckNorrisFact
 import io.dotanuki.norris.domain.model.RelatedCategory.Available
 import io.dotanuki.norris.domain.model.RelatedCategory.Missing
