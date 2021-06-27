@@ -8,7 +8,7 @@ import io.dotanuki.demos.norris.dsl.Visibility.HIDDEN
 import io.dotanuki.demos.norris.dsl.shouldBe
 import io.dotanuki.demos.norris.util.ActivityScenarioLauncher.Companion.scenarioLauncher
 import io.dotanuki.norris.persistance.AppPreferencesWrapper
-import io.dotanuki.norris.search.SearchQueryActivity
+import io.dotanuki.norris.search.ui.SearchQueryActivity
 import okhttp3.mockwebserver.MockResponse
 import okhttp3.mockwebserver.MockWebServer
 import org.junit.After
