@@ -1,6 +1,6 @@
-package io.dotanuki.norris.domain.services
+package io.dotanuki.norris.persistance
 
-interface SearchesHistoryService {
+interface LocalStorage {
 
     suspend fun lastSearches(): List<String>
 
