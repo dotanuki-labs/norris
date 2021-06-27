@@ -6,7 +6,7 @@ import androidx.lifecycle.ViewModelProvider
 import io.dotanuki.norris.domain.FetchCategories
 import io.dotanuki.norris.domain.services.SearchesHistoryService
 import io.dotanuki.norris.features.utilties.KodeinTags
-import io.dotanuki.norris.search.SearchViewModel
+import io.dotanuki.norris.search.presentation.SearchViewModel
 import org.kodein.di.DI
 import org.kodein.di.bind
 import org.kodein.di.instance

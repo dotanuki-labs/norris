@@ -1,16 +1,15 @@
-package io.dotanuki.norris.search
+package io.dotanuki.norris.search.presentation
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import io.dotanuki.norris.domain.FetchCategories
-import io.dotanuki.norris.domain.SearchQueryValidation
-import io.dotanuki.norris.domain.services.SearchesHistoryService
-import io.dotanuki.norris.search.SearchInteraction.OpenedScreen
-import io.dotanuki.norris.search.SearchInteraction.QueryFieldChanged
-import io.dotanuki.norris.search.SearchScreenState.Companion.INITIAL
-import io.dotanuki.norris.search.SearchScreenState.Recommendations
-import io.dotanuki.norris.search.SearchScreenState.SearchHistory
-import io.dotanuki.norris.search.SearchScreenState.SearchQuery
+import io.dotanuki.norris.search.data.SearchesDataSource
+import io.dotanuki.norris.search.domain.SearchQueryValidation
+import io.dotanuki.norris.search.presentation.SearchInteraction.OpenedScreen
+import io.dotanuki.norris.search.presentation.SearchInteraction.QueryFieldChanged
+import io.dotanuki.norris.search.presentation.SearchScreenState.Companion.INITIAL
+import io.dotanuki.norris.search.presentation.SearchScreenState.Recommendations
+import io.dotanuki.norris.search.presentation.SearchScreenState.SearchHistory
+import io.dotanuki.norris.search.presentation.SearchScreenState.SearchQuery
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -19,8 +18,7 @@ import kotlinx.coroutines.flow.consumeAsFlow
 import kotlinx.coroutines.launch
 
 class SearchViewModel(
-    private val searchService: SearchesHistoryService,
-    private val fetchCategories: FetchCategories
+    private val dataSource: SearchesDataSource
 ) : ViewModel() {
 
     private val states = MutableStateFlow(INITIAL)
@@ -45,19 +43,18 @@ class SearchViewModel(
         }
 
     private suspend fun loadPrefilledOptions() {
-        loadCategoriesNamesAsRecommendations()
-        loadSearchHistory()
+        val (suggestions, history) = dataSource.searchOptions()
+        loadCategoriesNamesAsRecommendations(suggestions)
+        loadSearchHistory(history)
     }
 
-    private suspend fun loadSearchHistory() {
+    private fun loadSearchHistory(history: List<String>) {
         val actualState = states.value
         val loadingState = actualState.copy(searchHistory = SearchHistory.Loading)
         states.value = loadingState
 
         try {
-            val searchHistory = searchService.lastSearches()
-            val successState =
-                loadingState.copy(searchHistory = SearchHistory.Success(searchHistory))
+            val successState = loadingState.copy(searchHistory = SearchHistory.Success(history))
             states.value = successState
         } catch (error: Throwable) {
             val errorState = loadingState.copy(searchHistory = SearchHistory.Failed(error))
@@ -65,15 +62,14 @@ class SearchViewModel(
         }
     }
 
-    private suspend fun loadCategoriesNamesAsRecommendations() {
+    private fun loadCategoriesNamesAsRecommendations(suggestions: List<String>) {
         val actualState = states.value
         val loadingState = actualState.copy(recommendations = Recommendations.Loading)
         states.value = loadingState
 
         try {
-            val categoriesNames = fetchCategories.execute().map { it.name }
             val successState =
-                loadingState.copy(recommendations = Recommendations.Success(categoriesNames))
+                loadingState.copy(recommendations = Recommendations.Success(suggestions))
             states.value = successState
         } catch (error: Throwable) {
             val errorState = loadingState.copy(recommendations = Recommendations.Failed(error))
@@ -90,7 +86,7 @@ class SearchViewModel(
 
         if (SearchQueryValidation.validate(query)) {
             viewModelScope.launch {
-                searchService.registerNewSearch(query)
+                dataSource.saveNewSearch(query)
             }
         }
     }

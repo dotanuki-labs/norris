@@ -1,4 +1,4 @@
-package io.dotanuki.norris.search
+package io.dotanuki.norris.search.ui
 
 import android.os.Bundle
 import android.text.Editable
@@ -11,10 +11,14 @@ import com.google.android.material.snackbar.Snackbar
 import io.dotanuki.logger.Logger
 import io.dotanuki.norris.features.utilties.selfBind
 import io.dotanuki.norris.features.utilties.viewBinding
-import io.dotanuki.norris.search.SearchScreenState.Recommendations
-import io.dotanuki.norris.search.SearchScreenState.SearchHistory
-import io.dotanuki.norris.search.SearchScreenState.SearchQuery
+import io.dotanuki.norris.search.R
 import io.dotanuki.norris.search.databinding.ActivitySearchQueryBinding
+import io.dotanuki.norris.search.presentation.SearchInteraction
+import io.dotanuki.norris.search.presentation.SearchScreenState
+import io.dotanuki.norris.search.presentation.SearchScreenState.Recommendations
+import io.dotanuki.norris.search.presentation.SearchScreenState.SearchHistory
+import io.dotanuki.norris.search.presentation.SearchScreenState.SearchQuery
+import io.dotanuki.norris.search.presentation.SearchViewModel
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import org.kodein.di.DIAware

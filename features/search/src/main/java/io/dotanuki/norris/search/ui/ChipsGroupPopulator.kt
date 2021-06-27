@@ -1,4 +1,4 @@
-package io.dotanuki.norris.search
+package io.dotanuki.norris.search.ui
 
 import android.view.LayoutInflater
 import com.google.android.material.chip.Chip

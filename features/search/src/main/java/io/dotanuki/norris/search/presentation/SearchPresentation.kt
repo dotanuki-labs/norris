@@ -1,6 +1,6 @@
-package io.dotanuki.norris.search
+package io.dotanuki.norris.search.presentation
 
-import io.dotanuki.norris.domain.model.SearchOptions
+import io.dotanuki.norris.search.domain.SearchOptions
 
 sealed class SearchPresentation {
     data class Suggestions(val options: SearchOptions) : SearchPresentation()

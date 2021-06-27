@@ -3,6 +3,8 @@ plugins {
 }
 
 dependencies {
+    implementation(project(":platform:networking"))
+    implementation(project(":platform:rest-chucknorris"))
     implementation(project(":platform:persistance"))
     implementation(project(":platform:logger"))
     implementation(project(":platform:navigator"))

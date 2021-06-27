@@ -1,4 +1,4 @@
-package io.dotanuki.norris.search
+package io.dotanuki.norris.search.presentation
 
 sealed class SearchInteraction {
     object OpenedScreen : SearchInteraction()

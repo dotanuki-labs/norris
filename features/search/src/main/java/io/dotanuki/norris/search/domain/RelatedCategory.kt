@@ -1,4 +1,4 @@
-package io.dotanuki.norris.search
+package io.dotanuki.norris.search.domain
 
 sealed class RelatedCategory {
     data class Available(val name: String) : RelatedCategory()
