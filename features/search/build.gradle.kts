@@ -3,7 +3,9 @@ plugins {
 }
 
 dependencies {
-    implementation(project(":platform:domain"))
+    implementation(project(":platform:networking"))
+    implementation(project(":platform:rest-chucknorris"))
+    implementation(project(":platform:persistance"))
     implementation(project(":platform:logger"))
     implementation(project(":platform:navigator"))
     implementation(project(":platform:shared-assets"))
@@ -26,4 +28,5 @@ dependencies {
     testImplementation("junit:junit:4.13.2")
     testImplementation("com.google.truth:truth:1.1.3")
     testImplementation("app.cash.turbine:turbine:0.5.2")
+    testImplementation("com.github.ubiratansoares:burster:0.1.1")
 }

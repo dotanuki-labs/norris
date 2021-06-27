@@ -5,7 +5,6 @@ plugins {
 
 dependencies {
 
-    implementation(project(":platform:domain"))
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.5.0")
     implementation("org.kodein.di:kodein-di-jvm:7.6.0")
 

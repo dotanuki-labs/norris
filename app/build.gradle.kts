@@ -90,7 +90,6 @@ android {
 
 dependencies {
     implementation(project(":platform:logger"))
-    implementation(project(":platform:domain"))
     implementation(project(":platform:rest-chucknorris"))
     implementation(project(":platform:networking"))
     implementation(project(":platform:persistance"))

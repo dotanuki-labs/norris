@@ -3,7 +3,7 @@
     package="io.dotanuki.norris.search">
 
     <application>
-        <activity android:name=".SearchQueryActivity">
+        <activity android:name=".ui.SearchQueryActivity">
     </activity>
 
 </application>

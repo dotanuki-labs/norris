@@ -2,10 +2,11 @@ package io.dotanuki.norris.networking
 
 import com.google.common.truth.Truth.assertThat
 import io.dotanuki.burster.using
-import io.dotanuki.norris.domain.errors.RemoteServiceIntegrationError
-import io.dotanuki.norris.domain.errors.RemoteServiceIntegrationError.ClientOrigin
-import io.dotanuki.norris.domain.errors.RemoteServiceIntegrationError.RemoteSystem
 import io.dotanuki.norris.networking.CheckErrorTransformation.Companion.checkTransformation
+import io.dotanuki.norris.networking.errors.RemoteServiceIntegrationError
+import io.dotanuki.norris.networking.errors.RemoteServiceIntegrationError.ClientOrigin
+import io.dotanuki.norris.networking.errors.RemoteServiceIntegrationError.RemoteSystem
+import io.dotanuki.norris.networking.transformers.HttpIntegrationErrorTransformer
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.ResponseBody.Companion.toResponseBody
 import org.junit.Test

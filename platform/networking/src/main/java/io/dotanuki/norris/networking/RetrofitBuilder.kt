@@ -11,14 +11,6 @@ import retrofit2.Retrofit
 @ExperimentalSerializationApi
 object RetrofitBuilder {
 
-    operator fun invoke(apiURL: HttpUrl, httpClient: OkHttpClient) =
-        with(Retrofit.Builder()) {
-            baseUrl(apiURL)
-            client(httpClient)
-            addConverterFactory(jsonConfig.asConverterFactory(contentType))
-            build()
-        }
-
     private val jsonConfig by lazy {
         Json {
             isLenient = false
@@ -30,4 +22,12 @@ object RetrofitBuilder {
     private val contentType by lazy {
         "application/json".toMediaTypeOrNull()!!
     }
+
+    operator fun invoke(apiURL: HttpUrl, httpClient: OkHttpClient): Retrofit =
+        with(Retrofit.Builder()) {
+            baseUrl(apiURL)
+            client(httpClient)
+            addConverterFactory(jsonConfig.asConverterFactory(contentType))
+            build()
+        }
 }

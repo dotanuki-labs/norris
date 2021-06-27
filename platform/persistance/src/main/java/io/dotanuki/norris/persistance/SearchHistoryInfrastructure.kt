@@ -1,13 +1,12 @@
 package io.dotanuki.norris.persistance
 
 import android.content.SharedPreferences
-import io.dotanuki.norris.domain.services.SearchesHistoryService
 import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine
 
 internal class SearchHistoryInfrastructure(
     private val prefs: SharedPreferences
-) : SearchesHistoryService {
+) : LocalStorage {
 
     override suspend fun lastSearches(): List<String> {
         return suspendCoroutine { continuation ->
@@ -22,6 +21,10 @@ internal class SearchHistoryInfrastructure(
         prefs.edit()
             .putString(KEY_TERMS, updated.joinToString(separator = TERMS_SEPARATOR))
             .commit()
+    }
+
+    override fun destroy() {
+        prefs.edit().clear().commit()
     }
 
     private fun retrieveFromPrefs(): List<String> =

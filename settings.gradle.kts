@@ -8,7 +8,6 @@ pluginManagement {
 
 include(
     ":app",
-    ":platform:domain",
     ":platform:logger",
     ":platform:testing-commons",
     ":platform:navigator",

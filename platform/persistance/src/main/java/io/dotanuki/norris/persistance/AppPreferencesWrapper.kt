@@ -2,10 +2,11 @@ package io.dotanuki.norris.persistance
 
 import android.app.Application
 import android.content.Context.MODE_PRIVATE
+import android.content.SharedPreferences
 
 class AppPreferencesWrapper(private val app: Application) {
 
-    val preferences by lazy {
+    val preferences: SharedPreferences by lazy {
         app.getSharedPreferences(PREFS_FILE, MODE_PRIVATE)
     }
 

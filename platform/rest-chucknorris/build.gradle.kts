@@ -6,7 +6,6 @@ plugins {
 
 dependencies {
     implementation(project(":platform:logger"))
-    implementation(project(":platform:domain"))
     implementation(project(":platform:networking"))
 
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.5.20")

@@ -2,13 +2,11 @@ package io.dotanuki.norris.rest.di
 
 import io.dotanuki.norris.networking.RetrofitBuilder
 import io.dotanuki.norris.rest.ChuckNorrisDotIO
-import io.dotanuki.norris.rest.FactsInfrastructure
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import org.kodein.di.DI
 import org.kodein.di.bind
 import org.kodein.di.instance
-import org.kodein.di.provider
 import org.kodein.di.singleton
 
 val restInfrastructureModule = DI.Module("rest-infrastructure") {
@@ -30,14 +28,6 @@ val restInfrastructureModule = DI.Module("rest-infrastructure") {
             )
 
             retrofit.create(ChuckNorrisDotIO::class.java)
-        }
-    }
-
-    bind {
-        provider {
-            FactsInfrastructure(
-                rest = instance()
-            )
         }
     }
 }

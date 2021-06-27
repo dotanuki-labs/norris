@@ -31,6 +31,3 @@ inline fun <T : ViewBinding> AppCompatActivity.viewBinding(
 
 fun AppCompatActivity.toast(message: Int) =
     Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
-
-fun AppCompatActivity.toast(toaster: String) =
-    Toast.makeText(this, toaster, Toast.LENGTH_SHORT).show()

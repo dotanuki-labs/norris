@@ -6,10 +6,12 @@ plugins {
 dependencies {
 
     implementation(project(":platform:logger"))
-    implementation(project(":platform::domain"))
     implementation(project(":platform:shared-assets"))
     implementation(project(":platform:shared-utilities"))
     implementation(project(":platform:navigator"))
+    implementation(project(":platform:networking"))
+    implementation(project(":platform:rest-chucknorris"))
+    implementation(project(":platform:persistance"))
 
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.5.20")
     implementation("org.kodein.di:kodein-di-jvm:7.6.0")
@@ -25,11 +27,15 @@ dependencies {
     implementation("androidx.activity:activity-ktx:1.3.0-beta02")
     implementation("androidx.swiperefreshlayout:swiperefreshlayout:1.1.0")
     implementation("com.google.android.material:material:1.3.0")
+    implementation("com.squareup.okhttp3:okhttp:4.9.1")
+    implementation("com.squareup.okhttp3:logging-interceptor:4.9.1")
+    implementation("com.squareup.retrofit2:retrofit:2.9.0")
 
     testImplementation(project(":platform:testing-commons"))
 
-    testImplementation("junit:junit:4.13.2")
+    testImplementation("app.cash.turbine:turbine:0.5.2")
     testImplementation("com.google.truth:truth:1.1.3")
     testImplementation("com.github.ubiratansoares:burster:0.1.1")
-    testImplementation("app.cash.turbine:turbine:0.5.2")
+    testImplementation("junit:junit:4.13.2")
+    testImplementation("com.squareup.okhttp3:mockwebserver:4.9.1")
 }

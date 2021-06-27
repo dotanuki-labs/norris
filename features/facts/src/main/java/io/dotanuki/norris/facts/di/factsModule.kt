@@ -3,9 +3,9 @@ package io.dotanuki.norris.facts.di
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import io.dotanuki.norris.domain.FetchFacts
-import io.dotanuki.norris.domain.ManageSearchQuery
-import io.dotanuki.norris.facts.FactsViewModel
+import io.dotanuki.norris.facts.data.ActualSearchDataSource
+import io.dotanuki.norris.facts.data.FactsDataSource
+import io.dotanuki.norris.facts.presentation.FactsViewModel
 import io.dotanuki.norris.features.utilties.KodeinTags
 import org.kodein.di.DI
 import org.kodein.di.bind
@@ -17,16 +17,16 @@ val factsModule = DI.Module("menu_facts_list") {
     bind {
         provider {
             @Suppress("UNCHECKED_CAST") val factory = object : ViewModelProvider.Factory {
-                val fetchFacts = FetchFacts(
-                    factsService = instance()
+                val actualSearchDataSource = ActualSearchDataSource(
+                    storage = instance()
                 )
 
-                val manageSearchQuery = ManageSearchQuery(
-                    historyService = instance()
+                val factsDataSource = FactsDataSource(
+                    api = instance()
                 )
 
                 override fun <VM : ViewModel> create(klass: Class<VM>) =
-                    FactsViewModel(fetchFacts, manageSearchQuery) as VM
+                    FactsViewModel(factsDataSource, actualSearchDataSource) as VM
             }
 
             val host: FragmentActivity = instance(KodeinTags.hostActivity)
