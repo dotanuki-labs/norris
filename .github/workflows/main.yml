@@ -50,7 +50,7 @@ jobs:
           mkdir -p ~/.gradle
           cp .github/githubci-gradle.properties ~/.gradle/gradle.properties
 
-      - name: Check code formatting
+      - name: Run unit tests
         uses: burrunan/gradle-cache-action@v1.10
         with:
           arguments: test testDebugUnitTest --stacktrace
@@ -87,7 +87,7 @@ jobs:
           mkdir -p ~/.gradle
           cp .github/githubci-gradle.properties ~/.gradle/gradle.properties
 
-      - name: Check code formatting
+      - name: Assemble production APK
         uses: burrunan/gradle-cache-action@v1.10
         with:
           arguments: app:assembleRelease -PtestMode=true --stacktrace
@@ -118,7 +118,7 @@ jobs:
           mkdir -p ~/.gradle
           cp .github/githubci-gradle.properties ~/.gradle/gradle.properties
 
-      - name: Check code formatting
+      - name: Assemble Instrumentation tests
         uses: burrunan/gradle-cache-action@v1.10
         with:
           arguments: app:assembleAndroidTest -PtestMode=true --stacktrace
