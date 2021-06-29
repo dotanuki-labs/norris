@@ -12,6 +12,7 @@ import io.dotanuki.norris.search.ui.SearchActivity
 import io.dotanuki.testing.app.ContainerApplication
 import io.dotanuki.testing.app.setupContainerApp
 import io.dotanuki.testing.rest.RestInfrastructureRule
+import kotlinx.coroutines.runBlocking
 import okhttp3.mockwebserver.MockResponse
 import org.junit.Before
 import org.junit.Rule
@@ -35,9 +36,6 @@ class SearchIntegrationTests {
     @Before fun `before each test`() {
         val app = setupContainerApp(searchModule)
         localStorage = app.di.direct.instance()
-    }
-
-    @Test fun `at first lunch, should display only suggestions`() {
 
         val payload =
             """
@@ -51,6 +49,9 @@ class SearchIntegrationTests {
         restInfrastructure.server.enqueue(
             MockResponse().setResponseCode(200).setBody(payload)
         )
+    }
+
+    @Test fun `at first lunch, should display only suggestions`() {
 
         val expectedState = SearchScreenState.Content(
             suggestions = listOf("career", "celebrity", "dev"),
@@ -62,9 +63,71 @@ class SearchIntegrationTests {
             moveToState(Lifecycle.State.RESUMED)
 
             onActivity {
+
                 Thread.sleep(1000)
                 Shadows.shadowOf(Looper.getMainLooper()).idle()
+
                 assertThat(it.actualState).isEqualTo(expectedState)
+            }
+
+            close()
+        }
+    }
+
+    @Test fun `should proceed saving term chosen from suggestions`() {
+
+        localStorage.registerNewSearch("code")
+
+        launchActivity<SearchActivity>().run {
+
+            moveToState(Lifecycle.State.RESUMED)
+
+            onActivity { activity ->
+
+                activity.onChipClicked("dev")
+
+                val savedSearches = runBlocking {
+                    localStorage.lastSearches()
+                }
+
+                Thread.sleep(1000)
+                Shadows.shadowOf(Looper.getMainLooper()).idle()
+
+                assertThat(savedSearches).isEqualTo(
+                    listOf("code", "dev")
+                )
+
+                assertThat(activity.actualState).isEqualTo(SearchScreenState.Done)
+            }
+
+            close()
+        }
+    }
+
+    @Test fun `should proceed saving new search term`() {
+
+        localStorage.registerNewSearch("code")
+        localStorage.registerNewSearch("dev")
+
+        launchActivity<SearchActivity>().run {
+
+            moveToState(Lifecycle.State.RESUMED)
+
+            onActivity { activity ->
+                activity.onQuerySubmited("kotlin")
+
+                Thread.sleep(1000)
+                Shadows.shadowOf(Looper.getMainLooper()).idle()
+
+                val savedSearches = runBlocking {
+                    localStorage.lastSearches()
+                }
+
+                assertThat(savedSearches).isEqualTo(
+                    listOf("code", "dev", "kotlin")
+                )
+
+                assertThat(activity.actualState).isEqualTo(SearchScreenState.Done)
             }
 
             close()
