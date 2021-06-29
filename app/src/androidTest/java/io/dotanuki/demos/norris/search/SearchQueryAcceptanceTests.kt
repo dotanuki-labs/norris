@@ -8,7 +8,7 @@ import io.dotanuki.demos.norris.dsl.Visibility.HIDDEN
 import io.dotanuki.demos.norris.dsl.shouldBe
 import io.dotanuki.demos.norris.util.ActivityScenarioLauncher.Companion.scenarioLauncher
 import io.dotanuki.norris.persistance.AppPreferencesWrapper
-import io.dotanuki.norris.search.ui.SearchQueryActivity
+import io.dotanuki.norris.search.ui.SearchActivity
 import okhttp3.mockwebserver.MockResponse
 import okhttp3.mockwebserver.MockWebServer
 import org.junit.After
@@ -47,7 +47,7 @@ class SearchQueryAcceptanceTests {
             MockResponse().setResponseCode(200).setBody(payload)
         )
 
-        scenarioLauncher<SearchQueryActivity>().run {
+        scenarioLauncher<SearchActivity>().run {
             onResume {
                 val categories = listOf("career", "celebrity", "dev")
                 val history = emptyList<String>()
@@ -63,7 +63,7 @@ class SearchQueryAcceptanceTests {
 
     @Test fun shouldReportInvalidQuery() {
 
-        scenarioLauncher<SearchQueryActivity>().run {
+        scenarioLauncher<SearchActivity>().run {
             onResume {
                 searchInteractions {
                     textInputField received "U2"
