@@ -20,10 +20,16 @@ import io.dotanuki.norris.sharedassets.R as sharedR
 
 class FactsViewDelegate(
     private val binding: ActivityFactsBinding,
-    private val onRefresh: () -> Unit,
-    private val onShare: (FactDisplayRow) -> Unit,
-    private val onSearch: () -> Unit
+    private val callbacks: Callbacks
 ) {
+
+    interface Callbacks {
+        fun onRefresh()
+
+        fun onSearch()
+
+        fun onShare(row: FactDisplayRow)
+    }
 
     private val context by lazy {
         binding.root.context
@@ -32,11 +38,12 @@ class FactsViewDelegate(
     fun setup() {
         binding.run {
             factsRecyclerView.layoutManager = LinearLayoutManager(context)
-            factsSwipeToRefresh.setOnRefreshListener(onRefresh)
+            factsSwipeToRefresh.setOnRefreshListener { callbacks.onRefresh() }
+
             factsToolbar.inflateMenu(R.menu.menu_facts_list)
             factsToolbar.setOnMenuItemClickListener { item ->
                 if (item.itemId == R.id.menu_item_search_facts) {
-                    onSearch()
+                    callbacks.onSearch()
                 }
                 false
             }
@@ -60,7 +67,7 @@ class FactsViewDelegate(
     fun showResults(presentation: FactsPresentation) {
         binding.run {
             factsSwipeToRefresh.isRefreshing = false
-            factsRecyclerView.adapter = FactsAdapter(presentation, onShare)
+            factsRecyclerView.adapter = FactsAdapter(presentation, callbacks::onShare)
         }
         showHeadline(presentation.relatedQuery)
     }
@@ -95,7 +102,7 @@ class FactsViewDelegate(
                         errorStateView.visibility = View.VISIBLE
                         errorStateImage.setImageResource(errorImage)
                         errorStateLabel.setText(errorMessage)
-                        retryButton.setOnClickListener { onRefresh() }
+                        retryButton.setOnClickListener { callbacks.onRefresh() }
                     }
                 }
             }

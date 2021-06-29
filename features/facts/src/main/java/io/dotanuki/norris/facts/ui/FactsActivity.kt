@@ -26,7 +26,7 @@ import kotlinx.coroutines.launch
 import org.kodein.di.DIAware
 import org.kodein.di.instance
 
-class FactsActivity : AppCompatActivity(), DIAware {
+class FactsActivity : AppCompatActivity(), DIAware, FactsViewDelegate.Callbacks {
 
     override val di by selfBind()
 
@@ -36,7 +36,7 @@ class FactsActivity : AppCompatActivity(), DIAware {
     private val navigator by instance<Navigator>()
 
     private val viewDelegate by lazy {
-        FactsViewDelegate(viewBindings, this::loadFacts, this::shareFact, this::goToSearch)
+        FactsViewDelegate(viewBindings, this)
     }
 
     var actualState: FactsScreenState = Idle
@@ -45,6 +45,26 @@ class FactsActivity : AppCompatActivity(), DIAware {
         super.onCreate(savedInstanceState)
         setContentView(viewBindings.root)
         setup()
+    }
+
+    override fun onRefresh() {
+        loadFacts()
+    }
+
+    override fun onSearch() {
+        navigator.navigateTo(Screen.SearchQuery)
+    }
+
+    override fun onShare(row: FactDisplayRow) {
+        val sendIntent = Intent().apply {
+            action = Intent.ACTION_SEND
+            putExtra(Intent.EXTRA_TEXT, row.url)
+            type = "text/plain"
+        }
+
+        startActivity(
+            Intent.createChooser(sendIntent, "Share this Chuck Norris Fact")
+        )
     }
 
     private fun setup() {
@@ -75,20 +95,4 @@ class FactsActivity : AppCompatActivity(), DIAware {
                 actualState = state
             }
         }
-
-    private fun goToSearch() {
-        navigator.navigateTo(Screen.SearchQuery)
-    }
-
-    private fun shareFact(row: FactDisplayRow) {
-        val sendIntent = Intent().apply {
-            action = Intent.ACTION_SEND
-            putExtra(Intent.EXTRA_TEXT, row.url)
-            type = "text/plain"
-        }
-
-        startActivity(
-            Intent.createChooser(sendIntent, "Share this Chuck Norris Fact")
-        )
-    }
 }
