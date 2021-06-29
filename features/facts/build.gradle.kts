@@ -47,14 +47,4 @@ dependencies {
     testImplementation("androidx.test.ext:junit-ktx:1.1.2")
     testImplementation("androidx.test:runner:1.3.0")
     testImplementation("androidx.test:rules:1.3.0")
-
-    androidTestImplementation("junit:junit:4.13.2")
-    androidTestImplementation("androidx.test:core:1.3.0")
-    androidTestImplementation("androidx.test:core-ktx:1.3.0")
-    androidTestImplementation("androidx.test.ext:junit:1.1.2")
-    androidTestImplementation("androidx.test.ext:junit-ktx:1.1.2")
-    androidTestImplementation("androidx.test:runner:1.3.0")
-    androidTestImplementation("androidx.test:rules:1.3.0")
-    androidTestImplementation("com.google.truth:truth:1.1.3")
-    androidTestImplementation("com.squareup.okhttp3:mockwebserver:4.9.1")
 }
