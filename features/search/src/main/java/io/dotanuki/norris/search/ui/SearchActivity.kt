@@ -22,7 +22,7 @@ import org.kodein.di.DIAware
 import org.kodein.di.instance
 import kotlin.properties.Delegates
 
-class SearchActivity : AppCompatActivity(), DIAware {
+class SearchActivity : AppCompatActivity(), DIAware, SearchViewDelegate.Callbacks {
 
     override val di by selfBind()
 
@@ -31,12 +31,7 @@ class SearchActivity : AppCompatActivity(), DIAware {
     private val logger by instance<Logger>()
 
     private val viewDelegate by lazy {
-        SearchViewDelegate(
-            binding = viewBindings,
-            onUpNavigationClicked = this::finish,
-            onChipClicked = this::onChipClicked,
-            onQuerySubmited = this::onQuerySubmited
-        )
+        SearchViewDelegate(viewBindings, this)
     }
 
     var actualState by Delegates.notNull<SearchScreenState>()
@@ -45,6 +40,18 @@ class SearchActivity : AppCompatActivity(), DIAware {
         super.onCreate(savedInstanceState)
         setContentView(viewBindings.root)
         setup()
+    }
+
+    override fun onQuerySubmited(term: String) {
+        viewModel.handle(SearchInteraction.NewQuerySet(term))
+    }
+
+    override fun onUpNavigationClicked() {
+        finish()
+    }
+
+    override fun onChipClicked(term: String) {
+        viewModel.handle(SearchInteraction.NewQuerySet(term))
     }
 
     private fun setup() {
@@ -74,14 +81,6 @@ class SearchActivity : AppCompatActivity(), DIAware {
 
     private fun launch() {
         viewModel.handle(SearchInteraction.OpenedScreen)
-    }
-
-    private fun onQuerySubmited(query: String) {
-        viewModel.handle(SearchInteraction.NewQuerySet(query))
-    }
-
-    private fun onChipClicked(query: String) {
-        viewModel.handle(SearchInteraction.NewQuerySet(query))
     }
 
     private fun handleError(reason: Throwable) {

@@ -12,14 +12,20 @@ import io.dotanuki.norris.search.domain.SearchQueryValidation
 
 class SearchViewDelegate(
     private val binding: ActivitySearchBinding,
-    private val onUpNavigationClicked: () -> Unit,
-    private val onChipClicked: (String) -> Unit,
-    private val onQuerySubmited: (String) -> Unit
+    private val callbacks: Callbacks,
 ) {
+
+    interface Callbacks {
+        fun onUpNavigationClicked()
+
+        fun onChipClicked(term: String)
+
+        fun onQuerySubmited(term: String)
+    }
 
     fun setup() {
         binding.run {
-            searchToolbar.setNavigationOnClickListener { onUpNavigationClicked() }
+            searchToolbar.setNavigationOnClickListener { callbacks.onUpNavigationClicked() }
             queryTextInput.run {
                 addTextChangedListener(
                     afterTextChanged = { current -> validate(current) }
@@ -40,11 +46,11 @@ class SearchViewDelegate(
             recommendationsHeadline.visibility = View.VISIBLE
 
             ChipsGroupPopulator(historyChipGroup, R.layout.chip_item_query).run {
-                populate(history) { onChipClicked(it) }
+                populate(history) { callbacks.onChipClicked(it) }
             }
 
             ChipsGroupPopulator(suggestionChipGroup, R.layout.chip_item_query).run {
-                populate(suggestions) { onChipClicked(it) }
+                populate(suggestions) { callbacks.onChipClicked(it) }
             }
         }
     }
@@ -71,7 +77,7 @@ class SearchViewDelegate(
 
         if (actionId == EditorInfo.IME_ACTION_DONE) {
 
-            if (SearchQueryValidation.validate(actual)) onQuerySubmited(actual)
+            if (SearchQueryValidation.validate(actual)) callbacks.onQuerySubmited(actual)
             else showError(resources.getString(R.string.error_snackbar_cannot_proceed))
         }
     }
