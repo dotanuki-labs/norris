@@ -14,6 +14,7 @@ import io.dotanuki.testing.app.TestApplication
 import io.dotanuki.testing.app.activityScenario
 import io.dotanuki.testing.app.awaitPendingExecutions
 import io.dotanuki.testing.rest.FakeChuckNorrisIO
+import io.dotanuki.testing.rest.RestDataBuilder
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -49,25 +50,9 @@ class FactsIntegrationTests {
 
     @Test fun `when some search done, should display results`() {
 
-        val payload =
-            """
-            {
-              "total": 1,
-              "result": [
-                {
-                  "categories": [
-                    "humor"
-                  ],
-                  "created_at": "2016-05-01 10:51:41.584544",
-                  "icon_url": "https://assets.chucknorris.host/img/avatar/chuck-norris.png",
-                  "id": "2wzginmks8azrbaxnamxdw",
-                  "updated_at": "2016-05-01 10:51:41.584544",
-                  "url": "https://api.chucknorris.io/jokes/2wzginmks8azrbaxnamxdw",
-                  "value": "Chuck Norris can divide by zero"
-                }
-              ]
-            }
-            """.trimIndent()
+        val fact = "Chuck Norris can divide by zero"
+        val previousSearch = "humor"
+        val payload = RestDataBuilder.factsPayload(previousSearch, fact)
 
         api.fakeSearch = payload
         localStorage.registerNewSearch("humor")
@@ -79,7 +64,7 @@ class FactsIntegrationTests {
 
                 val facts = listOf(
                     FactDisplayRow(
-                        url = "https://api.chucknorris.io/jokes/2wzginmks8azrbaxnamxdw",
+                        url = RestDataBuilder.FACT_URL,
                         fact = "Chuck Norris can divide by zero",
                         displayWithSmallerFontSize = false
                     )
