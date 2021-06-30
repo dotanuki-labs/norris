@@ -6,16 +6,15 @@ import androidx.test.core.app.launchActivity
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.google.common.truth.Truth.assertThat
 import io.dotanuki.norris.persistance.LocalStorage
+import io.dotanuki.norris.rest.ChuckNorrisDotIO
 import io.dotanuki.norris.search.di.searchModule
 import io.dotanuki.norris.search.presentation.SearchScreenState
 import io.dotanuki.norris.search.ui.SearchActivity
 import io.dotanuki.testing.app.ContainerApplication
 import io.dotanuki.testing.app.setupContainerApp
-import io.dotanuki.testing.rest.RestInfrastructureRule
+import io.dotanuki.testing.rest.FakeChuckNorrisIO
 import kotlinx.coroutines.runBlocking
-import okhttp3.mockwebserver.MockResponse
 import org.junit.Before
-import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.kodein.di.direct
@@ -29,16 +28,11 @@ import org.robolectric.annotation.LooperMode
 @LooperMode(LooperMode.Mode.PAUSED)
 class SearchIntegrationTests {
 
-    lateinit var localStorage: LocalStorage
+    private lateinit var localStorage: LocalStorage
+    private lateinit var api: FakeChuckNorrisIO
 
-    @get:Rule val restInfrastructure = RestInfrastructureRule()
-
-    @Before fun `before each test`() {
-        val app = setupContainerApp(searchModule)
-        localStorage = app.di.direct.instance()
-
-        val payload =
-            """
+    private val payload =
+        """
             [
                 "career",
                 "celebrity",
@@ -46,9 +40,13 @@ class SearchIntegrationTests {
             ]
             """.trimIndent()
 
-        restInfrastructure.server.enqueue(
-            MockResponse().setResponseCode(200).setBody(payload)
-        )
+    @Before fun `before each test`() {
+        val app = setupContainerApp(searchModule)
+
+        localStorage = app.di.direct.instance()
+        api = app.di.direct.instance<ChuckNorrisDotIO>() as FakeChuckNorrisIO
+        api.prepare()
+        api.fakeCategories = payload
     }
 
     @Test fun `at first lunch, should display only suggestions`() {

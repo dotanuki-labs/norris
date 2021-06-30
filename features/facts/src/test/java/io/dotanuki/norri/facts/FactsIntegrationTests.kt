@@ -12,12 +12,11 @@ import io.dotanuki.norris.facts.presentation.FactsScreenState
 import io.dotanuki.norris.facts.ui.FactsActivity
 import io.dotanuki.norris.networking.errors.RemoteServiceIntegrationError
 import io.dotanuki.norris.persistance.LocalStorage
+import io.dotanuki.norris.rest.ChuckNorrisDotIO
 import io.dotanuki.testing.app.ContainerApplication
 import io.dotanuki.testing.app.setupContainerApp
-import io.dotanuki.testing.rest.RestInfrastructureRule
-import okhttp3.mockwebserver.MockResponse
+import io.dotanuki.testing.rest.FakeChuckNorrisIO
 import org.junit.Before
-import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.kodein.di.direct
@@ -31,14 +30,15 @@ import org.robolectric.annotation.LooperMode
 @LooperMode(LooperMode.Mode.PAUSED)
 class FactsIntegrationTests {
 
-    lateinit var localStorage: LocalStorage
-
-    @get:Rule val restInfrastructure = RestInfrastructureRule()
+    private lateinit var localStorage: LocalStorage
+    private lateinit var api: FakeChuckNorrisIO
 
     @Before fun `before each test`() {
         val app = setupContainerApp(factsModule)
 
         localStorage = app.di.direct.instance()
+        api = app.di.direct.instance<ChuckNorrisDotIO>() as FakeChuckNorrisIO
+        api.prepare()
     }
 
     @Test fun `at first lunch, should start on empty state`() {
@@ -76,15 +76,14 @@ class FactsIntegrationTests {
             }
             """.trimIndent()
 
-        restInfrastructure.server.enqueue(
-            MockResponse().setResponseCode(200).setBody(payload)
-        )
+        api.fakeSearch = payload
 
         localStorage.registerNewSearch("humor")
 
         val expectedState = FactsScreenState.Success(
             FactsPresentation(
-                "humor", listOf(
+                "humor",
+                listOf(
                     FactDisplayRow(
                         url = "https://api.chucknorris.io/jokes/2wzginmks8azrbaxnamxdw",
                         fact = "Chuck Norris can divide by zero",
@@ -109,9 +108,7 @@ class FactsIntegrationTests {
 
     @Test fun `when remote service fails, should display the error`() {
 
-        restInfrastructure.server.enqueue(
-            MockResponse().setResponseCode(503)
-        )
+        api.errorMode = true
 
         localStorage.registerNewSearch("code")
 
