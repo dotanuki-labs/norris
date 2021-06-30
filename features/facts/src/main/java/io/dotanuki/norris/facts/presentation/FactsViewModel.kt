@@ -32,23 +32,19 @@ class FactsViewModel(
 
     fun handle(interaction: FactsUserInteraction) {
         viewModelScope.launch {
+            states.value = FactsScreenState.Loading
             interactions.send(interaction)
         }
     }
 
     private suspend fun showFacts() {
-        states.value = FactsScreenState.Loading
-
-        try {
-            states.value = FactsScreenState.Success(fetchFacts())
+        states.value = try {
+            FactsScreenState.Success(fetchFacts())
         } catch (error: Throwable) {
-
-            val newState = when (error) {
+            when (error) {
                 is FactsRetrievalError.EmptyTerm -> FactsScreenState.Empty
                 else -> FactsScreenState.Failed(error)
             }
-
-            states.value = newState
         }
     }
 

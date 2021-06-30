@@ -5,7 +5,11 @@ import com.google.common.truth.Truth.assertThat
 import io.dotanuki.norris.facts.di.factsModule
 import io.dotanuki.norris.facts.presentation.FactDisplayRow
 import io.dotanuki.norris.facts.presentation.FactsPresentation
-import io.dotanuki.norris.facts.presentation.FactsScreenState
+import io.dotanuki.norris.facts.presentation.FactsScreenState.Empty
+import io.dotanuki.norris.facts.presentation.FactsScreenState.Failed
+import io.dotanuki.norris.facts.presentation.FactsScreenState.Idle
+import io.dotanuki.norris.facts.presentation.FactsScreenState.Loading
+import io.dotanuki.norris.facts.presentation.FactsScreenState.Success
 import io.dotanuki.norris.facts.ui.FactsActivity
 import io.dotanuki.norris.networking.errors.RemoteServiceIntegrationError
 import io.dotanuki.norris.persistance.LocalStorage
@@ -43,7 +47,9 @@ class FactsIntegrationTests {
         activityScenario<FactsActivity> {
             whenResumed { target ->
                 awaitPendingExecutions()
-                assertThat(target.actualState).isEqualTo(FactsScreenState.Empty)
+
+                val expectedStates = listOf(Idle, Loading, Empty)
+                assertThat(target.states).isEqualTo(expectedStates)
             }
         }
     }
@@ -69,18 +75,15 @@ class FactsIntegrationTests {
                         displayWithSmallerFontSize = false
                     )
                 )
-                val expectedState = FactsScreenState.Success(
-                    FactsPresentation("humor", facts)
-                )
-                assertThat(target.actualState).isEqualTo(expectedState)
+                val presentation = FactsPresentation("humor", facts)
+                val expectedStates = listOf(Idle, Loading, Success(presentation))
+                assertThat(target.states).isEqualTo(expectedStates)
             }
         }
     }
 
     @Test fun `when remote service fails, should display the error`() {
-
         api.errorMode = true
-
         localStorage.registerNewSearch("code")
 
         activityScenario<FactsActivity> {
@@ -88,10 +91,9 @@ class FactsIntegrationTests {
 
                 awaitPendingExecutions()
 
-                val expectedState = FactsScreenState.Failed(
-                    RemoteServiceIntegrationError.RemoteSystem
-                )
-                assertThat(target.actualState).isEqualTo(expectedState)
+                val error = Failed(RemoteServiceIntegrationError.RemoteSystem)
+                val expectedStates = listOf(Idle, Loading, error)
+                assertThat(target.states).isEqualTo(expectedStates)
             }
         }
     }
