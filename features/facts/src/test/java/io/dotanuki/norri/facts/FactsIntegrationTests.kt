@@ -1,8 +1,5 @@
 package io.dotanuki.norri.facts
 
-import android.os.Looper
-import androidx.lifecycle.Lifecycle
-import androidx.test.core.app.launchActivity
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.google.common.truth.Truth.assertThat
 import io.dotanuki.norris.facts.di.factsModule
@@ -14,13 +11,14 @@ import io.dotanuki.norris.networking.errors.RemoteServiceIntegrationError
 import io.dotanuki.norris.persistance.LocalStorage
 import io.dotanuki.norris.rest.ChuckNorrisDotIO
 import io.dotanuki.testing.app.TestApplication
+import io.dotanuki.testing.app.activityScenario
+import io.dotanuki.testing.app.awaitPendingExecutions
 import io.dotanuki.testing.rest.FakeChuckNorrisIO
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.kodein.di.direct
 import org.kodein.di.instance
-import org.robolectric.Shadows
 import org.robolectric.annotation.Config
 import org.robolectric.annotation.LooperMode
 
@@ -41,15 +39,11 @@ class FactsIntegrationTests {
     }
 
     @Test fun `at first lunch, should start on empty state`() {
-
-        launchActivity<FactsActivity>().run {
-            moveToState(Lifecycle.State.RESUMED)
-
-            onActivity {
-                assertThat(it.actualState).isEqualTo(FactsScreenState.Empty)
+        activityScenario<FactsActivity> {
+            whenResumed { target ->
+                awaitPendingExecutions()
+                assertThat(target.actualState).isEqualTo(FactsScreenState.Empty)
             }
-
-            close()
         }
     }
 
@@ -76,32 +70,25 @@ class FactsIntegrationTests {
             """.trimIndent()
 
         api.fakeSearch = payload
-
         localStorage.registerNewSearch("humor")
 
-        val expectedState = FactsScreenState.Success(
-            FactsPresentation(
-                "humor",
-                listOf(
+        activityScenario<FactsActivity> {
+            whenResumed { target ->
+
+                awaitPendingExecutions()
+
+                val facts = listOf(
                     FactDisplayRow(
                         url = "https://api.chucknorris.io/jokes/2wzginmks8azrbaxnamxdw",
                         fact = "Chuck Norris can divide by zero",
                         displayWithSmallerFontSize = false
                     )
                 )
-            )
-        )
-
-        launchActivity<FactsActivity>().run {
-            moveToState(Lifecycle.State.RESUMED)
-
-            onActivity {
-                Thread.sleep(1000)
-                Shadows.shadowOf(Looper.getMainLooper()).idle()
-                assertThat(it.actualState).isEqualTo(expectedState)
+                val expectedState = FactsScreenState.Success(
+                    FactsPresentation("humor", facts)
+                )
+                assertThat(target.actualState).isEqualTo(expectedState)
             }
-
-            close()
         }
     }
 
@@ -111,20 +98,16 @@ class FactsIntegrationTests {
 
         localStorage.registerNewSearch("code")
 
-        val expectedState = FactsScreenState.Failed(
-            RemoteServiceIntegrationError.RemoteSystem
-        )
+        activityScenario<FactsActivity> {
+            whenResumed { target ->
 
-        launchActivity<FactsActivity>().run {
-            moveToState(Lifecycle.State.RESUMED)
+                awaitPendingExecutions()
 
-            onActivity {
-                Thread.sleep(1000)
-                Shadows.shadowOf(Looper.getMainLooper()).idle()
-                assertThat(it.actualState).isEqualTo(expectedState)
+                val expectedState = FactsScreenState.Failed(
+                    RemoteServiceIntegrationError.RemoteSystem
+                )
+                assertThat(target.actualState).isEqualTo(expectedState)
             }
-
-            close()
         }
     }
 }

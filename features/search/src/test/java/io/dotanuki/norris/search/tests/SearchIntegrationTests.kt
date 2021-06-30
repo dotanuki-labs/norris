@@ -1,8 +1,5 @@
 package io.dotanuki.norris.search.tests
 
-import android.os.Looper
-import androidx.lifecycle.Lifecycle
-import androidx.test.core.app.launchActivity
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.google.common.truth.Truth.assertThat
 import io.dotanuki.norris.persistance.LocalStorage
@@ -11,6 +8,8 @@ import io.dotanuki.norris.search.di.searchModule
 import io.dotanuki.norris.search.presentation.SearchScreenState
 import io.dotanuki.norris.search.ui.SearchActivity
 import io.dotanuki.testing.app.TestApplication
+import io.dotanuki.testing.app.activityScenario
+import io.dotanuki.testing.app.awaitPendingExecutions
 import io.dotanuki.testing.rest.FakeChuckNorrisIO
 import kotlinx.coroutines.runBlocking
 import org.junit.Before
@@ -18,7 +17,6 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.kodein.di.direct
 import org.kodein.di.instance
-import org.robolectric.Shadows
 import org.robolectric.annotation.Config
 import org.robolectric.annotation.LooperMode
 
@@ -28,9 +26,8 @@ import org.robolectric.annotation.LooperMode
 class SearchIntegrationTests {
 
     private lateinit var localStorage: LocalStorage
-    private lateinit var api: FakeChuckNorrisIO
 
-    private val payload =
+    private val suggestions =
         """
         [
             "career",
@@ -41,33 +38,27 @@ class SearchIntegrationTests {
 
     @Before fun `before each test`() {
         val app = TestApplication.setupWith(searchModule)
+        val api = app.di.direct.instance<ChuckNorrisDotIO>() as FakeChuckNorrisIO
+
+        api.run {
+            prepare()
+            fakeCategories = suggestions
+        }
 
         localStorage = app.di.direct.instance()
-        api = app.di.direct.instance<ChuckNorrisDotIO>() as FakeChuckNorrisIO
-        api.prepare()
-        api.fakeCategories = payload
     }
 
     @Test fun `at first lunch, should display only suggestions`() {
+        activityScenario<SearchActivity> {
+            whenResumed {
 
-        val expectedState = SearchScreenState.Content(
-            suggestions = listOf("career", "celebrity", "dev"),
-            history = emptyList()
-        )
-
-        launchActivity<SearchActivity>().run {
-
-            moveToState(Lifecycle.State.RESUMED)
-
-            onActivity {
-
-                Thread.sleep(1000)
-                Shadows.shadowOf(Looper.getMainLooper()).idle()
+                val expectedState = SearchScreenState.Content(
+                    suggestions = listOf("career", "celebrity", "dev"),
+                    history = emptyList()
+                )
 
                 assertThat(it.actualState).isEqualTo(expectedState)
             }
-
-            close()
         }
     }
 
@@ -75,29 +66,20 @@ class SearchIntegrationTests {
 
         localStorage.registerNewSearch("code")
 
-        launchActivity<SearchActivity>().run {
+        activityScenario<SearchActivity> {
+            whenResumed { target ->
+                target.onChipClicked("dev")
 
-            moveToState(Lifecycle.State.RESUMED)
+                val savedSearches = runBlocking { localStorage.lastSearches() }
 
-            onActivity { activity ->
+                awaitPendingExecutions()
 
-                activity.onChipClicked("dev")
+                val expectedSearches = listOf("code", "dev")
+                val expectedState = SearchScreenState.Done
 
-                val savedSearches = runBlocking {
-                    localStorage.lastSearches()
-                }
-
-                Thread.sleep(1000)
-                Shadows.shadowOf(Looper.getMainLooper()).idle()
-
-                assertThat(savedSearches).isEqualTo(
-                    listOf("code", "dev")
-                )
-
-                assertThat(activity.actualState).isEqualTo(SearchScreenState.Done)
+                assertThat(savedSearches).isEqualTo(expectedSearches)
+                assertThat(target.actualState).isEqualTo(expectedState)
             }
-
-            close()
         }
     }
 
@@ -106,28 +88,20 @@ class SearchIntegrationTests {
         localStorage.registerNewSearch("code")
         localStorage.registerNewSearch("dev")
 
-        launchActivity<SearchActivity>().run {
+        activityScenario<SearchActivity> {
+            whenResumed { target ->
 
-            moveToState(Lifecycle.State.RESUMED)
+                target.onQuerySubmited("kotlin")
+                val savedSearches = runBlocking { localStorage.lastSearches() }
 
-            onActivity { activity ->
-                activity.onQuerySubmited("kotlin")
+                awaitPendingExecutions()
 
-                Thread.sleep(1000)
-                Shadows.shadowOf(Looper.getMainLooper()).idle()
+                val expectedSearches = listOf("code", "dev", "kotlin")
+                val expectedState = SearchScreenState.Done
 
-                val savedSearches = runBlocking {
-                    localStorage.lastSearches()
-                }
-
-                assertThat(savedSearches).isEqualTo(
-                    listOf("code", "dev", "kotlin")
-                )
-
-                assertThat(activity.actualState).isEqualTo(SearchScreenState.Done)
+                assertThat(savedSearches).isEqualTo(expectedSearches)
+                assertThat(target.actualState).isEqualTo(expectedState)
             }
-
-            close()
         }
     }
 }
