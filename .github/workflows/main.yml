@@ -130,25 +130,25 @@ jobs:
           name: tests-apk
           path: app/build/outputs/apk/androidTest/release
 
-#  acceptance_tests:
-#    strategy:
-#      fail-fast: true
-#      matrix:
-#        android_sdk: [25, 26, 27, 28, 29]
-#
-#    runs-on: macOS-10.15
-#    timeout-minutes: 15
-#    needs: [assemble_apk, espresso_prepare, unit_tests, static_analysis]
-#    steps:
-#
-#      - name: Project Checkout
-#        uses: actions/checkout@v2.3.4
-#
-#      - name: Fetch Instrumentation artefacts
-#        uses: actions/download-artifact@v2.0.10
-#
-#      - name: Run Instrumentation tests
-#        uses: reactivecircus/android-emulator-runner@v2.18.0
-#        with:
-#          api-level: ${{ matrix.android_sdk }}
-#          script: ./scripts/espresso-run.sh
+  acceptance_tests:
+    strategy:
+      fail-fast: true
+      matrix:
+        android_sdk: [26, 27, 28, 29]
+
+    runs-on: macOS-10.15
+    timeout-minutes: 15
+    needs: [assemble_apk, espresso_prepare, unit_tests, static_analysis]
+    steps:
+
+      - name: Project Checkout
+        uses: actions/checkout@v2.3.4
+
+      - name: Fetch Instrumentation artefacts
+        uses: actions/download-artifact@v2.0.10
+
+      - name: Run Instrumentation tests
+        uses: reactivecircus/android-emulator-runner@v2.18.0
+        with:
+          api-level: ${{ matrix.android_sdk }}
+          script: ./scripts/espresso-run.sh
