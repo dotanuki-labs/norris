@@ -37,7 +37,7 @@ android {
 
         resConfig("en")
 
-        testBuildType = "release"
+        testBuildType = "debug"
     }
 
     signingConfigs {
@@ -108,6 +108,8 @@ dependencies {
     implementation("androidx.lifecycle:lifecycle-extensions:2.2.0")
     implementation("org.kodein.di:kodein-di-jvm:7.6.0")
     implementation("com.squareup.okhttp3:okhttp:4.9.1")
+
+    androidTestImplementation(project(":platform:testing-rest"))
 
     androidTestImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test:core:1.3.0")
