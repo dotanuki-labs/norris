@@ -10,6 +10,7 @@ dependencies {
     implementation("com.squareup.okhttp3:logging-interceptor:4.9.1")
     implementation("com.squareup.okhttp3:mockwebserver:4.9.1")
     implementation("com.squareup.retrofit2:retrofit:2.9.0")
-    implementation("com.jakewharton.retrofit:retrofit2-kotlinx-serialization-converter:0.8.0")
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.2.1")
+    implementation("org.kodein.di:kodein-di-jvm:7.6.0")
     implementation("junit:junit:4.13.2")
 }
