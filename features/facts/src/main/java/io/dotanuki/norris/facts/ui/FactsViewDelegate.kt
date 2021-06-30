@@ -67,7 +67,7 @@ class FactsViewDelegate(
     fun showResults(presentation: FactsPresentation) {
         binding.run {
             factsSwipeToRefresh.isRefreshing = false
-            factsRecyclerView.adapter = FactsAdapter(presentation, callbacks::onShare)
+            factsRecyclerView.adapter = FactsRecyclerAdapter(presentation, callbacks::onShare)
         }
         showHeadline(presentation.relatedQuery)
     }

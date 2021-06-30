@@ -9,10 +9,10 @@ import io.dotanuki.norris.facts.R
 import io.dotanuki.norris.facts.presentation.FactDisplayRow
 import io.dotanuki.norris.facts.presentation.FactsPresentation
 
-class FactsAdapter(
+class FactsRecyclerAdapter(
     private val presentation: FactsPresentation,
     private val shareAction: (FactDisplayRow) -> Unit
-) : RecyclerView.Adapter<FactsAdapter.ViewHolder>() {
+) : RecyclerView.Adapter<FactsRecyclerAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val inflater = LayoutInflater.from(parent.context)
