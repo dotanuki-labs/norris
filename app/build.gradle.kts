@@ -37,7 +37,7 @@ android {
 
         resConfig("en")
 
-        testBuildType = "debug"
+        testBuildType = "release"
     }
 
     signingConfigs {
