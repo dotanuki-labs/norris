@@ -49,4 +49,10 @@ fun Project.configureAsAndroidLibrary() {
             unitTests.isIncludeAndroidResources = true
         }
     }
+
+    tasks.whenTaskAdded {
+        if (name.startsWith("test") and name.contains("DebugUnitTest")) {
+            enabled = false
+        }
+    }
 }
