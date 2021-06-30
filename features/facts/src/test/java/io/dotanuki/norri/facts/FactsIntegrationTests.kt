@@ -13,8 +13,7 @@ import io.dotanuki.norris.facts.ui.FactsActivity
 import io.dotanuki.norris.networking.errors.RemoteServiceIntegrationError
 import io.dotanuki.norris.persistance.LocalStorage
 import io.dotanuki.norris.rest.ChuckNorrisDotIO
-import io.dotanuki.testing.app.ContainerApplication
-import io.dotanuki.testing.app.setupContainerApp
+import io.dotanuki.testing.app.TestApplication
 import io.dotanuki.testing.rest.FakeChuckNorrisIO
 import org.junit.Before
 import org.junit.Test
@@ -26,7 +25,7 @@ import org.robolectric.annotation.Config
 import org.robolectric.annotation.LooperMode
 
 @RunWith(AndroidJUnit4::class)
-@Config(application = ContainerApplication::class)
+@Config(application = TestApplication::class)
 @LooperMode(LooperMode.Mode.PAUSED)
 class FactsIntegrationTests {
 
@@ -34,7 +33,7 @@ class FactsIntegrationTests {
     private lateinit var api: FakeChuckNorrisIO
 
     @Before fun `before each test`() {
-        val app = setupContainerApp(factsModule)
+        val app = TestApplication.setupWith(factsModule)
 
         localStorage = app.di.direct.instance()
         api = app.di.direct.instance<ChuckNorrisDotIO>() as FakeChuckNorrisIO

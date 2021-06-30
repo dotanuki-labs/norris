@@ -1,6 +1,8 @@
 package io.dotanuki.testing.app
 
 import android.app.Application
+import androidx.test.platform.app.InstrumentationRegistry
+import io.dotanuki.logger.ConsoleLogger
 import io.dotanuki.norris.navigator.di.navigatorModule
 import io.dotanuki.norris.persistance.di.persistanceModule
 import io.dotanuki.testing.rest.testRestInfrastructureModule
@@ -10,13 +12,13 @@ import org.kodein.di.DIAware
 import org.kodein.di.bind
 import org.kodein.di.singleton
 
-class ContainerApplication : Application(), DIAware {
+class TestApplication : Application(), DIAware {
 
     private val container by lazy {
         DI {
             modules.forEach { import(it) }
             bind<Application> {
-                singleton { this@ContainerApplication }
+                singleton { this@TestApplication }
             }
         }
     }
@@ -33,7 +35,7 @@ class ContainerApplication : Application(), DIAware {
 
         bind {
             singleton {
-                LogcatLogger
+                ConsoleLogger
             }
         }
     }
@@ -46,4 +48,16 @@ class ContainerApplication : Application(), DIAware {
     )
 
     override val di by lazy { container }
+
+    companion object {
+        fun setupWith(module: DI.Module): TestApplication {
+
+            val instrumentation = InstrumentationRegistry.getInstrumentation()
+            val app = instrumentation.targetContext.applicationContext as TestApplication
+
+            return app.apply {
+                modules += module
+            }
+        }
+    }
 }

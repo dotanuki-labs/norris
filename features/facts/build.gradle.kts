@@ -30,8 +30,8 @@ dependencies {
     implementation("com.squareup.okhttp3:okhttp:4.9.1")
     implementation("com.squareup.okhttp3:logging-interceptor:4.9.1")
     implementation("com.squareup.retrofit2:retrofit:2.9.0")
+    testImplementation(project(":platform:testing-app"))
 
-    testImplementation(project(":platform:testing-app-container"))
     testImplementation(project(":platform:testing-commons"))
     testImplementation(project(":platform:testing-rest"))
 

@@ -10,8 +10,7 @@ import io.dotanuki.norris.rest.ChuckNorrisDotIO
 import io.dotanuki.norris.search.di.searchModule
 import io.dotanuki.norris.search.presentation.SearchScreenState
 import io.dotanuki.norris.search.ui.SearchActivity
-import io.dotanuki.testing.app.ContainerApplication
-import io.dotanuki.testing.app.setupContainerApp
+import io.dotanuki.testing.app.TestApplication
 import io.dotanuki.testing.rest.FakeChuckNorrisIO
 import kotlinx.coroutines.runBlocking
 import org.junit.Before
@@ -24,7 +23,7 @@ import org.robolectric.annotation.Config
 import org.robolectric.annotation.LooperMode
 
 @RunWith(AndroidJUnit4::class)
-@Config(application = ContainerApplication::class)
+@Config(application = TestApplication::class)
 @LooperMode(LooperMode.Mode.PAUSED)
 class SearchIntegrationTests {
 
@@ -41,7 +40,7 @@ class SearchIntegrationTests {
         """.trimIndent()
 
     @Before fun `before each test`() {
-        val app = setupContainerApp(searchModule)
+        val app = TestApplication.setupWith(searchModule)
 
         localStorage = app.di.direct.instance()
         api = app.di.direct.instance<ChuckNorrisDotIO>() as FakeChuckNorrisIO
