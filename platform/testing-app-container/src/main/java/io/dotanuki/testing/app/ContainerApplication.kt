@@ -3,7 +3,7 @@ package io.dotanuki.testing.app
 import android.app.Application
 import io.dotanuki.norris.navigator.di.navigatorModule
 import io.dotanuki.norris.persistance.di.persistanceModule
-import io.dotanuki.norris.rest.di.restInfrastructureModule
+import io.dotanuki.testing.rest.testRestInfrastructureModule
 import okhttp3.HttpUrl.Companion.toHttpUrlOrNull
 import org.kodein.di.DI
 import org.kodein.di.DIAware
@@ -15,7 +15,7 @@ class ContainerApplication : Application(), DIAware {
     private val container by lazy {
         DI {
             modules.forEach { import(it) }
-            bind <Application>{
+            bind<Application> {
                 singleton { this@ContainerApplication }
             }
         }
@@ -26,7 +26,7 @@ class ContainerApplication : Application(), DIAware {
         bind {
             singleton {
                 requireNotNull(
-                    "http://localhost:4242".toHttpUrlOrNull()
+                    "http://localhost".toHttpUrlOrNull()
                 )
             }
         }
@@ -40,7 +40,7 @@ class ContainerApplication : Application(), DIAware {
 
     var modules = mutableListOf(
         containerApplicationModule,
-        restInfrastructureModule,
+        testRestInfrastructureModule,
         persistanceModule,
         navigatorModule
     )

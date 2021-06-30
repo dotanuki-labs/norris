@@ -12,6 +12,7 @@ dependencies {
     implementation(project(":platform:navigator"))
     implementation(project(":platform:shared-assets"))
     implementation(project(":platform:shared-utilities"))
+    implementation(project(":platform:testing-rest"))
 
     implementation("org.kodein.di:kodein-di-jvm:7.6.0")
     implementation("com.squareup.okhttp3:okhttp:4.9.1")
