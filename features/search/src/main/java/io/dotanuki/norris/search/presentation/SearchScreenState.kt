@@ -1,31 +1,13 @@
 package io.dotanuki.norris.search.presentation
 
-data class SearchScreenState(
-    val searchQuery: SearchQuery,
-    val recommendations: Recommendations,
-    val searchHistory: SearchHistory
-) {
-    sealed class Recommendations {
-        object Idle : Recommendations()
-        object Loading : Recommendations()
-        data class Success(val items: List<String>) : Recommendations()
-        data class Failed(val error: Throwable) : Recommendations()
-    }
+sealed class SearchScreenState {
+    object Idle : SearchScreenState()
+    object Loading : SearchScreenState()
+    data class Error(val error: Throwable) : SearchScreenState()
+    data class Content(
+        val suggestions: List<String>,
+        val history: List<String>
+    ) : SearchScreenState()
 
-    sealed class SearchHistory {
-        object Idle : SearchHistory()
-        object Loading : SearchHistory()
-        data class Success(val items: List<String>) : SearchHistory()
-        data class Failed(val error: Throwable) : SearchHistory()
-    }
-
-    enum class SearchQuery {
-        NOT_SET,
-        INVALID,
-        VALID
-    }
-
-    companion object {
-        val INITIAL = SearchScreenState(SearchQuery.NOT_SET, Recommendations.Idle, SearchHistory.Idle)
-    }
+    object Done : SearchScreenState()
 }

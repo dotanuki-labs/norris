@@ -15,11 +15,11 @@ jobs:
       - name: Project Checkout
         uses: actions/checkout@v2.3.4
 
-      - name: Setup JDK 1.8
+      - name: Setup JDK
         uses: actions/setup-java@v2.1.0
         with:
           distribution: 'adopt'
-          java-version: 8
+          java-version: 11
 
       - name: Optimize for Gradle build
         run: |
@@ -39,11 +39,11 @@ jobs:
       - name: Project Checkout
         uses: actions/checkout@v2.3.4
 
-      - name: Setup JDK 1.8
+      - name: Setup JDK
         uses: actions/setup-java@v2.1.0
         with:
           distribution: 'adopt'
-          java-version: 8
+          java-version: 11
 
       - name: Optimize for Gradle build
         run: |
@@ -53,7 +53,7 @@ jobs:
       - name: Run unit tests
         uses: burrunan/gradle-cache-action@v1.10
         with:
-          arguments: test testDebugUnitTest --stacktrace
+          arguments: test --stacktrace
           job-id: unit_tests
 
       - name: Collect all test results from all modules
@@ -76,11 +76,11 @@ jobs:
       - name: Project Checkout
         uses: actions/checkout@v2.3.4
 
-      - name: Setup JDK 1.8
+      - name: Setup JDK
         uses: actions/setup-java@v2.1.0
         with:
           distribution: 'adopt'
-          java-version: 8
+          java-version: 11
 
       - name: Optimize for Gradle build
         run: |
@@ -107,11 +107,11 @@ jobs:
       - name: Project Checkout
         uses: actions/checkout@v2.3.4
 
-      - name: Setup JDK 1.8
+      - name: Setup JDK
         uses: actions/setup-java@v2.1.0
         with:
           distribution: 'adopt'
-          java-version: 8
+          java-version: 11
 
       - name: Optimize for Gradle build
         run: |
@@ -130,12 +130,11 @@ jobs:
           name: tests-apk
           path: app/build/outputs/apk/androidTest/release
 
-
   acceptance_tests:
     strategy:
       fail-fast: true
       matrix:
-        android_sdk: [25, 26, 27, 28, 29]
+        android_sdk: [26, 27, 28, 29]
 
     runs-on: macOS-10.15
     timeout-minutes: 15
@@ -149,7 +148,7 @@ jobs:
         uses: actions/download-artifact@v2.0.10
 
       - name: Run Instrumentation tests
-        uses: reactivecircus/android-emulator-runner@v2.19.0
+        uses: reactivecircus/android-emulator-runner@v2.18.0
         with:
           api-level: ${{ matrix.android_sdk }}
           script: ./scripts/espresso-run.sh

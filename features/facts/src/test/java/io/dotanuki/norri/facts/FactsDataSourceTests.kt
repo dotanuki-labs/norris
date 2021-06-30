@@ -1,12 +1,11 @@
 package io.dotanuki.norri.facts
 
 import com.google.common.truth.Truth.assertThat
-import io.dotanuki.norri.facts.util.InfrastructureRule
-import io.dotanuki.norri.facts.util.assertErrorTransformed
-import io.dotanuki.norri.facts.util.loadFile
 import io.dotanuki.norris.facts.data.FactsDataSource
 import io.dotanuki.norris.facts.domain.ChuckNorrisFact
 import io.dotanuki.norris.networking.errors.RemoteServiceIntegrationError
+import io.dotanuki.testing.files.loadFile
+import io.dotanuki.testing.rest.RestInfrastructureRule
 import kotlinx.coroutines.runBlocking
 import org.junit.Before
 import org.junit.Rule
@@ -14,7 +13,7 @@ import org.junit.Test
 
 internal class FactsDataSourceTests {
 
-    @get:Rule val rule = InfrastructureRule()
+    @get:Rule val rule = RestInfrastructureRule()
 
     private lateinit var dataSource: FactsDataSource
 
@@ -97,5 +96,14 @@ internal class FactsDataSourceTests {
 
     private fun simpleSearch() = runBlocking {
         dataSource.search("Norris")
+    }
+
+    private fun unwrapCaughtError(result: Result<*>) =
+        result.exceptionOrNull() ?: throw IllegalArgumentException("Not an error")
+
+    private fun assertErrorTransformed(expected: Throwable, whenRunning: () -> Any) {
+        val result = runCatching { whenRunning.invoke() }
+        val unwrapped = unwrapCaughtError(result)
+        assertThat(unwrapped).isEqualTo(expected)
     }
 }

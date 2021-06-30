@@ -2,7 +2,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="io.dotanuki.norris.facts">
 
-    <application>
+    <application
+        android:theme="@style/NorrisTheme"
+        >
         <activity android:name=".ui.FactsActivity" />
     </application>
 
