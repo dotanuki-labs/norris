@@ -33,12 +33,12 @@ class SearchIntegrationTests {
 
     private val payload =
         """
-            [
-                "career",
-                "celebrity",
-                "dev"
-            ]
-            """.trimIndent()
+        [
+            "career",
+            "celebrity",
+            "dev"
+        ]
+        """.trimIndent()
 
     @Before fun `before each test`() {
         val app = setupContainerApp(searchModule)
