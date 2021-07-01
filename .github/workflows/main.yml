@@ -167,7 +167,7 @@ jobs:
     strategy:
       fail-fast: true
       matrix:
-        android_sdk: [26, 27, 28, 29]
+        android_sdk: [25, 27, 28, 29]
 
     runs-on: macOS-10.15
     timeout-minutes: 15
@@ -179,6 +179,25 @@ jobs:
 
       - name: Fetch Instrumentation artefacts
         uses: actions/download-artifact@v2.0.10
+
+      - name: Restoring cached AVD snapshots
+        uses: actions/cache@v2.1.6
+        id: avd-cache
+        with:
+          path: |
+            ~/.android/avd/*
+            ~/.android/adb*
+          key: avd-${{ matrix.api-level }}
+
+      - name: Create AVD and generate snapshot for caching
+        if: steps.avd-cache.outputs.cache-hit != 'true'
+        uses: reactivecircus/android-emulator-runner@v2.19.0
+        with:
+          api-level: ${{ matrix.android_sdk }}
+          force-avd-creation: false
+          emulator-options: -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none
+          disable-animations: false
+          script: echo "Generated AVD snapshot"
 
       - name: Run Instrumentation tests
         uses: reactivecircus/android-emulator-runner@v2.19.0
