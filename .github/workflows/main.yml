@@ -203,4 +203,7 @@ jobs:
         uses: reactivecircus/android-emulator-runner@v2.19.0
         with:
           api-level: ${{ matrix.android_sdk }}
+          force-avd-creation: false
+          emulator-options: -no-snapshot-save -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none
+          disable-animations: true
           script: ./scripts/espresso-run.sh
