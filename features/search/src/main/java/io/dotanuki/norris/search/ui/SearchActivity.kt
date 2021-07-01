@@ -6,7 +6,6 @@ import androidx.lifecycle.lifecycleScope
 import io.dotanuki.logger.Logger
 import io.dotanuki.norris.features.utilties.selfBind
 import io.dotanuki.norris.features.utilties.viewBinding
-import io.dotanuki.norris.search.R
 import io.dotanuki.norris.search.databinding.ActivitySearchBinding
 import io.dotanuki.norris.search.presentation.SearchInteraction
 import io.dotanuki.norris.search.presentation.SearchScreenState
