@@ -28,11 +28,17 @@ jobs:
           mkdir -p ~/.gradle
           cp .github/githubci-gradle.properties ~/.gradle/gradle.properties
 
-      - name: Check code formatting
-        uses: burrunan/gradle-cache-action@v1.10
+      - name: Setup Cache
+        uses: actions/cache@v2.1.6
         with:
-          arguments: ktlintCheck --stacktrace
-          job-id: static_analysis
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: ${{ runner.os }}-${{ github.job }}-${{ hashFiles('**/*.gradle*') }}-${{ hashFiles('**/gradle/wrapper/gradle-wrapper.properties') }}-${{ hashFiles('**/buildSrc/**/*.kt') }}
+          restore-keys: ${{ runner.os }}-${{ github.job }}-
+
+      - name: Check code formatting
+        run: ./gradlew ktlintCheck --stacktrace
 
   unit_tests:
     runs-on: ubuntu-20.04
@@ -55,11 +61,17 @@ jobs:
           mkdir -p ~/.gradle
           cp .github/githubci-gradle.properties ~/.gradle/gradle.properties
 
-      - name: Run unit tests
-        uses: burrunan/gradle-cache-action@v1.10
+      - name: Setup Cache
+        uses: actions/cache@v2.1.6
         with:
-          arguments: test --stacktrace
-          job-id: unit_tests
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: ${{ runner.os }}-${{ github.job }}-${{ hashFiles('**/*.gradle*') }}-${{ hashFiles('**/gradle/wrapper/gradle-wrapper.properties') }}-${{ hashFiles('**/buildSrc/**/*.kt') }}
+          restore-keys: ${{ runner.os }}-${{ github.job }}-
+
+      - name: Run unit tests
+        run: ./gradlew test --stacktrace
 
       - name: Collect all test results from all modules
         if: always()
@@ -93,11 +105,17 @@ jobs:
           mkdir -p ~/.gradle
           cp .github/githubci-gradle.properties ~/.gradle/gradle.properties
 
-      - name: Assemble production APK
-        uses: burrunan/gradle-cache-action@v1.10
+      - name: Setup Cache
+        uses: actions/cache@v2.1.6
         with:
-          arguments: app:assembleRelease -PtestMode=true --stacktrace
-          job-id: assemble_apk
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: ${{ runner.os }}-${{ github.job }}-${{ hashFiles('**/*.gradle*') }}-${{ hashFiles('**/gradle/wrapper/gradle-wrapper.properties') }}-${{ hashFiles('**/buildSrc/**/*.kt') }}
+          restore-keys: ${{ runner.os }}-${{ github.job }}-
+
+      - name: Assemble production APK
+        run: ./gradlew app:assembleRelease -PtestMode=true --stacktrace
 
       - name: Archive APK
         uses: actions/upload-artifact@v2.2.4
@@ -127,11 +145,17 @@ jobs:
           mkdir -p ~/.gradle
           cp .github/githubci-gradle.properties ~/.gradle/gradle.properties
 
-      - name: Assemble Instrumentation tests
-        uses: burrunan/gradle-cache-action@v1.10
+      - name: Setup Cache
+        uses: actions/cache@v2.1.6
         with:
-          arguments: app:assembleAndroidTest -PtestMode=true --stacktrace
-          job-id: espresso_prepare
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: ${{ runner.os }}-${{ github.job }}-${{ hashFiles('**/*.gradle*') }}-${{ hashFiles('**/gradle/wrapper/gradle-wrapper.properties') }}-${{ hashFiles('**/buildSrc/**/*.kt') }}
+          restore-keys: ${{ runner.os }}-${{ github.job }}-
+
+      - name: Assemble Instrumentation tests
+        run: ./gradlew app:assembleAndroidTest -PtestMode=true --stacktrace
 
       - name: Archive Test APK
         uses: actions/upload-artifact@v2.2.4
