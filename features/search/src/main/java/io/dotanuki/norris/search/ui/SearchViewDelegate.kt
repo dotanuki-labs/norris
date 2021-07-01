@@ -15,6 +15,10 @@ class SearchViewDelegate(
     private val callbacks: Callbacks,
 ) {
 
+    private val context by lazy {
+        binding.root.context
+    }
+
     interface Callbacks {
         fun onUpNavigationClicked()
 
@@ -55,7 +59,8 @@ class SearchViewDelegate(
         }
     }
 
-    fun showError(message: String) {
+    fun showError(messageId: Int = R.string.error_snackbar_cannot_load_suggestions) {
+        val message = context.getString(messageId)
         binding.run {
             Snackbar
                 .make(searchScreenRoot, message, Snackbar.LENGTH_INDEFINITE)
@@ -78,7 +83,7 @@ class SearchViewDelegate(
         if (actionId == EditorInfo.IME_ACTION_DONE) {
 
             if (SearchQueryValidation.validate(actual)) callbacks.onQuerySubmited(actual)
-            else showError(resources.getString(R.string.error_snackbar_cannot_proceed))
+            else showError(R.string.error_snackbar_cannot_proceed)
         }
     }
 

@@ -5,7 +5,11 @@ import com.google.common.truth.Truth.assertThat
 import io.dotanuki.norris.facts.di.factsModule
 import io.dotanuki.norris.facts.presentation.FactDisplayRow
 import io.dotanuki.norris.facts.presentation.FactsPresentation
-import io.dotanuki.norris.facts.presentation.FactsScreenState
+import io.dotanuki.norris.facts.presentation.FactsScreenState.Empty
+import io.dotanuki.norris.facts.presentation.FactsScreenState.Failed
+import io.dotanuki.norris.facts.presentation.FactsScreenState.Idle
+import io.dotanuki.norris.facts.presentation.FactsScreenState.Loading
+import io.dotanuki.norris.facts.presentation.FactsScreenState.Success
 import io.dotanuki.norris.facts.ui.FactsActivity
 import io.dotanuki.norris.networking.errors.RemoteServiceIntegrationError
 import io.dotanuki.norris.persistance.LocalStorage
@@ -14,6 +18,7 @@ import io.dotanuki.testing.app.TestApplication
 import io.dotanuki.testing.app.activityScenario
 import io.dotanuki.testing.app.awaitPendingExecutions
 import io.dotanuki.testing.rest.FakeChuckNorrisIO
+import io.dotanuki.testing.rest.RestDataBuilder
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -42,32 +47,18 @@ class FactsIntegrationTests {
         activityScenario<FactsActivity> {
             whenResumed { target ->
                 awaitPendingExecutions()
-                assertThat(target.actualState).isEqualTo(FactsScreenState.Empty)
+
+                val expectedStates = listOf(Idle, Loading, Empty)
+                assertThat(target.states).isEqualTo(expectedStates)
             }
         }
     }
 
     @Test fun `when some search done, should display results`() {
 
-        val payload =
-            """
-            {
-              "total": 1,
-              "result": [
-                {
-                  "categories": [
-                    "humor"
-                  ],
-                  "created_at": "2016-05-01 10:51:41.584544",
-                  "icon_url": "https://assets.chucknorris.host/img/avatar/chuck-norris.png",
-                  "id": "2wzginmks8azrbaxnamxdw",
-                  "updated_at": "2016-05-01 10:51:41.584544",
-                  "url": "https://api.chucknorris.io/jokes/2wzginmks8azrbaxnamxdw",
-                  "value": "Chuck Norris can divide by zero"
-                }
-              ]
-            }
-            """.trimIndent()
+        val fact = "Chuck Norris can divide by zero"
+        val previousSearch = "humor"
+        val payload = RestDataBuilder.factsPayload(previousSearch, fact)
 
         api.fakeSearch = payload
         localStorage.registerNewSearch("humor")
@@ -79,23 +70,20 @@ class FactsIntegrationTests {
 
                 val facts = listOf(
                     FactDisplayRow(
-                        url = "https://api.chucknorris.io/jokes/2wzginmks8azrbaxnamxdw",
+                        url = RestDataBuilder.FACT_URL,
                         fact = "Chuck Norris can divide by zero",
                         displayWithSmallerFontSize = false
                     )
                 )
-                val expectedState = FactsScreenState.Success(
-                    FactsPresentation("humor", facts)
-                )
-                assertThat(target.actualState).isEqualTo(expectedState)
+                val presentation = FactsPresentation("humor", facts)
+                val expectedStates = listOf(Idle, Loading, Success(presentation))
+                assertThat(target.states).isEqualTo(expectedStates)
             }
         }
     }
 
     @Test fun `when remote service fails, should display the error`() {
-
         api.errorMode = true
-
         localStorage.registerNewSearch("code")
 
         activityScenario<FactsActivity> {
@@ -103,10 +91,9 @@ class FactsIntegrationTests {
 
                 awaitPendingExecutions()
 
-                val expectedState = FactsScreenState.Failed(
-                    RemoteServiceIntegrationError.RemoteSystem
-                )
-                assertThat(target.actualState).isEqualTo(expectedState)
+                val error = Failed(RemoteServiceIntegrationError.RemoteSystem)
+                val expectedStates = listOf(Idle, Loading, error)
+                assertThat(target.states).isEqualTo(expectedStates)
             }
         }
     }

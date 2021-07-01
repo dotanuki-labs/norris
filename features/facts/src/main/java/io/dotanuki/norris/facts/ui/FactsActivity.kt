@@ -1,11 +1,9 @@
 package io.dotanuki.norris.facts.ui
 
-import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
-import io.dotanuki.logger.Logger
 import io.dotanuki.norris.facts.databinding.ActivityFactsBinding
 import io.dotanuki.norris.facts.presentation.FactDisplayRow
 import io.dotanuki.norris.facts.presentation.FactsScreenState
@@ -15,6 +13,7 @@ import io.dotanuki.norris.facts.presentation.FactsScreenState.Idle
 import io.dotanuki.norris.facts.presentation.FactsScreenState.Loading
 import io.dotanuki.norris.facts.presentation.FactsScreenState.Success
 import io.dotanuki.norris.facts.presentation.FactsUserInteraction.OpenedScreen
+import io.dotanuki.norris.facts.presentation.FactsUserInteraction.RequestedFreshContent
 import io.dotanuki.norris.facts.presentation.FactsViewModel
 import io.dotanuki.norris.facts.presentation.repeatOnLifecycle
 import io.dotanuki.norris.features.utilties.selfBind
@@ -32,14 +31,15 @@ class FactsActivity : AppCompatActivity(), DIAware, FactsViewDelegate.Callbacks 
 
     private val viewBindings by viewBinding(ActivityFactsBinding::inflate)
     private val viewModel by instance<FactsViewModel>()
-    private val logger by instance<Logger>()
     private val navigator by instance<Navigator>()
 
     private val viewDelegate by lazy {
         FactsViewDelegate(viewBindings, this)
     }
 
-    var actualState: FactsScreenState = Idle
+    val states by lazy {
+        mutableListOf<FactsScreenState>()
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -48,7 +48,7 @@ class FactsActivity : AppCompatActivity(), DIAware, FactsViewDelegate.Callbacks 
     }
 
     override fun onRefresh() {
-        loadFacts()
+        refresh()
     }
 
     override fun onSearch() {
@@ -56,15 +56,8 @@ class FactsActivity : AppCompatActivity(), DIAware, FactsViewDelegate.Callbacks 
     }
 
     override fun onShare(row: FactDisplayRow) {
-        val sendIntent = Intent().apply {
-            action = Intent.ACTION_SEND
-            putExtra(Intent.EXTRA_TEXT, row.url)
-            type = "text/plain"
-        }
-
-        startActivity(
-            Intent.createChooser(sendIntent, "Share this Chuck Norris Fact")
-        )
+        val share = SharingHelper.createChooser(row.url)
+        startActivity(share)
     }
 
     private fun setup() {
@@ -72,18 +65,19 @@ class FactsActivity : AppCompatActivity(), DIAware, FactsViewDelegate.Callbacks 
 
         lifecycleScope.launch {
             lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                loadFacts()
-                viewModel.bind().collect { renderState(it) }
+                viewModel.run {
+                    handle(OpenedScreen)
+                    bind().collect { delegateRendering(it) }
+                }
             }
         }
     }
 
-    private fun loadFacts() {
-        logger.v("Requesting content ...")
-        viewModel.handle(OpenedScreen)
+    private fun refresh() {
+        viewModel.handle(RequestedFreshContent)
     }
 
-    private fun renderState(state: FactsScreenState) =
+    private fun delegateRendering(state: FactsScreenState) =
         with(viewDelegate) {
             when (state) {
                 Idle -> preExecution()
@@ -92,7 +86,7 @@ class FactsActivity : AppCompatActivity(), DIAware, FactsViewDelegate.Callbacks 
                 is Failed -> showErrorState(state.reason)
                 is Success -> showResults(state.value)
             }.also {
-                actualState = state
+                states += state
             }
         }
 }

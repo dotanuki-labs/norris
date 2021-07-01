@@ -37,12 +37,11 @@ class SearchViewModel(
 
     fun handle(interaction: SearchInteraction) =
         viewModelScope.launch {
+            states.value = SearchScreenState.Loading
             interactions.send(interaction)
         }
 
     private suspend fun loadPrefilledContent() {
-        states.value = SearchScreenState.Loading
-
         try {
             val (suggestions, history) = dataSource.searchOptions()
             states.value = SearchScreenState.Content(suggestions, history)

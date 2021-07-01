@@ -18,12 +18,12 @@ class FactsPresentationTests {
             ChuckNorrisFact(
                 id = "2wzginmks8azrbaxnamxdw",
                 shareableUrl = "https://api.chucknorris.io/jokes/2wzginmks8azrbaxnamxdw",
-                textual = "As 7 maravilhas do mundo moderno são: a mão direita e esquerda de Chuck Norris, seu pé direito e esquerdo, seu cinturão, seu chapéu e sua barba",
+                textual = "Null pointer crashes with ChuckNorrisException",
             )
         )
 
         val expected = FactsPresentation(
-            "god like",
+            "humor",
             listOf(
                 FactDisplayRow(
                     url = "https://api.chucknorris.io/jokes/lhan43nqsgowtaffzxouua",
@@ -32,13 +32,13 @@ class FactsPresentationTests {
                 ),
                 FactDisplayRow(
                     url = "https://api.chucknorris.io/jokes/2wzginmks8azrbaxnamxdw",
-                    fact = "As 7 maravilhas do mundo moderno são: a mão direita e esquerda de Chuck Norris, seu pé direito e esquerdo, seu cinturão, seu chapéu e sua barba",
-                    displayWithSmallerFontSize = true
+                    fact = "Null pointer crashes with ChuckNorrisException",
+                    displayWithSmallerFontSize = false
                 )
             )
         )
 
-        val presentation = FactsPresentation("god like", facts.map { FactDisplayRow(it) })
+        val presentation = FactsPresentation("humor", facts.map { FactDisplayRow(it) })
         assertThat(expected).isEqualTo(presentation)
     }
 }

@@ -6,7 +6,6 @@ import androidx.lifecycle.lifecycleScope
 import io.dotanuki.logger.Logger
 import io.dotanuki.norris.features.utilties.selfBind
 import io.dotanuki.norris.features.utilties.viewBinding
-import io.dotanuki.norris.search.R
 import io.dotanuki.norris.search.databinding.ActivitySearchBinding
 import io.dotanuki.norris.search.presentation.SearchInteraction
 import io.dotanuki.norris.search.presentation.SearchScreenState
@@ -20,7 +19,6 @@ import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import org.kodein.di.DIAware
 import org.kodein.di.instance
-import kotlin.properties.Delegates
 
 class SearchActivity : AppCompatActivity(), DIAware, SearchViewDelegate.Callbacks {
 
@@ -34,7 +32,9 @@ class SearchActivity : AppCompatActivity(), DIAware, SearchViewDelegate.Callback
         SearchViewDelegate(viewBindings, this)
     }
 
-    var actualState by Delegates.notNull<SearchScreenState>()
+    val states by lazy {
+        mutableListOf<SearchScreenState>()
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -65,8 +65,7 @@ class SearchActivity : AppCompatActivity(), DIAware, SearchViewDelegate.Callback
     }
 
     private fun renderState(state: SearchScreenState) {
-        logger.e("New state -> $state")
-        actualState = state
+        states += state
 
         with(viewDelegate) {
             when (state) {
@@ -85,7 +84,6 @@ class SearchActivity : AppCompatActivity(), DIAware, SearchViewDelegate.Callback
 
     private fun handleError(reason: Throwable) {
         logger.e("Failed on loading suggestions -> $reason")
-        val message = getString(R.string.error_snackbar_cannot_load_suggestions)
-        viewDelegate.showError(message)
+        viewDelegate.showError()
     }
 }

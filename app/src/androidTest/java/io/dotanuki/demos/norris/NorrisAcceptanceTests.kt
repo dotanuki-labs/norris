@@ -3,6 +3,7 @@ package io.dotanuki.demos.norris
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.schibsted.spain.barista.interaction.BaristaClickInteractions.clickOn
 import io.dotanuki.norris.facts.ui.FactsActivity
+import io.dotanuki.testing.rest.RestDataBuilder
 import io.dotanuki.testing.rest.RestInfrastructureRule
 import io.dotanuki.testing.rest.nextSuccess
 import org.junit.Before

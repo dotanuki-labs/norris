@@ -1,4 +1,6 @@
-package io.dotanuki.demos.norris
+package io.dotanuki.testing.rest
+
+import java.util.UUID
 
 object RestDataBuilder {
 
@@ -10,6 +12,9 @@ object RestDataBuilder {
             .replace("<category>", category)
             .replace("<fact>", fact)
 
+    val FACT_ID = UUID.randomUUID().toString()
+    val FACT_URL = "https://api.chucknorris.io/jokes/$FACT_ID"
+
     private val FACTS_TEMPLATE =
         """
             {
@@ -18,8 +23,8 @@ object RestDataBuilder {
                 {
                   "categories": ["<category>"],
                   "icon_url": "https://assets.chucknorris.host/img/avatar/chuck-norris.png",
-                  "id": "2wzginmks8azrbaxnamxdw",
-                  "url": "https://api.chucknorris.io/jokes/2wzginmks8azrbaxnamxdw",
+                  "id": "$FACT_ID",
+                  "url": "$FACT_URL",
                   "value": "<fact>"
                 }
               ]
