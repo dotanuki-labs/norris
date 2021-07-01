@@ -58,16 +58,14 @@ jobs:
 
       - name: Collect all test results from all modules
         if: always()
-        run: |
-          mkdir -p junit
-          find . -type f -regex ".*/build/test-results/.*xml" -exec cp {} junit/ \;
+        run: ./scripts/aggregate-test-reports.sh build/test-reports
 
       - name: Archive test results
         if: always()
         uses: actions/upload-artifact@v2.2.4
         with:
           name: junit-results-unit-tests
-          path: junit
+          path: build/test-reports
 
   assemble_apk:
     runs-on: ubuntu-latest
