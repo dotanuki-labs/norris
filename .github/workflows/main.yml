@@ -7,10 +7,12 @@ on:
       - master
 
 jobs:
-
   static_analysis:
     runs-on: ubuntu-20.04
     timeout-minutes: 10
+    env:
+      JAVA_TOOL_OPTIONS: -Xmx5g -XX:+UseParallelGC
+
     steps:
       - name: Project Checkout
         uses: actions/checkout@v2.3.4
@@ -33,8 +35,11 @@ jobs:
           job-id: static_analysis
 
   unit_tests:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     timeout-minutes: 10
+    env:
+      JAVA_TOOL_OPTIONS: -Xmx5g -XX:+UseParallelGC
+
     steps:
       - name: Project Checkout
         uses: actions/checkout@v2.3.4
@@ -68,8 +73,11 @@ jobs:
           path: build/test-reports
 
   assemble_apk:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     timeout-minutes: 10
+    env:
+      JAVA_TOOL_OPTIONS: -Xmx5g -XX:+UseParallelGC
+
     steps:
       - name: Project Checkout
         uses: actions/checkout@v2.3.4
@@ -99,8 +107,11 @@ jobs:
 
 
   espresso_prepare:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     timeout-minutes: 10
+    env:
+      JAVA_TOOL_OPTIONS: -Xmx5g -XX:+UseParallelGC
+
     steps:
       - name: Project Checkout
         uses: actions/checkout@v2.3.4
