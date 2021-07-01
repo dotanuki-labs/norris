@@ -25,30 +25,25 @@ import kotlinx.coroutines.launch
 import org.kodein.di.DIAware
 import org.kodein.di.instance
 
-class FactsActivity : AppCompatActivity(), DIAware, FactsViewDelegate.Callbacks {
+class FactsActivity : AppCompatActivity(), FactsScreen.Delegate, DIAware {
 
-    override val di by selfBind()
-
-    private val viewBindings by viewBinding(ActivityFactsBinding::inflate)
     private val viewModel by instance<FactsViewModel>()
     private val navigator by instance<Navigator>()
 
-    private val viewDelegate by lazy {
-        FactsViewDelegate(viewBindings, this)
+    private val factsScreen by lazy {
+        FactsScreen(this)
     }
 
     val states by lazy {
         mutableListOf<FactsScreenState>()
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(viewBindings.root)
-        setup()
-    }
+    override val di by selfBind()
+
+    override val binding by viewBinding(ActivityFactsBinding::inflate)
 
     override fun onRefresh() {
-        refresh()
+        viewModel.handle(RequestedFreshContent)
     }
 
     override fun onSearch() {
@@ -60,25 +55,27 @@ class FactsActivity : AppCompatActivity(), DIAware, FactsViewDelegate.Callbacks 
         startActivity(share)
     }
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(binding.root)
+        setup()
+    }
+
     private fun setup() {
-        viewDelegate.setup()
+        factsScreen.setup()
 
         lifecycleScope.launch {
             lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.run {
                     handle(OpenedScreen)
-                    bind().collect { delegateRendering(it) }
+                    bind().collect { renderState(it) }
                 }
             }
         }
     }
 
-    private fun refresh() {
-        viewModel.handle(RequestedFreshContent)
-    }
-
-    private fun delegateRendering(state: FactsScreenState) =
-        with(viewDelegate) {
+    private fun renderState(state: FactsScreenState) =
+        with(factsScreen) {
             when (state) {
                 Idle -> preExecution()
                 Loading -> showExecuting()
