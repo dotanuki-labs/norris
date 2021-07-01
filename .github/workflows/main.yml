@@ -148,7 +148,7 @@ jobs:
         uses: actions/download-artifact@v2.0.10
 
       - name: Run Instrumentation tests
-        uses: reactivecircus/android-emulator-runner@v2.18.0
+        uses: reactivecircus/android-emulator-runner@v2.19.0
         with:
           api-level: ${{ matrix.android_sdk }}
           script: ./scripts/espresso-run.sh
