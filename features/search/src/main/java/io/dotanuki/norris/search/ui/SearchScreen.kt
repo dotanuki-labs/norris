@@ -10,16 +10,18 @@ import io.dotanuki.norris.search.R
 import io.dotanuki.norris.search.databinding.ActivitySearchBinding
 import io.dotanuki.norris.search.domain.SearchQueryValidation
 
-class SearchViewDelegate(
-    private val binding: ActivitySearchBinding,
-    private val callbacks: Callbacks,
+class SearchScreen(
+    private val delegate: Delegate,
 ) {
 
     private val context by lazy {
-        binding.root.context
+        delegate.binding.root.context
     }
 
-    interface Callbacks {
+    interface Delegate {
+
+        val binding: ActivitySearchBinding
+
         fun onUpNavigationClicked()
 
         fun onChipClicked(term: String)
@@ -28,8 +30,8 @@ class SearchViewDelegate(
     }
 
     fun setup() {
-        binding.run {
-            searchToolbar.setNavigationOnClickListener { callbacks.onUpNavigationClicked() }
+        delegate.binding.run {
+            searchToolbar.setNavigationOnClickListener { delegate.onUpNavigationClicked() }
             queryTextInput.run {
                 addTextChangedListener(
                     afterTextChanged = { current -> validate(current) }
@@ -45,23 +47,23 @@ class SearchViewDelegate(
 
     fun showContent(history: List<String>, suggestions: List<String>) {
         hideLoading()
-        binding.run {
+        delegate.binding.run {
             historyHeadline.visibility = View.VISIBLE
             recommendationsHeadline.visibility = View.VISIBLE
 
             ChipsGroupPopulator(historyChipGroup, R.layout.chip_item_query).run {
-                populate(history) { callbacks.onChipClicked(it) }
+                populate(history) { delegate.onChipClicked(it) }
             }
 
             ChipsGroupPopulator(suggestionChipGroup, R.layout.chip_item_query).run {
-                populate(suggestions) { callbacks.onChipClicked(it) }
+                populate(suggestions) { delegate.onChipClicked(it) }
             }
         }
     }
 
     fun showError(messageId: Int = R.string.error_snackbar_cannot_load_suggestions) {
         val message = context.getString(messageId)
-        binding.run {
+        delegate.binding.run {
             Snackbar
                 .make(searchScreenRoot, message, Snackbar.LENGTH_INDEFINITE)
                 .setAction("OK") { queryTextInput.error = null }
@@ -70,11 +72,11 @@ class SearchViewDelegate(
     }
 
     fun showLoading() {
-        binding.searchSwipeToRefresh.isRefreshing = true
+        delegate.binding.searchSwipeToRefresh.isRefreshing = true
     }
 
     private fun hideLoading() {
-        binding.searchSwipeToRefresh.isRefreshing = false
+        delegate.binding.searchSwipeToRefresh.isRefreshing = false
     }
 
     private fun TextInputEditText.checkQueryBeforeProceed(actionId: Int) {
@@ -82,7 +84,7 @@ class SearchViewDelegate(
 
         if (actionId == EditorInfo.IME_ACTION_DONE) {
 
-            if (SearchQueryValidation.validate(actual)) callbacks.onQuerySubmited(actual)
+            if (SearchQueryValidation.validate(actual)) delegate.onQuerySubmited(actual)
             else showError(R.string.error_snackbar_cannot_proceed)
         }
     }

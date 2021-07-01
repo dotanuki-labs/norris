@@ -1,7 +1,6 @@
 package io.dotanuki.norris.features.utilties
 
 import android.view.LayoutInflater
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.FragmentActivity
 import androidx.viewbinding.ViewBinding
@@ -28,6 +27,3 @@ inline fun <T : ViewBinding> AppCompatActivity.viewBinding(
     lazy(LazyThreadSafetyMode.NONE) {
         binder.invoke(layoutInflater)
     }
-
-fun AppCompatActivity.toast(message: Int) =
-    Toast.makeText(this, message, Toast.LENGTH_SHORT).show()

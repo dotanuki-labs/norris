@@ -18,12 +18,14 @@ import io.dotanuki.norris.facts.presentation.FactDisplayRow
 import io.dotanuki.norris.facts.presentation.FactsPresentation
 import io.dotanuki.norris.sharedassets.R as sharedR
 
-class FactsViewDelegate(
-    private val binding: ActivityFactsBinding,
-    private val callbacks: Callbacks
+class FactsScreen(
+    private val delegate: Delegate
 ) {
 
-    interface Callbacks {
+    interface Delegate {
+
+        val binding: ActivityFactsBinding
+
         fun onRefresh()
 
         fun onSearch()
@@ -32,18 +34,18 @@ class FactsViewDelegate(
     }
 
     private val context by lazy {
-        binding.root.context
+        delegate.binding.root.context
     }
 
     fun setup() {
-        binding.run {
+        delegate.binding.run {
             factsRecyclerView.layoutManager = LinearLayoutManager(context)
-            factsSwipeToRefresh.setOnRefreshListener { callbacks.onRefresh() }
+            factsSwipeToRefresh.setOnRefreshListener { delegate.onRefresh() }
 
             factsToolbar.inflateMenu(R.menu.menu_facts_list)
             factsToolbar.setOnMenuItemClickListener { item ->
                 if (item.itemId == R.id.menu_item_search_facts) {
-                    callbacks.onSearch()
+                    delegate.onSearch()
                 }
                 false
             }
@@ -51,34 +53,34 @@ class FactsViewDelegate(
     }
 
     fun preExecution() {
-        binding.run {
+        delegate.binding.run {
             errorStateView.visibility = View.GONE
             factsHeadlineLabel.visibility = View.GONE
         }
     }
 
     fun showExecuting() {
-        binding.run {
+        delegate.binding.run {
             errorStateView.visibility = View.GONE
             factsSwipeToRefresh.isRefreshing = true
         }
     }
 
     fun showResults(presentation: FactsPresentation) {
-        binding.run {
+        delegate.binding.run {
             factsSwipeToRefresh.isRefreshing = false
-            factsRecyclerView.adapter = FactsRecyclerAdapter(presentation, callbacks::onShare)
+            factsRecyclerView.adapter = FactsRecyclerAdapter(presentation, delegate::onShare)
         }
         showHeadline(presentation.relatedQuery)
     }
 
     fun showEmptyState() {
-        binding.run {
+        delegate.binding.run {
             factsSwipeToRefresh.isRefreshing = false
 
             val (errorImage, errorMessage) = ErrorStateResources(NoResultsFound)
 
-            with(binding) {
+            with(delegate.binding) {
                 errorStateView.visibility = View.VISIBLE
                 errorStateImage.setImageResource(errorImage)
                 errorStateLabel.setText(errorMessage)
@@ -89,7 +91,7 @@ class FactsViewDelegate(
 
     fun showErrorState(error: Throwable) {
 
-        binding.run {
+        delegate.binding.run {
             factsSwipeToRefresh.isRefreshing = false
 
             val (errorImage, errorMessage) = ErrorStateResources(error)
@@ -98,11 +100,11 @@ class FactsViewDelegate(
             when {
                 hasContent -> toast(errorMessage)
                 else -> {
-                    with(binding) {
+                    with(delegate.binding) {
                         errorStateView.visibility = View.VISIBLE
                         errorStateImage.setImageResource(errorImage)
                         errorStateLabel.setText(errorMessage)
-                        retryButton.setOnClickListener { callbacks.onRefresh() }
+                        retryButton.setOnClickListener { delegate.onRefresh() }
                     }
                 }
             }
@@ -123,8 +125,8 @@ class FactsViewDelegate(
 
         val prefix = context.getString(R.string.headline_facts)
         val headline = SpannableStringBuilder(prefix).append(" : ").append(highlightedFact)
-        binding.factsHeadlineLabel.visibility = View.VISIBLE
-        binding.factsHeadlineLabel.text = headline
+        delegate.binding.factsHeadlineLabel.visibility = View.VISIBLE
+        delegate.binding.factsHeadlineLabel.text = headline
     }
 
     private fun toast(errorMessage: Int) {

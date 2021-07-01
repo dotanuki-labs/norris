@@ -20,27 +20,21 @@ import kotlinx.coroutines.launch
 import org.kodein.di.DIAware
 import org.kodein.di.instance
 
-class SearchActivity : AppCompatActivity(), DIAware, SearchViewDelegate.Callbacks {
+class SearchActivity : AppCompatActivity(), SearchScreen.Delegate, DIAware {
 
     override val di by selfBind()
-
-    private val viewBindings by viewBinding(ActivitySearchBinding::inflate)
     private val viewModel by instance<SearchViewModel>()
     private val logger by instance<Logger>()
 
-    private val viewDelegate by lazy {
-        SearchViewDelegate(viewBindings, this)
+    private val searchScreen by lazy {
+        SearchScreen(this)
     }
 
     val states by lazy {
         mutableListOf<SearchScreenState>()
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(viewBindings.root)
-        setup()
-    }
+    override val binding by viewBinding(ActivitySearchBinding::inflate)
 
     override fun onQuerySubmited(term: String) {
         viewModel.handle(SearchInteraction.NewQuerySet(term))
@@ -54,8 +48,14 @@ class SearchActivity : AppCompatActivity(), DIAware, SearchViewDelegate.Callback
         viewModel.handle(SearchInteraction.NewQuerySet(term))
     }
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(binding.root)
+        setup()
+    }
+
     private fun setup() {
-        viewDelegate.setup()
+        searchScreen.setup()
 
         viewModel.run {
             lifecycleScope.launch {
@@ -67,7 +67,7 @@ class SearchActivity : AppCompatActivity(), DIAware, SearchViewDelegate.Callback
     private fun renderState(state: SearchScreenState) {
         states += state
 
-        with(viewDelegate) {
+        with(searchScreen) {
             when (state) {
                 Idle -> launch()
                 Loading -> showLoading()
@@ -84,6 +84,6 @@ class SearchActivity : AppCompatActivity(), DIAware, SearchViewDelegate.Callback
 
     private fun handleError(reason: Throwable) {
         logger.e("Failed on loading suggestions -> $reason")
-        viewDelegate.showError()
+        searchScreen.showError()
     }
 }
