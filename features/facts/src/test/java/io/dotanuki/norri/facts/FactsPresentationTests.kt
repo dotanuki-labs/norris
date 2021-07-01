@@ -33,7 +33,7 @@ class FactsPresentationTests {
                 FactDisplayRow(
                     url = "https://api.chucknorris.io/jokes/2wzginmks8azrbaxnamxdw",
                     fact = "Null pointer crashes with ChuckNorrisException",
-                    displayWithSmallerFontSize = true
+                    displayWithSmallerFontSize = false
                 )
             )
         )
