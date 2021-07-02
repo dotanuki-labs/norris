@@ -2,6 +2,8 @@ package io.dotanuki.demos.norris
 
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.schibsted.spain.barista.interaction.BaristaClickInteractions.clickOn
+import com.schibsted.spain.barista.rule.flaky.FlakyTestRule
+import com.schibsted.spain.barista.rule.flaky.Repeat
 import io.dotanuki.norris.facts.ui.FactsActivity
 import io.dotanuki.testing.rest.RestDataBuilder
 import io.dotanuki.testing.rest.RestInfrastructureRule
@@ -9,18 +11,23 @@ import io.dotanuki.testing.rest.nextSuccess
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
+import org.junit.rules.RuleChain
 import org.junit.runner.RunWith
 
 @RunWith(AndroidJUnit4::class)
 class NorrisAcceptanceTests {
 
-    @get:Rule val restInfrastructure = RestInfrastructureRule()
+    private val restInfrastructure = RestInfrastructureRule()
+    private val stressedExecution = FlakyTestRule()
+
+    @get:Rule val rules: RuleChain =
+        RuleChain.outerRule(stressedExecution).around(restInfrastructure)
 
     @Before fun beforeEachTest() {
         PersistanceHelper.clearStorage()
     }
 
-    @Test fun shouldPerformFirstSearch_AfterFirstLunch_ByTypingATerm() {
+    @Repeat @Test fun shouldPerformFirstSearch_AfterFirstLunch_ByTypingATerm() {
 
         val searchTerm = "math"
         val suggestions = listOf("career", "dev", "humor")
@@ -47,7 +54,7 @@ class NorrisAcceptanceTests {
         }
     }
 
-    @Test fun shouldPerformASecondSearch_ByChosingASuggestion() {
+    @Repeat @Test fun shouldPerformASecondSearch_ByChosingASuggestion() {
 
         val searches = listOf("math", "code").onEach {
             PersistanceHelper.registerNewSearch(it)
