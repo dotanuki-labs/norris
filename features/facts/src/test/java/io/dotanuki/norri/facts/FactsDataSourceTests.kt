@@ -58,7 +58,7 @@ internal class FactsDataSourceTests {
             ChuckNorrisFact(
                 id = "2wzginmks8azrbaxnamxdw",
                 shareableUrl = "https://api.chucknorris.io/jokes/2wzginmks8azrbaxnamxdw",
-                textual = "Every SQL statement that Chuck Norris codes has an implicit COMMIT in its end.",
+                textual = "SQL statements that Chuck Norris code have implicit COMMITs in its end.",
             )
         )
 
