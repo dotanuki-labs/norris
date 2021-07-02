@@ -35,7 +35,6 @@ dependencies {
     testImplementation(project(":platform:testing-commons"))
     testImplementation(project(":platform:testing-rest"))
 
-    testImplementation("app.cash.turbine:turbine:0.5.2")
     testImplementation("com.google.truth:truth:1.1.3")
     testImplementation("com.github.ubiratansoares:burster:0.1.1")
     testImplementation("com.squareup.okhttp3:mockwebserver:4.9.1")
