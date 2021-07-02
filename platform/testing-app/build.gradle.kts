@@ -21,6 +21,6 @@ dependencies {
     implementation("androidx.test:core:1.4.0")
     implementation("androidx.test:core-ktx:1.4.0")
     implementation("androidx.test.ext:junit:1.1.3")
-    implementation("androidx.test.ext:junit-ktx:1.1.2")
+    implementation("androidx.test.ext:junit-ktx:1.1.3")
     implementation("androidx.test:runner:1.4.0")
 }
