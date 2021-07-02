@@ -117,7 +117,7 @@ dependencies {
     androidTestImplementation("androidx.test.ext:junit:1.1.2")
     androidTestImplementation("androidx.test.ext:junit-ktx:1.1.2")
     androidTestImplementation("androidx.test:runner:1.4.0")
-    androidTestImplementation("androidx.test:rules:1.3.0")
+    androidTestImplementation("androidx.test:rules:1.4.0")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.3.0")
     androidTestImplementation("com.schibsted.spain:barista:3.9.0")
     androidTestImplementation("com.google.truth:truth:1.1.3")
