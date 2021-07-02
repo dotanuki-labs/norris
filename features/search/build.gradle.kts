@@ -31,7 +31,7 @@ dependencies {
     testImplementation("com.github.ubiratansoares:burster:0.1.1")
     testImplementation("com.squareup.okhttp3:mockwebserver:4.9.1")
     testImplementation("junit:junit:4.13.2")
-    testImplementation("org.robolectric:robolectric:4.5.1")
+    testImplementation("org.robolectric:robolectric:4.6")
     testImplementation("androidx.test:core:1.4.0")
     testImplementation("androidx.test:core-ktx:1.4.0")
     testImplementation("androidx.test.ext:junit:1.1.3")
