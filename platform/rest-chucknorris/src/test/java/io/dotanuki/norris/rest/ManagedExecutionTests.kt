@@ -1,8 +1,7 @@
 package io.dotanuki.norris.rest
 
 import com.google.common.truth.Truth.assertThat
-import io.dotanuki.burster.using
-import io.dotanuki.norris.networking.errors.NetworkingError
+import io.dotanuki.norris.networking.errors.NetworkingError.HostUnreachable
 import io.dotanuki.norris.networking.errors.RemoteServiceIntegrationError.RemoteSystem
 import io.dotanuki.norris.networking.errors.RemoteServiceIntegrationError.UnexpectedResponse
 import kotlinx.coroutines.runBlocking
@@ -18,25 +17,20 @@ import kotlin.coroutines.suspendCoroutine
 
 internal class ManagedExecutionTests {
 
-    @Test fun `should transform error with managed execution`() {
+    @Test fun `should transform downstream error with managed execution`() {
 
-        val toBePropagated = IllegalStateException("Houston, we have a problem!")
+        val otherError = IllegalStateException("Houston, we have a problem!")
 
-        using<Throwable, Throwable> {
-
-            burst {
-                values(UnknownHostException("No Internet"), NetworkingError.HostUnreachable)
-                values(SerializationException("Ouch"), UnexpectedResponse)
-                values(httpException(), RemoteSystem)
-                values(toBePropagated, toBePropagated)
-            }
-
-            thenWith { incoming, expected ->
-                runBlocking {
-                    val result = runCatching { managedExecution { emulateError(incoming) } }
-                    val unwrapped = unwrapCaughtError(result)
-                    assertThat(unwrapped).isEqualTo(expected)
-                }
+        listOf(
+            UnknownHostException("No Internet") to HostUnreachable,
+            SerializationException("Ouch") to UnexpectedResponse,
+            httpException() to RemoteSystem,
+            otherError to otherError,
+        ).forEach { (incoming, expected) ->
+            runBlocking {
+                val result = runCatching { managedExecution { emulateError(incoming) } }
+                val unwrapped = unwrapCaughtError(result)
+                assertThat(unwrapped).isEqualTo(expected)
             }
         }
     }

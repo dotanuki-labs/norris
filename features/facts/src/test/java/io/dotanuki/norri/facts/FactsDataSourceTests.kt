@@ -32,42 +32,13 @@ internal class FactsDataSourceTests {
         assertThat(simpleSearch()).isEqualTo(noFacts)
     }
 
-    @Test fun `should handle client issue`() {
+    @Test fun `should handle downstream error`() {
 
-        rule.defineScenario(
-            status = 404,
-            response = loadFile("404_wrong_path.json")
-        )
-
-        assertErrorTransformed(
-            whenRunning = this::simpleSearch,
-            expected = RemoteServiceIntegrationError.ClientOrigin
-        )
-    }
-
-    @Test fun `should handle remote system issue`() {
-
-        rule.defineScenario(
-            status = 500
-        )
+        rule.defineScenario(status = 500)
 
         assertErrorTransformed(
             whenRunning = this::simpleSearch,
             expected = RemoteServiceIntegrationError.RemoteSystem
-        )
-    }
-
-    @Test fun `should handle broken contract`() {
-
-        rule.defineScenario(
-            status = 200,
-            response = loadFile("200_search_broken_contract.json")
-
-        )
-
-        assertErrorTransformed(
-            whenRunning = this::simpleSearch,
-            expected = RemoteServiceIntegrationError.UnexpectedResponse
         )
     }
 
@@ -87,18 +58,18 @@ internal class FactsDataSourceTests {
             ChuckNorrisFact(
                 id = "2wzginmks8azrbaxnamxdw",
                 shareableUrl = "https://api.chucknorris.io/jokes/2wzginmks8azrbaxnamxdw",
-                textual = "Every SQL statement that Chuck Norris codes has an implicit \"COMMIT\" in its end.",
+                textual = "SQL statements that Chuck Norris code have implicit COMMITs in its end.",
             )
         )
 
         assertThat(simpleSearch()).isEqualTo(facts)
     }
 
-    private fun simpleSearch() = runBlocking {
+    private fun simpleSearch(): List<ChuckNorrisFact> = runBlocking {
         dataSource.search("Norris")
     }
 
-    private fun unwrapCaughtError(result: Result<*>) =
+    private fun unwrapCaughtError(result: Result<*>): Throwable =
         result.exceptionOrNull() ?: throw IllegalArgumentException("Not an error")
 
     private fun assertErrorTransformed(expected: Throwable, whenRunning: () -> Any) {

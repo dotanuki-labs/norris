@@ -1,9 +1,7 @@
 package io.dotanuki.norris.networking
 
 import com.google.common.truth.Truth.assertThat
-import io.dotanuki.burster.using
 import io.dotanuki.norris.networking.CheckErrorTransformation.Companion.checkTransformation
-import io.dotanuki.norris.networking.errors.RemoteServiceIntegrationError
 import io.dotanuki.norris.networking.errors.RemoteServiceIntegrationError.ClientOrigin
 import io.dotanuki.norris.networking.errors.RemoteServiceIntegrationError.RemoteSystem
 import io.dotanuki.norris.networking.transformers.HttpIntegrationErrorTransformer
@@ -15,32 +13,25 @@ import retrofit2.Response
 
 class HttpIntegrationErrorTransformerTests {
 
-    @Test fun `should transform proper throwable into remote integration error`() {
-
-        using<Int, String, RemoteServiceIntegrationError> {
-
-            burst {
-                values(418, "Teapot", ClientOrigin)
-                values(503, "Internal Server Error", RemoteSystem)
-            }
-
-            thenWith { status, message, expected ->
-                checkTransformation(
-                    from = httpException<Any>(status, message),
-                    using = HttpIntegrationErrorTransformer,
-                    check = { transformed -> assertThat(transformed).isEqualTo(expected) }
-                )
-            }
+    @Test fun `should transform http error from downstream`() {
+        listOf(
+            httpException<Any>(418, "teapot") to ClientOrigin,
+            httpException<Any>(503, "Internal Server Error") to RemoteSystem
+        ).forEach { (incoming, expected) ->
+            assertTransformation(incoming, expected)
         }
     }
 
     @Test fun `should propagate any other error`() {
         val otherError = IllegalStateException("Houston, we have a problem!")
+        assertTransformation(otherError, otherError)
+    }
 
+    private fun assertTransformation(target: Throwable, expected: Throwable) {
         checkTransformation(
-            from = otherError,
+            from = target,
             using = HttpIntegrationErrorTransformer,
-            check = { transformed -> assertThat(transformed).isEqualTo(otherError) }
+            check = { transformed -> assertThat(transformed).isEqualTo(expected) }
         )
     }
 

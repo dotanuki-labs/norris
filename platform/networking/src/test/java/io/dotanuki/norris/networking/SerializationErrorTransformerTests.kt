@@ -9,23 +9,22 @@ import org.junit.Test
 
 class SerializationErrorTransformerTests {
 
-    @Test fun `should handle serialization errors`() {
+    @Test fun `should transform serialization error from downstream`() {
         val parseError = SerializationException("Found comments inside this JSON")
         val expected = RemoteServiceIntegrationError.UnexpectedResponse
-
-        checkTransformation(
-            from = parseError,
-            using = SerializationErrorTransformer,
-            check = { transformed -> assertThat(transformed).isEqualTo(expected) }
-        )
+        assertTransformation(parseError, expected)
     }
 
     @Test fun `should not handle any other errors`() {
-        val toBePropagated = IllegalStateException("Something broke here ...")
+        val otherError = IllegalStateException("Something broke here ...")
+        assertTransformation(otherError, otherError)
+    }
+
+    private fun assertTransformation(target: Throwable, expected: Throwable) {
         checkTransformation(
-            from = toBePropagated,
+            from = target,
             using = SerializationErrorTransformer,
-            check = { transformed -> assertThat(transformed).isEqualTo(toBePropagated) }
+            check = { transformed -> assertThat(transformed).isEqualTo(expected) }
         )
     }
 }

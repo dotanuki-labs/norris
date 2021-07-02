@@ -19,7 +19,7 @@
       "id": "2wzginmks8azrbaxnamxdw",
       "updated_at": "2016-05-01 10:51:41.584544",
       "url": "https://api.chucknorris.io/jokes/2wzginmks8azrbaxnamxdw",
-      "value": "Every SQL statement that Chuck Norris codes has an implicit \"COMMIT\" in its end."
+      "value": "SQL statements that Chuck Norris code have implicit COMMITs in its end."
     }
   ]
 }
