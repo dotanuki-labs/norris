@@ -8,7 +8,7 @@ dependencies {
     implementation(project(":platform:shared-utilities"))
 
     implementation("androidx.appcompat:appcompat:1.3.0")
-    implementation("androidx.activity:activity:1.3.0-beta02")
+    implementation("androidx.activity:activity:1.3.0-rc01")
     implementation("androidx.activity:activity-ktx:1.3.0-rc01")
     implementation("org.kodein.di:kodein-di-jvm:7.6.0")
 
