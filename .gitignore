@@ -24,11 +24,10 @@ local.properties
 *.log
 stacktrace.txt
 
-# Android Studio Navigation editor temp files
+# Android Studio
 .navigation/
-
-# Android Studio captures folder
 captures/
+.gradletasknamecache
 
 # Intellij
 *.iml
