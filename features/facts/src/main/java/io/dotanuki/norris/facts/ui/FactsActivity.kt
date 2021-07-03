@@ -15,7 +15,7 @@ import io.dotanuki.norris.facts.presentation.FactsScreenState.Success
 import io.dotanuki.norris.facts.presentation.FactsUserInteraction.OpenedScreen
 import io.dotanuki.norris.facts.presentation.FactsUserInteraction.RequestedFreshContent
 import io.dotanuki.norris.facts.presentation.FactsViewModel
-import io.dotanuki.norris.facts.presentation.repeatOnLifecycle
+import io.dotanuki.norris.features.utilties.repeatOnLifecycle
 import io.dotanuki.norris.features.utilties.selfBind
 import io.dotanuki.norris.features.utilties.viewBinding
 import io.dotanuki.norris.navigator.Navigator

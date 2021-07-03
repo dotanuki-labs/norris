@@ -2,8 +2,10 @@ package io.dotanuki.norris.search.ui
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import io.dotanuki.logger.Logger
+import io.dotanuki.norris.features.utilties.repeatOnLifecycle
 import io.dotanuki.norris.features.utilties.selfBind
 import io.dotanuki.norris.features.utilties.viewBinding
 import io.dotanuki.norris.search.databinding.ActivitySearchBinding
@@ -55,11 +57,12 @@ class SearchActivity : AppCompatActivity(), SearchScreen.Delegate, DIAware {
     }
 
     private fun setup() {
-        searchScreen.setup()
-
-        viewModel.run {
-            lifecycleScope.launch {
-                bind().collect { renderState(it) }
+        lifecycleScope.launch {
+            lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.run {
+                    handle(SearchInteraction.OpenedScreen)
+                    bind().collect { renderState(it) }
+                }
             }
         }
     }
@@ -69,17 +72,13 @@ class SearchActivity : AppCompatActivity(), SearchScreen.Delegate, DIAware {
 
         with(searchScreen) {
             when (state) {
-                Idle -> launch()
+                Idle -> searchScreen.setup()
                 Loading -> showLoading()
                 is Error -> handleError(state.error)
                 is Content -> showContent(state.history, state.suggestions)
                 Done -> finish()
             }
         }
-    }
-
-    private fun launch() {
-        viewModel.handle(SearchInteraction.OpenedScreen)
     }
 
     private fun handleError(reason: Throwable) {
