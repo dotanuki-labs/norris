@@ -8,7 +8,7 @@ import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 
-@ExperimentalSerializationApi
+@OptIn(ExperimentalSerializationApi::class)
 object RetrofitBuilder {
 
     private val jsonConfig by lazy {

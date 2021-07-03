@@ -5,6 +5,7 @@ import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.LifecycleOwner
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
@@ -16,6 +17,7 @@ import kotlinx.coroutines.withContext
 // so we don't need to depend on alpha releases of androidx extensions
 // Reference : https://medium.com/androiddevelopers/migrating-from-livedata-to-kotlins-flow-379292f419fb
 
+@OptIn(ExperimentalCoroutinesApi::class)
 suspend fun Lifecycle.repeatOnLifecycle(
     state: Lifecycle.State,
     block: suspend CoroutineScope.() -> Unit
