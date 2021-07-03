@@ -1,3 +1,5 @@
+import io.gitlab.arturbosch.detekt.detekt
+
 buildscript {
 
     repositories {
@@ -13,6 +15,7 @@ buildscript {
         classpath("com.adarshr:gradle-test-logger-plugin:3.0.0")
         classpath("org.jetbrains.kotlin:kotlin-serialization:1.5.20")
         classpath("org.jlleitschuh.gradle:ktlint-gradle:10.1.0")
+        classpath("io.gitlab.arturbosch.detekt:detekt-gradle-plugin:1.17.1")
     }
 }
 
@@ -27,6 +30,16 @@ allprojects {
 
     apply(plugin = BuildPlugins.Ids.ktlint)
     apply(plugin = BuildPlugins.Ids.testLogger)
+    apply(plugin = BuildPlugins.Ids.detekt)
+
+    detekt {
+        config = files("$rootDir/detekt.yml")
+        reports {
+            xml.enabled = false
+            html.enabled = false
+            txt.enabled = false
+        }
+    }
 }
 
 tasks.register("clean").configure {
