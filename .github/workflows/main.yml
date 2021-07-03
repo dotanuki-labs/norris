@@ -38,7 +38,7 @@ jobs:
           restore-keys: ${{ runner.os }}-${{ github.job }}-
 
       - name: Check code formatting
-        run: ./gradlew ktlintCheck --stacktrace
+        run: ./gradlew ktlintCheck detekt --stacktrace
 
   unit_tests:
     runs-on: ubuntu-20.04
