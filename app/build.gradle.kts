@@ -79,6 +79,10 @@ android {
 
     tasks.withType<KotlinCompile> {
         kotlinOptions.jvmTarget = KotlinConfig.targetJVM
+        kotlinOptions.freeCompilerArgs += listOf(
+            "-Xopt-in=kotlin.time.ExperimentalTime",
+            "-Xopt-in=kotlin.RequiresOptIn"
+        )
     }
 
     testOptions {
