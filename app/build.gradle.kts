@@ -11,7 +11,6 @@ plugins {
 
 repositories {
     google()
-    maven(url = "https://jitpack.io")
 }
 
 base.archivesBaseName = "norris-${Versioning.version.name}"
