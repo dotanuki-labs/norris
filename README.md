@@ -3,25 +3,26 @@
 ![Main](https://github.com/dotanuki-labs/norris/workflows/Main/badge.svg)
 [![License](https://img.shields.io/github/license/dotanuki-labs/gradle-profiler-pttest)](https://choosealicense.com/licenses/mit)
 
-> _An app that existed even before Android existed!_
+> An app that existed even before Android existed! 🔥
 
 ## About
 
 Norris is a showcase for modern and well-crafted Android code. 
 
-Here you will find a codebase powered by tests in all semantic levels (unit, integration, acceptance) as well an architectural design that promotes discipline over state, using Kotlin Coroutines as foundation for a pragmatic unidirectional dataflow implementation.
+Here you will find a codebase powered by tests in all semantic levels (unit, integration, acceptance) as well an architectural design that promotes discipline over state, using Kotlin Coroutines + Kotlin Flows as foundation for a pragmatic unidirectional dataflow implementation.
 
 ## Project Overview
 
 This project leverages on [api.chucknorris.io](https://api.chucknorris.io/) as remote data source to implement the following use cases
 
 - User can search for Chuck Norris facts and share them
-- Related categories are fetched in the application boostraped and cached
-- Application will offer suggestions for queries based on categories names and track query terms provided by user as well
+- Application will offer suggestions of searches
+- Application also remembers terms searched by the user
 
 ![showcase-norris](.github/assets/showcase-norris.png)
 
 The code is structured in a multi-module fashion, with semantics of high-level modules (under `features`) packaging high-level pieces of funcionality (including UI details) while low-level modules (or `platform` ones) provide required infrastructure for features, like networking, storage and so on.
+
 
 ## Building and Running
 
@@ -34,11 +35,28 @@ If you want a simple run emulating the PR pipeline, just use the companion scrip
 It will
 
 - Run static analysers ([Ktlint](https://github.com/pinterest/ktlint) and [Detekt](https://arturbosch.github.io/detekt/))
-- Run all unit tests and generate all JaCoCo reports
-- Assemble the debug APK
+- Run all unit tests
+- Assemble the `release` APK
 - Run Espresso tests
 
-Please note that an online emulator is required to run this script sucessfully.
+Please note that an online emulator is required in order to run this script sucessfully.
+
+## Testing Strategy
+
+This project is **heavily opinionated** on how testing should be done in modern Android projects. Particularly, I follow here the approach proposed by [Kent Dodds](https://kentcdodds.com/blog/write-tests) as much as possible:
+
+> Write tests. Not too many. Mostly integration
+
+In practice, we have
+
+- No mocks are used, only fakes (when needed). This project does not use Mockito.
+- Most of unit tests actually are on `platform` modules, since those libraries provide core functionally for features
+- On features, tests are mandatory over data sources, although REST APIs should not be directly faked; instead, we test the whole networking stack by inject fake responses through it
+- When a feature has some domain logic of interest - eg, some validation logic over data - such logic is unit tested
+- Also on features, integrated tests run over over Activities by leveraging a pragmatic way to decoupling it from the underlying View and asserting data flows in the desired directions (either from data source to screen or from screen to data sources)
+- This means that we don't unit test ViewModels
+- Espresso tests ensure cross-screen user journeys and run against the release variant of the application     
+
 
 ## Credits
 
