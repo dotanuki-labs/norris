@@ -13,8 +13,6 @@ repositories {
     google()
 }
 
-base.archivesBaseName = "norris-${Versioning.version.name}"
-
 android {
     compileSdkVersion(AndroidConfig.compileSdk)
     buildToolsVersion(AndroidConfig.buildToolsVersion)
