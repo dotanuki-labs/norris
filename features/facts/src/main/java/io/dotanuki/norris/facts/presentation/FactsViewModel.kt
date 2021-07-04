@@ -5,9 +5,14 @@ import androidx.lifecycle.viewModelScope
 import io.dotanuki.norris.facts.data.ActualSearchDataSource
 import io.dotanuki.norris.facts.data.FactsDataSource
 import io.dotanuki.norris.facts.domain.FactsRetrievalError
+import io.dotanuki.norris.facts.presentation.FactsScreenState.Empty
+import io.dotanuki.norris.facts.presentation.FactsScreenState.Failed
+import io.dotanuki.norris.facts.presentation.FactsScreenState.Idle
+import io.dotanuki.norris.facts.presentation.FactsScreenState.Loading
+import io.dotanuki.norris.facts.presentation.FactsScreenState.Success
+import io.dotanuki.norris.features.utilties.CoordinatedFlowOfStates
 import kotlinx.coroutines.channels.Channel
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.consumeAsFlow
 import kotlinx.coroutines.launch
@@ -17,35 +22,37 @@ class FactsViewModel(
     private val actualSearch: ActualSearchDataSource
 ) : ViewModel() {
 
-    private val interactions = Channel<FactsUserInteraction>(Channel.UNLIMITED)
-    private val states = MutableStateFlow<FactsScreenState>(FactsScreenState.Idle)
-
-    fun bind() = states.asStateFlow()
+    private val effects = Channel<FactsUserInteraction>(Channel.UNLIMITED)
+    private val states = CoordinatedFlowOfStates<FactsScreenState>(this, Idle)
 
     init {
         viewModelScope.launch {
-            interactions.consumeAsFlow().collect {
+            effects.consumeAsFlow().collect {
                 showFacts()
             }
         }
     }
 
+    fun bind(): StateFlow<FactsScreenState> = states.expose()
+
     fun handle(interaction: FactsUserInteraction) {
         viewModelScope.launch {
-            states.value = FactsScreenState.Loading
-            interactions.send(interaction)
+            states.update(Loading)
+            effects.send(interaction)
         }
     }
 
     private suspend fun showFacts() {
-        states.value = try {
-            FactsScreenState.Success(fetchFacts())
+        val newState = try {
+            Success(fetchFacts())
         } catch (error: Throwable) {
             when (error) {
-                is FactsRetrievalError.EmptyTerm -> FactsScreenState.Empty
-                else -> FactsScreenState.Failed(error)
+                is FactsRetrievalError.EmptyTerm -> Empty
+                else -> Failed(error)
             }
         }
+
+        states.update(newState)
     }
 
     private suspend fun fetchFacts(): FactsPresentation {

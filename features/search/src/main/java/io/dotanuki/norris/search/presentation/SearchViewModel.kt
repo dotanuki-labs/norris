@@ -2,13 +2,18 @@ package io.dotanuki.norris.search.presentation
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import io.dotanuki.norris.features.utilties.CoordinatedFlowOfStates
 import io.dotanuki.norris.search.data.SearchesDataSource
 import io.dotanuki.norris.search.domain.SearchQueryValidation
 import io.dotanuki.norris.search.presentation.SearchInteraction.NewQuerySet
 import io.dotanuki.norris.search.presentation.SearchInteraction.OpenedScreen
 import io.dotanuki.norris.search.presentation.SearchInteraction.SuggestionSelected
+import io.dotanuki.norris.search.presentation.SearchScreenState.Content
+import io.dotanuki.norris.search.presentation.SearchScreenState.Done
+import io.dotanuki.norris.search.presentation.SearchScreenState.Error
+import io.dotanuki.norris.search.presentation.SearchScreenState.Idle
+import io.dotanuki.norris.search.presentation.SearchScreenState.Loading
 import kotlinx.coroutines.channels.Channel
-import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.consumeAsFlow
@@ -18,12 +23,12 @@ class SearchViewModel(
     private val dataSource: SearchesDataSource
 ) : ViewModel() {
 
-    private val states = MutableStateFlow<SearchScreenState>(SearchScreenState.Idle)
-    private val interactions = Channel<SearchInteraction>(Channel.UNLIMITED)
+    private val effects = Channel<SearchInteraction>(Channel.UNLIMITED)
+    private val states = CoordinatedFlowOfStates<SearchScreenState>(this, Idle)
 
     init {
         viewModelScope.launch {
-            interactions.consumeAsFlow().collect { interaction ->
+            effects.consumeAsFlow().collect { interaction ->
                 when (interaction) {
                     OpenedScreen -> loadPrefilledContent()
                     is NewQuerySet -> validateAndSave(interaction.query)
@@ -33,21 +38,23 @@ class SearchViewModel(
         }
     }
 
-    fun bind() = states as StateFlow<SearchScreenState>
+    fun bind(): StateFlow<SearchScreenState> = states.expose()
 
     fun handle(interaction: SearchInteraction) =
         viewModelScope.launch {
-            states.value = SearchScreenState.Loading
-            interactions.send(interaction)
+            states.update(Loading)
+            effects.send(interaction)
         }
 
     private suspend fun loadPrefilledContent() {
-        try {
+        val newState = try {
             val (suggestions, history) = dataSource.searchOptions()
-            states.value = SearchScreenState.Content(suggestions, history)
+            Content(suggestions, history)
         } catch (error: Throwable) {
-            states.value = SearchScreenState.Error(error)
+            Error(error)
         }
+
+        states.update(newState)
     }
 
     private suspend fun validateAndSave(query: String) {
@@ -56,11 +63,11 @@ class SearchViewModel(
             return
         }
 
-        states.value = SearchScreenState.Error(SearchHistoryError)
+        states.update(Error(SearchHistoryError))
     }
 
     private suspend fun save(query: String) {
         dataSource.saveNewSearch(query)
-        states.value = SearchScreenState.Done
+        states.update(Done)
     }
 }
