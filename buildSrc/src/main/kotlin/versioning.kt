@@ -17,7 +17,7 @@ object Versioning {
     private const val code = 100 * major + 10 * minor + patch
 
     private val timestamp by lazy {
-        System.getenv(CI_FLAG)
+        System.getenv(IS_DISTRIBUTION_BUILD)
             ?.let { computeDateTimestamp() }
             ?: "SNAPSHOT"
     }
@@ -34,5 +34,5 @@ object Versioning {
     private fun computeDateTimestamp() =
         SimpleDateFormat("yyyyMMddHHmmss", Locale.getDefault()).format(Date())
 
-    private const val CI_FLAG = "IS_CI_BUILD"
+    private const val IS_DISTRIBUTION_BUILD = "NORRIS_DISTRIBUTION_BUILD"
 }
