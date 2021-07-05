@@ -16,7 +16,7 @@ dependencies {
 
     implementation("org.kodein.di:kodein-di-jvm:7.6.0")
     implementation("com.squareup.okhttp3:okhttp:4.9.1")
-    implementation("org.robolectric:robolectric:4.6")
+    implementation("org.robolectric:robolectric:4.6.1")
     implementation("junit:junit:4.13.2")
     implementation("androidx.test:core:1.4.0")
     implementation("androidx.test:core-ktx:1.4.0")

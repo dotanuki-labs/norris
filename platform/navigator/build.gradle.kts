@@ -13,7 +13,7 @@ dependencies {
     implementation("org.kodein.di:kodein-di-jvm:7.6.0")
 
     testImplementation(project(":platform:testing-commons"))
-    testImplementation("org.robolectric:robolectric:4.6")
+    testImplementation("org.robolectric:robolectric:4.6.1")
     testImplementation("junit:junit:4.13.2")
     testImplementation("com.google.truth:truth:1.1.3")
 }
