@@ -14,73 +14,93 @@ import io.dotanuki.norris.facts.R
 import io.dotanuki.norris.facts.databinding.ActivityFactsBinding
 import io.dotanuki.norris.facts.domain.FactsRetrievalError.NoResultsFound
 import io.dotanuki.norris.facts.presentation.ErrorStateResources
-import io.dotanuki.norris.facts.presentation.FactDisplayRow
 import io.dotanuki.norris.facts.presentation.FactsPresentation
+import io.dotanuki.norris.facts.presentation.FactsScreenState
+import io.dotanuki.norris.facts.presentation.FactsScreenState.Empty
+import io.dotanuki.norris.facts.presentation.FactsScreenState.Failed
+import io.dotanuki.norris.facts.presentation.FactsScreenState.Idle
+import io.dotanuki.norris.facts.presentation.FactsScreenState.Loading
+import io.dotanuki.norris.facts.presentation.FactsScreenState.Success
 import io.dotanuki.norris.sharedassets.R as sharedR
 
-class FactsScreen(
-    private val delegate: Delegate
-) {
+interface FactsScreen {
 
     interface Delegate {
-
-        val binding: ActivityFactsBinding
 
         fun onRefresh()
 
         fun onSearch()
 
-        fun onShare(row: FactDisplayRow)
+        fun onShare(url: String)
     }
 
-    private val context by lazy {
-        delegate.binding.root.context
+    fun link(host: FactsActivity, delegate: Delegate): View
+
+    fun updateWith(newState: FactsScreenState)
+}
+
+internal class WrappedContainer : FactsScreen {
+
+    private lateinit var hostActivity: FactsActivity
+    private lateinit var bindings: ActivityFactsBinding
+    private lateinit var screenDelegate: FactsScreen.Delegate
+
+    override fun updateWith(newState: FactsScreenState) {
+        when (newState) {
+            Idle -> preExecution()
+            Loading -> showExecuting()
+            Empty -> showEmptyState()
+            is Failed -> showErrorState(newState.reason)
+            is Success -> showResults(newState.value)
+        }
     }
 
-    fun setup() {
-        delegate.binding.run {
-            factsRecyclerView.layoutManager = LinearLayoutManager(context)
-            factsSwipeToRefresh.setOnRefreshListener { delegate.onRefresh() }
+    override fun link(host: FactsActivity, delegate: FactsScreen.Delegate): View {
+        hostActivity = host
+        screenDelegate = delegate
+        bindings = ActivityFactsBinding.inflate(hostActivity.layoutInflater)
+        return bindings.root
+    }
+
+    private fun preExecution() {
+        bindings.run {
+            errorStateView.visibility = View.GONE
+            factsHeadlineLabel.visibility = View.GONE
+            factsSwipeToRefresh.setOnRefreshListener { screenDelegate.onRefresh() }
+            factsRecyclerView.layoutManager = LinearLayoutManager(hostActivity)
 
             factsToolbar.inflateMenu(R.menu.menu_facts_list)
             factsToolbar.setOnMenuItemClickListener { item ->
                 if (item.itemId == R.id.menu_item_search_facts) {
-                    delegate.onSearch()
+                    screenDelegate.onSearch()
                 }
                 false
             }
         }
     }
 
-    fun preExecution() {
-        delegate.binding.run {
-            errorStateView.visibility = View.GONE
-            factsHeadlineLabel.visibility = View.GONE
-        }
-    }
-
-    fun showExecuting() {
-        delegate.binding.run {
+    private fun showExecuting() {
+        bindings.run {
             errorStateView.visibility = View.GONE
             factsSwipeToRefresh.isRefreshing = true
         }
     }
 
-    fun showResults(presentation: FactsPresentation) {
-        delegate.binding.run {
+    private fun showResults(presentation: FactsPresentation) {
+        bindings.run {
             factsSwipeToRefresh.isRefreshing = false
-            factsRecyclerView.adapter = FactsRecyclerAdapter(presentation, delegate::onShare)
+            factsRecyclerView.adapter = FactsRecyclerAdapter(presentation, screenDelegate::onShare)
         }
         showHeadline(presentation.relatedQuery)
     }
 
-    fun showEmptyState() {
-        delegate.binding.run {
+    private fun showEmptyState() {
+        bindings.run {
             factsSwipeToRefresh.isRefreshing = false
 
             val (errorImage, errorMessage) = ErrorStateResources(NoResultsFound)
 
-            with(delegate.binding) {
+            with(bindings) {
                 errorStateView.visibility = View.VISIBLE
                 errorStateImage.setImageResource(errorImage)
                 errorStateLabel.setText(errorMessage)
@@ -89,9 +109,9 @@ class FactsScreen(
         }
     }
 
-    fun showErrorState(error: Throwable) {
+    private fun showErrorState(error: Throwable) {
 
-        delegate.binding.run {
+        bindings.run {
             factsSwipeToRefresh.isRefreshing = false
 
             val (errorImage, errorMessage) = ErrorStateResources(error)
@@ -100,11 +120,11 @@ class FactsScreen(
             when {
                 hasContent -> toast(errorMessage)
                 else -> {
-                    with(delegate.binding) {
+                    with(bindings) {
                         errorStateView.visibility = View.VISIBLE
                         errorStateImage.setImageResource(errorImage)
                         errorStateLabel.setText(errorMessage)
-                        retryButton.setOnClickListener { delegate.onRefresh() }
+                        retryButton.setOnClickListener { screenDelegate.onRefresh() }
                     }
                 }
             }
@@ -113,7 +133,7 @@ class FactsScreen(
 
     private fun showHeadline(query: String) {
 
-        val highlightColor = ContextCompat.getColor(context, sharedR.color.colorAccent)
+        val highlightColor = ContextCompat.getColor(hostActivity, sharedR.color.colorAccent)
 
         val highlightedFact = SpannableString(query).apply {
             setSpan(StyleSpan(Typeface.BOLD), 0, query.length, Spannable.SPAN_EXCLUSIVE_INCLUSIVE)
@@ -123,13 +143,13 @@ class FactsScreen(
             )
         }
 
-        val prefix = context.getString(R.string.headline_facts)
+        val prefix = hostActivity.getString(R.string.headline_facts)
         val headline = SpannableStringBuilder(prefix).append(" : ").append(highlightedFact)
-        delegate.binding.factsHeadlineLabel.visibility = View.VISIBLE
-        delegate.binding.factsHeadlineLabel.text = headline
+        bindings.factsHeadlineLabel.visibility = View.VISIBLE
+        bindings.factsHeadlineLabel.text = headline
     }
 
     private fun toast(errorMessage: Int) {
-        Toast.makeText(context, errorMessage, Toast.LENGTH_LONG).show()
+        Toast.makeText(hostActivity, errorMessage, Toast.LENGTH_LONG).show()
     }
 }

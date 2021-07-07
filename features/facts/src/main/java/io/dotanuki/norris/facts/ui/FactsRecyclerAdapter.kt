@@ -11,7 +11,7 @@ import io.dotanuki.norris.facts.presentation.FactsPresentation
 
 class FactsRecyclerAdapter(
     private val presentation: FactsPresentation,
-    private val shareAction: (FactDisplayRow) -> Unit
+    private val shareAction: (String) -> Unit
 ) : RecyclerView.Adapter<FactsRecyclerAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -28,7 +28,7 @@ class FactsRecyclerAdapter(
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
-        fun bind(row: FactDisplayRow, action: (FactDisplayRow) -> Unit) {
+        fun bind(row: FactDisplayRow, action: (String) -> Unit) {
             itemView.run {
 
                 val factLabel = itemView.findViewById<TextView>(R.id.factLabel)
@@ -40,7 +40,7 @@ class FactsRecyclerAdapter(
                 factLabel.setTextAppearance(appearance)
                 factLabel.text = row.fact
 
-                setOnClickListener { action.invoke(row) }
+                setOnClickListener { action.invoke(row.url) }
             }
         }
     }

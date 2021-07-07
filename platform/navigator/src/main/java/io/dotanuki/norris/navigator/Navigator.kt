@@ -14,6 +14,18 @@ class Navigator(
         host.startActivity(next)
     }
 
+    fun toSharingApp(content: String, message: String) {
+        val sendIntent = Intent().apply {
+            action = Intent.ACTION_SEND
+            putExtra(Intent.EXTRA_TEXT, content)
+            type = "text/plain"
+        }
+
+        host.startActivity(
+            Intent.createChooser(sendIntent, message)
+        )
+    }
+
     private fun find(target: Screen) =
         links[target] ?: throw UnsupportedNavigation(target)
 }
