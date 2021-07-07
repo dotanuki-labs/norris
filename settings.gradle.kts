@@ -12,6 +12,7 @@ include(
     ":platform:testing-app",
     ":platform:testing-commons",
     ":platform:testing-rest",
+    ":platform:testing-persistance",
     ":platform:navigator",
     ":platform:networking",
     ":platform:persistance",

@@ -5,6 +5,7 @@ import com.schibsted.spain.barista.interaction.BaristaClickInteractions.clickOn
 import com.schibsted.spain.barista.rule.flaky.FlakyTestRule
 import com.schibsted.spain.barista.rule.flaky.Repeat
 import io.dotanuki.norris.facts.ui.FactsActivity
+import io.dotanuki.testing.persistance.PersistanceHelper
 import io.dotanuki.testing.rest.RestDataBuilder
 import io.dotanuki.testing.rest.RestInfrastructureRule
 import org.junit.Before
@@ -56,7 +57,7 @@ class NorrisAcceptanceTests {
     @Repeat @Test fun shouldPerformASecondSearch_ByChosingASuggestion() {
 
         val searches = listOf("math", "code").onEach {
-            PersistanceHelper.registerNewSearch(it)
+            io.dotanuki.testing.persistance.PersistanceHelper.registerNewSearch(it)
         }
 
         val suggestions = listOf("career", "dev", "humor")
