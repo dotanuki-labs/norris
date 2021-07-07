@@ -21,7 +21,7 @@ class SearchActivity : AppCompatActivity(), DIAware {
 
     private val delegate by lazy {
         object : SearchScreen.Delegate {
-            override fun onQuerySubmited(term: String) {
+            override fun onNewSearch(term: String) {
                 viewModel.handle(SearchInteraction.NewQuerySet(term))
             }
 

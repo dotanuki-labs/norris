@@ -12,6 +12,7 @@ import io.dotanuki.norris.search.domain.SearchQueryValidation
 import io.dotanuki.norris.search.presentation.SearchScreenState
 import io.dotanuki.norris.search.presentation.SearchScreenState.Content
 import io.dotanuki.norris.search.presentation.SearchScreenState.Done
+import io.dotanuki.norris.search.presentation.SearchScreenState.Error
 import io.dotanuki.norris.search.presentation.SearchScreenState.Idle
 import io.dotanuki.norris.search.presentation.SearchScreenState.Loading
 
@@ -21,7 +22,7 @@ interface SearchScreen {
 
         fun onChipClicked(term: String)
 
-        fun onQuerySubmited(term: String)
+        fun onNewSearch(term: String)
     }
 
     fun link(host: SearchActivity, delegate: Delegate): View
@@ -107,7 +108,7 @@ internal class WrappedContainer : SearchScreen {
 
         if (actionId == EditorInfo.IME_ACTION_DONE) {
 
-            if (SearchQueryValidation.validate(actual)) screenDelegate.onQuerySubmited(actual)
+            if (SearchQueryValidation.validate(actual)) screenDelegate.onNewSearch(actual)
             else showError(R.string.error_snackbar_cannot_proceed)
         }
     }

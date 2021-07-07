@@ -81,7 +81,7 @@ class SearchActivityTests {
 
         whenActivityResumed<SearchActivity> {
 
-            screen.delegate.onQuerySubmited("kotlin")
+            screen.delegate.onNewSearch("kotlin")
             awaitPendingExecutions()
 
             val savedSearches = runBlocking { localStorage.lastSearches() }
