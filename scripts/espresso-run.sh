@@ -1,23 +1,18 @@
-#! /bin/bash
+#! /usr/bin/env bash
 
 set -eu
 
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )";
+cd "${DIR%/*}"
+
 readonly JUNIT_RUNNER="io.dotanuki.demos.norris.test/androidx.test.runner.AndroidJUnitRunner"
 
-cd ..
-
 echo
-echo "🔥 Install the apks.."
+echo "🔥 Install apks ..."
+find  . -name "*.apk" -print -exec adb install {} \; > /dev/null 2>&1
 
-find  . -name "*.apk" -print -exec adb install {} \;
-
-echo
-echo "🔥 Running instrumentation"
-
+echo "🔥 Running instrumentation tests ..."
 EXECUTION=$(adb shell am instrument -w "$JUNIT_RUNNER")
-
-echo -e $EXECUTION
-
 ERRORS_FOUND=`echo $EXECUTION | grep FAILURES | tr -d ' '`
 
 if [ -n "$ERRORS_FOUND" ]; then
@@ -26,6 +21,8 @@ if [ -n "$ERRORS_FOUND" ]; then
 	echo
 	exit 1
 fi
+
+echo -e "$EXECUTION"
 
 echo
 echo "🔥 Instrumentation tests ran with success!"
