@@ -2,9 +2,6 @@ package io.dotanuki.norris.facts
 
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.google.common.truth.Truth.assertThat
-import io.dotanuki.norris.facts.util.FakeFactsScreen
-import io.dotanuki.norris.facts.util.FakeFactsScreen.Companion.factsScreen
-import io.dotanuki.norris.facts.util.factsTestModule
 import io.dotanuki.norris.facts.di.factsModule
 import io.dotanuki.norris.facts.presentation.FactDisplayRow
 import io.dotanuki.norris.facts.presentation.FactsPresentation
@@ -14,6 +11,9 @@ import io.dotanuki.norris.facts.presentation.FactsScreenState.Idle
 import io.dotanuki.norris.facts.presentation.FactsScreenState.Loading
 import io.dotanuki.norris.facts.presentation.FactsScreenState.Success
 import io.dotanuki.norris.facts.ui.FactsActivity
+import io.dotanuki.norris.facts.util.FakeFactsScreen
+import io.dotanuki.norris.facts.util.FakeFactsScreen.Companion.factsScreen
+import io.dotanuki.norris.facts.util.factsTestModule
 import io.dotanuki.norris.networking.errors.RemoteServiceIntegrationError
 import io.dotanuki.testing.app.TestApplication
 import io.dotanuki.testing.app.whenActivityResumed

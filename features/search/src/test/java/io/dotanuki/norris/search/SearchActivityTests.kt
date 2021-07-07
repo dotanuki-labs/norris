@@ -8,10 +8,10 @@ import io.dotanuki.norris.search.presentation.SearchScreenState.Content
 import io.dotanuki.norris.search.presentation.SearchScreenState.Done
 import io.dotanuki.norris.search.presentation.SearchScreenState.Idle
 import io.dotanuki.norris.search.presentation.SearchScreenState.Loading
+import io.dotanuki.norris.search.ui.SearchActivity
 import io.dotanuki.norris.search.util.FakeSearchScreen
 import io.dotanuki.norris.search.util.FakeSearchScreen.Companion.searchScreen
 import io.dotanuki.norris.search.util.searchTestModule
-import io.dotanuki.norris.search.ui.SearchActivity
 import io.dotanuki.testing.app.TestApplication
 import io.dotanuki.testing.app.awaitPendingExecutions
 import io.dotanuki.testing.app.whenActivityResumed
