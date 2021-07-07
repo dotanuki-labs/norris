@@ -57,7 +57,7 @@ class NorrisAcceptanceTests {
     @Repeat @Test fun shouldPerformASecondSearch_ByChosingASuggestion() {
 
         val searches = listOf("math", "code").onEach {
-            io.dotanuki.testing.persistance.PersistanceHelper.registerNewSearch(it)
+            PersistanceHelper.registerNewSearch(it)
         }
 
         val suggestions = listOf("career", "dev", "humor")

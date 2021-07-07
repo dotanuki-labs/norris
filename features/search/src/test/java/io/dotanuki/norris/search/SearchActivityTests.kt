@@ -65,7 +65,7 @@ class SearchActivityTests {
         PersistanceHelper.registerNewSearch("code")
 
         whenActivityResumed<SearchActivity> {
-            screen.delegate.onChipClicked("dev")
+            screen.screenDelegate.onChipClicked("dev")
 
             awaitPendingExecutions()
 
@@ -89,7 +89,7 @@ class SearchActivityTests {
 
         whenActivityResumed<SearchActivity> {
 
-            screen.delegate.onNewSearch("kotlin")
+            screen.screenDelegate.onNewSearch("kotlin")
             awaitPendingExecutions()
 
             val savedSearches = PersistanceHelper.savedSearches()
