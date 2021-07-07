@@ -2,6 +2,8 @@
 
 set -eu
 
+readonly JUNIT_RUNNER="io.dotanuki.demos.norris.test/androidx.test.runner.AndroidJUnitRunner"
+
 cd ..
 
 echo
@@ -12,7 +14,9 @@ find  . -name "*.apk" -print -exec adb install {} \;
 echo
 echo "🔥 Running instrumentation"
 
-EXECUTION=`adb shell am instrument -w io.dotanuki.demos.norris.test/androidx.test.runner.AndroidJUnitRunner`
+EXECUTION=$(adb shell am instrument -w "$JUNIT_RUNNER")
+
+echo -e $EXECUTION
 
 ERRORS_FOUND=`echo $EXECUTION | grep FAILURES | tr -d ' '`
 
@@ -20,7 +24,6 @@ if [ -n "$ERRORS_FOUND" ]; then
   echo
 	echo "🔥 Instrumentation test execution failed!"
 	echo
-	echo -e $EXECUTION
 	exit 1
 fi
 
