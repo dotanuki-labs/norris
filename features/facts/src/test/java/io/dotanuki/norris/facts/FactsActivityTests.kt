@@ -1,10 +1,10 @@
-package io.dotanuki.norri.facts
+package io.dotanuki.norris.facts
 
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.google.common.truth.Truth.assertThat
-import io.dotanuki.norri.facts.util.FakeFactsScreen
-import io.dotanuki.norri.facts.util.FakeFactsScreen.Companion.factsScreen
-import io.dotanuki.norri.facts.util.factsTestModule
+import io.dotanuki.norris.facts.util.FakeFactsScreen
+import io.dotanuki.norris.facts.util.FakeFactsScreen.Companion.factsScreen
+import io.dotanuki.norris.facts.util.factsTestModule
 import io.dotanuki.norris.facts.di.factsModule
 import io.dotanuki.norris.facts.presentation.FactDisplayRow
 import io.dotanuki.norris.facts.presentation.FactsPresentation

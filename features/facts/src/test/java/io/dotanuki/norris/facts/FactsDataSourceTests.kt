@@ -1,4 +1,4 @@
-package io.dotanuki.norri.facts
+package io.dotanuki.norris.facts
 
 import com.google.common.truth.Truth.assertThat
 import io.dotanuki.norris.facts.data.FactsDataSource
