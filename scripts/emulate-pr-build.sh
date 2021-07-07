@@ -1,4 +1,4 @@
-#!/bin/bash
+#! /usr/bin/env bash
 
 set -e
 
@@ -8,4 +8,6 @@ cd "${DIR%/*}"
 ./gradlew clean --no-daemon
 ./gradlew ktlintCheck detekt --no-daemon --stacktrace
 ./gradlew test --no-daemon --stacktrace
-./gradlew app:connectedAndroidTest --no-daemon --stacktrace -PtestMode=true
+./gradlew app:assembleRelease -PtestMode=true --no-daemon --stacktrace
+./gradlew app:assembleAndroidTest -PtestMode=true --no-daemon --stacktrace
+./scripts/espresso-run.sh
