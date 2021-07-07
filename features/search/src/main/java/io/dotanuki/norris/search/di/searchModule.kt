@@ -6,6 +6,8 @@ import androidx.lifecycle.ViewModelProvider
 import io.dotanuki.norris.features.utilties.KodeinTags
 import io.dotanuki.norris.search.data.SearchesDataSource
 import io.dotanuki.norris.search.presentation.SearchViewModel
+import io.dotanuki.norris.search.ui.SearchScreen
+import io.dotanuki.norris.search.ui.WrappedContainer
 import org.kodein.di.DI
 import org.kodein.di.bind
 import org.kodein.di.instance
@@ -28,6 +30,12 @@ val searchModule = DI.Module("search") {
 
             val host: FragmentActivity = instance(KodeinTags.hostActivity)
             ViewModelProvider(host, factory).get(SearchViewModel::class.java)
+        }
+    }
+
+    bind<SearchScreen> {
+        provider {
+            WrappedContainer()
         }
     }
 }
