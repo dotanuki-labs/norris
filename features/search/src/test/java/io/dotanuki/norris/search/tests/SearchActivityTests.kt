@@ -16,8 +16,11 @@ import io.dotanuki.testing.app.TestApplication
 import io.dotanuki.testing.app.awaitPendingExecutions
 import io.dotanuki.testing.app.whenActivityResumed
 import io.dotanuki.testing.rest.RestDataBuilder
+import io.dotanuki.testing.rest.RestInfrastructureRule
+import io.dotanuki.testing.rest.RestInfrastructureTestModule
 import kotlinx.coroutines.runBlocking
 import org.junit.Before
+import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 
@@ -27,13 +30,21 @@ class SearchActivityTests {
     private lateinit var localStorage: LocalStorage
     private lateinit var screen: FakeSearchScreen
 
+    @get:Rule val restInfrastructure = RestInfrastructureRule()
+
     private val suggestions = RestDataBuilder.suggestionsPayload(
         listOf("career", "celebrity", "dev")
     )
 
     @Before fun `before each test`() {
-        val testApplication = TestApplication.setupWith(searchModule, searchTestModule)
-        testApplication.api.fakeCategories = suggestions
+        val restTestModule = RestInfrastructureTestModule(restInfrastructure.server)
+        val testApplication = TestApplication.setupWith(
+            searchModule,
+            searchTestModule,
+            restTestModule
+        )
+
+        restInfrastructure.restScenario(200, suggestions)
         localStorage = testApplication.localStorage
         screen = testApplication.searchScreen()
     }
@@ -81,7 +92,7 @@ class SearchActivityTests {
 
         whenActivityResumed<SearchActivity> {
 
-            screen.delegate.onQuerySubmited("kotlin")
+            screen.delegate.onNewSearch("kotlin")
             awaitPendingExecutions()
 
             val savedSearches = runBlocking { localStorage.lastSearches() }

@@ -7,7 +7,6 @@ import com.schibsted.spain.barista.rule.flaky.Repeat
 import io.dotanuki.norris.facts.ui.FactsActivity
 import io.dotanuki.testing.rest.RestDataBuilder
 import io.dotanuki.testing.rest.RestInfrastructureRule
-import io.dotanuki.testing.rest.nextSuccess
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -17,7 +16,7 @@ import org.junit.runner.RunWith
 @RunWith(AndroidJUnit4::class)
 class NorrisAcceptanceTests {
 
-    private val restInfrastructure = RestInfrastructureRule()
+    private val restInfrastructure = RestInfrastructureRule(customPort = 4242)
     private val stressedExecution = FlakyTestRule()
 
     @get:Rule val rules: RuleChain =
@@ -36,9 +35,9 @@ class NorrisAcceptanceTests {
         val suggestionsPayload = RestDataBuilder.suggestionsPayload(suggestions)
         val factsPayload = RestDataBuilder.factsPayload(searchTerm, fact)
 
-        restInfrastructure.server.run {
-            nextSuccess(suggestionsPayload)
-            nextSuccess(factsPayload)
+        restInfrastructure.run {
+            restScenario(200, suggestionsPayload)
+            restScenario(200, factsPayload)
         }
 
         startingFrom<FactsActivity> {
@@ -68,10 +67,10 @@ class NorrisAcceptanceTests {
         val suggestionsPayload = RestDataBuilder.suggestionsPayload(suggestions)
         val codeFactPayload = RestDataBuilder.factsPayload("code", codeFact)
 
-        restInfrastructure.server.run {
-            nextSuccess(mathFactPayload)
-            nextSuccess(suggestionsPayload)
-            nextSuccess(codeFactPayload)
+        restInfrastructure.run {
+            restScenario(200, mathFactPayload)
+            restScenario(200, suggestionsPayload)
+            restScenario(200, codeFactPayload)
         }
 
         startingFrom<FactsActivity> {
