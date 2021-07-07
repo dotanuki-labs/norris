@@ -18,7 +18,10 @@ import io.dotanuki.norris.networking.errors.RemoteServiceIntegrationError
 import io.dotanuki.testing.app.TestApplication
 import io.dotanuki.testing.app.whenActivityResumed
 import io.dotanuki.testing.rest.RestDataBuilder
+import io.dotanuki.testing.rest.RestInfrastructureRule
+import io.dotanuki.testing.rest.RestInfrastructureTestModule
 import org.junit.Before
+import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 
@@ -28,8 +31,11 @@ class FactsActivityTests {
     private lateinit var testApp: TestApplication
     private lateinit var screen: FakeFactsScreen
 
+    @get:Rule val restInfrastructure = RestInfrastructureRule()
+
     @Before fun `before each test`() {
-        testApp = TestApplication.setupWith(factsModule, factsTestModule)
+        val restTestModule = RestInfrastructureTestModule(restInfrastructure.server)
+        testApp = TestApplication.setupWith(factsModule, factsTestModule, restTestModule)
         screen = testApp.factsScreen()
     }
 
@@ -49,7 +55,7 @@ class FactsActivityTests {
         val payload = RestDataBuilder.factsPayload(previousSearch, fact)
 
         with(testApp) {
-            api.fakeSearch = payload
+            restInfrastructure.restScenario(200, payload)
             localStorage.registerNewSearch("humor")
         }
 
@@ -70,7 +76,7 @@ class FactsActivityTests {
 
     @Test fun `when remote service fails, should display the error`() {
         with(testApp) {
-            api.errorMode = true
+            restInfrastructure.restScenario(503)
             localStorage.registerNewSearch("code")
         }
 

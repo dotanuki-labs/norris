@@ -6,6 +6,7 @@ import io.dotanuki.norris.facts.domain.ChuckNorrisFact
 import io.dotanuki.norris.networking.errors.RemoteServiceIntegrationError
 import io.dotanuki.testing.files.loadFile
 import io.dotanuki.testing.rest.RestInfrastructureRule
+import io.dotanuki.testing.rest.wireRestApi
 import kotlinx.coroutines.runBlocking
 import org.junit.Before
 import org.junit.Rule
@@ -13,17 +14,18 @@ import org.junit.Test
 
 internal class FactsDataSourceTests {
 
-    @get:Rule val rule = RestInfrastructureRule()
+    @get:Rule val restInfrastructure = RestInfrastructureRule()
 
     private lateinit var dataSource: FactsDataSource
 
     @Before fun `before each test`() {
-        dataSource = FactsDataSource(rule.api)
+        val api = restInfrastructure.server.wireRestApi()
+        dataSource = FactsDataSource(api)
     }
 
     @Test fun `should handle no results properly`() {
 
-        rule.defineScenario(
+        restInfrastructure.restScenario(
             status = 200,
             response = loadFile("200_search_no_results.json")
         )
@@ -34,7 +36,7 @@ internal class FactsDataSourceTests {
 
     @Test fun `should handle downstream error`() {
 
-        rule.defineScenario(status = 500)
+        restInfrastructure.restScenario(status = 500)
 
         assertErrorTransformed(
             whenRunning = this::simpleSearch,
@@ -44,7 +46,7 @@ internal class FactsDataSourceTests {
 
     @Test fun `should fetch facts with valid query term`() {
 
-        rule.defineScenario(
+        restInfrastructure.restScenario(
             status = 200,
             response = loadFile("200_search_with_results.json")
         )

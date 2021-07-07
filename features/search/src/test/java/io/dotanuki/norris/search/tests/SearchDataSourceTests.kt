@@ -8,6 +8,7 @@ import io.dotanuki.norris.search.domain.SearchOptions
 import io.dotanuki.testing.app.TestApplication
 import io.dotanuki.testing.rest.RestDataBuilder
 import io.dotanuki.testing.rest.RestInfrastructureRule
+import io.dotanuki.testing.rest.wireRestApi
 import kotlinx.coroutines.runBlocking
 import org.junit.Before
 import org.junit.Rule
@@ -18,7 +19,7 @@ import org.robolectric.RobolectricTestRunner
 @RunWith(RobolectricTestRunner::class)
 class SearchDataSourceTests {
 
-    @get:Rule val rule = RestInfrastructureRule()
+    @get:Rule val restInfrastructure = RestInfrastructureRule()
 
     private lateinit var dataSource: SearchesDataSource
     private lateinit var storage: LocalStorage
@@ -26,13 +27,15 @@ class SearchDataSourceTests {
     @Before fun `before each test`() {
         val testApplication = TestApplication.setupWith(searchModule)
         storage = testApplication.localStorage
-        dataSource = SearchesDataSource(storage, rule.api)
+
+        val api = restInfrastructure.server.wireRestApi()
+        dataSource = SearchesDataSource(storage, api)
     }
 
     @Test fun `should return only suggestions when history not available`() {
         val suggestions = listOf("code", "dev", "humor")
         val payload = RestDataBuilder.suggestionsPayload(suggestions)
-        rule.defineScenario(200, payload)
+        restInfrastructure.restScenario(200, payload)
 
         val actual = runBlocking { dataSource.searchOptions() }
 
@@ -43,7 +46,7 @@ class SearchDataSourceTests {
     @Test fun `should return only suggestions and history`() {
         val suggestions = listOf("code", "dev", "humor")
         val payload = RestDataBuilder.suggestionsPayload(suggestions)
-        rule.defineScenario(200, payload)
+        restInfrastructure.restScenario(200, payload)
 
         val searches = listOf("javascript, php").onEach { storage.registerNewSearch(it) }
 
