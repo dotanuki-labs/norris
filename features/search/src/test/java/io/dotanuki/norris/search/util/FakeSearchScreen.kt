@@ -25,7 +25,7 @@ class FakeSearchScreen : SearchScreen {
     }
 
     companion object {
-        fun TestApplication.searchScreen(): FakeSearchScreen =
-            di.direct.instance<SearchScreen>() as FakeSearchScreen
+        fun from(app: TestApplication): FakeSearchScreen =
+            app.di.direct.instance<SearchScreen>() as FakeSearchScreen
     }
 }

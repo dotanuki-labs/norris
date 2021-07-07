@@ -6,7 +6,6 @@ import io.dotanuki.logger.ConsoleLogger
 import io.dotanuki.norris.navigator.di.navigatorModule
 import io.dotanuki.norris.persistance.LocalStorage
 import io.dotanuki.norris.persistance.di.persistanceModule
-import io.dotanuki.norris.rest.ChuckNorrisDotIO
 import io.dotanuki.norris.rest.di.restInfrastructureModule
 import okhttp3.HttpUrl.Companion.toHttpUrlOrNull
 import org.kodein.di.DI
@@ -52,7 +51,6 @@ class TestApplication : Application(), DIAware {
     )
 
     lateinit var localStorage: LocalStorage
-    lateinit var api: ChuckNorrisDotIO
 
     override val di by lazy { container }
 
@@ -68,7 +66,6 @@ class TestApplication : Application(), DIAware {
                 }
 
                 localStorage = di.direct.instance()
-                api = di.direct.instance<ChuckNorrisDotIO>()
             }
         }
     }
