@@ -1,4 +1,4 @@
-package io.dotanuki.norri.facts.util
+package io.dotanuki.norris.facts.util
 
 import android.view.View
 import io.dotanuki.norris.facts.presentation.FactsScreenState

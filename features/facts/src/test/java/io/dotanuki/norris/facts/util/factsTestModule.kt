@@ -1,4 +1,4 @@
-package io.dotanuki.norri.facts.util
+package io.dotanuki.norris.facts.util
 
 import io.dotanuki.norris.facts.ui.FactsScreen
 import org.kodein.di.DI
