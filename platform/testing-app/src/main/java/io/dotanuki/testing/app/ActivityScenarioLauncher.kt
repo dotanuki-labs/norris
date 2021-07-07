@@ -7,25 +7,25 @@ import androidx.test.core.app.ActivityScenario
 import androidx.test.core.app.launchActivity
 import org.robolectric.Shadows
 
-inline fun <reified T : Activity> activityScenario(target: ActivityScenarioLauncher<T>.() -> Unit) =
+inline fun <reified T : Activity> whenActivityResumed(noinline verification: (T) -> Unit) =
     launchActivity<T>().let {
-        ActivityScenarioLauncher(it).apply(target)
+        ActivityScenarioLauncher(it, verification).execute()
         it.close()
     }
 
-class ActivityScenarioLauncher<T : Activity>(private val target: ActivityScenario<T>) {
+class ActivityScenarioLauncher<T : Activity>(
+    private val target: ActivityScenario<T>,
+    private val verification: (T) -> Unit
+) {
 
-    fun afterLaunch(beforeResume: () -> Any) {
-        beforeResume()
+    fun execute() {
         target.moveToState(Lifecycle.State.RESUMED)
-    }
-
-    fun whenResumed(whenResumed: (T) -> Unit) {
-        target.onActivity { whenResumed(it) }
+        awaitPendingExecutions()
+        target.onActivity { verification(it) }
     }
 }
 
-fun ActivityScenarioLauncher<*>.awaitPendingExecutions() {
-    Thread.sleep(500)
+fun awaitPendingExecutions() {
+    Thread.sleep(500L)
     Shadows.shadowOf(Looper.getMainLooper()).idle()
 }
