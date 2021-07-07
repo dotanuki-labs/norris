@@ -17,6 +17,7 @@ import io.dotanuki.norris.facts.util.factsTestModule
 import io.dotanuki.norris.networking.errors.RemoteServiceIntegrationError
 import io.dotanuki.testing.app.TestApplication
 import io.dotanuki.testing.app.whenActivityResumed
+import io.dotanuki.testing.persistance.PersistanceHelper
 import io.dotanuki.testing.rest.RestDataBuilder
 import io.dotanuki.testing.rest.RestInfrastructureRule
 import io.dotanuki.testing.rest.RestInfrastructureTestModule
@@ -28,14 +29,17 @@ import org.junit.runner.RunWith
 @RunWith(AndroidJUnit4::class)
 class FactsActivityTests {
 
-    private lateinit var testApp: TestApplication
     private lateinit var screen: FakeFactsScreen
 
     @get:Rule val restInfrastructure = RestInfrastructureRule()
 
     @Before fun `before each test`() {
-        val restTestModule = RestInfrastructureTestModule(restInfrastructure.server)
-        testApp = TestApplication.setupWith(factsModule, factsTestModule, restTestModule)
+        val testApp = TestApplication.setupWith(
+            factsModule,
+            factsTestModule,
+            RestInfrastructureTestModule(restInfrastructure.server)
+        )
+
         screen = testApp.factsScreen()
     }
 
@@ -52,12 +56,12 @@ class FactsActivityTests {
 
         val fact = "Chuck Norris can divide by zero"
         val previousSearch = "humor"
-        val payload = RestDataBuilder.factsPayload(previousSearch, fact)
 
-        with(testApp) {
-            restInfrastructure.restScenario(200, payload)
-            localStorage.registerNewSearch("humor")
-        }
+        PersistanceHelper.registerNewSearch("humor")
+        restInfrastructure.restScenario(
+            status = 200,
+            response = RestDataBuilder.factsPayload(previousSearch, fact)
+        )
 
         whenActivityResumed<FactsActivity> {
             val facts = listOf(
@@ -75,10 +79,8 @@ class FactsActivityTests {
     }
 
     @Test fun `when remote service fails, should display the error`() {
-        with(testApp) {
-            restInfrastructure.restScenario(503)
-            localStorage.registerNewSearch("code")
-        }
+        restInfrastructure.restScenario(status = 503)
+        PersistanceHelper.registerNewSearch("code")
 
         whenActivityResumed<FactsActivity> {
             val error = Failed(RemoteServiceIntegrationError.RemoteSystem)

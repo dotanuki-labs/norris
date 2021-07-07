@@ -14,6 +14,8 @@ import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
+import org.kodein.di.direct
+import org.kodein.di.instance
 import org.robolectric.RobolectricTestRunner
 
 @RunWith(RobolectricTestRunner::class)
@@ -26,7 +28,7 @@ class SearchDataSourceTests {
 
     @Before fun `before each test`() {
         val testApplication = TestApplication.setupWith(searchModule)
-        storage = testApplication.localStorage
+        storage = testApplication.di.direct.instance()
 
         val api = restInfrastructure.server.wireRestApi()
         dataSource = SearchesDataSource(storage, api)

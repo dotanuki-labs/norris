@@ -12,10 +12,10 @@ class FakeSearchScreen : SearchScreen {
 
     val trackedStates = mutableListOf<SearchScreenState>()
     var isLinked: Boolean = false
-    lateinit var delegate: SearchScreen.Delegate
+    lateinit var screenDelegate: SearchScreen.Delegate
 
-    override fun link(host: SearchActivity, callbacks: SearchScreen.Delegate): View {
-        delegate = callbacks
+    override fun link(host: SearchActivity, delegate: SearchScreen.Delegate): View {
+        screenDelegate = delegate
         isLinked = true
         return View(host)
     }
@@ -25,7 +25,7 @@ class FakeSearchScreen : SearchScreen {
     }
 
     companion object {
-        fun TestApplication.searchScreen(): FakeSearchScreen =
-            di.direct.instance<SearchScreen>() as FakeSearchScreen
+        fun from(app: TestApplication): FakeSearchScreen =
+            app.di.direct.instance<SearchScreen>() as FakeSearchScreen
     }
 }
