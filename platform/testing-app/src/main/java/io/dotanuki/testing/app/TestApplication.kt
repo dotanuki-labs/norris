@@ -7,8 +7,7 @@ import io.dotanuki.norris.navigator.di.navigatorModule
 import io.dotanuki.norris.persistance.LocalStorage
 import io.dotanuki.norris.persistance.di.persistanceModule
 import io.dotanuki.norris.rest.ChuckNorrisDotIO
-import io.dotanuki.testing.rest.FakeChuckNorrisIO
-import io.dotanuki.testing.rest.testRestInfrastructureModule
+import io.dotanuki.norris.rest.di.restInfrastructureModule
 import okhttp3.HttpUrl.Companion.toHttpUrlOrNull
 import org.kodein.di.DI
 import org.kodein.di.DIAware
@@ -45,15 +44,15 @@ class TestApplication : Application(), DIAware {
         }
     }
 
-    var modules = mutableListOf(
+    private var modules = mutableListOf(
         containerApplicationModule,
-        testRestInfrastructureModule,
+        restInfrastructureModule,
         persistanceModule,
         navigatorModule
     )
 
     lateinit var localStorage: LocalStorage
-    lateinit var api: FakeChuckNorrisIO
+    lateinit var api: ChuckNorrisDotIO
 
     override val di by lazy { container }
 
@@ -67,8 +66,9 @@ class TestApplication : Application(), DIAware {
                 extrasModules.forEach {
                     modules += it
                 }
+
                 localStorage = di.direct.instance()
-                api = di.direct.instance<ChuckNorrisDotIO>() as FakeChuckNorrisIO
+                api = di.direct.instance<ChuckNorrisDotIO>()
             }
         }
     }
