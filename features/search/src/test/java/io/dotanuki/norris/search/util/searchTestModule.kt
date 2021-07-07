@@ -1,4 +1,4 @@
-package io.dotanuki.norris.search.tests.util
+package io.dotanuki.norris.search.util
 
 import io.dotanuki.norris.search.ui.SearchScreen
 import org.kodein.di.DI

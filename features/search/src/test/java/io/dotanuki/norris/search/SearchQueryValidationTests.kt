@@ -1,4 +1,4 @@
-package io.dotanuki.norris.search.tests
+package io.dotanuki.norris.search
 
 import com.google.common.truth.Truth.assertThat
 import io.dotanuki.norris.search.domain.SearchQueryValidation

@@ -1,4 +1,4 @@
-package io.dotanuki.norris.search.tests.util
+package io.dotanuki.norris.search.util
 
 import android.view.View
 import io.dotanuki.norris.search.presentation.SearchScreenState
