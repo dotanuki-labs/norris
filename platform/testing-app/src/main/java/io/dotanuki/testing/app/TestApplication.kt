@@ -21,7 +21,7 @@ class TestApplication : Application(), DIAware {
 
     private val container by lazy {
         DI {
-            modules.forEach { import(it) }
+            modules.forEach { import(it, allowOverride = true) }
             bind<Application> {
                 singleton { this@TestApplication }
             }
@@ -58,13 +58,15 @@ class TestApplication : Application(), DIAware {
     override val di by lazy { container }
 
     companion object {
-        fun setupWith(module: DI.Module): TestApplication {
+        fun setupWith(vararg extrasModules: DI.Module): TestApplication {
 
             val instrumentation = InstrumentationRegistry.getInstrumentation()
             val app = instrumentation.targetContext.applicationContext as TestApplication
 
             return app.apply {
-                modules += module
+                extrasModules.forEach {
+                    modules += it
+                }
                 localStorage = di.direct.instance()
                 api = di.direct.instance<ChuckNorrisDotIO>() as FakeChuckNorrisIO
             }

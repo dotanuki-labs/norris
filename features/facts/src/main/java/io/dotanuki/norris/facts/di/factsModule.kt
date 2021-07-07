@@ -6,13 +6,15 @@ import androidx.lifecycle.ViewModelProvider
 import io.dotanuki.norris.facts.data.ActualSearchDataSource
 import io.dotanuki.norris.facts.data.FactsDataSource
 import io.dotanuki.norris.facts.presentation.FactsViewModel
+import io.dotanuki.norris.facts.ui.FactsScreen
+import io.dotanuki.norris.facts.ui.WrappedContainer
 import io.dotanuki.norris.features.utilties.KodeinTags
 import org.kodein.di.DI
 import org.kodein.di.bind
 import org.kodein.di.instance
 import org.kodein.di.provider
 
-val factsModule = DI.Module("menu_facts_list") {
+val factsModule = DI.Module("facts-module") {
 
     bind {
         provider {
@@ -31,6 +33,12 @@ val factsModule = DI.Module("menu_facts_list") {
 
             val host: FragmentActivity = instance(KodeinTags.hostActivity)
             ViewModelProvider(host, factory).get(FactsViewModel::class.java)
+        }
+    }
+
+    bind<FactsScreen> {
+        provider {
+            WrappedContainer()
         }
     }
 }

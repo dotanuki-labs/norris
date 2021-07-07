@@ -4,85 +4,47 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
-import io.dotanuki.logger.Logger
 import io.dotanuki.norris.features.utilties.repeatOnLifecycle
 import io.dotanuki.norris.features.utilties.selfBind
-import io.dotanuki.norris.features.utilties.viewBinding
-import io.dotanuki.norris.search.databinding.ActivitySearchBinding
 import io.dotanuki.norris.search.presentation.SearchInteraction
-import io.dotanuki.norris.search.presentation.SearchScreenState
-import io.dotanuki.norris.search.presentation.SearchScreenState.Content
-import io.dotanuki.norris.search.presentation.SearchScreenState.Done
-import io.dotanuki.norris.search.presentation.SearchScreenState.Error
-import io.dotanuki.norris.search.presentation.SearchScreenState.Idle
-import io.dotanuki.norris.search.presentation.SearchScreenState.Loading
 import io.dotanuki.norris.search.presentation.SearchViewModel
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import org.kodein.di.DIAware
 import org.kodein.di.instance
 
-class SearchActivity : AppCompatActivity(), SearchScreen.Delegate, DIAware {
+class SearchActivity : AppCompatActivity(), DIAware {
 
     override val di by selfBind()
     private val viewModel by instance<SearchViewModel>()
-    private val logger by instance<Logger>()
+    private val searchScreen by instance<SearchScreen>()
 
-    private val searchScreen by lazy {
-        SearchScreen(this)
-    }
+    private val delegate by lazy {
+        object : SearchScreen.Delegate {
+            override fun onQuerySubmited(term: String) {
+                viewModel.handle(SearchInteraction.NewQuerySet(term))
+            }
 
-    val states by lazy {
-        mutableListOf<SearchScreenState>()
-    }
-
-    override val binding by viewBinding(ActivitySearchBinding::inflate)
-
-    override fun onQuerySubmited(term: String) {
-        viewModel.handle(SearchInteraction.NewQuerySet(term))
-    }
-
-    override fun onUpNavigationClicked() {
-        finish()
-    }
-
-    override fun onChipClicked(term: String) {
-        viewModel.handle(SearchInteraction.NewQuerySet(term))
+            override fun onChipClicked(term: String) {
+                viewModel.handle(SearchInteraction.NewQuerySet(term))
+            }
+        }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(binding.root)
-        setup()
-    }
+        val rootView = searchScreen.link(this, delegate)
+        setContentView(rootView)
 
-    private fun setup() {
         lifecycleScope.launch {
             lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.run {
                     handle(SearchInteraction.OpenedScreen)
-                    bind().collect { renderState(it) }
+                    bind().collect { newState ->
+                        searchScreen.updateWith(newState)
+                    }
                 }
             }
         }
-    }
-
-    private fun renderState(state: SearchScreenState) {
-        states += state
-
-        with(searchScreen) {
-            when (state) {
-                Idle -> searchScreen.setup()
-                Loading -> showLoading()
-                is Error -> handleError(state.error)
-                is Content -> showContent(state.history, state.suggestions)
-                Done -> finish()
-            }
-        }
-    }
-
-    private fun handleError(reason: Throwable) {
-        logger.e("Failed on loading suggestions -> $reason")
-        searchScreen.showError()
     }
 }
