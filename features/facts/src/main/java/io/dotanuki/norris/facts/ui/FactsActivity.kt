@@ -34,8 +34,8 @@ class FactsActivity : AppCompatActivity(), DIAware {
                 navigator.navigateTo(Screen.SearchQuery)
             }
 
-            override fun onShare(url: String) {
-                navigator.toSharingApp(url, "Share this fact!")
+            override fun onShare(fact: String) {
+                navigator.toSharingApp(fact, "Share this fact!")
             }
         }
     }

@@ -84,6 +84,10 @@ android {
         unitTests.isReturnDefaultValues = true
         unitTests.isIncludeAndroidResources = true
     }
+
+    packagingOptions {
+        jniLibs.useLegacyPackaging = true
+    }
 }
 
 dependencies {
