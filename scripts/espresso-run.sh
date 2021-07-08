@@ -15,17 +15,17 @@ echo "🔥 Running instrumentation tests ..."
 EXECUTION=$(adb shell am instrument -w "$JUNIT_RUNNER")
 ERRORS_FOUND=`echo $EXECUTION | grep FAILURES | tr -d ' '`
 
+echo -e "$EXECUTION"
+
 if [ -n "$ERRORS_FOUND" ]; then
   echo
-	echo "🔥 Instrumentation test execution failed!"
+	echo "😞 Instrumentation test execution failed!"
 	echo
 	exit 1
 fi
 
-echo -e "$EXECUTION"
-
 echo
-echo "🔥 Instrumentation tests ran with success!"
+echo "😎 Instrumentation tests ran with success!"
 echo
 
 exit 0

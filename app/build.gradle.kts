@@ -1,3 +1,4 @@
+import com.android.build.api.dsl.BuildType
 import configs.AndroidConfig
 import configs.KotlinConfig
 import configs.ProguardConfig
@@ -33,8 +34,7 @@ android {
         }
 
         resConfig("en")
-
-        testBuildType = "release"
+        testBuildType = evaluateTestBuildType()
     }
 
     signingConfigs {
@@ -52,8 +52,7 @@ android {
             applicationIdSuffix = ".debug"
             versionNameSuffix = "-DEBUG"
             isTestCoverageEnabled = true
-            buildConfigField("String", "CHUCKNORRIS_API_URL", "\"${project.evaluateAPIUrl()}\"")
-            resValue("bool", "clear_networking_traffic_enabled", "${project.evaluateTestMode()}")
+            configureHttps()
         }
 
         getByName("release") {
@@ -63,10 +62,8 @@ android {
             val proguardConfig = ProguardConfig("$rootDir/proguard")
             proguardFiles(*(proguardConfig.customRules))
             proguardFiles(getDefaultProguardFile(proguardConfig.androidRules))
-
-            buildConfigField("String", "CHUCKNORRIS_API_URL", "\"${project.evaluateAPIUrl()}\"")
-            resValue("bool", "clear_networking_traffic_enabled", "${project.evaluateTestMode()}")
             signingConfig = signingConfigs.findByName("release")
+            configureHttps()
         }
     }
 
@@ -125,8 +122,16 @@ dependencies {
     androidTestImplementation("com.squareup.okhttp3:mockwebserver:4.9.1")
 }
 
-fun Project.evaluateTestMode(): Boolean =
+fun Project.httpEnabledForTesting(): Boolean =
     properties["testMode"]?.let { true } ?: false
 
 fun Project.evaluateAPIUrl(): String =
     properties["testMode"]?.let { "http://localhost:4242" } ?: "https://api.chucknorris.io"
+
+fun Project.evaluateTestBuildType(): String =
+    properties["testMode"]?.let { "release" } ?: "debug"
+
+fun BuildType.configureHttps() {
+    buildConfigField("String", "CHUCKNORRIS_API_URL", "\"${project.evaluateAPIUrl()}\"")
+    resValue("bool", "clear_networking_traffic_enabled", "${project.httpEnabledForTesting()}")
+}
