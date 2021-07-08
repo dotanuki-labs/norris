@@ -35,11 +35,21 @@ If you want a simple run emulating the PR pipeline, just use the companion scrip
 It will
 
 - Run static analysers ([Ktlint](https://github.com/pinterest/ktlint) and [Detekt](https://arturbosch.github.io/detekt/))
-- Run all unit tests
+- Run all unit/integration tests over JVM
 - Assemble the `release` APK
-- Run Espresso tests
+- Run Espresso tests over Android/Instrumentation
 
 Please note that an online emulator is required in order to run this script sucessfully.
+
+## Implementation highlights
+
+- **OkHttp** + **Retrofit** for networking
+- **Kotlinx.Serialization** for Json handling
+- **Kotlinx.Coroutines** for asynchrounous processing
+- Unidirectional data-flow driven by **Kotlin Flows**
+- Semi-manual dependencies/instances management at runtime driven by **Kodein**
+- No annotations processors (therefore no `kapt`)
+- No Fragments
 
 ## Testing Strategy
 
@@ -47,15 +57,28 @@ This project is **heavily opinionated** on how testing should be done in modern 
 
 > Write tests. Not too many. Mostly integration
 
-In practice, we have
+In practice, in this project:
 
-- No mocks are used, only fakes (when needed). This project does not use Mockito.
+- No mocks are used, only fakes when needed. That's correct, this project does not use Mockito or Mockk.
 - Most of unit tests actually are on `platform` modules, since those libraries provide core functionally for features
-- On features, tests are mandatory over data sources, although REST APIs should not be directly faked; instead, we test the whole networking stack by inject fake responses through it
-- When a feature has some domain logic of interest - eg, some validation logic over data - such logic is unit tested
-- Also on features, integrated tests run over over Activities by leveraging a pragmatic way to decoupling it from the underlying View and asserting data flows in the desired directions (either from data source to screen or from screen to data sources)
-- This means that we don't unit test ViewModels
-- Espresso tests ensure cross-screen user journeys and run against the release variant of the application     
+- [Table-driven testing](https://dave.cheney.net/2019/05/07/prefer-table-driven-tests) is used whenever possible
+- [Interaction-based tests are completely avoided](https://blog.ploeh.dk/2019/02/18/from-interaction-based-to-state-based-testing/); only state-based tests are used
+- On `features`, tests are mandatory over data sources, although REST APIs are not directly faked; instead, we test the whole networking stack by inject fake responses on a Mock Server
+- When a high level module owns some domain logic of interest - eg, some validation rule - such logic is unit tested
+- Also on `features`, integrated tests run over Activities by leveraging a pragmatic way to decoupling them from their hosted Views. The inflated View is faked at testing time. 
+- No unit test over ViewModels
+- [Acceptance tests](https://www.davefarley.net/?p=186) are implemented with Espresso running over Android/Instrumentation     
+- Espresso tests exercise the **release artefact**; the only difference when compared with a production-ready APK is the REST API URL passed-in at build time
+- Acceptance tests run with a stress-first approach (5 runs per execution x 3 Jobs per run on CI)
+- Acceptance tests exercise real user flows in a cross-screen / cross-feature fashion
+
+Actual numbers:
+
+Testing approach   | Execution Environment           | Amount   | Percentage |
+-------------------| ------------------------------- | -------- | ---------- |
+Unit tests         | JVM/plain                       | 11       | 39%        |
+Integration tests  | JVM/plain + JVM/Instrumentation | 15       | 54%        |
+Acceptance tests   | Android/Instrumentation         | 2        | 7%         |
 
 
 ## Credits
