@@ -40,7 +40,7 @@ class FactsRecyclerAdapter(
                 factLabel.setTextAppearance(appearance)
                 factLabel.text = row.fact
 
-                setOnClickListener { action.invoke(row.url) }
+                setOnClickListener { action.invoke(row.fact) }
             }
         }
     }

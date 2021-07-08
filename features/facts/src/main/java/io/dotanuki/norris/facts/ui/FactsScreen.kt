@@ -31,7 +31,7 @@ interface FactsScreen {
 
         fun onSearch()
 
-        fun onShare(url: String)
+        fun onShare(fact: String)
     }
 
     fun link(host: FactsActivity, delegate: Delegate): View
