@@ -1,8 +1,5 @@
 package io.dotanuki.norris.facts
 
-import androidx.lifecycle.Lifecycle
-import androidx.test.core.app.ActivityScenario
-import androidx.test.core.app.launchActivity
 import androidx.test.filters.LargeTest
 import com.karumi.shot.ScreenshotTest
 import io.dotanuki.norris.facts.presentation.FactDisplayRow
@@ -10,9 +7,9 @@ import io.dotanuki.norris.facts.presentation.FactsPresentation
 import io.dotanuki.norris.facts.presentation.FactsScreenState
 import io.dotanuki.norris.facts.presentation.FactsScreenState.Empty
 import io.dotanuki.norris.facts.presentation.FactsScreenState.Failed
-import io.dotanuki.norris.facts.presentation.FactsScreenState.Idle
 import io.dotanuki.norris.facts.presentation.FactsScreenState.Success
 import io.dotanuki.norris.networking.errors.RemoteServiceIntegrationError
+import io.dotanuki.testing.screenshots.prepareToCaptureScreenshot
 import org.junit.Test
 
 @LargeTest
@@ -46,28 +43,12 @@ class FactsScreenshotTests : ScreenshotTest {
     }
 
     private fun checkScreenshot(targetState: FactsScreenState) {
-        val states = listOf(Idle, targetState)
-        val testActivity = launchActivity<FactsTestActivity>().prepareForScreenshot(states)
-        compareScreenshot(testActivity)
-    }
-
-    private fun ActivityScenario<FactsTestActivity>.prepareForScreenshot(
-        states: List<FactsScreenState>
-    ): FactsTestActivity {
-        var target: FactsTestActivity? = null
-        moveToState(Lifecycle.State.RESUMED)
-        onActivity {
-            target = it.apply {
-                states.forEach { targetState ->
-                    screen.updateWith(targetState)
-                }
+        val testActivity = prepareToCaptureScreenshot<FactsTestActivity> { target ->
+            listOf(FactsScreenState.Idle, targetState).forEach {
+                target.screen.updateWith(it)
             }
         }
-        return if (target != null) {
-            target!!
-        } else {
-            throw IllegalStateException("The activity scenario could not be initialized.")
-        }
+        compareScreenshot(testActivity)
     }
 }
 
