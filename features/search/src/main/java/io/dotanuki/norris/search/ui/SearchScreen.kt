@@ -3,6 +3,7 @@ package io.dotanuki.norris.search.ui
 import android.text.Editable
 import android.view.View
 import android.view.inputmethod.EditorInfo
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.addTextChangedListener
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputEditText
@@ -25,18 +26,18 @@ interface SearchScreen {
         fun onNewSearch(term: String)
     }
 
-    fun link(host: SearchActivity, delegate: Delegate): View
+    fun link(host: AppCompatActivity, delegate: Delegate): View
 
     fun updateWith(newState: SearchScreenState)
 }
 
-internal class WrappedContainer : SearchScreen {
+class WrappedContainer : SearchScreen {
 
-    private lateinit var hostActivity: SearchActivity
+    private lateinit var hostActivity: AppCompatActivity
     private lateinit var bindings: ActivitySearchBinding
     private lateinit var screenDelegate: SearchScreen.Delegate
 
-    override fun link(host: SearchActivity, delegate: SearchScreen.Delegate): View {
+    override fun link(host: AppCompatActivity, delegate: SearchScreen.Delegate): View {
         hostActivity = host
         screenDelegate = delegate
         bindings = ActivitySearchBinding.inflate(hostActivity.layoutInflater)

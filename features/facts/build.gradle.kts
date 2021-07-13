@@ -7,7 +7,7 @@ apply(plugin = "shot")
 
 android {
     defaultConfig {
-        testApplicationId = "io.dotanuki.demos.norris"
+        testApplicationId = "io.dotanuki.demos.norris.test"
         testInstrumentationRunner = "com.karumi.shot.ShotTestRunner"
     }
 
@@ -15,6 +15,10 @@ android {
         exclude("META-INF/*.kotlin_module")
         exclude("META-INF/AL2.0")
         exclude("META-INF/LGPL2.1")
+    }
+
+    testOptions {
+        animationsDisabled = true
     }
 }
 
