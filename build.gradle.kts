@@ -16,6 +16,7 @@ buildscript {
         classpath("org.jetbrains.kotlin:kotlin-serialization:1.5.20")
         classpath("org.jlleitschuh.gradle:ktlint-gradle:10.1.0")
         classpath("io.gitlab.arturbosch.detekt:detekt-gradle-plugin:1.17.1")
+        classpath("com.karumi:shot:5.11.0")
     }
 }
 

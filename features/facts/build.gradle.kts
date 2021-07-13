@@ -3,6 +3,21 @@ plugins {
     id(BuildPlugins.Ids.androidModule)
 }
 
+apply(plugin = "shot")
+
+android {
+    defaultConfig {
+        testApplicationId = "io.dotanuki.demos.norris"
+        testInstrumentationRunner = "com.karumi.shot.ShotTestRunner"
+    }
+
+    packagingOptions {
+        exclude("META-INF/*.kotlin_module")
+        exclude("META-INF/AL2.0")
+        exclude("META-INF/LGPL2.1")
+    }
+}
+
 dependencies {
 
     implementation(project(":platform:logger"))
@@ -44,4 +59,13 @@ dependencies {
     testImplementation("androidx.test.ext:junit-ktx:1.1.3")
     testImplementation("androidx.test:runner:1.4.0")
     testImplementation("androidx.test:rules:1.4.0")
+
+    androidTestImplementation("junit:junit:4.13.2")
+    androidTestImplementation("androidx.test:core:1.4.0")
+    androidTestImplementation("androidx.test:core-ktx:1.4.0")
+    androidTestImplementation("androidx.test.ext:junit:1.1.3")
+    androidTestImplementation("androidx.test.ext:junit-ktx:1.1.3")
+    androidTestImplementation("androidx.test:runner:1.4.0")
+    androidTestImplementation("androidx.test:rules:1.4.0")
+    androidTestImplementation("com.karumi:shot-android:5.11.0")
 }

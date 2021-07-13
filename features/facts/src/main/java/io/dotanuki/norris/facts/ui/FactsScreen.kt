@@ -8,6 +8,7 @@ import android.text.style.ForegroundColorSpan
 import android.text.style.StyleSpan
 import android.view.View
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import io.dotanuki.norris.facts.R
@@ -34,14 +35,14 @@ interface FactsScreen {
         fun onShare(fact: String)
     }
 
-    fun link(host: FactsActivity, delegate: Delegate): View
+    fun link(host: AppCompatActivity, delegate: Delegate): View
 
     fun updateWith(newState: FactsScreenState)
 }
 
-internal class WrappedContainer : FactsScreen {
+class WrappedContainer : FactsScreen {
 
-    private lateinit var hostActivity: FactsActivity
+    private lateinit var hostActivity: AppCompatActivity
     private lateinit var bindings: ActivityFactsBinding
     private lateinit var screenDelegate: FactsScreen.Delegate
 
@@ -55,7 +56,7 @@ internal class WrappedContainer : FactsScreen {
         }
     }
 
-    override fun link(host: FactsActivity, delegate: FactsScreen.Delegate): View {
+    override fun link(host: AppCompatActivity, delegate: FactsScreen.Delegate): View {
         hostActivity = host
         screenDelegate = delegate
         bindings = ActivityFactsBinding.inflate(hostActivity.layoutInflater)
