@@ -13,6 +13,7 @@ include(
     ":platform:testing-commons",
     ":platform:testing-rest",
     ":platform:testing-persistance",
+    ":platform:testing-screenshots",
     ":platform:navigator",
     ":platform:networking",
     ":platform:persistance",

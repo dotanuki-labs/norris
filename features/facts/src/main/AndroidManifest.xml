@@ -3,8 +3,7 @@
     package="io.dotanuki.norris.facts">
 
     <application
-        android:theme="@style/NorrisTheme"
-        >
+        android:theme="@style/NorrisTheme">
         <activity android:name=".ui.FactsActivity" />
     </application>
 

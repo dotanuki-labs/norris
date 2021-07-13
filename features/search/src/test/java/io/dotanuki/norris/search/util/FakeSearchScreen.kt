@@ -1,8 +1,8 @@
 package io.dotanuki.norris.search.util
 
 import android.view.View
+import androidx.appcompat.app.AppCompatActivity
 import io.dotanuki.norris.search.presentation.SearchScreenState
-import io.dotanuki.norris.search.ui.SearchActivity
 import io.dotanuki.norris.search.ui.SearchScreen
 import io.dotanuki.testing.app.TestApplication
 import org.kodein.di.direct
@@ -14,7 +14,7 @@ class FakeSearchScreen : SearchScreen {
     var isLinked: Boolean = false
     lateinit var screenDelegate: SearchScreen.Delegate
 
-    override fun link(host: SearchActivity, delegate: SearchScreen.Delegate): View {
+    override fun link(host: AppCompatActivity, delegate: SearchScreen.Delegate): View {
         screenDelegate = delegate
         isLinked = true
         return View(host)

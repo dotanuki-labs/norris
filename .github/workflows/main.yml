@@ -123,6 +123,42 @@ jobs:
           name: release-apk
           path: app/build/outputs/apk/release
 
+  screenshot_tests:
+    runs-on: macOS-10.15
+    timeout-minutes: 15
+    env:
+      JAVA_TOOL_OPTIONS: -Xmx5g -XX:+UseParallelGC
+
+    steps:
+      - name: Project Checkout
+        uses: actions/checkout@v2.3.4
+
+      - name: Setup JDK
+        uses: actions/setup-java@v2.1.0
+        with:
+          distribution: 'adopt'
+          java-version: 11
+
+      - name: Optimize for Gradle build
+        run: |
+          mkdir -p ~/.gradle
+          cp .github/githubci-gradle.properties ~/.gradle/gradle.properties
+
+      - name: Setup Cache
+        uses: actions/cache@v2.1.6
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: ${{ runner.os }}-${{ github.job }}-${{ hashFiles('**/*.gradle*') }}-${{ hashFiles('**/gradle/wrapper/gradle-wrapper.properties') }}-${{ hashFiles('**/buildSrc/**/*.kt') }}
+          restore-keys: ${{ runner.os }}-${{ github.job }}-
+
+      - name: Run Screenshot tests
+        uses: reactivecircus/android-emulator-runner@v2.19.0
+        with:
+          api-level: 29
+          profile: pixel_3a
+          script: ./gradlew clean executeScreenTests --no-daemon --stacktrace
 
   espresso_prepare:
     runs-on: ubuntu-20.04
@@ -171,7 +207,7 @@ jobs:
 
     runs-on: macOS-10.15
     timeout-minutes: 15
-    needs: [assemble_apk, espresso_prepare, unit_tests, static_analysis]
+    needs: [assemble_apk, espresso_prepare, unit_tests, static_analysis, screenshot_tests]
     steps:
 
       - name: Project Checkout
