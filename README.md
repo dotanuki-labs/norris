@@ -65,8 +65,9 @@ In practice, in this project:
 - [Interaction-based tests are completely avoided](https://blog.ploeh.dk/2019/02/18/from-interaction-based-to-state-based-testing/); only state-based tests are used
 - On `features`, tests are mandatory over data sources, although REST APIs are not directly faked; instead, we test the whole networking stack by inject fake responses on a Mock Server
 - When a high level module owns some domain logic of interest - eg, some validation rule - such logic is unit tested
-- Also on `features`, integrated tests run over Activities by leveraging a pragmatic way to decoupling them from their hosted Views. The inflated View is faked at testing time. 
 - No unit test over ViewModels
+- Also on `features`, component/integrated tests run over Activities by leveraging a pragmatic way to decoupling them from their hosted Views. The inflated View is faked at testing time; tests run on top of Roboletric + Android/Instrumentation APIs
+- In addition to that, on `features` we test the View layer via [screenshot tests](https://medium.com/definitylabs/what-is-screenshot-testing-43981023cdff)
 - [Acceptance tests](https://www.davefarley.net/?p=186) are implemented with Espresso running over Android/Instrumentation     
 - Espresso tests exercise the **release artefact**; the only difference when compared with a production-ready APK is the REST API URL passed-in at build time
 - Acceptance tests run with a stress-first approach (5 runs per execution x 3 Jobs per run on CI)
@@ -74,16 +75,15 @@ In practice, in this project:
 
 Actual numbers:
 
-Testing approach   | Execution Environment           | Amount   | Percentage |
--------------------| ------------------------------- | -------- | ---------- |
-Unit tests         | JVM/plain                       | 11       | 39%        |
-Integration tests  | JVM/plain + JVM/Instrumentation | 15       | 54%        |
-Acceptance tests   | Android/Instrumentation         | 2        | 7%         |
-
+Testing approach   | Execution Environment                            | Amount   | Percentage   |
+-------------------| -------------------------------------------------| -------- | ------------ |
+Unit tests         | JVM-only                                         | 11       | ~ 32%        |
+Integration tests  | JVM-only + Robolectric + Android/Instrumentation | 21       | ~ 62%        |
+Acceptance tests   | Android/Instrumentation                          | 2        | ~ 6%         |
 
 ## Credits
 
-- [Mathias Schilling](https://github.com/matchilling), for the Chuck Norris facts [REST api](https://api.chucknorris.io/)
+- [Mathias Schilling](https://github.com/matchilling), for the Chuck Norris facts [REST API](https://api.chucknorris.io/)
 - [Material Design Icons](https://materialdesignicons.com/) for the error states images
 - [Jetbrains](https://www.jetbrains.com/) for the amazing developer experience around Kotlin and Coroutines
 - Someone in the Web for the Norris clipart ❤️ _(I'll be happy to put your name here, ping me!)_
