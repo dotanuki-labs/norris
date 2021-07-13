@@ -1,26 +1,10 @@
+import plugins.enableScreenshotTests
 
 plugins {
     id(BuildPlugins.Ids.androidModule)
 }
 
-apply(plugin = "shot")
-
-android {
-    defaultConfig {
-        testApplicationId = "io.dotanuki.demos.norris.test"
-        testInstrumentationRunner = "com.karumi.shot.ShotTestRunner"
-    }
-
-    packagingOptions {
-        exclude("META-INF/*.kotlin_module")
-        exclude("META-INF/AL2.0")
-        exclude("META-INF/LGPL2.1")
-    }
-
-    testOptions {
-        animationsDisabled = true
-    }
-}
+enableScreenshotTests()
 
 dependencies {
 
