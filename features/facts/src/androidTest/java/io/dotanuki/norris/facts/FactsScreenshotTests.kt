@@ -51,4 +51,3 @@ class FactsScreenshotTests : ScreenshotTest {
         compareScreenshot(testActivity)
     }
 }
-
