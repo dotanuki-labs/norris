@@ -4,7 +4,7 @@ plugins {
 }
 
 dependencies {
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.5.1")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.5.1-native-mt")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.5.1")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-debug:1.5.1")
     implementation("junit:junit:4.13.2")
