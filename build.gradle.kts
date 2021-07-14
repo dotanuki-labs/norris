@@ -25,7 +25,6 @@ allprojects {
     repositories {
         mavenCentral()
         google()
-        jcenter()
     }
 
     apply(plugin = BuildPlugins.Ids.ktlint)
