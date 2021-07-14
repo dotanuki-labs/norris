@@ -43,20 +43,22 @@ This project is **heavily opinionated** on how testing should be done in modern 
 
 > Write tests. Not too many. Mostly integration
 
-In practice, in this project:
+approaching the concept of a [honeycomb of tests](https://engineering.atspotify.com/2018/01/11/testing-of-microservices/) the most I can.
 
-- No mocks are used, only fakes when needed. That's correct, this project does not use Mockito or Mockk.
-- Most of unit tests actually are on `platform` modules, since those libraries provide core functionally for features
+In a nutshell :
+
+- No mocks are used, only fakes when needed. This project does not use libraries like Mockito or Mockk.
+- Most of unit tests actually are on `platform` modules, since these modules provide the core functionally for features
 - [Table-driven testing](https://dave.cheney.net/2019/05/07/prefer-table-driven-tests) is used whenever possible
 - [Interaction-based tests are completely avoided](https://blog.ploeh.dk/2019/02/18/from-interaction-based-to-state-based-testing/); only state-based tests are used
 - On `features`, tests are mandatory over data sources, although REST APIs are not directly faked; instead, we test the whole networking stack by inject fake responses on a Mock Server
 - When a high level module owns some domain logic of interest - eg, some validation rule - such logic is unit tested
 - No unit test over ViewModels
-- Also on `features`, component/integrated tests run over Activities by leveraging a pragmatic way to decoupling them from their hosted Views. The inflated View is faked at testing time; tests run on top of Roboletric + Android/Instrumentation APIs
-- In addition to that, on `features` we test the View layer via [screenshot tests](https://medium.com/definitylabs/what-is-screenshot-testing-43981023cdff)
+- Also on `features`, integrated tests run at Activity level by leveraging a pragmatic way to decoupling this platform controller from its hosted Views : the inflated View is faked at testing time. Tests run on top of Robolectric over Activity Scenarios.
+- In addition to that, on `features` we test the View layer via [screenshot tests](https://medium.com/definitylabs/what-is-screenshot-testing-43981023cdff) in a fully isolated way. I understand that **screenshot tests are not the same and should not be used as acceptance tests**.
 - [Acceptance tests](https://www.davefarley.net/?p=186) are implemented with Espresso running over Android/Instrumentation     
-- Acceptance tests exercise the **release artefact**, approaching what will be shipped to users/customers; the only exception is the REST API URL passed-in at build time, for the sake of controlling testing conditions
-- Acceptance tests exercise real user flows in a cross-screen / cross-feature fashion, running with a stress-first approach (5 runs per execution x 3 Jobs per run on CI)
+- Acceptance tests exercise the **release artefact**, approaching what will be shipped to users/customers; the only exception here is the REST API URL passed-in at build time (for the sake of controlling testing conditions)
+- Acceptance tests exercise real user flows in a cross-screen / cross-feature fashion and running with a stress-first approach (5 runs per execution x 3 Jobs per run on CI)
 
 Actual numbers:
 
@@ -78,10 +80,13 @@ It will
 
 - Run static analysers ([Ktlint](https://github.com/pinterest/ktlint) and [Detekt](https://arturbosch.github.io/detekt/))
 - Run all unit/integration tests over JVM
-- Assemble the `release` APK
+- Run all screenshot tests over Android/Instrumentation (self-contained screens)
+- Assemble the `release` APK and `instrumentation-tests` APK
 - Run Espresso tests over Android/Instrumentation
 
-Please note that an online emulator is required in order to run this script sucessfully.
+Please note that an online emulator is required in order to run this script sucessfully. I recommend the following AVD configuration : `api-29` with `pixel3a` device profile (the same used on CI)
+
+Local builds should run just fine over JDK8 or JDK11 (recommended). In addition to that, this project should work just fine with the [latest stable release of Android Studio](https://developer.android.com/studio/releases).
 
 ## Credits
 
