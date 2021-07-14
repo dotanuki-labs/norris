@@ -21,27 +21,7 @@ This project leverages on [api.chucknorris.io](https://api.chucknorris.io/) as r
 
 ![showcase-norris](.github/assets/showcase-norris.png)
 
-The code is structured in a multi-module fashion, with semantics of high-level modules (under `features`) packaging high-level pieces of funcionality (including UI details) while low-level modules (or `platform` ones) provide required infrastructure for features, like networking, storage and so on.
-
-
-## Building and Running
-
-If you want a simple run emulating the PR pipeline, just use the companion script
-
-```
-./scripts/emulate-pr-build.sh
-```
-
-It will
-
-- Run static analysers ([Ktlint](https://github.com/pinterest/ktlint) and [Detekt](https://arturbosch.github.io/detekt/))
-- Run all unit/integration tests over JVM
-- Assemble the `release` APK
-- Run Espresso tests over Android/Instrumentation
-
-Please note that an online emulator is required in order to run this script sucessfully.
-
-## Implementation highlights
+## Implementation Highlights
 
 - **OkHttp** + **Retrofit** for networking
 - **Kotlinx.Serialization** for Json handling
@@ -50,6 +30,12 @@ Please note that an online emulator is required in order to run this script suce
 - Semi-manual dependencies/instances management at runtime driven by **Kodein**
 - No annotations processors (therefore no `kapt`)
 - No Fragments
+
+## Modularisation Highlights
+
+The code is structured in a multi-module fashion, with semantics of high-level modules (under `features`) packaging high-level pieces of funcionality (including UI details) while low-level modules (or `platform` ones) provide required infrastructure for features, like networking, storage and so on. The final product is packaged on top of the `app` module.
+
+![noris-modules](.github/assets/norris-modules.jpeg)
 
 ## Testing Strategy
 
@@ -69,9 +55,8 @@ In practice, in this project:
 - Also on `features`, component/integrated tests run over Activities by leveraging a pragmatic way to decoupling them from their hosted Views. The inflated View is faked at testing time; tests run on top of Roboletric + Android/Instrumentation APIs
 - In addition to that, on `features` we test the View layer via [screenshot tests](https://medium.com/definitylabs/what-is-screenshot-testing-43981023cdff)
 - [Acceptance tests](https://www.davefarley.net/?p=186) are implemented with Espresso running over Android/Instrumentation     
-- Espresso tests exercise the **release artefact**; the only difference when compared with a production-ready APK is the REST API URL passed-in at build time
-- Acceptance tests run with a stress-first approach (5 runs per execution x 3 Jobs per run on CI)
-- Acceptance tests exercise real user flows in a cross-screen / cross-feature fashion
+- Acceptance tests exercise the **release artefact**, approaching what will be shipped to users/customers; the only exception is the REST API URL passed-in at build time, for the sake of controlling testing conditions
+- Acceptance tests exercise real user flows in a cross-screen / cross-feature fashion, running with a stress-first approach (5 runs per execution x 3 Jobs per run on CI)
 
 Actual numbers:
 
@@ -80,6 +65,23 @@ Testing approach   | Execution Environment                            | Amount  
 Unit tests         | JVM-only                                         | 11       | ~ 32%        |
 Integration tests  | JVM-only + Robolectric + Android/Instrumentation | 21       | ~ 62%        |
 Acceptance tests   | Android/Instrumentation                          | 2        | ~ 6%         |
+
+## Building and Running
+
+If you want a simple run emulating the PR pipeline, just use the companion script
+
+```
+./scripts/emulate-pr-build.sh
+```
+
+It will
+
+- Run static analysers ([Ktlint](https://github.com/pinterest/ktlint) and [Detekt](https://arturbosch.github.io/detekt/))
+- Run all unit/integration tests over JVM
+- Assemble the `release` APK
+- Run Espresso tests over Android/Instrumentation
+
+Please note that an online emulator is required in order to run this script sucessfully.
 
 ## Credits
 
