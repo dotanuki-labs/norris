@@ -4,12 +4,9 @@
 
     <application>
 
-        <activity android:name=".OnboardingActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+        <activity
+            android:name=".OnboardingActivity"
+            android:screenOrientation="portrait"/>
 
     </application>
 
