@@ -196,7 +196,7 @@ jobs:
       - name: Run Screenshot tests
         uses: reactivecircus/android-emulator-runner@v2.19.0
         with:
-          api-level: 28
+          api-level: 26
           profile: 'Nexus 5'
           script: ./gradlew clean executeScreenTests --no-daemon --stacktrace
 
