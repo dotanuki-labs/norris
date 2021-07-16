@@ -58,7 +58,7 @@ In a nutshell :
 - In addition to that, on `features` we test the View layer via [screenshot tests](https://medium.com/definitylabs/what-is-screenshot-testing-43981023cdff) in a fully isolated way. I understand that **screenshot tests are not the same and should not be used as acceptance tests**.
 - [Acceptance tests](https://www.davefarley.net/?p=186) are implemented with Espresso running over Android/Instrumentation     
 - Acceptance tests exercise the **release artefact**, approaching what will be shipped to users/customers; the only exception here is the REST API URL passed-in at build time (for the sake of controlling testing conditions)
-- Acceptance tests exercise real user flows in a cross-screen / cross-feature fashion and running with a stress-first approach (5 runs per execution x 3 Jobs per run on CI)
+- Acceptance tests exercise real user flows in a cross-screen / cross-feature fashion and running with a stress-first approach (5 runs per execution x 2 Jobs per run on CI)
 
 Actual numbers:
 

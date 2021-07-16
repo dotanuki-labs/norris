@@ -196,16 +196,16 @@ jobs:
       - name: Run Screenshot tests
         uses: reactivecircus/android-emulator-runner@v2.19.0
         with:
-          api-level: 29
-          profile: pixel_3a
+          api-level: 28
+          target: 'google_apis'
+          profile: 'pixel'
           script: ./gradlew clean executeScreenTests --no-daemon --stacktrace
-
 
   acceptance_tests:
     strategy:
       fail-fast: true
       matrix:
-        android_sdk: [26, 27, 28]
+        android_sdk: [26, 27]
 
     runs-on: macOS-10.15
     timeout-minutes: 15
