@@ -9,6 +9,7 @@ dependencies {
 
     implementation("androidx.appcompat:appcompat:1.3.0")
     implementation("org.kodein.di:kodein-di-jvm:7.6.0")
+    implementation("org.kodein.type:kodein-type-jvm:1.7.1")
 
     testImplementation(project(":platform:testing-commons"))
     testImplementation("org.robolectric:robolectric:4.6.1")
