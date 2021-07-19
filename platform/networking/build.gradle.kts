@@ -15,6 +15,6 @@ dependencies {
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.5.1")
 
     testImplementation("junit:junit:4.13.2")
-    testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-core-jvm:1.5.1")
+    testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-core-jvm:1.5.1-native-mt")
     testImplementation("com.google.truth:truth:1.1.3")
 }
