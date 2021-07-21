@@ -194,7 +194,7 @@ jobs:
           restore-keys: ${{ runner.os }}-${{ github.job }}-
 
       - name: Run Screenshot tests
-        uses: reactivecircus/android-emulator-runner@v2.19.0
+        uses: reactivecircus/android-emulator-runner@v2.19.1
         with:
           api-level: 28
           target: 'google_apis'
@@ -219,7 +219,7 @@ jobs:
         uses: actions/download-artifact@v2.0.10
 
       - name: Run Instrumentation tests
-        uses: reactivecircus/android-emulator-runner@v2.19.0
+        uses: reactivecircus/android-emulator-runner@v2.19.1
         with:
           api-level: ${{ matrix.android_sdk }}
           script: ./scripts/espresso-run.sh
