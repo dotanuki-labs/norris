@@ -58,8 +58,8 @@ In a nutshell :
 - Also on `features`, integrated tests run at Activity level by leveraging a pragmatic way to decoupling this platform controller from its hosted Views : the inflated View is faked at testing time. Tests run on top of Robolectric over Activity Scenarios.
 - In addition to that, on `features` we test the View layer via [screenshot tests](https://medium.com/definitylabs/what-is-screenshot-testing-43981023cdff) in a fully isolated way. I understand that **screenshot tests are not the same and should not be used as acceptance tests**.
 - [Acceptance tests](https://www.davefarley.net/?p=186) are implemented with Espresso running over Android/Instrumentation     
-- Acceptance tests exercise the **release artefact**, approaching what will be shipped to users/customers; the only exception here is the REST API URL passed-in at build time (for the sake of controlling testing conditions)
-- Acceptance tests exercise real user flows in a cross-screen / cross-feature fashion and running with a stress-first approach (5 runs per execution x 2 Jobs per run on CI)
+- **Acceptance tests** exercise the **release artefact**, approaching what will be shipped to users/customers; the only exception here is the REST API URL passed-in at build time (for the sake of controlling testing conditions)
+- In addition to that, **acceptance tests** exercise real user flows in a cross-screen / cross-feature fashion and running with a stress-first approach (2 runs per execution x 2 Jobs per run on CI)
 
 Actual numbers:
 
@@ -85,7 +85,7 @@ It will
 - Assemble the `release` APK and `instrumentation-tests` APK
 - Run Espresso tests over Android/Instrumentation
 
-Please note that an online emulator is required in order to run this script sucessfully. I recommend the following AVD configuration : `api-23/google-apis` with `pixel` device profile (the same used on CI)
+Please note that an online emulator is required in order to run this script sucessfully. I recommend the following AVD configuration : `api-28/google-apis` with `pixel` device profile (the same used on CI)
 
 Local builds should run just fine over JDK8 or JDK11 (recommended). In addition to that, this project should work just fine with the [latest stable release of Android Studio](https://developer.android.com/studio/releases).
 
