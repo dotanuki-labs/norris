@@ -84,6 +84,14 @@ jobs:
           name: junit-results-unit-tests
           path: build/test-reports
 
+      - name: Archive Pacts
+        if: always()
+        uses: actions/upload-artifact@v2.2.4
+        with:
+          name: pacts
+          path: platform/rest-chucknorris/build/pacts
+
+
   assemble_apk:
     runs-on: ubuntu-20.04
     timeout-minutes: 10
