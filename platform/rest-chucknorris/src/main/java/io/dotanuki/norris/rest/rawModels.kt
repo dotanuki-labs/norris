@@ -22,7 +22,7 @@ data class RawFact(
 )
 
 @Serializable(with = RawCategoriesSerializer::class)
-class RawCategories(
+data class RawCategories(
     val raw: List<String>
 )
 

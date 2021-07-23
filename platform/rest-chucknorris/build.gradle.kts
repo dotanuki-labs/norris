@@ -1,4 +1,3 @@
-
 plugins {
     id(BuildPlugins.Ids.kotlinModule)
     id(BuildPlugins.Ids.kotlinxSerialization)
@@ -18,7 +17,11 @@ dependencies {
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.5.1")
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-core-jvm:1.2.2")
 
+    testImplementation(project(":platform:testing-rest"))
+
+    testImplementation("org.slf4j:slf4j-nop:1.7.31")
     testImplementation("junit:junit:4.13.2")
     testImplementation("com.google.truth:truth:1.1.3")
+    testImplementation("au.com.dius.pact.consumer:junit:4.1.22")
     testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-core-jvm:1.5.1")
 }
