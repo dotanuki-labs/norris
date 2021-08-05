@@ -51,5 +51,5 @@ dependencies {
     androidTestImplementation("androidx.test.ext:junit-ktx:1.1.3")
     androidTestImplementation("androidx.test:runner:1.4.0")
     androidTestImplementation("androidx.test:rules:1.4.0")
-    androidTestImplementation("com.karumi:shot-android:5.11.0")
+    androidTestImplementation("com.karumi:shot-android:5.11.2")
 }
