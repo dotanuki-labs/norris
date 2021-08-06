@@ -37,10 +37,11 @@ jobs:
           key: ${{ runner.os }}-${{ github.job }}-${{ hashFiles('**/*.gradle*') }}-${{ hashFiles('**/gradle/wrapper/gradle-wrapper.properties') }}-${{ hashFiles('**/buildSrc/**/*.kt') }}
           restore-keys: ${{ runner.os }}-${{ github.job }}-
 
+      - name: Extract credentials
+        run: ./scripts/secrets.sh decrypt ${{ secrets.NORRIS_CRYPTO_KEY }}
+
       - name: Check code formatting
-        run: |
-          ./scripts/secrets.sh decrypt ${{ secrets.NORRIS_CRYPTO_KEY }}
-          ./gradlew ktlintCheck detekt --stacktrace
+        run: ./gradlew ktlintCheck detekt --stacktrace
 
   unit_tests:
     runs-on: ubuntu-20.04
@@ -72,10 +73,11 @@ jobs:
           key: ${{ runner.os }}-${{ github.job }}-${{ hashFiles('**/*.gradle*') }}-${{ hashFiles('**/gradle/wrapper/gradle-wrapper.properties') }}-${{ hashFiles('**/buildSrc/**/*.kt') }}
           restore-keys: ${{ runner.os }}-${{ github.job }}-
 
+      - name: Extract credentials
+        run: ./scripts/secrets.sh decrypt ${{ secrets.NORRIS_CRYPTO_KEY }}
+
       - name: Run unit tests
-        run: |
-          ./scripts/secrets.sh decrypt ${{ secrets.NORRIS_CRYPTO_KEY }}
-          ./gradlew test --stacktrace
+        run: ./gradlew test --stacktrace
 
       - name: Collect all test results from all modules
         if: always()
@@ -126,10 +128,11 @@ jobs:
           key: ${{ runner.os }}-${{ github.job }}-${{ hashFiles('**/*.gradle*') }}-${{ hashFiles('**/gradle/wrapper/gradle-wrapper.properties') }}-${{ hashFiles('**/buildSrc/**/*.kt') }}
           restore-keys: ${{ runner.os }}-${{ github.job }}-
 
+      - name: Extract credentials
+        run: ./scripts/secrets.sh decrypt ${{ secrets.NORRIS_CRYPTO_KEY }}
+
       - name: Assemble production APK
-        run: |
-          ./scripts/secrets.sh decrypt ${{ secrets.NORRIS_CRYPTO_KEY }}
-          ./gradlew app:assembleRelease -PtestMode=true --stacktrace
+        run: ./gradlew app:assembleRelease -PtestMode=true --stacktrace
 
       - name: Archive APK
         uses: actions/upload-artifact@v2.2.4
@@ -167,10 +170,11 @@ jobs:
           key: ${{ runner.os }}-${{ github.job }}-${{ hashFiles('**/*.gradle*') }}-${{ hashFiles('**/gradle/wrapper/gradle-wrapper.properties') }}-${{ hashFiles('**/buildSrc/**/*.kt') }}
           restore-keys: ${{ runner.os }}-${{ github.job }}-
 
+      - name: Extract credentials
+        run: ./scripts/secrets.sh decrypt ${{ secrets.NORRIS_CRYPTO_KEY }}
+
       - name: Assemble Instrumentation tests
-        run: |
-          ./scripts/secrets.sh decrypt ${{ secrets.NORRIS_CRYPTO_KEY }}
-          ./gradlew app:assembleAndroidTest -PtestMode=true --stacktrace
+        run: ./gradlew app:assembleAndroidTest -PtestMode=true --stacktrace
 
       - name: Archive Test APK
         uses: actions/upload-artifact@v2.2.4
@@ -209,13 +213,16 @@ jobs:
           key: ${{ runner.os }}-${{ github.job }}-${{ hashFiles('**/*.gradle*') }}-${{ hashFiles('**/gradle/wrapper/gradle-wrapper.properties') }}-${{ hashFiles('**/buildSrc/**/*.kt') }}
           restore-keys: ${{ runner.os }}-${{ github.job }}-
 
+      - name: Extract credentials
+        run: ./scripts/secrets.sh decrypt ${{ secrets.NORRIS_CRYPTO_KEY }}
+
       - name: Run Screenshot tests
         uses: reactivecircus/android-emulator-runner@v2.19.1
         with:
           api-level: 28
           target: 'google_apis'
           profile: 'pixel'
-          script: ./scripts/secrets.sh decrypt ${{ secrets.NORRIS_CRYPTO_KEY }} && ./gradlew clean executeScreenTests --no-daemon --stacktrace
+          script: ./gradlew clean executeScreenTests --no-daemon --stacktrace
 
   acceptance_tests:
     strategy:
