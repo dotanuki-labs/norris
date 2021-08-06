@@ -37,6 +37,9 @@ jobs:
           key: ${{ runner.os }}-${{ github.job }}-${{ hashFiles('**/*.gradle*') }}-${{ hashFiles('**/gradle/wrapper/gradle-wrapper.properties') }}-${{ hashFiles('**/buildSrc/**/*.kt') }}
           restore-keys: ${{ runner.os }}-${{ github.job }}-
 
+      - name: Extract credentials
+        run: ./scripts/secrets.sh decrypt ${{ secrets.NORRIS_CRYPTO_KEY }}
+
       - name: Check code formatting
         run: ./gradlew ktlintCheck detekt --stacktrace
 
@@ -69,6 +72,9 @@ jobs:
             ~/.gradle/wrapper
           key: ${{ runner.os }}-${{ github.job }}-${{ hashFiles('**/*.gradle*') }}-${{ hashFiles('**/gradle/wrapper/gradle-wrapper.properties') }}-${{ hashFiles('**/buildSrc/**/*.kt') }}
           restore-keys: ${{ runner.os }}-${{ github.job }}-
+
+      - name: Extract credentials
+        run: ./scripts/secrets.sh decrypt ${{ secrets.NORRIS_CRYPTO_KEY }}
 
       - name: Run unit tests
         run: ./gradlew test --stacktrace
@@ -122,6 +128,9 @@ jobs:
           key: ${{ runner.os }}-${{ github.job }}-${{ hashFiles('**/*.gradle*') }}-${{ hashFiles('**/gradle/wrapper/gradle-wrapper.properties') }}-${{ hashFiles('**/buildSrc/**/*.kt') }}
           restore-keys: ${{ runner.os }}-${{ github.job }}-
 
+      - name: Extract credentials
+        run: ./scripts/secrets.sh decrypt ${{ secrets.NORRIS_CRYPTO_KEY }}
+
       - name: Assemble production APK
         run: ./gradlew app:assembleRelease -PtestMode=true --stacktrace
 
@@ -160,6 +169,9 @@ jobs:
             ~/.gradle/wrapper
           key: ${{ runner.os }}-${{ github.job }}-${{ hashFiles('**/*.gradle*') }}-${{ hashFiles('**/gradle/wrapper/gradle-wrapper.properties') }}-${{ hashFiles('**/buildSrc/**/*.kt') }}
           restore-keys: ${{ runner.os }}-${{ github.job }}-
+
+      - name: Extract credentials
+        run: ./scripts/secrets.sh decrypt ${{ secrets.NORRIS_CRYPTO_KEY }}
 
       - name: Assemble Instrumentation tests
         run: ./gradlew app:assembleAndroidTest -PtestMode=true --stacktrace
@@ -200,6 +212,9 @@ jobs:
             ~/.gradle/wrapper
           key: ${{ runner.os }}-${{ github.job }}-${{ hashFiles('**/*.gradle*') }}-${{ hashFiles('**/gradle/wrapper/gradle-wrapper.properties') }}-${{ hashFiles('**/buildSrc/**/*.kt') }}
           restore-keys: ${{ runner.os }}-${{ github.job }}-
+
+      - name: Extract credentials
+        run: ./scripts/secrets.sh decrypt ${{ secrets.NORRIS_CRYPTO_KEY }}
 
       - name: Run Screenshot tests
         uses: reactivecircus/android-emulator-runner@v2.19.1
