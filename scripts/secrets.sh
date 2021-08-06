@@ -10,14 +10,24 @@ setup() {
 	cd "${DIR%/*}"
 }
 
+encript_with_gpg() {
+  echo "$1" | \
+  gpg --batch --yes --passphrase-fd 0 --cipher-algo aes256 --symmetric --output "$2" "$3"
+}
+
+decriypt_with_gpg() {
+  echo "$1" | \
+  gpg --decrypt --batch --yes --passphrase-fd 0 --output "$2" "$3"
+}
+
 encrypt() {
-	openssl aes-256-cbc -salt -a -e -pass pass:$1 -in dotanuki-demos.jks -out signing/keystore.enc
-	openssl aes-256-cbc -salt -a -e  -pass pass:$1 -in signing.properties -out signing/credentials.enc
+  encript_with_gpg "$1" signing/dotanuki-demos.gpg dotanuki-demos.jks
+  encript_with_gpg "$1" signing/credentials.gpg signing.properties
 }
 
 decrypt() {
-	openssl aes-256-cbc -salt -a -e -pass pass:$1 -d -in signing/keystore.enc -out dotanuki-demos.jks
-	openssl aes-256-cbc -salt -a -e -pass pass:$1 -d -in signing/credentials.enc -out signing.properties
+  decriypt_with_gpg "$1" dotanuki-demos.jks signing/dotanuki-demos.gpg
+  decriypt_with_gpg "$1" signing.properties signing/credentials.gpg
 }
 
 setup
