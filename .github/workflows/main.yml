@@ -123,7 +123,9 @@ jobs:
           restore-keys: ${{ runner.os }}-${{ github.job }}-
 
       - name: Assemble production APK
-        run: ./gradlew app:assembleRelease -PtestMode=true --stacktrace
+        run: |
+          ./scripts/secrets.sh decrypt ${{ secrets.NORRIS_CRYPTO_KEY }}
+          ./gradlew app:assembleRelease -PtestMode=true --stacktrace
 
       - name: Archive APK
         uses: actions/upload-artifact@v2.2.4
