@@ -1,4 +1,3 @@
-
 import com.android.build.api.dsl.BuildType
 import configs.AndroidConfig
 import configs.KotlinConfig
@@ -41,12 +40,12 @@ android {
 
     signingConfigs {
         create("release") {
-           loadSigningProperties().run {
-               storeFile = File("$rootDir/dotanuki-demos.jks")
-               storePassword = getProperty("io.dotanuki.norris.storepass")
-               keyAlias =  getProperty("io.dotanuki.norris.keyalias")
-               keyPassword =  getProperty("io.dotanuki.norris.keypass")
-           }
+            loadSigningProperties().run {
+                storeFile = File("$rootDir/dotanuki-demos.jks")
+                storePassword = getProperty("io.dotanuki.norris.storepass")
+                keyAlias = getProperty("io.dotanuki.norris.keyalias")
+                keyPassword = getProperty("io.dotanuki.norris.keypass")
+            }
         }
     }
 
@@ -141,7 +140,7 @@ fun BuildType.configureHttps() {
     resValue("bool", "clear_networking_traffic_enabled", "${project.httpEnabledForTesting()}")
 }
 
-fun Project.loadSigningProperties() : Properties =
+fun Project.loadSigningProperties(): Properties =
     Properties().apply {
         load(FileInputStream("$rootDir/signing.properties"))
     }
