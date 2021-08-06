@@ -17,7 +17,7 @@ fun Project.configureAsAndroidLibrary() {
         defaultConfig {
 
             minSdk = AndroidConfig.minSdk
-            targetSdk = configs.AndroidConfig.targetSdk
+            targetSdk = AndroidConfig.targetSdk
             versionCode = Versioning.version.code
             versionName = Versioning.version.name
 
@@ -33,7 +33,7 @@ fun Project.configureAsAndroidLibrary() {
             getByName("release") {
                 isMinifyEnabled = true
 
-                val proguardConfig = ProguardConfig("$rootDir/proguard")
+                val proguardConfig = ProguardConfig("$rootDir/app/proguard")
                 proguardFiles(*(proguardConfig.customRules))
                 proguardFiles(getDefaultProguardFile(proguardConfig.androidRules))
             }

@@ -1,8 +1,11 @@
+
 import com.android.build.api.dsl.BuildType
 import configs.AndroidConfig
 import configs.KotlinConfig
 import configs.ProguardConfig
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+import java.io.FileInputStream
+import java.util.Properties
 
 plugins {
     id(BuildPlugins.Ids.androidApplication)
@@ -38,10 +41,12 @@ android {
 
     signingConfigs {
         create("release") {
-            storeFile = rootProject.file("signing/dotanuki-demos.jks")
-            storePassword = "dotanuki"
-            keyAlias = "dotanuki-alias"
-            keyPassword = "dotanuki"
+           loadSigningProperties().run {
+               storeFile = File("$rootDir/dotanuki-demos.jks")
+               storePassword = getProperty("io.dotanuki.norris.storepass")
+               keyAlias =  getProperty("io.dotanuki.norris.keyalias")
+               keyPassword =  getProperty("io.dotanuki.norris.keypass")
+           }
         }
     }
 
@@ -58,7 +63,7 @@ android {
             isMinifyEnabled = true
             isShrinkResources = true
 
-            val proguardConfig = ProguardConfig("$rootDir/proguard")
+            val proguardConfig = ProguardConfig("$rootDir/app/proguard")
             proguardFiles(*(proguardConfig.customRules))
             proguardFiles(getDefaultProguardFile(proguardConfig.androidRules))
             signingConfig = signingConfigs.findByName("release")
@@ -135,3 +140,8 @@ fun BuildType.configureHttps() {
     buildConfigField("String", "CHUCKNORRIS_API_URL", "\"${project.evaluateAPIUrl()}\"")
     resValue("bool", "clear_networking_traffic_enabled", "${project.httpEnabledForTesting()}")
 }
+
+fun Project.loadSigningProperties() : Properties =
+    Properties().apply {
+        load(FileInputStream("$rootDir/signing.properties"))
+    }
