@@ -63,3 +63,7 @@ ktlint-report-in-checkstyle-format.xml
 
 # Proguard mapping
 proguard/mapping.txt
+
+# Project signing
+signing.properties
+dotanuki-demos.jks
