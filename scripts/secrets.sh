@@ -11,13 +11,13 @@ setup() {
 }
 
 encrypt() {
-	openssl enc -aes-256-cbc -pass pass:$1 -in dotanuki-demos.jks -out signing/keystore.enc
-	openssl enc -aes-256-cbc -pass pass:$1 -in signing.properties -out signing/credentials.enc
+	openssl aes-256-cbc -salt -a -e -pass pass:$1 -in dotanuki-demos.jks -out signing/keystore.enc
+	openssl aes-256-cbc -salt -a -e  -pass pass:$1 -in signing.properties -out signing/credentials.enc
 }
 
 decrypt() {
-	openssl enc -aes-256-cbc -pass pass:$1 -d -in signing/keystore.enc -out dotanuki-demos.jks
-	openssl enc -aes-256-cbc -pass pass:$1 -d -in signing/credentials.enc -out signing.properties
+	openssl aes-256-cbc -salt -a -e -pass pass:$1 -d -in signing/keystore.enc -out dotanuki-demos.jks
+	openssl aes-256-cbc -salt -a -e -pass pass:$1 -d -in signing/credentials.enc -out signing.properties
 }
 
 setup
