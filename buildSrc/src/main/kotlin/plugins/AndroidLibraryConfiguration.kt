@@ -11,22 +11,22 @@ fun Project.configureAsAndroidLibrary() {
     val android = extensions.findByName("android") as BaseExtension
 
     android.apply {
-        compileSdkVersion(configs.AndroidConfig.compileSdk)
-        buildToolsVersion(configs.AndroidConfig.buildToolsVersion)
+        compileSdkVersion(AndroidConfig.compileSdk)
+        buildToolsVersion(AndroidConfig.buildToolsVersion)
 
         defaultConfig {
 
-            minSdkVersion(AndroidConfig.minSdk)
-            targetSdkVersion(configs.AndroidConfig.targetSdk)
+            minSdk = AndroidConfig.minSdk
+            targetSdk = configs.AndroidConfig.targetSdk
             versionCode = Versioning.version.code
             versionName = Versioning.version.name
 
             vectorDrawables.apply {
                 useSupportLibrary = true
-                generatedDensities(*(configs.AndroidConfig.noGeneratedDensities))
+                generatedDensities(*(AndroidConfig.noGeneratedDensities))
             }
 
-            resConfig("en")
+            resourceConfigurations.add("en")
         }
 
         buildTypes {
