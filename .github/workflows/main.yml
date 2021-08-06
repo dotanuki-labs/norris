@@ -38,7 +38,9 @@ jobs:
           restore-keys: ${{ runner.os }}-${{ github.job }}-
 
       - name: Check code formatting
-        run: ./gradlew ktlintCheck detekt --stacktrace
+        run: |
+          ./scripts/secrets.sh decrypt ${{ secrets.NORRIS_CRYPTO_KEY }}
+          ./gradlew ktlintCheck detekt --stacktrace
 
   unit_tests:
     runs-on: ubuntu-20.04
@@ -71,7 +73,9 @@ jobs:
           restore-keys: ${{ runner.os }}-${{ github.job }}-
 
       - name: Run unit tests
-        run: ./gradlew test --stacktrace
+        run: |
+          ./scripts/secrets.sh decrypt ${{ secrets.NORRIS_CRYPTO_KEY }}
+          ./gradlew test --stacktrace
 
       - name: Collect all test results from all modules
         if: always()
@@ -164,7 +168,9 @@ jobs:
           restore-keys: ${{ runner.os }}-${{ github.job }}-
 
       - name: Assemble Instrumentation tests
-        run: ./gradlew app:assembleAndroidTest -PtestMode=true --stacktrace
+        run: |
+          ./scripts/secrets.sh decrypt ${{ secrets.NORRIS_CRYPTO_KEY }}
+          ./gradlew app:assembleAndroidTest -PtestMode=true --stacktrace
 
       - name: Archive Test APK
         uses: actions/upload-artifact@v2.2.4
@@ -209,7 +215,7 @@ jobs:
           api-level: 28
           target: 'google_apis'
           profile: 'pixel'
-          script: ./gradlew clean executeScreenTests --no-daemon --stacktrace
+          script: ./scripts/secrets.sh decrypt ${{ secrets.NORRIS_CRYPTO_KEY }} && ./gradlew clean executeScreenTests --no-daemon --stacktrace
 
   acceptance_tests:
     strategy:
