@@ -15,13 +15,12 @@ repositories {
 }
 
 android {
-    compileSdkVersion(AndroidConfig.compileSdk)
-    buildToolsVersion(AndroidConfig.buildToolsVersion)
+    compileSdk = AndroidConfig.compileSdk
+    buildToolsVersion = AndroidConfig.buildToolsVersion
 
     defaultConfig {
-
-        minSdkVersion(AndroidConfig.minSdk)
-        targetSdkVersion(AndroidConfig.targetSdk)
+        minSdk = AndroidConfig.minSdk
+        targetSdk = AndroidConfig.targetSdk
 
         applicationId = AndroidConfig.applicationId
         testInstrumentationRunner = AndroidConfig.instrumentationTestRunner
@@ -33,7 +32,7 @@ android {
             generatedDensities(*(AndroidConfig.noGeneratedDensities))
         }
 
-        resConfig("en")
+        resourceConfigurations.add("en")
         testBuildType = evaluateTestBuildType()
     }
 
