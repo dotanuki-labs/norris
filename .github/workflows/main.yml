@@ -185,7 +185,7 @@ jobs:
   screenshot_tests:
     runs-on: macOS-10.15
     needs: [assemble_apk, espresso_prepare, unit_tests, static_analysis]
-    timeout-minutes: 15
+    timeout-minutes: 20
     env:
       JAVA_TOOL_OPTIONS: -Xmx5g -XX:+UseParallelGC
 
