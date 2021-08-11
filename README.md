@@ -27,7 +27,7 @@ This project leverages on [api.chucknorris.io](https://api.chucknorris.io/) as r
 - **Kotlinx.Serialization** for Json handling
 - **Kotlinx.Coroutines** for asynchrounous processing
 - Unidirectional data-flow driven by **Kotlin Flows**
-- Semi-manual dependencies/instances management at runtime driven by **Kodein**
+- Manual dependencies/instances management at runtime driven by **Kodein**
 - No annotations processors (therefore no `kapt`)
 - No Fragments
 
@@ -87,7 +87,9 @@ It will
 
 Please note that an online emulator is required in order to run this script sucessfully. I recommend the following AVD configuration : `api-28/google-apis` with `pixel` device profile (the same used on CI)
 
-Local builds should run just fine over JDK8 or JDK11 (recommended). In addition to that, this project should work just fine with the [latest stable release of Android Studio](https://developer.android.com/studio/releases).
+Local builds **require JDK11**, since this project compiles against Java11 bytecode.
+
+In addition to that, this project should work just fine with the [latest stable release of Android Studio](https://developer.android.com/studio/releases), ie, 7.x.z (Artic Fox) or newer.
 
 ## Credits
 
