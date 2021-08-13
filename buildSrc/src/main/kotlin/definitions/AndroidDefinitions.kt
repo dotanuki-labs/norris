@@ -1,8 +1,8 @@
-package configs
+package definitions
 
-import java.util.Collections.emptySet
+import java.util.Collections
 
-object AndroidConfig {
+object AndroidDefinitions {
 
     const val applicationId = "io.dotanuki.demos.norris"
 
@@ -14,5 +14,5 @@ object AndroidConfig {
 
     const val instrumentationTestRunner = "androidx.test.runner.AndroidJUnitRunner"
 
-    val noGeneratedDensities = emptySet<String>().toTypedArray()
+    val noGeneratedDensities = Collections.emptySet<String>().toTypedArray()
 }

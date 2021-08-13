@@ -1,10 +1,10 @@
-import plugins.enableScreenshotTests
+import conventions.applyScreenshotTestsConventions
 
 plugins {
     id(BuildPlugins.Ids.androidModule)
 }
 
-enableScreenshotTests()
+applyScreenshotTestsConventions()
 
 dependencies {
 

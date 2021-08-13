@@ -1,29 +1,29 @@
-package plugins
+package conventions
 
-import Versioning
 import com.android.build.gradle.BaseExtension
-import configs.AndroidConfig
-import configs.ProguardConfig
+import definitions.AndroidDefinitions
+import definitions.ProguardDefinitions
+import definitions.Versioning
 import org.gradle.api.JavaVersion
 import org.gradle.api.Project
 
-fun Project.configureAsAndroidLibrary() {
+fun Project.applyAndroidLibraryConventions() {
     val android = extensions.findByName("android") as BaseExtension
 
     android.apply {
-        compileSdkVersion(AndroidConfig.compileSdk)
-        buildToolsVersion(AndroidConfig.buildToolsVersion)
+        compileSdkVersion(AndroidDefinitions.compileSdk)
+        buildToolsVersion(AndroidDefinitions.buildToolsVersion)
 
         defaultConfig {
 
-            minSdk = AndroidConfig.minSdk
-            targetSdk = AndroidConfig.targetSdk
+            minSdk = AndroidDefinitions.minSdk
+            targetSdk = AndroidDefinitions.targetSdk
             versionCode = Versioning.version.code
             versionName = Versioning.version.name
 
             vectorDrawables.apply {
                 useSupportLibrary = true
-                generatedDensities(*(AndroidConfig.noGeneratedDensities))
+                generatedDensities(*(AndroidDefinitions.noGeneratedDensities))
             }
 
             resourceConfigurations.add("en")
@@ -33,7 +33,7 @@ fun Project.configureAsAndroidLibrary() {
             getByName("release") {
                 isMinifyEnabled = true
 
-                val proguardConfig = ProguardConfig("$rootDir/app/proguard")
+                val proguardConfig = ProguardDefinitions("$rootDir/app/proguard")
                 proguardFiles(*(proguardConfig.customRules))
                 proguardFiles(getDefaultProguardFile(proguardConfig.androidRules))
             }

@@ -1,13 +1,12 @@
-package plugins
+package conventions
 
-import configs.KotlinConfig
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.withType
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
-fun Project.configureKotlinTasks() {
+fun Project.applyKotlinProjectConventions() {
     tasks.withType<KotlinCompile> {
-        kotlinOptions.jvmTarget = KotlinConfig.targetJVM
+        kotlinOptions.jvmTarget = "11"
         kotlinOptions.freeCompilerArgs += listOf(
             "-Xopt-in=kotlin.time.ExperimentalTime",
             "-Xopt-in=kotlin.RequiresOptIn"
