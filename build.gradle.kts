@@ -28,9 +28,7 @@ allprojects {
         jcenter()
     }
 
-    apply(plugin = BuildPlugins.Ids.ktlint)
-    apply(plugin = BuildPlugins.Ids.testLogger)
-    apply(plugin = BuildPlugins.Ids.detekt)
+    apply(plugin = "io.gitlab.arturbosch.detekt")
 
     detekt {
         config = files("$rootDir/detekt.yml")

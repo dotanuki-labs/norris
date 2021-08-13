@@ -1,10 +1,7 @@
-import plugins.enableScreenshotTests
 
 plugins {
-    id(BuildPlugins.Ids.androidModule)
+    id("norris.modules.android.feature")
 }
-
-enableScreenshotTests()
 
 dependencies {
     implementation(project(":platform:common:common-android"))

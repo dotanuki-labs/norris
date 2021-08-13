@@ -1,6 +1,6 @@
 plugins {
-    id(BuildPlugins.Ids.kotlinModule)
-    id(BuildPlugins.Ids.kotlinxSerialization)
+    id("norris.modules.kotlin")
+    id("org.jetbrains.kotlin.plugin.serialization")
 }
 
 dependencies {

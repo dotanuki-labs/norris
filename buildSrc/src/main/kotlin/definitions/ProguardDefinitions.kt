@@ -1,8 +1,8 @@
-package configs
+package definitions
 
 import java.io.File
 
-class ProguardConfig(private val pathToFiles: String) {
+class ProguardDefinitions(private val pathToFiles: String) {
 
     val customRules by lazy {
         File(pathToFiles).listFiles().toList().toTypedArray()

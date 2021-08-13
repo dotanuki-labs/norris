@@ -1,6 +1,6 @@
 
 plugins {
-    id(BuildPlugins.Ids.androidModule)
+    id("norris.modules.android.platform")
 }
 
 dependencies {

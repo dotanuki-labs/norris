@@ -1,14 +1,14 @@
 import com.android.build.api.dsl.BuildType
-import configs.AndroidConfig
-import configs.KotlinConfig
-import configs.ProguardConfig
+import definitions.AndroidDefinitions
+import definitions.ProguardDefinitions
+import definitions.Versioning
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import java.io.FileInputStream
 import java.util.Properties
 
 plugins {
-    id(BuildPlugins.Ids.androidApplication)
-    id(BuildPlugins.Ids.kotlinAndroid)
+    id("com.android.application")
+    id("kotlin-android")
     id("com.slack.keeper") version "0.11.0"
 }
 
@@ -17,21 +17,21 @@ repositories {
 }
 
 android {
-    compileSdk = AndroidConfig.compileSdk
-    buildToolsVersion = AndroidConfig.buildToolsVersion
+    compileSdk = AndroidDefinitions.compileSdk
+    buildToolsVersion = AndroidDefinitions.buildToolsVersion
 
     defaultConfig {
-        minSdk = AndroidConfig.minSdk
-        targetSdk = AndroidConfig.targetSdk
+        minSdk = AndroidDefinitions.minSdk
+        targetSdk = AndroidDefinitions.targetSdk
 
-        applicationId = AndroidConfig.applicationId
-        testInstrumentationRunner = AndroidConfig.instrumentationTestRunner
+        applicationId = AndroidDefinitions.applicationId
+        testInstrumentationRunner = AndroidDefinitions.instrumentationTestRunner
         versionCode = Versioning.version.code
         versionName = Versioning.version.name
 
         vectorDrawables.apply {
             useSupportLibrary = true
-            generatedDensities(*(AndroidConfig.noGeneratedDensities))
+            generatedDensities(*(AndroidDefinitions.noGeneratedDensities))
         }
 
         resourceConfigurations.add("en")
@@ -62,7 +62,7 @@ android {
             isMinifyEnabled = true
             isShrinkResources = true
 
-            val proguardConfig = ProguardConfig("$rootDir/app/proguard")
+            val proguardConfig = ProguardDefinitions("$rootDir/app/proguard")
             proguardFiles(*(proguardConfig.customRules))
             proguardFiles(getDefaultProguardFile(proguardConfig.androidRules))
             signingConfig = signingConfigs.findByName("release")
@@ -76,7 +76,7 @@ android {
     }
 
     tasks.withType<KotlinCompile> {
-        kotlinOptions.jvmTarget = KotlinConfig.targetJVM
+        kotlinOptions.jvmTarget = "11"
         kotlinOptions.freeCompilerArgs += listOf(
             "-Xopt-in=kotlin.time.ExperimentalTime",
             "-Xopt-in=kotlin.RequiresOptIn"
