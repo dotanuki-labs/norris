@@ -7,7 +7,7 @@ dependencies {
     implementation(project(":platform:networking"))
 
     implementation("org.kodein.type:kodein-type-jvm:1.7.1")
-    implementation("org.kodein.di:kodein-di-jvm:7.6.0")
+    implementation("org.kodein.di:kodein-di-jvm:7.7.0")
 
     implementation("com.squareup.okhttp3:okhttp:4.9.1")
     implementation("com.squareup.okhttp3:logging-interceptor:4.9.1")
