@@ -3,12 +3,12 @@ package io.dotanuki.norris.facts.di
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import io.dotanuki.norris.common.kodein.KodeinTags
 import io.dotanuki.norris.facts.data.ActualSearchDataSource
 import io.dotanuki.norris.facts.data.FactsDataSource
 import io.dotanuki.norris.facts.presentation.FactsViewModel
 import io.dotanuki.norris.facts.ui.FactsScreen
 import io.dotanuki.norris.facts.ui.WrappedContainer
-import io.dotanuki.norris.features.utilties.KodeinTags
 import org.kodein.di.DI
 import org.kodein.di.bind
 import org.kodein.di.instance

@@ -1,7 +1,6 @@
 package io.dotanuki.demos.norris.di
 
 import io.dotanuki.demos.norris.BuildConfig
-import io.dotanuki.demos.norris.logger.LogcatLogger
 import io.dotanuki.demos.norris.navigation.ScreenLinks
 import okhttp3.HttpUrl.Companion.toHttpUrlOrNull
 import org.kodein.di.DI
@@ -15,12 +14,6 @@ val applicationModule = DI.Module("application") {
             requireNotNull(
                 BuildConfig.CHUCKNORRIS_API_URL.toHttpUrlOrNull()
             )
-        }
-    }
-
-    bind {
-        singleton {
-            LogcatLogger
         }
     }
 

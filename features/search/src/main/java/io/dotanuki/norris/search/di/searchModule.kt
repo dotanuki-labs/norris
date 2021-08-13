@@ -3,7 +3,7 @@ package io.dotanuki.norris.search.di
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import io.dotanuki.norris.features.utilties.KodeinTags
+import io.dotanuki.norris.common.kodein.KodeinTags
 import io.dotanuki.norris.search.data.SearchesDataSource
 import io.dotanuki.norris.search.presentation.SearchViewModel
 import io.dotanuki.norris.search.ui.SearchScreen
