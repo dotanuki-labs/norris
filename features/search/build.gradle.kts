@@ -1,10 +1,7 @@
-import conventions.applyScreenshotTestsConventions
 
 plugins {
-    id(BuildPlugins.Ids.androidModule)
+    id("norris.modules.android.feature")
 }
-
-applyScreenshotTestsConventions()
 
 dependencies {
     implementation(project(":platform:common:common-android"))

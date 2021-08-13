@@ -1,4 +1,4 @@
 
 plugins {
-    id(BuildPlugins.Ids.kotlinModule)
+    id("norris.modules.kotlin")
 }

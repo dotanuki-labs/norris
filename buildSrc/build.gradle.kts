@@ -27,18 +27,18 @@ dependencies {
 gradlePlugin {
     plugins {
         register("kotlin-module-plugin") {
-            id = "io.norris.modules.kotlin"
+            id = "norris.modules.kotlin"
             implementationClass = "plugins.NorrisKotlinModulePlugin"
         }
 
         register("android-platform-module-plugin") {
-            id = "io.norris.modules.android.platform"
+            id = "norris.modules.android.platform"
             implementationClass = "plugins.NorrisAndroidPlatformModulePlugin"
         }
 
         register("android-feature-module-plugin") {
-            id = "io.norris.modules.android.feature"
-            implementationClass = "plugins.NorrisAndroidPFeatureModulePlugin"
+            id = "norris.modules.android.feature"
+            implementationClass = "plugins.NorrisAndroidFeatureModulePlugin"
         }
     }
 }
