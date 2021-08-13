@@ -4,8 +4,8 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
-import io.dotanuki.norris.features.utilties.repeatOnLifecycle
-import io.dotanuki.norris.features.utilties.selfBind
+import io.dotanuki.norris.common.android.repeatOnLifecycle
+import io.dotanuki.norris.common.android.selfBind
 import io.dotanuki.norris.search.presentation.SearchInteraction
 import io.dotanuki.norris.search.presentation.SearchViewModel
 import kotlinx.coroutines.flow.collect

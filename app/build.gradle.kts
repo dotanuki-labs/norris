@@ -94,11 +94,11 @@ android {
 }
 
 dependencies {
-    implementation(project(":platform:logger"))
-    implementation(project(":platform:rest-chucknorris"))
-    implementation(project(":platform:persistance"))
-    implementation(project(":platform:shared-assets"))
-    implementation(project(":platform:navigator"))
+    implementation(project(":platform:core:rest-chucknorris"))
+    implementation(project(":platform:core:persistance"))
+    implementation(project(":platform:core:navigator"))
+    implementation(project(":platform:common:common-kodein"))
+    implementation(project(":platform:common:common-static"))
     implementation(project(":features:onboarding"))
     implementation(project(":features:facts"))
     implementation(project(":features:search"))
@@ -110,8 +110,8 @@ dependencies {
     implementation("org.kodein.type:kodein-type-jvm:1.7.1")
     implementation("com.squareup.okhttp3:okhttp:4.9.1")
 
-    androidTestImplementation(project(":platform:testing-persistance"))
-    androidTestImplementation(project(":platform:testing-rest"))
+    androidTestImplementation(project(":platform:testing:testing-persistance"))
+    androidTestImplementation(project(":platform:testing:testing-rest"))
 
     androidTestImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test:core:1.4.0")

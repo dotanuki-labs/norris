@@ -4,11 +4,11 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
+import io.dotanuki.norris.common.android.repeatOnLifecycle
+import io.dotanuki.norris.common.android.selfBind
 import io.dotanuki.norris.facts.presentation.FactsUserInteraction
 import io.dotanuki.norris.facts.presentation.FactsUserInteraction.RequestedFreshContent
 import io.dotanuki.norris.facts.presentation.FactsViewModel
-import io.dotanuki.norris.features.utilties.repeatOnLifecycle
-import io.dotanuki.norris.features.utilties.selfBind
 import io.dotanuki.norris.navigator.Navigator
 import io.dotanuki.norris.navigator.Screen
 import kotlinx.coroutines.flow.collect
