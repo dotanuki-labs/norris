@@ -94,9 +94,9 @@ android {
 }
 
 dependencies {
-    implementation(project(":platform:core:rest-chucknorris"))
-    implementation(project(":platform:core:persistance"))
-    implementation(project(":platform:core:navigator"))
+    implementation(project(":platform:core:core-rest"))
+    implementation(project(":platform:core:core-persistance"))
+    implementation(project(":platform:core:core-navigator"))
     implementation(project(":platform:common:common-kodein"))
     implementation(project(":platform:common:common-static"))
     implementation(project(":features:onboarding"))

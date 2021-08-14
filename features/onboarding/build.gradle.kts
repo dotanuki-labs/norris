@@ -7,7 +7,7 @@ dependencies {
     implementation(project(":platform:common:common-android"))
     implementation(project(":platform:common:common-kodein"))
     implementation(project(":platform:common:common-static"))
-    implementation(project(":platform:core:navigator"))
+    implementation(project(":platform:core:core-navigator"))
 
     implementation("org.kodein.di:kodein-di-jvm:7.7.0")
     implementation("org.kodein.type:kodein-type-jvm:1.7.1")

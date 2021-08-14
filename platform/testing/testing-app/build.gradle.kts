@@ -5,9 +5,9 @@ plugins {
 
 dependencies {
 
-    implementation(project(":platform:core:rest-chucknorris"))
-    implementation(project(":platform:core:persistance"))
-    implementation(project(":platform:core:navigator"))
+    implementation(project(":platform:core:core-rest"))
+    implementation(project(":platform:core:core-persistance"))
+    implementation(project(":platform:core:core-navigator"))
 
     implementation("androidx.lifecycle:lifecycle-common:2.3.1")
     implementation("org.kodein.di:kodein-di-jvm:7.7.0")

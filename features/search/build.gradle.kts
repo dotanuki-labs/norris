@@ -7,8 +7,8 @@ dependencies {
     implementation(project(":platform:common:common-android"))
     implementation(project(":platform:common:common-kodein"))
     implementation(project(":platform:common:common-static"))
-    implementation(project(":platform:core:rest-chucknorris"))
-    implementation(project(":platform:core:persistance"))
+    implementation(project(":platform:core:core-rest"))
+    implementation(project(":platform:core:core-persistance"))
 
     implementation("org.kodein.di:kodein-di-jvm:7.7.0")
     implementation("org.kodein.type:kodein-type-jvm:1.7.1")
@@ -36,7 +36,7 @@ dependencies {
     testImplementation("androidx.test:core:1.4.0")
     testImplementation("androidx.test.ext:junit:1.1.3")
 
-    androidTestImplementation(project(":platform:core:networking"))
+    androidTestImplementation(project(":platform:core:core-networking"))
     androidTestImplementation(project(":platform:testing:testing-screenshots"))
 
     androidTestImplementation("junit:junit:4.13.2")

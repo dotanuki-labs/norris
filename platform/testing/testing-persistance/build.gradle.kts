@@ -4,7 +4,7 @@ plugins {
 }
 
 dependencies {
-    implementation(project(":platform:core:persistance"))
+    implementation(project(":platform:core:core-persistance"))
     implementation("org.kodein.di:kodein-di-jvm:7.7.0")
     implementation("org.kodein.type:kodein-type-jvm:1.7.1")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.5.1")

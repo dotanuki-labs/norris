@@ -4,7 +4,7 @@ plugins {
 }
 
 dependencies {
-    implementation(project(":platform:core:networking"))
+    implementation(project(":platform:core:core-networking"))
 
     implementation("org.kodein.type:kodein-type-jvm:1.7.1")
     implementation("org.kodein.di:kodein-di-jvm:7.7.0")
