@@ -1,5 +1,6 @@
 package conventions
 
+import com.android.build.api.dsl.ApplicationExtension
 import com.android.build.api.dsl.BuildType
 import com.android.build.gradle.BaseExtension
 import definitions.AndroidDefinitions
@@ -48,6 +49,20 @@ fun Project.applyAndroidStandardConventions() {
 fun Project.applyAndroidLibraryConventions() {
     applyAndroidStandardConventions()
 
+    val android = extensions.findByName("android") as BaseExtension
+
+    android.apply {
+        buildTypes {
+            getByName("release") {
+                isMinifyEnabled = true
+
+                val proguardConfig = ProguardDefinitions("$rootDir/app/proguard")
+                proguardFiles(*(proguardConfig.customRules))
+                proguardFiles(getDefaultProguardFile(proguardConfig.androidRules))
+            }
+        }
+    }
+
     tasks.whenTaskAdded {
         if (name.startsWith("test") and name.contains("DebugUnitTest")) {
             enabled = false
@@ -58,9 +73,15 @@ fun Project.applyAndroidLibraryConventions() {
 fun Project.applyAndroidApplicationConventions() {
     applyAndroidStandardConventions()
 
-    val android = extensions.findByName("android") as BaseExtension
+    val android = extensions.findByName("android") as ApplicationExtension
 
     android.apply {
+        testBuildType = evaluateTestBuildType()
+
+        defaultConfig {
+            testInstrumentationRunner = AndroidDefinitions.instrumentationTestRunner
+        }
+
         signingConfigs {
             create("release") {
                 loadSigningProperties().run {
