@@ -40,5 +40,10 @@ gradlePlugin {
             id = "norris.modules.android.feature"
             implementationClass = "plugins.NorrisAndroidFeatureModulePlugin"
         }
+
+        register("android-application-module-plugin") {
+            id = "norris.modules.android.app"
+            implementationClass = "plugins.NorrisAndroidApplicationModulePlugin"
+        }
     }
 }
