@@ -3,13 +3,13 @@
 set -e
 
 setup() {
-	DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )";
+	DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 	cd "${DIR%/*}"
 	./gradlew clean --no-daemon
 }
 
 static_analysis() {
-	./gradlew ktlintCheck detekt --no-daemon --stacktrace	
+	./gradlew ktlintCheck detekt --no-daemon --stacktrace
 }
 
 jvm_tests() {
@@ -17,14 +17,14 @@ jvm_tests() {
 }
 
 check_online_device() {
-	DEVICES_COUNT=$(adb devices | grep -w "device" | wc -l)
+	DEVICES_COUNT=$(adb devices | grep -wc "device")
 
-	if [[ $DEVICES_COUNT -gt "1" ]] ; then
-		echo "Error : You must have one(1) device online to run Instrumentation tests";
-		echo "Aborting";
-		exit 1;
+	if [[ $DEVICES_COUNT -gt "1" ]]; then
+		echo "Error : You must have one(1) device online to run Instrumentation tests"
+		echo "Aborting"
+		exit 1
 	fi
-} 
+}
 
 screenshot_tests() {
 	./gradlew executeScreenTests --no-daemon --stacktrace
