@@ -4,8 +4,8 @@ plugins {
 }
 
 dependencies {
-    implementation(project(":platform:core:networking"))
-    implementation(project(":platform:core:rest-chucknorris"))
+    implementation(project(":platform:core:core-networking"))
+    implementation(project(":platform:core:core-rest"))
 
     implementation("com.squareup.okhttp3:okhttp:4.9.1")
     implementation("com.squareup.okhttp3:logging-interceptor:4.9.1")
