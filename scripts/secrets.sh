@@ -34,10 +34,10 @@ setup
 
 case "$operation" in
 "encrypt")
-	encrypt $password
+	encrypt "$password"
 	;;
 "decrypt")
-	decrypt $password
+	decrypt "$password"
 	;;
 *)
 	echo

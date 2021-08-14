@@ -13,7 +13,7 @@ find . -name "*.apk" -print -exec adb install {} \; >/dev/null 2>&1
 
 echo "🔥 Running instrumentation tests ..."
 EXECUTION=$(adb shell am instrument -w "$JUNIT_RUNNER")
-ERRORS_FOUND=$(echo $EXECUTION | grep FAILURES | tr -d ' ')
+ERRORS_FOUND=$(echo "$EXECUTION" | grep "FAILURES" | tr -d ' ')
 
 echo -e "$EXECUTION"
 

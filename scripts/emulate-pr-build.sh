@@ -17,7 +17,7 @@ jvm_tests() {
 }
 
 check_online_device() {
-	DEVICES_COUNT=$(adb devices | grep -w "device" | wc -l)
+	DEVICES_COUNT=$(adb devices | grep -wc "device")
 
 	if [[ $DEVICES_COUNT -gt "1" ]]; then
 		echo "Error : You must have one(1) device online to run Instrumentation tests"
