@@ -120,7 +120,7 @@ fun Project.applyAndroidApplicationConventions() {
     }
 }
 
-private fun Project.httpEnabledForTesting(): Boolean =
+fun Project.isTestMode(): Boolean =
     properties["testMode"]?.let { true } ?: false
 
 private fun Project.evaluateAPIUrl(): String =
@@ -131,7 +131,7 @@ private fun Project.evaluateTestBuildType(): String =
 
 private fun BuildType.configureHttps(project: Project) {
     buildConfigField("String", "CHUCKNORRIS_API_URL", "\"${project.evaluateAPIUrl()}\"")
-    resValue("bool", "clear_networking_traffic_enabled", "${project.httpEnabledForTesting()}")
+    resValue("bool", "clear_networking_traffic_enabled", "${project.isTestMode()}")
 }
 
 private fun Project.loadSigningProperties(): Properties =
