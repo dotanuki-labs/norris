@@ -4,6 +4,12 @@ plugins {
     id("com.slack.keeper") version "0.11.0"
 }
 
+keeper {
+    variantFilter {
+        setIgnore(name != "release")
+    }
+}
+
 repositories {
     google()
 }
