@@ -11,6 +11,14 @@ keeper {
     }
 }
 
+android {
+    defaultConfig {
+        if (isTestMode()) {
+            testInstrumentationRunnerArguments["listener"] = "leakcanary.FailTestOnLeakRunListener"
+        }
+    }
+}
+
 dependencies {
     implementation(project(":platform:core:core-rest"))
     implementation(project(":platform:core:core-persistance"))
@@ -29,7 +37,7 @@ dependencies {
     implementation("com.squareup.okhttp3:okhttp:4.9.1")
 
     if (isTestMode()) {
-        implementation("com.squareup.leakcanary:leakcanary-android-release:2.7")
+        releaseImplementation("com.squareup.leakcanary:leakcanary-android-release:2.7")
     }
 
     androidTestImplementation(project(":platform:testing:testing-persistance"))
