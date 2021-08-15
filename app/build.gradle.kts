@@ -1,3 +1,4 @@
+import conventions.isTestMode
 
 plugins {
     id("norris.modules.android.app")
@@ -10,8 +11,12 @@ keeper {
     }
 }
 
-repositories {
-    google()
+android {
+    defaultConfig {
+        if (isTestMode()) {
+            testInstrumentationRunnerArguments["listener"] = "leakcanary.FailTestOnLeakRunListener"
+        }
+    }
 }
 
 dependencies {
@@ -30,6 +35,10 @@ dependencies {
     implementation("org.kodein.di:kodein-di-jvm:7.7.0")
     implementation("org.kodein.type:kodein-type-jvm:1.7.1")
     implementation("com.squareup.okhttp3:okhttp:4.9.1")
+
+    if (isTestMode()) {
+        releaseImplementation("com.squareup.leakcanary:leakcanary-android-release:2.7")
+    }
 
     androidTestImplementation(project(":platform:testing:testing-persistance"))
     androidTestImplementation(project(":platform:testing:testing-rest"))
