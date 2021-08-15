@@ -71,25 +71,25 @@ Acceptance tests   | Android/Instrumentation                          | 2       
 
 ## Building and Running
 
-If you want a simple run emulating the PR pipeline, just use the companion script
+If you want a simple run over some task of the CI pipeline, just use the companion script
 
 ```
-./scripts/emulate-pr-build.sh
+./scripts/ci-tasks.sh
 ```
 
-It will
+so you can chose between :
 
 - Run static analysers ([Ktlint](https://github.com/pinterest/ktlint) and [Detekt](https://arturbosch.github.io/detekt/))
 - Run all unit/integration tests over JVM
-- Run all screenshot tests over Android/Instrumentation (self-contained screens)
-- Assemble the `release` APK and `instrumentation-tests` APK
-- Run Espresso tests over Android/Instrumentation
+- Run all screenshot tests over Android/Instrumentation
+- Run acceptance tests over with Espresso
 
-Please note that an online emulator is required in order to run this script sucessfully. I recommend the following AVD configuration : `api-28/google-apis` with `pixel` device profile (the same used on CI)
+Please note that an online device is required in order to run screenshot/acceptance tests .
+I recommend `api-28/google-apis` with `pixel` device profile as the your AVD configuration for that (the same used on CI).
 
-Local builds **require JDK11**, since this project compiles against Java11 bytecode.
+Also note that local builds **require JDK11**, since this project compiles against Java11 bytecode.
 
-In addition to that, this project should work just fine with the [latest stable release of Android Studio](https://developer.android.com/studio/releases), ie, 7.x.z (Artic Fox) or newer.
+In addition to that, this project requires [latest stable release of Android Studio](https://developer.android.com/studio/releases), ie, 7.x.z (Artic Fox) or newer.
 
 ## Credits
 
