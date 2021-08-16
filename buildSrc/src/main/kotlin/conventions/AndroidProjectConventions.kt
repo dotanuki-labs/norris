@@ -56,9 +56,9 @@ fun Project.applyAndroidLibraryConventions() {
             getByName("release") {
                 isMinifyEnabled = true
 
-                val proguardConfig = ProguardDefinitions("$rootDir/app/proguard")
-                proguardFiles(*(proguardConfig.customRules))
-                proguardFiles(getDefaultProguardFile(proguardConfig.androidRules))
+                val proguardDefinitions = ProguardDefinitions("$rootDir/app/proguard")
+                proguardFiles(*(proguardDefinitions.customRules))
+                proguardFiles(getDefaultProguardFile(proguardDefinitions.androidRules))
             }
         }
     }
@@ -76,7 +76,10 @@ fun Project.applyAndroidApplicationConventions() {
     val android = extensions.findByName("android") as ApplicationExtension
 
     android.apply {
-        testBuildType = evaluateTestBuildType()
+        testBuildType = when {
+            isTestMode() -> "release"
+            else -> "debug"
+        }
 
         defaultConfig {
             testInstrumentationRunner = AndroidDefinitions.instrumentationTestRunner
@@ -84,7 +87,11 @@ fun Project.applyAndroidApplicationConventions() {
 
         signingConfigs {
             create("release") {
-                loadSigningProperties().run {
+                val signingProperties = Properties().apply {
+                    load(FileInputStream("$rootDir/signing.properties"))
+                }
+
+                signingProperties.run {
                     storeFile = File("$rootDir/dotanuki-demos.jks")
                     storePassword = getProperty("io.dotanuki.norris.storepass")
                     keyAlias = getProperty("io.dotanuki.norris.keyalias")
@@ -95,22 +102,35 @@ fun Project.applyAndroidApplicationConventions() {
 
         buildTypes {
 
+            fun Project.configureHttps(buildType: BuildType) {
+
+                val apiUrl = when {
+                    isTestMode() -> "http://localhost:4242"
+                    else -> "https://api.chucknorris.io"
+                }
+
+                buildType.run {
+                    buildConfigField("String", "CHUCKNORRIS_API_URL", "\"${apiUrl}\"")
+                    resValue("bool", "clear_networking_traffic_enabled", "${project.isTestMode()}")
+                }
+            }
+
             getByName("debug") {
                 applicationIdSuffix = ".debug"
                 versionNameSuffix = "-DEBUG"
                 isTestCoverageEnabled = true
-                configureHttps(this@applyAndroidApplicationConventions)
+                configureHttps(this)
             }
 
             getByName("release") {
                 isMinifyEnabled = true
                 isShrinkResources = true
 
-                val proguardConfig = ProguardDefinitions("$rootDir/app/proguard")
-                proguardFiles(*(proguardConfig.customRules))
-                proguardFiles(getDefaultProguardFile(proguardConfig.androidRules))
+                val proguardDefinitions = ProguardDefinitions("$rootDir/app/proguard")
+                proguardFiles(*(proguardDefinitions.customRules))
+                proguardFiles(getDefaultProguardFile(proguardDefinitions.androidRules))
                 signingConfig = signingConfigs.findByName("release")
-                configureHttps(this@applyAndroidApplicationConventions)
+                configureHttps(this)
             }
         }
 
@@ -119,22 +139,3 @@ fun Project.applyAndroidApplicationConventions() {
         }
     }
 }
-
-fun Project.isTestMode(): Boolean =
-    properties["testMode"]?.let { true } ?: false
-
-private fun Project.evaluateAPIUrl(): String =
-    properties["testMode"]?.let { "http://localhost:4242" } ?: "https://api.chucknorris.io"
-
-private fun Project.evaluateTestBuildType(): String =
-    properties["testMode"]?.let { "release" } ?: "debug"
-
-private fun BuildType.configureHttps(project: Project) {
-    buildConfigField("String", "CHUCKNORRIS_API_URL", "\"${project.evaluateAPIUrl()}\"")
-    resValue("bool", "clear_networking_traffic_enabled", "${project.isTestMode()}")
-}
-
-private fun Project.loadSigningProperties(): Properties =
-    Properties().apply {
-        load(FileInputStream("$rootDir/signing.properties"))
-    }
