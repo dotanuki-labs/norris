@@ -1,9 +1,9 @@
 package io.dotanuki.demos.norris
 
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import com.schibsted.spain.barista.interaction.BaristaClickInteractions.clickOn
-import com.schibsted.spain.barista.rule.flaky.FlakyTestRule
-import com.schibsted.spain.barista.rule.flaky.Repeat
+import com.adevinta.android.barista.interaction.BaristaClickInteractions.clickOn
+import com.adevinta.android.barista.rule.flaky.FlakyTestRule
+import com.adevinta.android.barista.rule.flaky.Repeat
 import io.dotanuki.norris.facts.ui.FactsActivity
 import io.dotanuki.testing.persistance.PersistanceHelper
 import io.dotanuki.testing.rest.RestDataBuilder
