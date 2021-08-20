@@ -51,7 +51,10 @@ dependencies {
     androidTestImplementation("androidx.test:runner:1.4.0")
     androidTestImplementation("androidx.test:rules:1.4.0")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.4.0")
-    androidTestImplementation("com.schibsted.spain:barista:3.9.0")
     androidTestImplementation("com.google.truth:truth:1.1.3")
     androidTestImplementation("com.squareup.okhttp3:mockwebserver:4.9.1")
+
+    androidTestImplementation("com.adevinta.android:barista:4.0.0") {
+        exclude(group = "org.jetbrains.kotlin")
+    }
 }

@@ -4,12 +4,12 @@ import android.app.Activity
 import androidx.lifecycle.Lifecycle
 import androidx.test.core.app.launchActivity
 import androidx.test.espresso.Espresso.onView
-import com.schibsted.spain.barista.assertion.BaristaVisibilityAssertions.assertDisplayed
-import com.schibsted.spain.barista.interaction.BaristaEditTextInteractions.writeTo
-import com.schibsted.spain.barista.interaction.BaristaKeyboardInteractions.pressImeActionButton
-import com.schibsted.spain.barista.interaction.BaristaMenuClickInteractions.clickMenu
-import com.schibsted.spain.barista.interaction.BaristaSleepInteractions
-import com.schibsted.spain.barista.internal.matcher.DisplayedMatchers.displayedWithId
+import com.adevinta.android.barista.assertion.BaristaVisibilityAssertions.assertDisplayed
+import com.adevinta.android.barista.interaction.BaristaEditTextInteractions.writeTo
+import com.adevinta.android.barista.interaction.BaristaKeyboardInteractions.pressImeActionButton
+import com.adevinta.android.barista.interaction.BaristaMenuClickInteractions.clickMenu
+import com.adevinta.android.barista.interaction.BaristaSleepInteractions
+import com.adevinta.android.barista.internal.matcher.DisplayedMatchers.displayedWithId
 import io.dotanuki.norris.facts.R as FactsR
 import io.dotanuki.norris.search.R as SearchR
 import io.dotanuki.norris.sharedassets.R as SharedR
