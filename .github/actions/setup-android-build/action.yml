@@ -1,0 +1,28 @@
+name: "Setup Android build"
+description: "Common steps before running a Gradle command, regarding the Runner OS"
+
+inputs:
+  norris-key:
+    description: “GPG key required to decript local files”
+    required: true
+
+runs:
+  using: "composite"
+  steps:
+      - name: Setup JDK
+        uses: actions/setup-java@v2.3.0
+        with:
+          cache: 'gradle'
+          distribution: 'adopt'
+          java-version: 11
+
+      - name: Optimize for Gradle build
+        shell: bash
+        run: |
+          mkdir -p ~/.gradle
+          cp .github/githubci-gradle.properties ~/.gradle/gradle.properties
+
+      - name: Extract credentials
+        shell: bash      
+        run: ./scripts/secrets.sh decrypt ${{ inputs.norris-key }}
+

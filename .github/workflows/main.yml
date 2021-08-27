@@ -10,35 +10,15 @@ jobs:
   static_analysis:
     runs-on: ubuntu-20.04
     timeout-minutes: 10
-    env:
-      JAVA_TOOL_OPTIONS: -Xmx5g -XX:+UseParallelGC
 
     steps:
       - name: Project Checkout
         uses: actions/checkout@v2.3.4
 
-      - name: Setup JDK
-        uses: actions/setup-java@v2.2.0
+      - name: Setup Android Build
+        uses: ./.github/actions/setup-android-build
         with:
-          distribution: 'adopt'
-          java-version: 11
-
-      - name: Optimize for Gradle build
-        run: |
-          mkdir -p ~/.gradle
-          cp .github/githubci-gradle.properties ~/.gradle/gradle.properties
-
-      - name: Setup Cache
-        uses: actions/cache@v2.1.6
-        with:
-          path: |
-            ~/.gradle/caches
-            ~/.gradle/wrapper
-          key: ${{ runner.os }}-${{ github.job }}-${{ hashFiles('**/*.gradle*') }}-${{ hashFiles('**/gradle/wrapper/gradle-wrapper.properties') }}-${{ hashFiles('**/buildSrc/**/*.kt') }}
-          restore-keys: ${{ runner.os }}-${{ github.job }}-
-
-      - name: Extract credentials
-        run: ./scripts/secrets.sh decrypt ${{ secrets.NORRIS_CRYPTO_KEY }}
+          norris-key: ${{ secrets.NORRIS_CRYPTO_KEY }}
 
       - name: Check code formatting
         run: ./gradlew ktlintCheck detekt --stacktrace
@@ -46,35 +26,15 @@ jobs:
   unit_tests:
     runs-on: ubuntu-20.04
     timeout-minutes: 10
-    env:
-      JAVA_TOOL_OPTIONS: -Xmx5g -XX:+UseParallelGC
 
     steps:
       - name: Project Checkout
         uses: actions/checkout@v2.3.4
 
-      - name: Setup JDK
-        uses: actions/setup-java@v2.2.0
+      - name: Setup Android Build
+        uses: ./.github/actions/setup-android-build
         with:
-          distribution: 'adopt'
-          java-version: 11
-
-      - name: Optimize for Gradle build
-        run: |
-          mkdir -p ~/.gradle
-          cp .github/githubci-gradle.properties ~/.gradle/gradle.properties
-
-      - name: Setup Cache
-        uses: actions/cache@v2.1.6
-        with:
-          path: |
-            ~/.gradle/caches
-            ~/.gradle/wrapper
-          key: ${{ runner.os }}-${{ github.job }}-${{ hashFiles('**/*.gradle*') }}-${{ hashFiles('**/gradle/wrapper/gradle-wrapper.properties') }}-${{ hashFiles('**/buildSrc/**/*.kt') }}
-          restore-keys: ${{ runner.os }}-${{ github.job }}-
-
-      - name: Extract credentials
-        run: ./scripts/secrets.sh decrypt ${{ secrets.NORRIS_CRYPTO_KEY }}
+          norris-key: ${{ secrets.NORRIS_CRYPTO_KEY }}
 
       - name: Run unit tests
         run: ./gradlew test --stacktrace
@@ -101,35 +61,15 @@ jobs:
   assemble_apk:
     runs-on: ubuntu-20.04
     timeout-minutes: 10
-    env:
-      JAVA_TOOL_OPTIONS: -Xmx5g -XX:+UseParallelGC
 
     steps:
       - name: Project Checkout
         uses: actions/checkout@v2.3.4
 
-      - name: Setup JDK
-        uses: actions/setup-java@v2.2.0
+      - name: Setup Android Build
+        uses: ./.github/actions/setup-android-build
         with:
-          distribution: 'adopt'
-          java-version: 11
-
-      - name: Optimize for Gradle build
-        run: |
-          mkdir -p ~/.gradle
-          cp .github/githubci-gradle.properties ~/.gradle/gradle.properties
-
-      - name: Setup Cache
-        uses: actions/cache@v2.1.6
-        with:
-          path: |
-            ~/.gradle/caches
-            ~/.gradle/wrapper
-          key: ${{ runner.os }}-${{ github.job }}-${{ hashFiles('**/*.gradle*') }}-${{ hashFiles('**/gradle/wrapper/gradle-wrapper.properties') }}-${{ hashFiles('**/buildSrc/**/*.kt') }}
-          restore-keys: ${{ runner.os }}-${{ github.job }}-
-
-      - name: Extract credentials
-        run: ./scripts/secrets.sh decrypt ${{ secrets.NORRIS_CRYPTO_KEY }}
+          norris-key: ${{ secrets.NORRIS_CRYPTO_KEY }}
 
       - name: Assemble production APK
         run: ./gradlew app:assembleRelease -PtestMode=true --stacktrace
@@ -143,35 +83,15 @@ jobs:
   espresso_prepare:
     runs-on: ubuntu-20.04
     timeout-minutes: 10
-    env:
-      JAVA_TOOL_OPTIONS: -Xmx5g -XX:+UseParallelGC
 
     steps:
       - name: Project Checkout
         uses: actions/checkout@v2.3.4
 
-      - name: Setup JDK
-        uses: actions/setup-java@v2.2.0
+      - name: Setup Android Build
+        uses: ./.github/actions/setup-android-build
         with:
-          distribution: 'adopt'
-          java-version: 11
-
-      - name: Optimize for Gradle build
-        run: |
-          mkdir -p ~/.gradle
-          cp .github/githubci-gradle.properties ~/.gradle/gradle.properties
-
-      - name: Setup Cache
-        uses: actions/cache@v2.1.6
-        with:
-          path: |
-            ~/.gradle/caches
-            ~/.gradle/wrapper
-          key: ${{ runner.os }}-${{ github.job }}-${{ hashFiles('**/*.gradle*') }}-${{ hashFiles('**/gradle/wrapper/gradle-wrapper.properties') }}-${{ hashFiles('**/buildSrc/**/*.kt') }}
-          restore-keys: ${{ runner.os }}-${{ github.job }}-
-
-      - name: Extract credentials
-        run: ./scripts/secrets.sh decrypt ${{ secrets.NORRIS_CRYPTO_KEY }}
+          norris-key: ${{ secrets.NORRIS_CRYPTO_KEY }}
 
       - name: Assemble Instrumentation tests
         run: ./gradlew app:assembleAndroidTest -PtestMode=true --stacktrace
@@ -186,35 +106,15 @@ jobs:
     runs-on: macOS-10.15
     needs: [assemble_apk, espresso_prepare, unit_tests, static_analysis]
     timeout-minutes: 20
-    env:
-      JAVA_TOOL_OPTIONS: -Xmx5g -XX:+UseParallelGC
 
     steps:
       - name: Project Checkout
         uses: actions/checkout@v2.3.4
 
-      - name: Setup JDK
-        uses: actions/setup-java@v2.2.0
+      - name: Setup Android Build
+        uses: ./.github/actions/setup-android-build
         with:
-          distribution: 'adopt'
-          java-version: 11
-
-      - name: Optimize for Gradle build
-        run: |
-          mkdir -p ~/.gradle
-          cp .github/githubci-gradle.properties ~/.gradle/gradle.properties
-
-      - name: Setup Cache
-        uses: actions/cache@v2.1.6
-        with:
-          path: |
-            ~/.gradle/caches
-            ~/.gradle/wrapper
-          key: ${{ runner.os }}-${{ github.job }}-${{ hashFiles('**/*.gradle*') }}-${{ hashFiles('**/gradle/wrapper/gradle-wrapper.properties') }}-${{ hashFiles('**/buildSrc/**/*.kt') }}
-          restore-keys: ${{ runner.os }}-${{ github.job }}-
-
-      - name: Extract credentials
-        run: ./scripts/secrets.sh decrypt ${{ secrets.NORRIS_CRYPTO_KEY }}
+          norris-key: ${{ secrets.NORRIS_CRYPTO_KEY }}
 
       - name: Run Screenshot tests
         uses: reactivecircus/android-emulator-runner@v2.19.1
