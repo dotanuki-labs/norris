@@ -18,7 +18,7 @@ runs:
 
       - name: Optimize for Gradle build
         shell: bash
-        run: ./setup-gradle-properties.sh
+        run: ${{ github.action_path }}/setup-gradle-properties.sh
 
       - name: Extract credentials
         shell: bash      
