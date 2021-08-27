@@ -10,8 +10,6 @@ jobs:
   static_analysis:
     runs-on: ubuntu-20.04
     timeout-minutes: 10
-    env:
-      JAVA_TOOL_OPTIONS: -Xmx5g -XX:+UseParallelGC
 
     steps:
       - name: Project Checkout
@@ -28,8 +26,6 @@ jobs:
   unit_tests:
     runs-on: ubuntu-20.04
     timeout-minutes: 10
-    env:
-      JAVA_TOOL_OPTIONS: -Xmx5g -XX:+UseParallelGC
 
     steps:
       - name: Project Checkout
@@ -65,8 +61,6 @@ jobs:
   assemble_apk:
     runs-on: ubuntu-20.04
     timeout-minutes: 10
-    env:
-      JAVA_TOOL_OPTIONS: -Xmx5g -XX:+UseParallelGC
 
     steps:
       - name: Project Checkout
@@ -89,8 +83,6 @@ jobs:
   espresso_prepare:
     runs-on: ubuntu-20.04
     timeout-minutes: 10
-    env:
-      JAVA_TOOL_OPTIONS: -Xmx5g -XX:+UseParallelGC
 
     steps:
       - name: Project Checkout
@@ -114,8 +106,6 @@ jobs:
     runs-on: macOS-10.15
     needs: [assemble_apk, espresso_prepare, unit_tests, static_analysis]
     timeout-minutes: 20
-    env:
-      JAVA_TOOL_OPTIONS: -Xmx5g -XX:+UseParallelGC
 
     steps:
       - name: Project Checkout
