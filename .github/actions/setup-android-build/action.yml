@@ -1,0 +1,31 @@
+name: "Setup Android build"
+description: "Common steps before running a Gradle command, regarding the Runner OS"
+
+runs:
+  using: "composite"
+  steps:
+      - name: Setup JDK
+        uses: actions/setup-java@v2.2.0
+        with:
+          distribution: 'adopt'
+          java-version: 11
+
+      - name: Optimize for Gradle build
+        shell: bash
+        run: |
+          mkdir -p ~/.gradle
+          cp .github/githubci-gradle.properties ~/.gradle/gradle.properties
+
+      - name: Setup Cache
+        uses: actions/cache@v2.1.6
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: ${{ runner.os }}-${{ github.job }}-${{ hashFiles('**/*.gradle*') }}-${{ hashFiles('**/gradle/wrapper/gradle-wrapper.properties') }}-${{ hashFiles('**/buildSrc/**/*.kt') }}
+          restore-keys: ${{ runner.os }}-${{ github.job }}-
+
+      - name: Extract credentials
+        shell: bash      
+        run: ./scripts/secrets.sh decrypt ${{ secrets.NORRIS_CRYPTO_KEY }}
+
