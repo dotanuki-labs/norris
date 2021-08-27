@@ -19,6 +19,8 @@ jobs:
 
       - name: Setup Android Build
         uses: ./.github/actions/setup-android-build
+        with:
+          norris-key: ${{ secrets.NORRIS_CRYPTO_KEY }}
 
       - name: Check code formatting
         run: ./gradlew ktlintCheck detekt --stacktrace
@@ -35,6 +37,8 @@ jobs:
 
       - name: Setup Android Build
         uses: ./.github/actions/setup-android-build
+        with:
+          norris-key: ${{ secrets.NORRIS_CRYPTO_KEY }}
 
       - name: Run unit tests
         run: ./gradlew test --stacktrace
@@ -70,9 +74,8 @@ jobs:
 
       - name: Setup Android Build
         uses: ./.github/actions/setup-android-build
-
-      - name: Extract credentials
-        run: ./scripts/secrets.sh decrypt ${{ secrets.NORRIS_CRYPTO_KEY }}
+        with:
+          norris-key: ${{ secrets.NORRIS_CRYPTO_KEY }}
 
       - name: Assemble production APK
         run: ./gradlew app:assembleRelease -PtestMode=true --stacktrace
@@ -95,6 +98,8 @@ jobs:
 
       - name: Setup Android Build
         uses: ./.github/actions/setup-android-build
+        with:
+          norris-key: ${{ secrets.NORRIS_CRYPTO_KEY }}
 
       - name: Assemble Instrumentation tests
         run: ./gradlew app:assembleAndroidTest -PtestMode=true --stacktrace
@@ -118,6 +123,8 @@ jobs:
 
       - name: Setup Android Build
         uses: ./.github/actions/setup-android-build
+        with:
+          norris-key: ${{ secrets.NORRIS_CRYPTO_KEY }}
 
       - name: Run Screenshot tests
         uses: reactivecircus/android-emulator-runner@v2.19.1
