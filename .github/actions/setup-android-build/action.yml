@@ -18,9 +18,7 @@ runs:
 
       - name: Optimize for Gradle build
         shell: bash
-        run: |
-          mkdir -p ~/.gradle
-          cp .github/githubci-gradle.properties ~/.gradle/gradle.properties
+        run: ${{ github.action_path }}/setup-gradle-properties.sh
 
       - name: Extract credentials
         shell: bash      
