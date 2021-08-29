@@ -5,11 +5,11 @@ set -e
 readonly REPORTS_FOLDER="$1"
 
 if [[ -z "$REPORTS_FOLDER" ]]; then
-	echo
-	echo "Reports folder should be provided."
-	echo "Usage example : ./aggregate-test-reports.sh build/test-reports"
-	echo
-	exit 1
+    echo
+    echo "Reports folder should be provided."
+    echo "Usage example : ./aggregate-test-reports.sh build/test-reports"
+    echo
+    exit 1
 fi
 
 readonly JUNIT_XMLS="$REPORTS_FOLDER/junit"
@@ -30,11 +30,11 @@ echo "🔥 Collecting test files"
 find . -type f -regex ".*/build/test-results/.*xml" -exec cp {} "$JUNIT_XMLS/" \;
 
 if command -v xunit-viewer >/dev/null 2>&1; then
-	echo "🔥 Generating aggregated report with xunit-viewer"
-	echo
-	xunit-viewer -r "$JUNIT_XMLS" -o "$REPORT_FILE" -t "$REPORT_TITLE" -b "$REPORT_LOGO" -f "$REPORT_LOGO"
+    echo "🔥 Generating aggregated report with xunit-viewer"
+    echo
+    xunit-viewer -r "$JUNIT_XMLS" -o "$REPORT_FILE" -t "$REPORT_TITLE" -b "$REPORT_LOGO" -f "$REPORT_LOGO"
 else
-	echo "🔥 xunit-viewer not detected. Skipping custom report generation"
+    echo "🔥 xunit-viewer not detected. Skipping custom report generation"
 fi
 
 echo

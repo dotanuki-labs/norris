@@ -6,7 +6,7 @@ readonly workdir="$GITHUB_WORKSPACE"
 readonly properties_file="$workdir/gradle.properties"
 
 write_property() {
-    echo "$1" >> $properties_file
+    echo "$1" >>$properties_file
 }
 
 write_common_properties() {

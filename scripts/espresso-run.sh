@@ -18,10 +18,10 @@ ERRORS_FOUND=$(echo "$EXECUTION" | grep "FAILURES" | tr -d ' ')
 echo -e "$EXECUTION"
 
 if [ -n "$ERRORS_FOUND" ]; then
-	echo
-	echo "😞 Instrumentation test execution failed!"
-	echo
-	exit 1
+    echo
+    echo "😞 Instrumentation test execution failed!"
+    echo
+    exit 1
 fi
 
 echo
