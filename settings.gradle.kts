@@ -24,3 +24,5 @@ include(
     ":features:search",
     ":features:onboarding"
 )
+
+enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")

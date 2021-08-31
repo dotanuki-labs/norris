@@ -4,7 +4,7 @@ plugins {
 }
 
 dependencies {
-    implementation(project(":platform:core:core-networking"))
+    implementation(projects.platform.core.coreNetworking)
 
     implementation("org.kodein.type:kodein-type-jvm:1.7.1")
     implementation("org.kodein.di:kodein-di-jvm:7.7.0")
@@ -17,7 +17,7 @@ dependencies {
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.5.1")
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-core-jvm:1.2.2")
 
-    testImplementation(project(":platform:testing:testing-rest"))
+    testImplementation(projects.platform.testing.testingRest)
 
     testImplementation("org.slf4j:slf4j-nop:1.7.32")
     testImplementation("junit:junit:4.13.2")

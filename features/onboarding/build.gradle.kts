@@ -4,10 +4,10 @@ plugins {
 }
 
 dependencies {
-    implementation(project(":platform:common:common-android"))
-    implementation(project(":platform:common:common-kodein"))
-    implementation(project(":platform:common:common-static"))
-    implementation(project(":platform:core:core-navigator"))
+    implementation(projects.platform.common.commonAndroid)
+    implementation(projects.platform.common.commonKodein)
+    implementation(projects.platform.common.commonStatic)
+    implementation(projects.platform.core.coreNavigator)
 
     implementation("org.kodein.di:kodein-di-jvm:7.7.0")
     implementation("org.kodein.type:kodein-type-jvm:1.7.1")

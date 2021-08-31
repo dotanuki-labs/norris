@@ -20,14 +20,14 @@ android {
 }
 
 dependencies {
-    implementation(project(":platform:core:core-rest"))
-    implementation(project(":platform:core:core-persistance"))
-    implementation(project(":platform:core:core-navigator"))
-    implementation(project(":platform:common:common-kodein"))
-    implementation(project(":platform:common:common-static"))
-    implementation(project(":features:onboarding"))
-    implementation(project(":features:facts"))
-    implementation(project(":features:search"))
+    implementation(projects.platform.core.coreRest)
+    implementation(projects.platform.core.corePersistance)
+    implementation(projects.platform.core.coreNavigator)
+    implementation(projects.platform.common.commonKodein)
+    implementation(projects.platform.common.commonStatic)
+    implementation(projects.features.facts)
+    implementation(projects.features.onboarding)
+    implementation(projects.features.search)
 
     implementation("androidx.core:core:1.6.0")
     implementation("androidx.core:core-ktx:1.6.0")
@@ -40,8 +40,8 @@ dependencies {
         releaseImplementation("com.squareup.leakcanary:leakcanary-android-release:2.7")
     }
 
-    androidTestImplementation(project(":platform:testing:testing-persistance"))
-    androidTestImplementation(project(":platform:testing:testing-rest"))
+    androidTestImplementation(projects.platform.testing.testingPersistance)
+    androidTestImplementation(projects.platform.testing.testingRest)
 
     androidTestImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test:core:1.4.0")

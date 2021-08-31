@@ -5,9 +5,9 @@ plugins {
 
 dependencies {
 
-    implementation(project(":platform:core:core-rest"))
-    implementation(project(":platform:core:core-persistance"))
-    implementation(project(":platform:core:core-navigator"))
+    implementation(projects.platform.core.coreNavigator)
+    implementation(projects.platform.core.coreRest)
+    implementation(projects.platform.core.corePersistance)
 
     implementation("androidx.lifecycle:lifecycle-common:2.3.1")
     implementation("org.kodein.di:kodein-di-jvm:7.7.0")
