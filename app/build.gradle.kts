@@ -54,7 +54,8 @@ dependencies {
     androidTestImplementation("com.google.truth:truth:1.1.3")
     androidTestImplementation("com.squareup.okhttp3:mockwebserver:4.9.1")
 
-    androidTestImplementation("com.adevinta.android:barista:4.0.0") {
+    androidTestImplementation("com.adevinta.android:barista:4.1.0") {
         exclude(group = "org.jetbrains.kotlin")
+        exclude(group = "org.checkerframework")
     }
 }
