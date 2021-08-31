@@ -15,7 +15,7 @@ buildscript {
         classpath("com.adarshr:gradle-test-logger-plugin:3.0.0")
         classpath("org.jetbrains.kotlin:kotlin-serialization:1.5.30")
         classpath("org.jlleitschuh.gradle:ktlint-gradle:10.1.0")
-        classpath("io.gitlab.arturbosch.detekt:detekt-gradle-plugin:1.18.0")
+        classpath("io.gitlab.arturbosch.detekt:detekt-gradle-plugin:1.18.1")
         classpath("com.karumi:shot:5.11.2")
     }
 }
