@@ -42,7 +42,6 @@ class ExpectedSuccessesContractTests {
             .uponReceiving("successful search for facts")
             .path("/jokes/search").method("GET").matchQuery("query", "code")
             .willRespondWith().status(200).body(facts)
-
             .uponReceiving("successful search for categories")
             .path("/jokes/categories").method("GET")
             .willRespondWith().status(200).body(categories)

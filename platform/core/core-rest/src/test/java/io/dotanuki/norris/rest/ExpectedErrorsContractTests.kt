@@ -54,7 +54,6 @@ class ExpectedErrorsContractTests {
             .uponReceiving("error when hitting an invalid endpoint")
             .path("/jokes/search").method("GET").matchQuery("query", "code")
             .willRespondWith().status(404).body(clientError)
-
             .uponReceiving("error when service unavailable")
             .path("/jokes/categories").method("GET")
             .willRespondWith().status(503).body(serverError)
