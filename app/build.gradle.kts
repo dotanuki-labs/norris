@@ -33,7 +33,7 @@ dependencies {
     implementation("androidx.core:core-ktx:1.6.0")
     implementation("androidx.appcompat:appcompat:1.3.1")
     implementation("org.kodein.di:kodein-di-jvm:7.7.0")
-    implementation("org.kodein.type:kodein-type-jvm:1.7.1")
+    implementation("org.kodein.type:kodein-type-jvm:1.8.0")
     implementation("com.squareup.okhttp3:okhttp:4.9.1")
 
     if (isTestMode()) {
