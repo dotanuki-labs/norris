@@ -13,6 +13,6 @@ dependencies {
     implementation("com.squareup.retrofit2:retrofit:2.9.0")
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.2.2")
     implementation("org.kodein.di:kodein-di-jvm:7.7.0")
-    implementation("org.kodein.type:kodein-type-jvm:1.7.1")
+    implementation("org.kodein.type:kodein-type-jvm:1.8.0")
     implementation("junit:junit:4.13.2")
 }

@@ -8,7 +8,7 @@ dependencies {
 
     implementation("androidx.appcompat:appcompat:1.3.1")
     implementation("org.kodein.di:kodein-di-jvm:7.7.0")
-    implementation("org.kodein.type:kodein-type-jvm:1.7.1")
+    implementation("org.kodein.type:kodein-type-jvm:1.8.0")
 
     testImplementation(projects.platform.testing.testingCommons)
     testImplementation("org.robolectric:robolectric:4.6.1")
