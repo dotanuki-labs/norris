@@ -9,7 +9,7 @@ dependencies {
     implementation("com.squareup.retrofit2:retrofit:2.9.0")
     implementation("com.jakewharton.retrofit:retrofit2-kotlinx-serialization-converter:0.8.0")
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-core:1.2.2")
-    implementation("org.jetbrains.kotlinx:kotlinx-serialization-core-jvm:1.2.2")
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-core-jvm:1.3.0")
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.2.2")
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json-jvm:1.2.2")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.5.1")
