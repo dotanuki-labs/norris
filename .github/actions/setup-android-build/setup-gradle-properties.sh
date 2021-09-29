@@ -36,13 +36,15 @@ write_common_properties() {
 
 write_macos_properties() {
     echo "🔥 Fine tunning Gradle properties for MacOS GHA runner"
-    write_property "org.gradle.jvmargs=-Xmx10g -XX:+UseParallelGC"
+    write_property "org.gradle.jvmargs=-Xmx7g -XX:+UseParallelGC"
+    write_property "kotlin.daemon.jvmargs=-Xmx3g -Xms512m -XX:+UseParallelGC"
     write_property "org.gradle.parallel.threads=3"
 }
 
 write_linux_properties() {
     echo "🔥 Fine tunning Gradle properties for Linux GHA runner"
-    write_property "org.gradle.jvmargs=-Xmx6g -XX:+UseParallelGC"
+    write_property "org.gradle.jvmargs=-Xmx4g -Xms512m -XX:+UseParallelGC"
+    write_property "kotlin.daemon.jvmargs=-Xmx2g -Xms512m -XX:+UseParallelGC"
     write_property "org.gradle.parallel.threads=2"
 }
 
