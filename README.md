@@ -51,7 +51,6 @@ In a nutshell :
 - Most of unit tests actually are on `platform` modules, since these modules provide the core functionally for features
 - [Table-driven testing](https://dave.cheney.net/2019/05/07/prefer-table-driven-tests) is used whenever possible
 - [Interaction-based tests are completely avoided](https://blog.ploeh.dk/2019/02/18/from-interaction-based-to-state-based-testing/); only state-based tests are used
-- Contract tests on top of [pact.io](https://pact.io/)
 - On `features`, tests are mandatory over data sources, although REST APIs are not directly faked; instead, we test the whole networking stack by inject fake responses on a Mock Server
 - When a high level module owns some domain logic of interest - eg, some validation rule - such logic is unit tested
 - No unit test over ViewModels
@@ -65,9 +64,9 @@ Actual numbers:
 
 Testing approach   | Execution Environment                            | Amount   | Percentage   |
 -------------------| -------------------------------------------------| -------- | ------------ |
-Unit tests         | JVM-only                                         | 11       | ~ 30%        |
-Integration tests  | JVM-only + Robolectric + Android/Instrumentation | 23       | ~ 65%        |
-Acceptance tests   | Android/Instrumentation                          | 2        | ~ 5%         |
+Unit tests         | JVM-only                                         | 11       | ~ 32%        |
+Integration tests  | JVM-only + Robolectric + Android/Instrumentation | 21       | ~ 62%        |
+Acceptance tests   | Android/Instrumentation                          | 2        | ~ 6%         |
 
 ## Building and Running
 
