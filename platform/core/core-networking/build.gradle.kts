@@ -12,9 +12,9 @@ dependencies {
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-core-jvm:1.3.0")
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.3.0")
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json-jvm:1.3.0")
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.5.1")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.5.2")
 
     testImplementation("junit:junit:4.13.2")
-    testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-core-jvm:1.5.1")
+    testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-core-jvm:1.5.2")
     testImplementation("com.google.truth:truth:1.1.3")
 }
