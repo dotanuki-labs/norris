@@ -22,6 +22,5 @@ dependencies {
     testImplementation("org.slf4j:slf4j-nop:1.7.32")
     testImplementation("junit:junit:4.13.2")
     testImplementation("com.google.truth:truth:1.1.3")
-    testImplementation("au.com.dius.pact.consumer:junit:4.2.11")
     testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-core-jvm:1.5.2")
 }
