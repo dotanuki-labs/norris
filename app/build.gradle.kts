@@ -34,7 +34,7 @@ dependencies {
     implementation("androidx.appcompat:appcompat:1.3.1")
     implementation("org.kodein.di:kodein-di-jvm:7.8.0")
     implementation("org.kodein.type:kodein-type-jvm:1.8.0")
-    implementation("com.squareup.okhttp3:okhttp:4.9.1")
+    implementation("com.squareup.okhttp3:okhttp:4.9.2")
 
     if (isTestMode()) {
         releaseImplementation("com.squareup.leakcanary:leakcanary-android-release:2.7")
