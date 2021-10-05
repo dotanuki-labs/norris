@@ -34,7 +34,7 @@ dependencies {
     implementation("androidx.appcompat:appcompat:1.3.1")
     implementation("org.kodein.di:kodein-di-jvm:7.8.0")
     implementation("org.kodein.type:kodein-type-jvm:1.8.0")
-    implementation("com.squareup.okhttp3:okhttp:4.9.1")
+    implementation("com.squareup.okhttp3:okhttp:4.9.2")
 
     if (isTestMode()) {
         releaseImplementation("com.squareup.leakcanary:leakcanary-android-release:2.7")
@@ -52,7 +52,7 @@ dependencies {
     androidTestImplementation("androidx.test:rules:1.4.0")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.4.0")
     androidTestImplementation("com.google.truth:truth:1.1.3")
-    androidTestImplementation("com.squareup.okhttp3:mockwebserver:4.9.1")
+    androidTestImplementation("com.squareup.okhttp3:mockwebserver:4.9.2")
 
     androidTestImplementation("com.adevinta.android:barista:4.2.0") {
         exclude(group = "org.jetbrains.kotlin")
