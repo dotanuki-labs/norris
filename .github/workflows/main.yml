@@ -23,6 +23,13 @@ jobs:
       - name: Check code formatting
         run: ./gradlew ktlintCheck detekt --stacktrace
 
+      - name: Archive execution metrics
+        if: success()
+        uses: actions/upload-artifact@v2.2.4
+        with:
+          name: static-analysis-metrics
+          path: build/reports/talaiot/json
+
   unit_tests:
     runs-on: ubuntu-20.04
     timeout-minutes: 10
@@ -50,6 +57,13 @@ jobs:
           name: junit-results-unit-tests
           path: build/test-reports
 
+      - name: Archive execution metrics
+        if: success()
+        uses: actions/upload-artifact@v2.2.4
+        with:
+          name: unit-tests-metrics
+          path: build/reports/talaiot/json
+
   assemble_apk:
     runs-on: ubuntu-20.04
     timeout-minutes: 10
@@ -72,6 +86,13 @@ jobs:
           name: release-apk
           path: app/build/outputs/apk/release
 
+      - name: Archive execution metrics
+        if: success()
+        uses: actions/upload-artifact@v2.2.4
+        with:
+          name: assemble-apk-metrics
+          path: build/reports/talaiot/json
+
   espresso_prepare:
     runs-on: ubuntu-20.04
     timeout-minutes: 10
@@ -93,6 +114,13 @@ jobs:
         with:
           name: tests-apk
           path: app/build/outputs/apk/androidTest/release
+
+      - name: Archive execution metrics
+        if: success()
+        uses: actions/upload-artifact@v2.2.4
+        with:
+          name: espresso-prepare-metrics
+          path: build/reports/talaiot/json
 
   screenshot_tests:
     runs-on: macOS-10.15
