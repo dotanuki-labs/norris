@@ -22,10 +22,21 @@ buildscript {
 
 plugins {
     id("com.osacky.doctor") version "0.7.3"
+    id("io.github.cdsap.talaiot") version "1.5.1"
 }
 
 doctor {
     GCWarningThreshold.set(0.05f)
+}
+
+talaiot {
+    metrics {
+        gitMetrics = false
+    }
+
+    publishers {
+        jsonPublisher = true
+    }
 }
 
 allprojects {
