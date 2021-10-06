@@ -20,6 +20,14 @@ buildscript {
     }
 }
 
+plugins {
+    id("com.osacky.doctor") version "0.7.3"
+}
+
+doctor {
+    GCWarningThreshold.set(0.05f)
+}
+
 allprojects {
 
     repositories {
