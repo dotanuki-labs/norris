@@ -123,6 +123,11 @@ jobs:
           path: build/reports/talaiot/json
 
   screenshot_tests:
+    strategy:
+      fail-fast: true
+      matrix:
+        device: ['nexus', 'pixel']
+
     runs-on: macOS-10.15
     needs: [assemble_apk, espresso_prepare, unit_tests, static_analysis]
     timeout-minutes: 20
@@ -136,12 +141,21 @@ jobs:
         with:
           norris-key: ${{ secrets.NORRIS_CRYPTO_KEY }}
 
+      - name: Synchronize screenshots
+        run: ./scripts/screenshots-sync.sh ${{ matrix.device }}
+
+      - name: Assign emulator profile
+        id: emulator-profile
+        uses: ./.github/actions/assign-emulator-profile
+        with:
+          device: ${{ matrix.device }}
+
       - name: Run Screenshot tests
         uses: reactivecircus/android-emulator-runner@v2.20.0
         with:
           api-level: 28
           target: 'google_apis'
-          profile: 'pixel'
+          profile: ${{ steps.emulator-profile.outputs.assigned }}
           script: ./gradlew clean executeScreenTests --no-daemon --stacktrace
 
   acceptance_tests:
