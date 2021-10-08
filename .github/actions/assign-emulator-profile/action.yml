@@ -1,0 +1,19 @@
+name: 'Assign Emulator Profile'
+description: 'Translate a convention device name into a profile emulator device profile'
+
+inputs:
+  device:
+    description: 'The convention name of the device'
+    required: true
+
+outputs:
+  assigned:
+    description: 'The profile emulator'
+    value: ${{ steps.action-assign-emulator-profile.outputs.assigned }}
+
+runs:
+  using: 'composite'
+  steps:
+    - run: ${{ github.action_path }}/emulator-assigner.sh ${{ inputs.device }}
+      id: action-assign-emulator-profile
+      shell: bash
