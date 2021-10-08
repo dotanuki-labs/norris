@@ -9,7 +9,7 @@ readonly normal="\e[0m"
 readonly device="$1"
 
 mapped_profile() {
-    echo "Mapped emulator profile  -> ${cyan}$1${normal}"
+    echo -e "Mapped emulator profile  -> ${cyan}$1${normal}"
     echo "::set-output name=assigned::$1"
 }
 

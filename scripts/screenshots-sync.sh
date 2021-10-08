@@ -20,7 +20,7 @@ readonly device="$1"
 
 usage() {
     echo
-    echo -e "Usage : ‣ screenshots-sync.sh ${cyan}device${normal} (nexus4 or pixel)"
+    echo -e "Usage : ‣ screenshots-sync.sh ${cyan}$device${normal} (nexus4 or pixel)"
 }
 
 sync() {

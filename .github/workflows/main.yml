@@ -126,7 +126,7 @@ jobs:
     strategy:
       fail-fast: true
       matrix:
-        device: ['nexus', 'pixel']
+        device: ['nexus4', 'pixel']
 
     runs-on: macOS-10.15
     needs: [assemble_apk, espresso_prepare, unit_tests, static_analysis]
