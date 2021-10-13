@@ -14,16 +14,18 @@ DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 cd "${DIR%/*}"
 
 # Install Emulator WTF
-
 mkdir -p "$ewtf_home"
-curl https://maven.emulator.wtf/releases/ew-cli -o "$ewtf" && chmod +x "$ewtf"
+curl -s --fail https://maven.emulator.wtf/releases/ew-cli -o "$ewtf" && chmod +x "$ewtf"
 
-# List APKs
-
-find . -name "*.apk" -print -exec echo {} \;
 
 # Run tests
-sh "$ewtf" --token "$API_TOKEN" --app "$target_apk" --test "$tests_apk"
+
+sh "$ewtf" \
+    --token "$API_TOKEN" \
+    --app "$target_apk" \
+    --test "$tests_apk" \
+    --device model=NexusLowRes,version=27 \
+    --device model=Pixel2,version=27
 
 
 exit 0
