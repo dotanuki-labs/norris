@@ -173,4 +173,9 @@ jobs:
       - name: Run Espresso tests over emulator.wtf
         run: ./scripts/emulator-wtf.sh ${{ secrets.EMULATOR_WTF_TOKEN }}
 
-
+      - name: Archive execution results
+        if: success()
+        uses: actions/upload-artifact@v2.2.4
+        with:
+          name: emulator-wtf-results
+          path: emulator-wtf-results
