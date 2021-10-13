@@ -24,6 +24,7 @@ sh "$ewtf" \
     --token "$API_TOKEN" \
     --app "$target_apk" \
     --test "$tests_apk" \
+    --device model=Pixel2,version=27 \
     --outputs-dir emulator-wtf-results
 
 
