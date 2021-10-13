@@ -159,12 +159,7 @@ jobs:
           script: ./gradlew clean executeScreenTests --no-daemon --stacktrace
 
   acceptance_tests:
-    strategy:
-      fail-fast: true
-      matrix:
-        android_sdk: [26, 27]
-
-    runs-on: macOS-10.15
+    runs-on: ubuntu-20.04
     timeout-minutes: 15
     needs: [assemble_apk, espresso_prepare, unit_tests, static_analysis]
     steps:
@@ -175,8 +170,7 @@ jobs:
       - name: Fetch Instrumentation artefacts
         uses: actions/download-artifact@v2.0.10
 
-      - name: Run Instrumentation tests
-        uses: reactivecircus/android-emulator-runner@v2.20.0
-        with:
-          api-level: ${{ matrix.android_sdk }}
-          script: ./scripts/espresso-run.sh
+      - name: Run Espresso tests over emulator.wtf
+        run: ./scripts/emulator-wtf.sh ${{ secrets.EMULATOR_WTF_TOKEN }}
+
+
