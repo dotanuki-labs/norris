@@ -11,8 +11,8 @@ readonly api_token="$1"
 
 # Setup path
 
-DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-cd "${DIR%/*}"
+dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+cd "${dir%/*}"
 
 # Install Emulator WTF
 
