@@ -27,4 +27,6 @@ sh "$ewtf" \
     --app "$target_apk" \
     --test "$tests_apk" \
     --device model=Pixel2,version=27 \
-    --outputs-dir emulator-wtf-results
+    --outputs-dir emulator-wtf-results \
+    --use-orchestrator \
+    --clear-package-data
