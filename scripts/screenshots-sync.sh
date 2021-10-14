@@ -7,9 +7,9 @@ setup() {
     cd "${dir%/*}"
 }
 
-readonly cyan="\033[1;36m"
-readonly red="\033[1;91m"
-readonly normal="\e[0m"
+readonly cyan_color="\033[1;36m"
+readonly red_color="\033[1;91m"
+readonly normal_color="\e[0m"
 
 readonly features=(
     "search"
@@ -20,12 +20,12 @@ readonly device="$1"
 
 usage() {
     echo
-    echo -e "Usage : ‣ screenshots-sync.sh ${cyan}$device${normal} (nexus4 or pixel)"
+    echo -e "Usage : ‣ screenshots-sync.sh ${cyan_color}<device>${normal_color} (nexus4 or pixel)"
 }
 
 sync() {
 
-    echo -e "Syncing screenshots for device profile : ${cyan}$device${normal}"
+    echo -e "Syncing screenshots for device profile : ${cyan_color}$device${normal_color}"
     echo
 
     for feature in "${features[@]}"
@@ -34,10 +34,10 @@ sync() {
         destination="features/$feature/screenshots/debug"
 
         rm -rf $destination
-        echo -e "✔︎ Cleaned contents at ${cyan}$destination${normal}"
+        echo -e "✔︎ Cleaned contents at ${cyan_color}$destination${normal_color}"
 
         cp -R $origin $destination
-        echo -e "✔︎ Copied images from ${cyan}$origin${normal} to ${cyan}$destination${normal}"
+        echo -e "✔︎ Copied images from ${cyan_color}$origin${normal_color} to ${cyan_color}$destination${normal_color}"
 
         echo
     done
@@ -45,7 +45,7 @@ sync() {
 
 main() {
     if [[ -z "$device" ]]; then
-        echo -e "${red}Error: no device device supplied${normal}"
+        echo -e "${red_color}Error: no device device supplied${normal_color}"
         usage
         return
     fi
@@ -55,7 +55,7 @@ main() {
         sync
         ;;
     *)
-        echo -e "${red}Error: Invalid device${normal} → ${cyan}$device${normal}"
+        echo -e "Error: Invalid device → ${red_color}$device${normal_color}"
         usage
         echo
         exit 1
