@@ -8,8 +8,7 @@ pull_request_rules:
       - author~=^dependabot(|-preview)\[bot\]$
       - check-success=screenshot_tests (nexus4)
       - check-success=screenshot_tests (pixel)
-      - check-success=acceptance_tests (26)
-      - check-success=acceptance_tests (27)      
+      - check-success=acceptance_tests     
       - "#approved-reviews-by>=1"
     actions:
       merge:
@@ -20,8 +19,7 @@ pull_request_rules:
       - author~=^dotanukibot
       - check-success=screenshot_tests (nexus4)
       - check-success=screenshot_tests (pixel)
-      - check-success=acceptance_tests (26)
-      - check-success=acceptance_tests (27) 
+      - check-success=acceptance_tests
     actions:
       merge:
         method: squash
@@ -31,8 +29,7 @@ pull_request_rules:
       - author~=^ubiratansoares
       - check-success=screenshot_tests (nexus4)
       - check-success=screenshot_tests (pixel)
-      - check-success=acceptance_tests (26)
-      - check-success=acceptance_tests (27) 
+      - check-success=acceptance_tests
     actions:
       merge:
         method: squash
