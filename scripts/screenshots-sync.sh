@@ -9,7 +9,7 @@ setup() {
 
 readonly cyan_color="\033[1;36m"
 readonly red_color="\033[1;91m"
-readonly normal_color="\e[0m"
+readonly normal_color="\033[0m"
 
 readonly features=(
     "search"
@@ -20,7 +20,7 @@ readonly device="$1"
 
 usage() {
     echo
-    echo -e "Usage : ‣ screenshots-sync.sh ${cyan_color}<device>${normal_color} (nexus4 or pixel)"
+    echo -e "Usage : ‣ screenshots-sync.sh $cyan_color<device>$normal_color (nexus4 or pixel)"
 }
 
 sync() {

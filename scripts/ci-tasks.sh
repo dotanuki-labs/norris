@@ -8,7 +8,7 @@ setup() {
 }
 
 readonly cyan="\033[1;36m"
-readonly normal="\e[0m"
+readonly normal="\033[0m"
 
 readonly help_linters="Runs Ktlint and Detekt for all configured modules"
 readonly help_unit_tests="Runs JVM/Robolectric tests for all modules"
