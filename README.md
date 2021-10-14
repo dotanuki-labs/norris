@@ -55,10 +55,10 @@ In a nutshell :
 - When a high level module owns some domain logic of interest - eg, some validation rule - such logic is unit tested
 - No unit test over ViewModels
 - Also on `features`, integrated tests run at Activity level by leveraging a pragmatic way to decoupling this platform controller from its hosted Views : the inflated View is faked at testing time. Tests run on top of Robolectric over Activity Scenarios.
-- In addition to that, on `features` we test the View layer via [screenshot tests](https://medium.com/definitylabs/what-is-screenshot-testing-43981023cdff) in a fully isolated way. I understand that **screenshot tests are not the same and should not be used as acceptance tests**.
+- In addition to that, on `features` we test the View layer via [screenshot tests](https://medium.com/definitylabs/what-is-screenshot-testing-43981023cdff) in a fully isolated way. I see that **screenshot tests are not the same and should not be used as acceptance tests**.
 - [Acceptance tests](https://www.davefarley.net/?p=186) are implemented with Espresso running over Android/Instrumentation     
 - **Acceptance tests** exercise the **release artefact**, approaching what will be shipped to users/customers; the only exception here is the REST API URL passed-in at build time (for the sake of controlling testing conditions)
-- In addition to that, **acceptance tests** exercise real user flows in a cross-screen / cross-feature fashion and running with a stress-first approach (2 runs per execution x 2 Jobs per run on CI)
+- In addition to that, **acceptance tests** exercise real user flows in a cross-screen / cross-feature fashion and running with a stress-first approach (10 runs per test)
 
 Actual numbers:
 
@@ -84,7 +84,7 @@ so you can chose between :
 - Run acceptance tests over with Espresso
 
 Please note that an online device is required in order to run screenshot/acceptance tests .
-I recommend `api-28/google-apis` with `pixel` device profile as the your AVD configuration for that (the same used on CI).
+I recommend `api-28/google-apis` with `pixel` device profile as the your AVD configuration for that.
 
 Also note that local builds **require JDK11**, since this project compiles against Java11 bytecode.
 

@@ -3,8 +3,8 @@
 set -e
 
 setup() {
-    DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-    cd "${DIR%/*}"
+    dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+    cd "${dir%/*}"
 }
 
 readonly cyan="\033[1;36m"
@@ -68,6 +68,7 @@ screenshot_tests() {
     check_online_device
     clean_up_packages
     clean
+    ./screenshots-sync.sh pixel
     ./gradlew executeScreenTests --no-daemon --stacktrace
 }
 
