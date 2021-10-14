@@ -159,11 +159,6 @@ jobs:
           script: ./gradlew clean executeScreenTests --no-daemon --stacktrace
 
   acceptance_tests:
-    strategy:
-      fail-fast: true
-      matrix:
-        device: ['NexusLowRes', 'Pixel2']
-
     runs-on: ubuntu-20.04
     timeout-minutes: 15
     needs: [assemble_apk, espresso_prepare, unit_tests, static_analysis]
@@ -176,7 +171,7 @@ jobs:
         uses: actions/download-artifact@v2.0.10
 
       - name: Run Espresso tests over emulator.wtf
-        run: ./scripts/emulator-wtf.sh ${{ secrets.EMULATOR_WTF_TOKEN }} ${{ matrix.device }}
+        run: ./scripts/emulator-wtf.sh ${{ secrets.EMULATOR_WTF_TOKEN }}
 
       - name: Archive execution results
         if: success()
