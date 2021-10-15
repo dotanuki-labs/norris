@@ -81,10 +81,18 @@ jobs:
         run: ./gradlew app:assembleRelease -PtestMode=true --stacktrace
 
       - name: Archive APK
+        if: success()
         uses: actions/upload-artifact@v2.2.4
         with:
           name: release-apk
           path: app/build/outputs/apk/release
+
+      - name: Archive R8 mappings
+        if: success()
+        uses: actions/upload-artifact@v2.2.4
+        with:
+          name: release-mappings
+          path: app/build/outputs/mapping/release
 
       - name: Archive execution metrics
         if: success()
