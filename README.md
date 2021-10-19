@@ -64,8 +64,8 @@ Actual numbers:
 
 Testing approach   | Execution Environment                            | Amount   | Percentage   |
 -------------------| -------------------------------------------------| -------- | ------------ |
-Unit tests         | JVM-only                                         | 11       | ~ 32%        |
-Integration tests  | JVM-only + Robolectric + Android/Instrumentation | 21       | ~ 62%        |
+Unit tests         | JVM-only                                         | 10       | ~ 30%        |
+Integration tests  | JVM-only + Robolectric + Android/Instrumentation | 21       | ~ 64%        |
 Acceptance tests   | Android/Instrumentation                          | 2        | ~ 6%         |
 
 ## Building and Running
