@@ -170,6 +170,11 @@ jobs:
     runs-on: ubuntu-20.04
     timeout-minutes: 15
     needs: [assemble_apk, espresso_prepare, unit_tests, static_analysis]
+    strategy:
+      fail-fast: true
+      matrix:
+        device: [ 'NexusLowRes', 'Pixel2' ]
+
     steps:
       - name: Project Checkout
         uses: actions/checkout@v2.3.5
@@ -177,8 +182,8 @@ jobs:
       - name: Fetch Instrumentation artefacts
         uses: actions/download-artifact@v2.0.10
 
-      - name: Run Espresso tests over emulator.wtf
-        run: ./scripts/emulator-wtf.sh ${{ secrets.EMULATOR_WTF_TOKEN }}
+      - name: Run Espresso tests with emulator.wtf
+        run: ./scripts/emulator-wtf.sh ${{ secrets.EMULATOR_WTF_TOKEN }} ${{ matrix.device }}
 
       - name: Archive execution results
         if: success()
@@ -202,20 +207,3 @@ jobs:
           COMMIT_HASH: ${{ steps.vars.outputs.sha_short }}
           INPUT_FILE: release-apk/app-release.apk
           MAPPING_FILE: release-mappings/mapping.txt
-
-  license-checks:
-    runs-on: ubuntu-20.04
-    needs: security-analysis
-    timeout-minutes: 10
-    steps:
-      - name: Project Checkout
-        uses: actions/checkout@v2.3.5
-
-      - name: Setup Android Build
-        uses: ./.github/actions/setup-android-build
-        with:
-          norris-key: ${{ secrets.NORRIS_CRYPTO_KEY }}
-
-      - name: Inspect open-source licenses
-        uses: JetBrains/qodana-license-audit-action@v2.0-eap
-
