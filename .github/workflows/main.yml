@@ -171,7 +171,6 @@ jobs:
     timeout-minutes: 15
     needs: [assemble_apk, espresso_prepare, unit_tests, static_analysis]
     steps:
-
       - name: Project Checkout
         uses: actions/checkout@v2.3.5
 
@@ -203,3 +202,20 @@ jobs:
           COMMIT_HASH: ${{ steps.vars.outputs.sha_short }}
           INPUT_FILE: release-apk/app-release.apk
           MAPPING_FILE: release-mappings/mapping.txt
+
+  license-checks:
+    runs-on: ubuntu-20.04
+    needs: security-analysis
+    timeout-minutes: 10
+    steps:
+      - name: Project Checkout
+        uses: actions/checkout@v2.3.5
+
+      - name: Setup Android Build
+        uses: ./.github/actions/setup-android-build
+        with:
+          norris-key: ${{ secrets.NORRIS_CRYPTO_KEY }}
+
+      - name: Inspect open-source licenses
+        uses: JetBrains/qodana-license-audit-action@v2.0-eap
+
