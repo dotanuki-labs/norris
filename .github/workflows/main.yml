@@ -140,14 +140,16 @@ jobs:
         device: [ 'NexusLowRes', 'Pixel2' ]
 
     steps:
-      - name: Project Checkout
-        uses: actions/checkout@v2.3.5
-
       - name: Fetch Instrumentation artefacts
         uses: actions/download-artifact@v2.0.10
 
       - name: Run Espresso tests with emulator.wtf
-        run: ./scripts/emulator-wtf.sh ${{ secrets.EMULATOR_WTF_TOKEN }} ${{ matrix.device }}
+        uses: emulator-wtf/run-tests@v0.0.2
+        with:
+          api-token: ${{ secrets.EMULATOR_WTF_TOKEN }}
+          app: release-apk/app-release.apk
+          test: tests-apk/app-release-androidTest.apk
+          outputs-dir: emulator-wtf-results
 
       - name: Archive execution results
         if: success()
