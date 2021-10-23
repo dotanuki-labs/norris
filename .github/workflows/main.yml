@@ -150,6 +150,8 @@ jobs:
           app: release-apk/app-release.apk
           test: tests-apk/app-release-androidTest.apk
           outputs-dir: emulator-wtf-results
+          devices: model=${{ matrix.device }},version=30,atd=true
+          use-orchestrator: true
 
       - name: Archive execution results
         if: success()
