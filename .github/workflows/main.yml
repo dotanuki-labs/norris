@@ -152,7 +152,6 @@ jobs:
           outputs-dir: emulator-wtf-results
           devices: model=${{ matrix.device }},version=30,atd=true
           use-orchestrator: true
-          clear-package-data: true
 
       - name: Archive execution results
         if: success()
