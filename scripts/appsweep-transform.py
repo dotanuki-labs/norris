@@ -16,7 +16,8 @@ def main():
 		    item = {
 		        "group": dependency["group"],
 		        "name": dependency["name"],
-		        "version": dependency["version"],
+		        "specifiedVersion": dependency["version"],
+		        "dependencyType": "COMPILE",
 		    }
 		    filtered.append(item)
 
