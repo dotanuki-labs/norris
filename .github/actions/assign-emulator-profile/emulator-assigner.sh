@@ -4,12 +4,12 @@ set -e
 
 readonly cyan="\033[1;36m"
 readonly red="\033[1;91m"
-readonly normal="\e[0m"
+readonly normal="\033[0m"
 
 readonly device="$1"
 
 mapped_profile() {
-    echo -e "Mapped emulator profile  -> ${cyan}$1${normal}"
+    echo -e "Mapped emulator profile  → ${cyan}$1${normal}"
     echo "::set-output name=assigned::$1"
 }
 
