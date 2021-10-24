@@ -67,3 +67,6 @@ proguard/mapping.txt
 # Project signing
 signing.properties
 dotanuki-demos.jks
+
+# AppSweep
+appsweep.json
