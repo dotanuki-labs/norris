@@ -23,6 +23,7 @@ buildscript {
 plugins {
     id("com.osacky.doctor") version "0.7.3"
     id("io.github.cdsap.talaiot") version "1.5.1"
+    id("com.github.ben-manes.versions") version "0.39.0"
 }
 
 doctor {
