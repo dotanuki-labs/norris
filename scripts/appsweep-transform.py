@@ -24,7 +24,7 @@ def main():
 		    "dependencies": filtered
 		}
 
-		with open("appsweep.json", "w") as transformedFile:
+		with open("build/dependencyUpdates/appsweep.json", "w") as transformedFile:
 		    json.dump(tranformed, transformedFile)
 
 if __name__ == "__main__":

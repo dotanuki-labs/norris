@@ -159,7 +159,7 @@ jobs:
         uses: actions/upload-artifact@v2.2.4
         with:
           name: dependency-report
-          path: .
+          path: build/dependencyUpdates
 
   acceptance_tests:
     runs-on: ubuntu-20.04
