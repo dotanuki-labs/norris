@@ -21,7 +21,8 @@ def main():
 		    filtered.append(item)
 
 		tranformed = {
-		    "dependencies": filtered
+		    "dependencies": filtered,
+		    "referencedLibraries": []
 		}
 
 		with open("build/dependencyUpdates/appsweep.json", "w") as transformedFile:
