@@ -84,7 +84,11 @@ so you can chose between :
 - Run acceptance tests over with Espresso
 
 Please note that an online device is required in order to run screenshot/acceptance tests .
-I recommend `api-28/google-apis` with `pixel` device profile as the your AVD configuration for that.
+I recommend `api-28/google-apis` with `pixel` device profile as the your AVD configuration for that. Note that we have a companion `scripts/screenshots-sync.sh` to sync images required for local screenshot testing.
+
+```
+./scripts/screenshots-sync.sh pixel
+```
 
 Also note that local builds **require JDK11**, since this project compiles against Java11 bytecode.
 
