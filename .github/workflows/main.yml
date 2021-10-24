@@ -130,6 +130,37 @@ jobs:
           name: espresso-prepare-metrics
           path: build/reports/talaiot/json
 
+  extract-dependencies:
+    runs-on: ubuntu-20.04
+    timeout-minutes: 10
+
+    steps:
+      - name: Project Checkout
+        uses: actions/checkout@v2.3.5
+
+      - name: Setup Android Build
+        uses: ./.github/actions/setup-android-build
+        with:
+          norris-key: ${{ secrets.NORRIS_CRYPTO_KEY }}
+
+      - name: Compute project dependencies
+        run: ./gradlew dependencyUpdates -DoutputFormatter=json
+
+      - name: Setup Python
+        uses: actions/setup-python@v2.2.2
+        with:
+          python-version: '3.9.6'
+
+      - name: Transform report with custom format
+        run: python scripts/appsweep-transform.py build/dependencyUpdates/report.json
+
+      - name: Archive dependencies report
+        if: success()
+        uses: actions/upload-artifact@v2.2.4
+        with:
+          name: dependency-report
+          path: .
+
   acceptance_tests:
     runs-on: ubuntu-20.04
     timeout-minutes: 15
@@ -199,7 +230,7 @@ jobs:
   security-analysis:
     runs-on: ubuntu-20.04
     timeout-minutes: 10
-    needs: assemble_apk
+    needs: [assemble_apk, extract-dependencies]
     steps:
       - name: Fetch APK
         uses: actions/download-artifact@v2.0.10
@@ -210,4 +241,5 @@ jobs:
           APPSWEEP_API_KEY: ${{ secrets.APP_SWEEP_TOKEN }}
           COMMIT_HASH: ${{ steps.vars.outputs.sha_short }}
           INPUT_FILE: release-apk/app-release.apk
+          LIBRARY_FILE: dependency-report/appsweep.json
           MAPPING_FILE: release-mappings/mapping.txt
