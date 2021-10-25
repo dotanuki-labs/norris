@@ -1,4 +1,4 @@
-name: Main
+name: CI
 
 on:
   pull_request:
@@ -7,7 +7,7 @@ on:
       - master
 
 jobs:
-  static_analysis:
+  static-analysis:
     runs-on: ubuntu-20.04
     timeout-minutes: 10
 
@@ -30,7 +30,7 @@ jobs:
           name: static-analysis-metrics
           path: build/reports/talaiot/json
 
-  unit_tests:
+  unit-tests:
     runs-on: ubuntu-20.04
     timeout-minutes: 10
 
@@ -64,7 +64,7 @@ jobs:
           name: unit-tests-metrics
           path: build/reports/talaiot/json
 
-  assemble_apk:
+  assemble-apk:
     runs-on: ubuntu-20.04
     timeout-minutes: 10
 
@@ -101,7 +101,7 @@ jobs:
           name: assemble-apk-metrics
           path: build/reports/talaiot/json
 
-  espresso_prepare:
+  espresso-prepare:
     runs-on: ubuntu-20.04
     timeout-minutes: 10
 
@@ -130,10 +130,10 @@ jobs:
           name: espresso-prepare-metrics
           path: build/reports/talaiot/json
 
-  acceptance_tests:
+  acceptance-tests:
     runs-on: ubuntu-20.04
     timeout-minutes: 15
-    needs: [assemble_apk, espresso_prepare, unit_tests, static_analysis]
+    needs: [assemble-apk, espresso-prepare, unit-tests, static-analysis]
     strategy:
       fail-fast: true
       matrix:
@@ -161,14 +161,14 @@ jobs:
           name: emulator-wtf-results
           path: emulator-wtf-results
 
-  screenshot_tests:
+  screenshot-tests:
     strategy:
       fail-fast: true
       matrix:
         device: ['nexus4', 'pixel']
 
     runs-on: macOS-10.15
-    needs: acceptance_tests
+    needs: acceptance-tests
     timeout-minutes: 20
 
     steps:
@@ -200,12 +200,12 @@ jobs:
   security-analysis:
     runs-on: ubuntu-20.04
     timeout-minutes: 10
-    needs: assemble_apk
+    needs: assemble-apk
     steps:
       - name: Fetch APK
         uses: actions/download-artifact@v2.0.10
 
-      - name: Run security analysis with AppSweep
+      - name: Security analysis with AppSweep
         uses: guardsquare/appsweep-action@main
         env:
           APPSWEEP_API_KEY: ${{ secrets.APP_SWEEP_TOKEN }}
