@@ -1,11 +1,11 @@
 package io.dotanuki.norris.rest
 
-import io.dotanuki.norris.networking.transformers.HttpIntegrationErrorTransformer
+import io.dotanuki.norris.networking.transformers.HttpErrorTransformer
 import io.dotanuki.norris.networking.transformers.NetworkingErrorTransformer
 import io.dotanuki.norris.networking.transformers.SerializationErrorTransformer
 
 private val transformers = listOf(
-    HttpIntegrationErrorTransformer,
+    HttpErrorTransformer,
     NetworkingErrorTransformer,
     SerializationErrorTransformer
 )

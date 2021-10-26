@@ -4,14 +4,14 @@ import com.google.common.truth.Truth.assertThat
 import io.dotanuki.norris.networking.CheckErrorTransformation.Companion.checkTransformation
 import io.dotanuki.norris.networking.errors.RemoteServiceIntegrationError.ClientOrigin
 import io.dotanuki.norris.networking.errors.RemoteServiceIntegrationError.RemoteSystem
-import io.dotanuki.norris.networking.transformers.HttpIntegrationErrorTransformer
+import io.dotanuki.norris.networking.transformers.HttpErrorTransformer
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.ResponseBody.Companion.toResponseBody
 import org.junit.Test
 import retrofit2.HttpException
 import retrofit2.Response
 
-class HttpIntegrationErrorTransformerTests {
+class HttpErrorTransformerTests {
 
     @Test fun `should transform http error from downstream`() {
         listOf(
@@ -30,7 +30,7 @@ class HttpIntegrationErrorTransformerTests {
     private fun assertTransformation(target: Throwable, expected: Throwable) {
         checkTransformation(
             from = target,
-            using = HttpIntegrationErrorTransformer,
+            using = HttpErrorTransformer,
             check = { transformed -> assertThat(transformed).isEqualTo(expected) }
         )
     }
