@@ -6,7 +6,7 @@ object AndroidDefinitions {
 
     const val applicationId = "io.dotanuki.demos.norris"
 
-    const val compileSdk = 30
+    const val compileSdk = 31
     const val minSdk = 25
     const val targetSdk = compileSdk
 
