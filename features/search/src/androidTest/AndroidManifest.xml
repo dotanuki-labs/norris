@@ -7,6 +7,7 @@
         <activity
             android:theme="@style/NorrisTheme"
             android:name=".SearchTestActivity"
+            android:exported="true"
             />
     </application>
 
