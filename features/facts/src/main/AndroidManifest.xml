@@ -4,7 +4,11 @@
 
     <application
         android:theme="@style/NorrisTheme">
-        <activity android:name=".ui.FactsActivity" />
+        <activity
+            android:name=".ui.FactsActivity"
+            android:exported="true"
+            android:screenOrientation="portrait"
+            />
     </application>
 
 </manifest>

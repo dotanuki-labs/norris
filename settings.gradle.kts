@@ -21,8 +21,7 @@ include(
     ":platform:common:common-android",
     ":platform:common:common-kodein",
     ":features:facts",
-    ":features:search",
-    ":features:onboarding"
+    ":features:search"
 )
 
 enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
