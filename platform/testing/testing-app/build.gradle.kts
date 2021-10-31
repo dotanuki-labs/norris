@@ -9,7 +9,7 @@ dependencies {
     implementation(projects.platform.core.coreRest)
     implementation(projects.platform.core.corePersistance)
 
-    implementation("androidx.lifecycle:lifecycle-common:2.3.1")
+    implementation("androidx.lifecycle:lifecycle-common:2.4.0")
     implementation("org.kodein.di:kodein-di-jvm:7.9.0")
     implementation("org.kodein.type:kodein-type-jvm:1.11.0")
     implementation("com.squareup.okhttp3:okhttp:4.9.2")
