@@ -9,5 +9,3 @@ kotlinx-serialization-gradle = "org.jetbrains.kotlin:kotlin-serialization:1.5.31
 ktlint-gradle = "org.jlleitschuh.gradle:ktlint-gradle:10.2.0"
 detekt-gradle = "io.gitlab.arturbosch.detekt:detekt-gradle-plugin:1.18.1"
 shot-gradle = "com.karumi:shot:5.11.2"
-talaiot-gradle = "io.github.cdsap:talaiot:1.5.1"
-build-doctor-gradle = "com.osacky.doctor:doctor-plugin:0.7.3"
