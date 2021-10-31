@@ -17,7 +17,8 @@
         tools:ignore="GoogleAppIndexingWarning">
 
         <activity
-            android:name="io.dotanuki.norris.onboarding.OnboardingActivity">
+            android:exported="true"
+            android:name=".SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
