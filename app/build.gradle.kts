@@ -36,7 +36,7 @@ dependencies {
     implementation("androidx.core:core:1.7.0")
     implementation("androidx.core:core-ktx:1.7.0")
     implementation("androidx.appcompat:appcompat:1.3.1")
-    implementation("androidx.lifecycle:lifecycle-common:2.3.1")
+    implementation("androidx.lifecycle:lifecycle-common:2.4.0")
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.3.1")
     implementation("org.kodein.di:kodein-di-jvm:7.9.0")
     implementation("org.kodein.type:kodein-type-jvm:1.11.0")
