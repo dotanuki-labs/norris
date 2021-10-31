@@ -21,7 +21,9 @@ include(
     ":platform:common:common-android",
     ":platform:common:common-kodein",
     ":features:facts",
-    ":features:search"
+    ":features:search",
+    ":tooling:dependabot-sync",
 )
 
 enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
+enableFeaturePreview("VERSION_CATALOGS")
