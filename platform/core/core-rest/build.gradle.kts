@@ -6,8 +6,7 @@ plugins {
 dependencies {
     implementation(projects.platform.core.coreNetworking)
 
-    implementation("org.kodein.type:kodein-type-jvm:1.11.0")
-    implementation("org.kodein.di:kodein-di-jvm:7.9.0")
+    implementation(libs.kodein.jvm)
 
     implementation("com.squareup.okhttp3:okhttp:4.9.2")
     implementation("com.squareup.okhttp3:logging-interceptor:4.9.2")

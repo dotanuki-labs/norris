@@ -38,8 +38,7 @@ dependencies {
     implementation("androidx.appcompat:appcompat:1.3.1")
     implementation("androidx.lifecycle:lifecycle-common:2.4.0")
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.4.0")
-    implementation("org.kodein.di:kodein-di-jvm:7.9.0")
-    implementation("org.kodein.type:kodein-type-jvm:1.11.0")
+    implementation(libs.kodein.jvm)
     implementation("com.squareup.okhttp3:okhttp:4.9.2")
 
     if (isTestMode()) {
