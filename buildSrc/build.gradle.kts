@@ -1,3 +1,6 @@
+
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+
 repositories {
     google()
     mavenCentral()
@@ -22,6 +25,19 @@ dependencies {
     implementation("org.jetbrains.kotlin:kotlin-gradle-plugin:1.5.31")
     implementation(kotlin("stdlib-jdk8"))
     implementation(kotlin("android-extensions"))
+}
+
+tasks.withType<KotlinCompile>().configureEach {
+    kotlinOptions.jvmTarget = "11"
+    kotlinOptions.freeCompilerArgs += listOf(
+        "-Xopt-in=kotlin.time.ExperimentalTime",
+        "-Xopt-in=kotlin.RequiresOptIn"
+    )
+}
+
+tasks.withType<JavaCompile>().configureEach {
+    targetCompatibility = JavaVersion.VERSION_11.toString()
+    sourceCompatibility = JavaVersion.VERSION_11.toString()
 }
 
 gradlePlugin {
