@@ -11,7 +11,7 @@ dependencies {
     implementation("org.kodein.type:kodein-type-jvm:1.11.0")
 
     testImplementation(projects.platform.testing.testingCommons)
-    testImplementation("org.robolectric:robolectric:4.6.1")
+    testImplementation("org.robolectric:robolectric:4.7")
     testImplementation("junit:junit:4.13.2")
     testImplementation("com.google.truth:truth:1.1.3")
 }
