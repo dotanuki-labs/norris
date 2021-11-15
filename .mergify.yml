@@ -6,8 +6,8 @@ pull_request_rules:
   - name: Automatic merges for Dependabot pull requests
     conditions:
       - author~=^dependabot(|-preview)\[bot\]$
-      - check-success=screenshot-tests (nexus4)
-      - check-success=screenshot-tests (pixel)
+      # - check-success=screenshot-tests (nexus4)
+      # - check-success=screenshot-tests (pixel)
       - check-success=acceptance-tests (NexusLowRes)
       - check-success=acceptance-tests (Pixel2)
       - "#approved-reviews-by>=1"
@@ -18,8 +18,8 @@ pull_request_rules:
   - name: Automatic merges for Dotanukibot pull requests
     conditions:
       - author~=^dotanukibot
-      - check-success=screenshot-tests (nexus4)
-      - check-success=screenshot-tests (pixel)
+      # - check-success=screenshot-tests (nexus4)
+      # - check-success=screenshot-tests (pixel)
       - check-success=acceptance-tests (NexusLowRes)
       - check-success=acceptance-tests (Pixel2)
     actions:
@@ -29,8 +29,8 @@ pull_request_rules:
   - name: Be author's friend
     conditions:
       - author~=^ubiratansoares
-      - check-success=screenshot-tests (nexus4)
-      - check-success=screenshot-tests (pixel)
+      # - check-success=screenshot-tests (nexus4)
+      # - check-success=screenshot-tests (pixel)
       - check-success=acceptance-tests (NexusLowRes)
       - check-success=acceptance-tests (Pixel2)
     actions:
