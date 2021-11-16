@@ -161,41 +161,41 @@ jobs:
           name: emulator-wtf-results
           path: emulator-wtf-results
 
-  # screenshot-tests:
-  #   strategy:
-  #     fail-fast: true
-  #     matrix:
-  #       device: ['nexus4', 'pixel']
+  screenshot-tests:
+    strategy:
+      fail-fast: true
+      matrix:
+        device: ['nexus4', 'pixel']
 
-  #   runs-on: macOS-10.15
-  #   needs: acceptance-tests
-  #   timeout-minutes: 20
+    runs-on: macOS-10.15
+    needs: acceptance-tests
+    timeout-minutes: 20
 
-  #   steps:
-  #     - name: Project Checkout
-  #       uses: actions/checkout@v2.4.0
+    steps:
+      - name: Project Checkout
+        uses: actions/checkout@v2.4.0
 
-  #     - name: Setup Android Build
-  #       uses: ./.github/actions/setup-android-build
-  #       with:
-  #         norris-key: ${{ secrets.NORRIS_CRYPTO_KEY }}
+      - name: Setup Android Build
+        uses: ./.github/actions/setup-android-build
+        with:
+          norris-key: ${{ secrets.NORRIS_CRYPTO_KEY }}
 
-  #     - name: Synchronize screenshots
-  #       run: ./scripts/screenshots-sync.sh ${{ matrix.device }}
+      - name: Synchronize screenshots
+        run: ./scripts/screenshots-sync.sh ${{ matrix.device }}
 
-  #     - name: Assign emulator profile
-  #       id: emulator-profile
-  #       uses: ./.github/actions/assign-emulator-profile
-  #       with:
-  #         device: ${{ matrix.device }}
+      - name: Assign emulator profile
+        id: emulator-profile
+        uses: ./.github/actions/assign-emulator-profile
+        with:
+          device: ${{ matrix.device }}
 
-  #     - name: Run Screenshot tests
-  #       uses: reactivecircus/android-emulator-runner@v2.21.0
-  #       with:
-  #         api-level: 28
-  #         target: 'google_apis'
-  #         profile: ${{ steps.emulator-profile.outputs.assigned }}
-  #         script: ./gradlew clean executeScreenTests --no-daemon --stacktrace
+      - name: Run Screenshot tests
+        uses: reactivecircus/android-emulator-runner@v2.21.0
+        with:
+          api-level: 28
+          target: 'google_apis'
+          profile: ${{ steps.emulator-profile.outputs.assigned }}
+          script: ./gradlew clean executeScreenTests --no-daemon --stacktrace
 
   security-analysis:
     runs-on: ubuntu-20.04
