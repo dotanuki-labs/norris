@@ -32,7 +32,7 @@ dependencies {
     testImplementation("com.google.truth:truth:1.1.3")
     testImplementation("com.squareup.okhttp3:mockwebserver:4.9.2")
     testImplementation("junit:junit:4.13.2")
-    testImplementation("org.robolectric:robolectric:4.7")
+    testImplementation("org.robolectric:robolectric:4.7.1")
     testImplementation("androidx.test:core:1.4.0")
     testImplementation("androidx.test.ext:junit:1.1.3")
 
