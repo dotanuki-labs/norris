@@ -6,7 +6,7 @@ plugins {
 dependencies {
     implementation(projects.platform.common.commonKodein)
 
-    implementation("androidx.appcompat:appcompat:1.3.1")
+    implementation("androidx.appcompat:appcompat:1.4.0")
     implementation("org.kodein.di:kodein-di-jvm:7.9.0")
     implementation("org.kodein.type:kodein-type-jvm:1.11.0")
 
