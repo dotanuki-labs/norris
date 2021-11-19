@@ -108,7 +108,7 @@ dependencies {
     dependabot("androidx.lifecycle:lifecycle-runtime-ktx:2.4.0") { "androidx-lifecycle-runtime" }
     dependabot("androidx.lifecycle:lifecycle-viewmodel:2.4.0") { "androidx-lifecycle-vm" }
     dependabot("androidx.lifecycle:lifecycle-viewmodel-ktx:2.4.0") { "androidx-lifecycle-vm-ktx" }
-    dependabot("androidx.appcompat:appcompat:1.3.1") { "androidx-appcompat" }
+    dependabot("androidx.appcompat:appcompat:1.4.0") { "androidx-appcompat" }
     dependabot("androidx.swiperefreshlayout:swiperefreshlayout:1.1.0") { "androidx-swipetorefresh" }
     dependabot("androidx.coordinatorlayout:coordinatorlayout:1.1.0") { "androidx-coordinatorlayout" }
     dependabot("androidx.recyclerview:recyclerview:1.2.1") { "androidx-recyclerview" }
