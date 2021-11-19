@@ -35,8 +35,8 @@ dependencies {
     implementation(Deps.coroutinesJvm)
     implementation(Deps.coroutinesAndroid)
 
-    implementation(Deps.androidxTestCore)
-    implementation(Deps.androidxTestCoreKtx)
+    implementation(Deps.androidxCore)
+    implementation(Deps.androidxCoreKtx)
     implementation(Deps.androidxAppCompat)
     implementation(Deps.androidxLifecycleCommon)
     implementation(Deps.androidxLifecycleRuntime)
@@ -50,7 +50,7 @@ dependencies {
     androidTestImplementation(projects.platform.testing.testingRest)
 
     androidTestImplementation(Deps.junit4)
-    androidTestImplementation(Deps.okHttp)
+    androidTestImplementation(Deps.truth)
     androidTestImplementation(Deps.androidxTestCore)
     androidTestImplementation(Deps.androidxTestCoreKtx)
     androidTestImplementation(Deps.androidxTestExtJunit)

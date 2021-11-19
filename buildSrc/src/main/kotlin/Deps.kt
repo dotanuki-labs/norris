@@ -27,6 +27,7 @@ object Deps {
 
     // Androix
     val androidxCore by deps.coordinates("androidx-core")
+    val androidxCoreKtx by deps.coordinates("androidx-core-ktx")
     val androidxLifecycleCommon by deps.coordinates("androidx-lifecycle-common")
     val androidxLifecycleRuntime by deps.coordinates("androidx-lifecycle-runtime")
     val androidxLifecycleViewModel by deps.coordinates("androidx-lifecycle-vm")
@@ -55,6 +56,7 @@ object Deps {
     val androidxTestExtJunitKtx by deps.coordinates("androidx-testext-junitktx")
     val androidxTestRunner by deps.coordinates("androidx-test-runner")
     val androidxTestRules by deps.coordinates("androidx-test-rules")
+    val androidxTestMonitor by deps.coordinates("androidx-test-monitor")
     val okHttpMockWebServer by deps.coordinates("okhttp-mockwebserver")
     val shotAndroid by deps.coordinates("shot-android")
     val leakCanary by deps.coordinates("leak-canary-release")

@@ -103,6 +103,7 @@ dependencies {
 
     // Androidx
     dependabot("androidx.core:core:1.7.0") { "androidx-core" }
+    dependabot("androidx.core:core-ktx:1.7.0") { "androidx-core-ktx" }
     dependabot("androidx.lifecycle:lifecycle-common:2.4.0") { "androidx-lifecycle-common" }
     dependabot("androidx.lifecycle:lifecycle-runtime-ktx:2.4.0") { "androidx-lifecycle-runtime" }
     dependabot("androidx.lifecycle:lifecycle-viewmodel:2.4.0") { "androidx-lifecycle-vm" }
@@ -131,6 +132,7 @@ dependencies {
     dependabot("androidx.test.ext:junit-ktx:1.1.3") { "androidx-testext-junitktx" }
     dependabot("androidx.test:runner:1.4.0") { "androidx-test-runner" }
     dependabot("androidx.test:rules:1.4.0") { "androidx-test-rules" }
+    dependabot("androidx.test:monitor:1.4.0") { "androidx-test-monitor" }
     dependabot("com.squareup.okhttp3:mockwebserver:4.9.2") { "okhttp-mockwebserver" }
     dependabot("com.karumi:shot-android:5.11.2") { "shot-android" }
     dependabot("com.squareup.leakcanary:leakcanary-android-release:2.7") { "leak-canary-release" }

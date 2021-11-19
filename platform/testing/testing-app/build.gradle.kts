@@ -16,4 +16,5 @@ dependencies {
     implementation(Deps.robolectric)
     implementation(Deps.androidxTestCore)
     implementation(Deps.androidxTestCoreKtx)
+    implementation(Deps.androidxTestMonitor)
 }

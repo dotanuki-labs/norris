@@ -16,6 +16,7 @@ dependencies {
     implementation(Deps.coroutinesAndroid)
     implementation(Deps.coroutinesJvm)
     implementation(Deps.androidxCore)
+    implementation(Deps.androidxCoreKtx)
     implementation(Deps.androidxLifecycleCommon)
     implementation(Deps.androidxLifecycleRuntime)
     implementation(Deps.androidxLifecycleViewModel)
