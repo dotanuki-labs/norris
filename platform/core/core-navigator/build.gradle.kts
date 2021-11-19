@@ -6,12 +6,12 @@ plugins {
 dependencies {
     implementation(projects.platform.common.commonKodein)
 
-    implementation("androidx.appcompat:appcompat:1.3.1")
-    implementation("org.kodein.di:kodein-di-jvm:7.9.0")
-    implementation("org.kodein.type:kodein-type-jvm:1.11.0")
+    implementation(Deps.androidxAppCompat)
+    implementation(Deps.kodeinDi)
+    implementation(Deps.kodeinType)
 
     testImplementation(projects.platform.testing.testingCommons)
-    testImplementation("org.robolectric:robolectric:4.7")
-    testImplementation("junit:junit:4.13.2")
-    testImplementation("com.google.truth:truth:1.1.3")
+    testImplementation(Deps.junit4)
+    testImplementation(Deps.truth)
+    testImplementation(Deps.robolectric)
 }

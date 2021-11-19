@@ -1,4 +1,3 @@
-
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 repositories {
@@ -16,15 +15,8 @@ plugins {
 buildscript {
     repositories {
         google()
+        mavenCentral()
     }
-}
-
-dependencies {
-    implementation("com.android.tools.build:gradle:7.0.3")
-    implementation("com.adarshr:gradle-test-logger-plugin:3.1.0")
-    implementation("org.jetbrains.kotlin:kotlin-gradle-plugin:1.6.0")
-    implementation(kotlin("stdlib-jdk8"))
-    implementation(kotlin("android-extensions"))
 }
 
 tasks.withType<KotlinCompile>().configureEach {
@@ -62,4 +54,88 @@ gradlePlugin {
             implementationClass = "plugins.NorrisAndroidApplicationModulePlugin"
         }
     }
+}
+
+fun dependabot(target: String, alias: () -> String): String = target.apply {
+    project.logger.info("[${alias()}] → $this ")
+}
+
+repositories {
+    // We need all possible Maven repos this project uses here,
+    // since Dependabot will parse this list
+    mavenCentral()
+    google()
+    gradlePluginPortal()
+    maven(url = "https://maven.pkg.jetbrains.space/public/p/kotlinx-html/maven")
+}
+
+dependencies {
+
+    project.logger.lifecycle("This project manages dependencies with Dependabot")
+
+    implementation(kotlin("stdlib-jdk8"))
+    implementation(kotlin("android-extensions"))
+
+    // Used by plugins implemented at buildSrc and also required as dependencies in other Gradle build scripts
+    implementation(dependabot("com.android.tools.build:gradle:7.0.3") { "android-gradle-plugin" })
+    implementation(dependabot("com.adarshr:gradle-test-logger-plugin:3.1.0") { "testlogger-gradle-plugin" })
+    implementation(dependabot("org.jetbrains.kotlin:kotlin-gradle-plugin:1.6.0") { "kotlin-gradle-plugin" })
+
+    // Used outside buildSrc, either as build script dependency or some configuration
+
+    // Gradle plugins
+    dependabot("org.jetbrains.kotlin:kotlin-serialization:1.6.0") { "kotlinx-serialization-gradle-plugin" }
+    dependabot("org.jlleitschuh.gradle:ktlint-gradle:10.2.0") { "ktlint-gradle-plugin" }
+    dependabot("io.gitlab.arturbosch.detekt:detekt-gradle-plugin:1.18.1") { "detekt-gradle-plugin" }
+    dependabot("com.karumi:shot:5.11.2") { "shot-gradle-plugin" }
+
+    // Kodein
+    dependabot("org.kodein.di:kodein-di-jvm:7.9.0") { "kodein-di-jvm" }
+    dependabot("org.kodein.type:kodein-type-jvm:1.11.0") { "kodein-type-jvm" }
+
+    // Kotlinx
+    dependabot("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.5.2") { "kotlinx-coroutines-core" }
+    dependabot("org.jetbrains.kotlinx:kotlinx-coroutines-core-jvm:1.5.2") { "kotlinx-coroutines-jvm" }
+    dependabot("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.5.2") { "kotlinx-coroutines-android" }
+    dependabot("org.jetbrains.kotlinx:kotlinx-serialization-core:1.3.1") { "kotlinx-serialization-core" }
+    dependabot("org.jetbrains.kotlinx:kotlinx-serialization-core-jvm:1.3.1") { "kotlinx-serialization-jvm" }
+    dependabot("org.jetbrains.kotlinx:kotlinx-serialization-json:1.3.1") { "kotlinx-serialization-json" }
+
+    // Androidx
+    dependabot("androidx.core:core:1.7.0") { "androidx-core" }
+    dependabot("androidx.core:core-ktx:1.7.0") { "androidx-core-ktx" }
+    dependabot("androidx.lifecycle:lifecycle-common:2.4.0") { "androidx-lifecycle-common" }
+    dependabot("androidx.lifecycle:lifecycle-runtime-ktx:2.4.0") { "androidx-lifecycle-runtime" }
+    dependabot("androidx.lifecycle:lifecycle-viewmodel:2.4.0") { "androidx-lifecycle-vm" }
+    dependabot("androidx.lifecycle:lifecycle-viewmodel-ktx:2.4.0") { "androidx-lifecycle-vm-ktx" }
+    dependabot("androidx.appcompat:appcompat:1.3.1") { "androidx-appcompat" }
+    dependabot("androidx.swiperefreshlayout:swiperefreshlayout:1.1.0") { "androidx-swipetorefresh" }
+    dependabot("androidx.coordinatorlayout:coordinatorlayout:1.1.0") { "androidx-coordinatorlayout" }
+    dependabot("androidx.recyclerview:recyclerview:1.2.1") { "androidx-recyclerview" }
+    dependabot("com.google.android.material:material:1.4.0") { "google-material-design" }
+
+    // Networking
+    dependabot("com.squareup.okhttp3:okhttp:4.9.2") { "square-okhttp" }
+    dependabot("com.squareup.okhttp3:logging-interceptor:4.9.2") { "square-okhttp-logging" }
+    dependabot("com.squareup.retrofit2:retrofit:2.9.0") { "square-retrofit" }
+    dependabot("com.jakewharton.retrofit:retrofit2-kotlinx-serialization-converter:0.8.0") { "retrofit-kotlinx-converter" }
+
+    // Testing
+    dependabot("junit:junit:4.13.2") { "junit4" }
+    dependabot("org.slf4j:slf4j-nop:1.7.32") { "slf4j" }
+    dependabot("org.robolectric:robolectric:4.7") { "robolectric" }
+    dependabot("com.google.truth:truth:1.1.3") { "truth" }
+    dependabot("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.5.2") { "kotlinx-coroutines-test" }
+    dependabot("androidx.test:core:1.4.0") { "androidx-test-core" }
+    dependabot("androidx.test:core-ktx:1.4.0") { "androidx-test-corektx" }
+    dependabot("androidx.test.ext:junit:1.1.3") { "androidx-testext-junit" }
+    dependabot("androidx.test.ext:junit-ktx:1.1.3") { "androidx-testext-junitktx" }
+    dependabot("androidx.test:runner:1.4.0") { "androidx-test-runner" }
+    dependabot("androidx.test:rules:1.4.0") { "androidx-test-rules" }
+    dependabot("androidx.test:monitor:1.4.0") { "androidx-test-monitor" }
+    dependabot("com.squareup.okhttp3:mockwebserver:4.9.2") { "okhttp-mockwebserver" }
+    dependabot("com.karumi:shot-android:5.11.2") { "shot-android" }
+    dependabot("com.squareup.leakcanary:leakcanary-android-release:2.7") { "leak-canary-release" }
+    dependabot("androidx.test.espresso:espresso-core:3.4.0") { "espresso-core" }
+    dependabot("com.adevinta.android:barista:4.2.0") { "barista" }
 }
