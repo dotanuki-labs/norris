@@ -57,7 +57,7 @@ gradlePlugin {
 }
 
 fun dependabot(target: String, alias: () -> String): String = target.apply {
-    project.logger.lifecycle("[${alias()}] → $this ")
+    project.logger.info("[${alias()}] → $this ")
 }
 
 repositories {
