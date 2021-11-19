@@ -36,6 +36,7 @@ dependencies {
     testImplementation(Deps.okHttpMockWebServer)
     testImplementation(Deps.androidxTestCore)
     testImplementation(Deps.androidxTestExtJunit)
+    testImplementation(Deps.robolectric)
 
     androidTestImplementation(projects.platform.core.coreNetworking)
     androidTestImplementation(projects.platform.testing.testingScreenshots)
