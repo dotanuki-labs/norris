@@ -56,32 +56,44 @@ gradlePlugin {
     }
 }
 
+
+// Small tricky to fool Dependabot head !!!
+
+// Function used as a fake Gradle configuration
 fun dependabot(target: String, alias: () -> String): String = target.apply {
-    project.logger.info("[${alias()}] → $this ")
+    project.logger.info("[${alias()}] → $this")
 }
 
+// We need all possible Maven repos this project uses here, since Dependabot will parse this list
 repositories {
-    // We need all possible Maven repos this project uses here,
-    // since Dependabot will parse this list
     mavenCentral()
     google()
     gradlePluginPortal()
     maven(url = "https://maven.pkg.jetbrains.space/public/p/kotlinx-html/maven")
 }
 
+// All project dependencies will be listed below,
+// although only a few of them are required for buildSrc stuff
 dependencies {
 
     project.logger.lifecycle("This project manages dependencies with Dependabot")
 
+    // Used by plugins implemented at buildSrc and also required as classpath dependency in other
+    // Gradle build scripts, eg <root-project>/build.gradle.kts
+    // Note that not all Gradle plugins in this project use the legacy convention
+
+    val agp = dependabot("com.android.tools.build:gradle:7.0.3") { "android-gradle-plugin" }
+    val kgp = dependabot("org.jetbrains.kotlin:kotlin-gradle-plugin:1.6.0") { "kotlin-gradle-plugin" }
+    val tgp = dependabot("com.adarshr:gradle-test-logger-plugin:3.1.0") { "testlogger-gradle-plugin" }
+
+    implementation(agp)
+    implementation(kgp)
+    implementation(tgp)
     implementation(kotlin("stdlib-jdk8"))
     implementation(kotlin("android-extensions"))
 
-    // Used by plugins implemented at buildSrc and also required as dependencies in other Gradle build scripts
-    implementation(dependabot("com.android.tools.build:gradle:7.0.3") { "android-gradle-plugin" })
-    implementation(dependabot("com.adarshr:gradle-test-logger-plugin:3.1.0") { "testlogger-gradle-plugin" })
-    implementation(dependabot("org.jetbrains.kotlin:kotlin-gradle-plugin:1.6.0") { "kotlin-gradle-plugin" })
-
-    // Used outside buildSrc, either as build script dependency or some configuration
+    // Used on Gradle scripts outside buildSrc,
+    // either as build script dependency or some other configuration
 
     // Gradle plugins
     dependabot("org.jetbrains.kotlin:kotlin-serialization:1.6.0") { "kotlinx-serialization-gradle-plugin" }
