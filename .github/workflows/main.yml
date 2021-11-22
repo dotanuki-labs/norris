@@ -202,10 +202,21 @@ jobs:
     timeout-minutes: 10
     needs: assemble-apk
     steps:
-      - name: Fetch APK
+      - name: Project Checkout
+        uses: actions/checkout@v2.4.0
+
+      - name: Setup Android Build
+        uses: ./.github/actions/setup-android-build
+        with:
+          norris-key: ${{ secrets.NORRIS_CRYPTO_KEY }}
+
+      - name: Scan project dependencies for Security issues
+        run: ./gradlew clean ossIndexAudit --stacktrace
+
+      - name: Fetch APK from previous build
         uses: actions/download-artifact@v2.0.10
 
-      - name: Security analysis with AppSweep
+      - name: Analyse APK with AppSweep
         uses: guardsquare/appsweep-action@main
         env:
           APPSWEEP_API_KEY: ${{ secrets.APP_SWEEP_TOKEN }}
