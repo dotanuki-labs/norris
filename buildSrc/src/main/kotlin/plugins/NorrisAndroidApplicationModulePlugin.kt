@@ -12,7 +12,6 @@ class NorrisAndroidApplicationModulePlugin : Plugin<Project> {
         target.run {
             plugins.apply("com.android.application")
             plugins.apply("kotlin-android")
-            plugins.apply("org.jlleitschuh.gradle.ktlint")
             plugins.apply("com.adarshr.test-logger")
 
             applyKotlinProjectConventions()
