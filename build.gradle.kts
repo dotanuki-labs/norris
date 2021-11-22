@@ -57,7 +57,7 @@ ossIndexAudit {
         "org.bouncycastle:bcprov-jdk15on:1.56",
         "org.apache.httpcomponents:httpclient:4.5.6",
         "org.apache.commons:commons-compress:1.20",
-        "org.jsoup:jsoup:1.12.2",
+        "org.jsoup:jsoup:1.14.3",
         "junit:junit:4.12"
     )
 }
