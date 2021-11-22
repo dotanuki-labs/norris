@@ -2,13 +2,6 @@ import conventions.isTestMode
 
 plugins {
     id("norris.modules.android.app")
-    id("com.slack.keeper") version "0.11.1"
-}
-
-keeper {
-    variantFilter {
-        setIgnore(name != "release")
-    }
 }
 
 android {

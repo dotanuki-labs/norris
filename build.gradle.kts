@@ -17,10 +17,11 @@ buildscript {
 }
 
 plugins {
-    id("com.osacky.doctor") version "0.7.3"
-    id("io.github.cdsap.talaiot") version "1.5.1"
     id("org.jlleitschuh.gradle.ktlint") version "10.2.0"
     id("io.gitlab.arturbosch.detekt") version "1.18.1"
+    id("com.osacky.doctor") version "0.7.3"
+    id("io.github.cdsap.talaiot") version "1.5.1"
+    id("org.sonatype.gradle.plugins.scan") version "2.2.1"
 }
 
 doctor {
@@ -46,8 +47,21 @@ detekt {
     }
 }
 
-allprojects {
+ossIndexAudit {
+    isAllConfigurations = true
+    isPrintBanner = false
+    isShowAll = true
+    excludeCoordinates = setOf(
+        "org.apache.ant:ant:1.10.9",
+        "org.bouncycastle:bcprov-jdk15on:1.56",
+        "org.apache.httpcomponents:httpclient:4.5.6",
+        "org.apache.commons:commons-compress:1.20",
+        "org.jsoup:jsoup:1.12.2",
+        "junit:junit:4.12"
+    )
+}
 
+allprojects {
     repositories {
         mavenCentral()
         google()
