@@ -8,6 +8,6 @@ fun Project.applyTestLoggingConventions() {
     val testLoggerExtension = extensions.findByName("testlogger") as TestLoggerExtension
 
     testLoggerExtension.apply {
-        theme = ThemeType.MOCHA
+        theme = ThemeType.MOCHA_PARALLEL
     }
 }
