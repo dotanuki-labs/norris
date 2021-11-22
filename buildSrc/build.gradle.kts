@@ -128,7 +128,7 @@ dependencies {
 
     // Networking
     dependabot("com.squareup.okhttp3:okhttp:4.9.2") { "square-okhttp" }
-    dependabot("com.squareup.okhttp3:logging-interceptor:4.9.2") { "square-okhttp-logging" }
+    dependabot("com.squareup.okhttp3:logging-interceptor:4.9.3") { "square-okhttp-logging" }
     dependabot("com.squareup.retrofit2:retrofit:2.9.0") { "square-retrofit" }
     dependabot("com.jakewharton.retrofit:retrofit2-kotlinx-serialization-converter:0.8.0") { "retrofit-kotlinx-converter" }
 
