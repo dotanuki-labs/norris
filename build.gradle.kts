@@ -53,7 +53,7 @@ ossIndexAudit {
     isPrintBanner = false
     isShowAll = true
     excludeCoordinates = setOf(
-        "org.apache.ant:ant:1.10.9",
+        "org.apache.ant:ant:1.10.12",
         "org.bouncycastle:bcprov-jdk15on:1.56",
         "org.apache.httpcomponents:httpclient:4.5.6",
         "org.apache.commons:commons-compress:1.20",
