@@ -211,7 +211,7 @@ jobs:
           norris-key: ${{ secrets.NORRIS_CRYPTO_KEY }}
 
       - name: Scan project dependencies for Security issues
-        run: ./gradlew ossAudit --stacktrace
+        run: ./gradlew clean ossIndexAudit --stacktrace
 
       - name: Fetch APK from previous build
         uses: actions/download-artifact@v2.0.10
