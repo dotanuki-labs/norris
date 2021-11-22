@@ -58,7 +58,7 @@ ossIndexAudit {
         "org.apache.httpcomponents:httpclient:4.5.6",
         "org.apache.commons:commons-compress:1.20",
         "org.jsoup:jsoup:1.12.2",
-        "junit:junit:4.12"
+        "junit:junit:4.13.2"
     )
 }
 
