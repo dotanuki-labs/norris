@@ -4,14 +4,6 @@ plugins {
     id("norris.modules.android.app")
 }
 
-android {
-    defaultConfig {
-        if (isTestMode()) {
-            testInstrumentationRunnerArguments["listener"] = "leakcanary.FailTestOnLeakRunListener"
-        }
-    }
-}
-
 dependencies {
     implementation(projects.platform.core.coreRest)
     implementation(projects.platform.core.corePersistance)

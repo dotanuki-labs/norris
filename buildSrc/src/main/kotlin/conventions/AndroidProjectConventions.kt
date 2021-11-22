@@ -3,6 +3,7 @@ package conventions
 import com.android.build.api.dsl.ApplicationExtension
 import com.android.build.api.dsl.BuildType
 import com.android.build.gradle.BaseExtension
+import com.slack.keeper.KeeperExtension
 import definitions.AndroidDefinitions
 import definitions.ProguardDefinitions
 import definitions.Versioning
@@ -75,6 +76,13 @@ fun Project.applyAndroidApplicationConventions() {
 
     val android = extensions.findByName("android") as ApplicationExtension
 
+    if (isTestMode()) {
+        val keeper = extensions.findByName("keeper") as KeeperExtension
+        keeper.variantFilter {
+            setIgnore(name != "release")
+        }
+    }
+
     android.apply {
         testBuildType = when {
             isTestMode() -> "release"
@@ -83,6 +91,10 @@ fun Project.applyAndroidApplicationConventions() {
 
         defaultConfig {
             testInstrumentationRunner = AndroidDefinitions.instrumentationTestRunner
+
+            if (isTestMode()) {
+                testInstrumentationRunnerArguments["listener"] = "leakcanary.FailTestOnLeakRunListener"
+            }
         }
 
         signingConfigs {

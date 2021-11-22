@@ -13,6 +13,7 @@ buildscript {
         classpath(Deps.testLoggerGradlePlugin)
         classpath(Deps.kotlinxSerializationGradlePlugin)
         classpath(Deps.shotGradlePlugin)
+        classpath(Deps.keeperGradlePlugin)
     }
 }
 
