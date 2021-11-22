@@ -1,5 +1,3 @@
-import io.gitlab.arturbosch.detekt.detekt
-
 buildscript {
 
     repositories {
@@ -14,8 +12,6 @@ buildscript {
         classpath(Deps.kotlinGradlePlugin)
         classpath(Deps.testLoggerGradlePlugin)
         classpath(Deps.kotlinxSerializationGradlePlugin)
-        classpath(Deps.ktlintGradlePlugin)
-        classpath(Deps.detektGradlePlugin)
         classpath(Deps.shotGradlePlugin)
     }
 }
@@ -23,6 +19,8 @@ buildscript {
 plugins {
     id("com.osacky.doctor") version "0.7.3"
     id("io.github.cdsap.talaiot") version "1.5.1"
+    id("org.jlleitschuh.gradle.ktlint") version "10.2.0"
+    id("io.gitlab.arturbosch.detekt") version "1.18.1"
 }
 
 doctor {
@@ -39,22 +37,20 @@ talaiot {
     }
 }
 
+detekt {
+    config = files("$rootDir/detekt.yml")
+    reports {
+        xml.enabled = false
+        html.enabled = false
+        txt.enabled = false
+    }
+}
+
 allprojects {
 
     repositories {
         mavenCentral()
         google()
-    }
-
-    apply(plugin = "io.gitlab.arturbosch.detekt")
-
-    detekt {
-        config = files("$rootDir/detekt.yml")
-        reports {
-            xml.enabled = false
-            html.enabled = false
-            txt.enabled = false
-        }
     }
 }
 

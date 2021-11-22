@@ -9,8 +9,6 @@ object Deps {
     val kotlinGradlePlugin by deps.coordinates("kotlin-gradle-plugin")
     val testLoggerGradlePlugin by deps.coordinates("testlogger-gradle-plugin")
     val kotlinxSerializationGradlePlugin by deps.coordinates("kotlinx-serialization-gradle-plugin")
-    val ktlintGradlePlugin by deps.coordinates("ktlint-gradle-plugin")
-    val detektGradlePlugin by deps.coordinates("detekt-gradle-plugin")
     val shotGradlePlugin by deps.coordinates("shot-gradle-plugin")
 
     // Kodein

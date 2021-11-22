@@ -85,8 +85,6 @@ dependencies {
 
     // Gradle plugins
     dependabot("org.jetbrains.kotlin:kotlin-serialization:1.6.0") { "kotlinx-serialization-gradle-plugin" }
-    dependabot("org.jlleitschuh.gradle:ktlint-gradle:10.2.0") { "ktlint-gradle-plugin" }
-    dependabot("io.gitlab.arturbosch.detekt:detekt-gradle-plugin:1.18.1") { "detekt-gradle-plugin" }
     dependabot("com.karumi:shot:5.11.2") { "shot-gradle-plugin" }
 
     // Kodein
