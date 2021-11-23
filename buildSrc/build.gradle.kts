@@ -127,8 +127,8 @@ dependencies {
     dependabot("com.google.android.material:material:1.4.0") { "google-material-design" }
 
     // Networking
-    dependabot("com.squareup.okhttp3:okhttp:4.9.2") { "square-okhttp" }
-    dependabot("com.squareup.okhttp3:logging-interceptor:4.9.2") { "square-okhttp-logging" }
+    dependabot("com.squareup.okhttp3:okhttp:4.9.3") { "square-okhttp" }
+    dependabot("com.squareup.okhttp3:logging-interceptor:4.9.3") { "square-okhttp-logging" }
     dependabot("com.squareup.retrofit2:retrofit:2.9.0") { "square-retrofit" }
     dependabot("com.jakewharton.retrofit:retrofit2-kotlinx-serialization-converter:0.8.0") { "retrofit-kotlinx-converter" }
 
@@ -145,7 +145,7 @@ dependencies {
     dependabot("androidx.test:runner:1.4.0") { "androidx-test-runner" }
     dependabot("androidx.test:rules:1.4.0") { "androidx-test-rules" }
     dependabot("androidx.test:monitor:1.4.0") { "androidx-test-monitor" }
-    dependabot("com.squareup.okhttp3:mockwebserver:4.9.2") { "okhttp-mockwebserver" }
+    dependabot("com.squareup.okhttp3:mockwebserver:4.9.3") { "okhttp-mockwebserver" }
     dependabot("com.karumi:shot-android:5.11.2") { "shot-android" }
     dependabot("com.squareup.leakcanary:leakcanary-android-release:2.7") { "leak-canary-release" }
     dependabot("androidx.test.espresso:espresso-core:3.4.0") { "espresso-core" }
