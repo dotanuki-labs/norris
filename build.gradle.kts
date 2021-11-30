@@ -1,4 +1,7 @@
+
 import conventions.ignoredVulnerabilities
+import kotlinx.kover.api.CoverageEngine
+import kotlinx.kover.api.KoverTaskExtension
 
 buildscript {
 
@@ -25,6 +28,7 @@ plugins {
     id("com.osacky.doctor") version "0.7.3"
     id("io.github.cdsap.talaiot") version "1.5.1"
     id("org.sonatype.gradle.plugins.scan") version "2.2.2"
+    id("org.jetbrains.kotlinx.kover") version "0.4.4"
 }
 
 doctor {
@@ -57,6 +61,10 @@ ossIndexAudit {
     excludeVulnerabilityIds = ignoredVulnerabilities()
 }
 
+kover {
+    coverageEngine.set(CoverageEngine.INTELLIJ)
+}
+
 allprojects {
     repositories {
         mavenCentral()
@@ -64,6 +72,17 @@ allprojects {
     }
 }
 
-tasks.register("clean").configure {
-    delete("build")
+tasks.run {
+    register("clean").configure {
+        delete("build")
+    }
+
+    withType<Test>() {
+        extensions.configure<KoverTaskExtension>() {
+            excludes = listOf(
+                "io\\.dotanuki\\.norris\\.facts\\.databinding",
+                "io\\.dotanuki\\.norris\\.search\\.databinding"
+            )
+        }
+    }
 }
