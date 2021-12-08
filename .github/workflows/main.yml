@@ -141,7 +141,7 @@ jobs:
 
     steps:
       - name: Fetch Instrumentation artefacts
-        uses: actions/download-artifact@v2.0.10
+        uses: actions/download-artifact@v2.1.0
 
       - name: Run Espresso tests with emulator.wtf
         uses: emulator-wtf/run-tests@v0.0.4
@@ -214,7 +214,7 @@ jobs:
         run: ./gradlew clean ossIndexAudit --stacktrace
 
       - name: Fetch APK from previous build
-        uses: actions/download-artifact@v2.0.10
+        uses: actions/download-artifact@v2.1.0
 
       - name: Analyse APK with AppSweep
         uses: guardsquare/appsweep-action@main
