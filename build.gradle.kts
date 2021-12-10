@@ -24,7 +24,7 @@ plugins {
     id("io.gitlab.arturbosch.detekt") version "1.19.0"
     id("com.osacky.doctor") version "0.7.3"
     id("io.github.cdsap.talaiot") version "1.5.1"
-    id("org.sonatype.gradle.plugins.scan") version "2.2.1"
+    id("org.sonatype.gradle.plugins.scan") version "2.2.2"
 }
 
 doctor {
