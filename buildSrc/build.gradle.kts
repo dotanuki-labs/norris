@@ -103,7 +103,7 @@ dependencies {
 
     // Kodein
     dependabot("org.kodein.di:kodein-di-jvm:7.9.0") { "kodein-di-jvm" }
-    dependabot("org.kodein.type:kodein-type-jvm:1.11.0") { "kodein-type-jvm" }
+    dependabot("org.kodein.type:kodein-type-jvm:1.12.0") { "kodein-type-jvm" }
 
     // Kotlinx
     dependabot("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.5.2") { "kotlinx-coroutines-core" }
