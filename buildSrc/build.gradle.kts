@@ -106,7 +106,7 @@ dependencies {
     dependabot("org.kodein.type:kodein-type-jvm:1.12.0") { "kodein-type-jvm" }
 
     // Kotlinx
-    dependabot("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.5.2") { "kotlinx-coroutines-core" }
+    dependabot("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.0") { "kotlinx-coroutines-core" }
     dependabot("org.jetbrains.kotlinx:kotlinx-coroutines-core-jvm:1.5.2") { "kotlinx-coroutines-jvm" }
     dependabot("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.5.2") { "kotlinx-coroutines-android" }
     dependabot("org.jetbrains.kotlinx:kotlinx-serialization-core:1.3.1") { "kotlinx-serialization-core" }
