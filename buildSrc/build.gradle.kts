@@ -99,7 +99,7 @@ dependencies {
 
     // Gradle plugins
     dependabot("org.jetbrains.kotlin:kotlin-serialization:1.6.10") { "kotlinx-serialization-gradle-plugin" }
-    dependabot("com.karumi:shot:5.12.1") { "shot-gradle-plugin" }
+    dependabot("com.karumi:shot:5.12.2") { "shot-gradle-plugin" }
 
     // Kodein
     dependabot("org.kodein.di:kodein-di-jvm:7.10.0") { "kodein-di-jvm" }
