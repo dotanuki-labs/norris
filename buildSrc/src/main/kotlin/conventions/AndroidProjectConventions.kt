@@ -11,7 +11,7 @@ import org.gradle.api.JavaVersion
 import org.gradle.api.Project
 import java.io.File
 import java.io.FileInputStream
-import java.util.Properties
+import java.util.*
 
 fun Project.applyAndroidStandardConventions() {
     val android = extensions.findByName("android") as BaseExtension
@@ -43,6 +43,10 @@ fun Project.applyAndroidStandardConventions() {
         testOptions {
             unitTests.isReturnDefaultValues = true
             unitTests.isIncludeAndroidResources = true
+            unitTests.all {
+                // https://github.com/robolectric/robolectric/issues/3023
+                it.jvmArgs = listOf("-ea", "-noverify")
+            }
         }
     }
 }
