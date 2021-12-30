@@ -44,7 +44,11 @@ jobs:
           norris-key: ${{ secrets.NORRIS_CRYPTO_KEY }}
 
       - name: Run unit tests
-        run: ./gradlew koverReport --stacktrace
+        uses: thundra-io/thundra-gradle-test-action@v1.0.4
+        with:
+          apikey: ${{ secrets.THUNDRA_API_KEY }}
+          project_id: ${{ secrets.THUNDRA_PROJECT_ID }}
+          command: ./gradlew clean koverReport --rerun-tasks --stacktrace
 
       - name: Upload test reports to Codecov
         uses: codecov/codecov-action@v2.1.0
