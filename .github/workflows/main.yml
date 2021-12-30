@@ -48,7 +48,7 @@ jobs:
         with:
           apikey: ${{ secrets.THUNDRA_API_KEY }}
           project_id: ${{ secrets.THUNDRA_PROJECT_ID }}
-          command: ./gradlew clean koverReport --rerun-tasks --stacktrace
+          command: ./gradlew clean test --rerun-tasks --stacktrace
 
       - name: Upload test reports to Codecov
         uses: codecov/codecov-action@v2.1.0
