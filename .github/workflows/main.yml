@@ -156,7 +156,6 @@ jobs:
           devices: model=${{ matrix.device }},version=30,atd=true
           use-orchestrator: true
           clear-package-data: true
-          with-coverage: true
 
       - name: Archive execution results
         if: success()

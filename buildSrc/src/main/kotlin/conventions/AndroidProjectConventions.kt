@@ -59,7 +59,6 @@ fun Project.applyAndroidLibraryConventions() {
     android.apply {
         buildTypes {
             getByName("release") {
-                isTestCoverageEnabled = true
                 isMinifyEnabled = true
 
                 val proguardDefinitions = ProguardDefinitions("$rootDir/app/proguard")
@@ -142,7 +141,6 @@ fun Project.applyAndroidApplicationConventions() {
             getByName("release") {
                 isMinifyEnabled = true
                 isShrinkResources = true
-                isTestCoverageEnabled = true
 
                 val proguardDefinitions = ProguardDefinitions("$rootDir/app/proguard")
                 proguardFiles(*(proguardDefinitions.customRules))
