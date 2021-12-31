@@ -28,6 +28,7 @@ mkdir -p "$junit_xmls"
 
 echo "🔥 Collecting test files"
 find . -type f -regex ".*/build/test-results/.*xml" -exec cp {} "$junit_xmls/" \;
+find . -type f -regex ".*/build/outputs/androidTest-results/.*xml" -exec cp {} "$junit_xmls/" \;
 
 if command -v xunit-viewer >/dev/null 2>&1; then
     echo "🔥 Generating aggregated report with xunit-viewer"

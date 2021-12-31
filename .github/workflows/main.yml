@@ -57,7 +57,7 @@ jobs:
         if: always()
         uses: actions/upload-artifact@v2.3.1
         with:
-          name: test-result-junit
+          name: unit-tests-reports
           path: build/test-reports
 
       - name: Archive execution metrics
@@ -161,7 +161,7 @@ jobs:
         if: success()
         uses: actions/upload-artifact@v2.3.1
         with:
-          name: emulator-wtf-results
+          name: acceptance-tests-reports
           path: emulator-wtf-results
 
   screenshot-tests:
@@ -200,6 +200,17 @@ jobs:
           profile: ${{ steps.emulator-profile.outputs.assigned }}
           script: ./gradlew clean executeScreenTests --no-daemon --stacktrace
 
+      - name: Collect all test results from all modules
+        if: always()
+        run: ./scripts/aggregate-test-reports.sh build/test-reports
+
+      - name: Archive test results
+        if: always()
+        uses: actions/upload-artifact@v2.3.1
+        with:
+          name: screenshot-tests-reports
+          path: build/test-reports
+
   security-analysis:
     runs-on: ubuntu-20.04
     timeout-minutes: 10
@@ -226,3 +237,21 @@ jobs:
           COMMIT_HASH: ${{ steps.vars.outputs.sha_short }}
           INPUT_FILE: release-apk/app-release.apk
           MAPPING_FILE: release-mappings/mapping.txt
+
+  monitoring-test-executions:
+    runs-on: ubuntu-20.04
+    timeout-minutes: 10
+    needs: [acceptance-tests, screenshot-tests]
+    steps:
+      - name: Fetch all artefacts
+        uses: actions/download-artifact@v2.1.0
+
+      - name: Copy all test results
+        run: mkdir all-reports && mv *-tests-reports/ all-reports
+
+      - name: Report to thundra.io
+        if: always()
+        uses: actions/upload-artifact@v2.3.1
+        with:
+          name: test-result-junit
+          path: all-reports
