@@ -57,7 +57,7 @@ jobs:
         if: always()
         uses: actions/upload-artifact@v2.3.1
         with:
-          name: junit-results-unit-tests
+          name: test-result-junit
           path: build/test-reports
 
       - name: Archive execution metrics
