@@ -147,7 +147,7 @@ dependencies {
     dependabot("androidx.test:monitor:1.5.0") { "androidx-test-monitor" }
     dependabot("com.squareup.okhttp3:mockwebserver:4.9.3") { "okhttp-mockwebserver" }
     dependabot("com.karumi:shot-android:5.12.2") { "shot-android" }
-    dependabot("com.squareup.leakcanary:leakcanary-android-release:2.7") { "leak-canary-release" }
+    dependabot("com.squareup.leakcanary:leakcanary-android-release:2.8") { "leak-canary-release" }
     dependabot("androidx.test.espresso:espresso-core:3.4.0") { "espresso-core" }
     dependabot("com.adevinta.android:barista:4.2.0") { "barista" }
 }
