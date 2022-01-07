@@ -44,8 +44,12 @@ jobs:
           norris-key: ${{ secrets.NORRIS_CRYPTO_KEY }}
 
       - name: Run unit tests
-        run: ./gradlew koverReport --stacktrace
-
+        uses: thundra-io/thundra-gradle-test-action@v1.0.4
+        with:
+          apikey: ${{ secrets.THUNDRA_API_KEY }}
+          project_id: ${{ secrets.THUNDRA_PROJECT_ID }}
+          command: ./gradlew clean koverReport --rerun-tasks --stacktrace
+      
       - name: Upload test reports to Codecov
         uses: codecov/codecov-action@v2.1.0
 
@@ -237,21 +241,3 @@ jobs:
           COMMIT_HASH: ${{ steps.vars.outputs.sha_short }}
           INPUT_FILE: release-apk/app-release.apk
           MAPPING_FILE: release-mappings/mapping.txt
-
-  monitoring-test-executions:
-    runs-on: ubuntu-20.04
-    timeout-minutes: 10
-    needs: [acceptance-tests, screenshot-tests]
-    steps:
-      - name: Fetch all artefacts
-        uses: actions/download-artifact@v2.1.0
-
-      - name: Copy all test results
-        run: mkdir all-reports && mv *-tests-reports/ all-reports
-
-      - name: Report to thundra.io
-        if: always()
-        uses: actions/upload-artifact@v2.3.1
-        with:
-          name: test-result-junit
-          path: all-reports
