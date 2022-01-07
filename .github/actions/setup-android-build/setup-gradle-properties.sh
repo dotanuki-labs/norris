@@ -43,7 +43,7 @@ write_macos_properties() {
 
 write_linux_properties() {
     echo "🔥 Fine tunning Gradle properties for Linux GHA runner"
-    write_property "org.gradle.jvmargs=-Xmx4g -Xms512m -XX:+UseParallelGC"
+    write_property "org.gradle.jvmargs=-Xmx4g -Xms512m -XX:+UseParallelGC -javaagent:thundra/agent.jar"
     write_property "kotlin.daemon.jvmargs=-Xmx2g -Xms512m -XX:+UseParallelGC"
     write_property "org.gradle.parallel.threads=2"
 }
