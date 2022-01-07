@@ -25,7 +25,9 @@ fun Project.applyKotlinProjectConventions() {
 
         withType<Test>().configureEach {
             // Fix for retrofit `WARNING: Illegal reflective access by retrofit2.Platform`
-            jvmArgs = listOf("--add-opens", "java.base/java.lang.invoke=ALL-UNNAMED")
+            jvmArgs?.addAll(
+                listOf("--add-opens", "java.base/java.lang.invoke=ALL-UNNAMED")
+            )
         }
     }
 }
