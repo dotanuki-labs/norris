@@ -43,6 +43,9 @@ jobs:
         with:
           norris-key: ${{ secrets.NORRIS_CRYPTO_KEY }}
 
+      - name: Fetch Thundra Agent
+        run: ./scripts/thundra-helper.sh
+
       - name: Run unit tests
         run: ./gradlew koverReport --stacktrace --rerun-tasks
         env: 

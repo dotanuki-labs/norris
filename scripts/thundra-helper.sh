@@ -15,4 +15,3 @@ agent_url="${agent_releases}/${agent_folder}/$agent_jar"
 
 mkdir -p thundra
 curl $agent_url --output "thundra/agent.jar"
-

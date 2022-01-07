@@ -31,8 +31,3 @@ runs:
       - name: Extract credentials
         shell: bash      
         run: ./scripts/secrets.sh decrypt ${{ inputs.norris-key }}
-
-      - name: Fetch Thundra Agent
-        shell: bash
-        run: ./scripts/thundra-helper.sh
-
