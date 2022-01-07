@@ -43,13 +43,15 @@ jobs:
         with:
           norris-key: ${{ secrets.NORRIS_CRYPTO_KEY }}
 
+      - name: Fetch Thundra Agent
+        run: ./scripts/thundra-helper.sh
+
       - name: Run unit tests
-        uses: thundra-io/thundra-gradle-test-action@v1.0.4
-        with:
-          apikey: ${{ secrets.THUNDRA_API_KEY }}
-          project_id: ${{ secrets.THUNDRA_PROJECT_ID }}
-          command: ./gradlew clean test --rerun-tasks --stacktrace
-      
+        run: ./gradlew koverReport --stacktrace --rerun-tasks
+        env: 
+          THUNDRA_APIKEY: ${{ secrets.THUNDRA_API_KEY }}
+          THUNDRA_AGENT_TEST_PROJECT_ID: ${{ secrets.THUNDRA_PROJECT_ID }}
+
       - name: Upload test reports to Codecov
         uses: codecov/codecov-action@v2.1.0
 

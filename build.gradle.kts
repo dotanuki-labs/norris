@@ -72,6 +72,7 @@ allprojects {
     }
 
     tasks.withType<Test>() {
+        jvmArgs?.add("-javaagent:thundra/agent.jar")
         extensions.configure<KoverTaskExtension>() {
             excludes = listOf(
                 "io.dotanuki.norris.*.databinding.*",
