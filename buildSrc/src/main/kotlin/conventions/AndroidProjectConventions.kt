@@ -45,7 +45,9 @@ fun Project.applyAndroidStandardConventions() {
             unitTests.isIncludeAndroidResources = true
             unitTests.all {
                 // https://github.com/robolectric/robolectric/issues/3023
-                it.jvmArgs = listOf("-ea", "-noverify")
+                it.jvmArgs?.addAll(
+                    listOf("-ea", "-noverify")
+                )
             }
         }
     }
