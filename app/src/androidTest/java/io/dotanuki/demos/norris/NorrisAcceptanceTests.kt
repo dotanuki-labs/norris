@@ -23,6 +23,10 @@ class NorrisAcceptanceTests {
     @get:Rule val rules: RuleChain =
         RuleChain.outerRule(stressedExecution).around(restInfrastructure)
 
+    init {
+        PrettyEspressoErrors.install()
+    }
+
     @Before fun beforeEachTest() {
         PersistanceHelper.clearStorage()
     }
@@ -62,7 +66,7 @@ class NorrisAcceptanceTests {
 
         val suggestions = listOf("career", "dev", "humor")
         val mathFact = "Chuck Norris can divide by zero"
-        val codeFact = "Null pointer will break with ChuckNorrisException"
+        val codeFact = "Null will break with ChuckNorrisException"
 
         val mathFactPayload = RestDataBuilder.factsPayload("math", mathFact)
         val suggestionsPayload = RestDataBuilder.suggestionsPayload(suggestions)

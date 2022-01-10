@@ -61,6 +61,7 @@ object Deps {
     val leakCanary by deps.coordinates("leak-canary-release")
     val espressoCore by deps.coordinates("espresso-core")
     val barista by deps.coordinates("barista")
+    val radiography by deps.coordinates("radiography")
 
     private fun Map<String, String>.coordinates(alias: String) = lazy { getValue(alias) }
 }
