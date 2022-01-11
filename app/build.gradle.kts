@@ -44,6 +44,7 @@ dependencies {
     androidTestImplementation(Deps.androidxTestRules)
     androidTestImplementation(Deps.okHttpMockWebServer)
     androidTestImplementation(Deps.espressoCore)
+    androidTestImplementation(Deps.radiography)
 
     androidTestImplementation(Deps.barista) {
         exclude(group = "org.jetbrains.kotlin")

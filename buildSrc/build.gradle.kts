@@ -150,4 +150,5 @@ dependencies {
     dependabot("com.squareup.leakcanary:leakcanary-android-release:2.8.1") { "leak-canary-release" }
     dependabot("androidx.test.espresso:espresso-core:3.4.0") { "espresso-core" }
     dependabot("com.adevinta.android:barista:4.2.0") { "barista" }
+    dependabot("com.squareup.radiography:radiography:2.4.1") { "radiography" }
 }

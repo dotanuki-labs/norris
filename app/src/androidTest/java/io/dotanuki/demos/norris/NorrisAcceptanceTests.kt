@@ -23,6 +23,10 @@ class NorrisAcceptanceTests {
     @get:Rule val rules: RuleChain =
         RuleChain.outerRule(stressedExecution).around(restInfrastructure)
 
+    init {
+        PrettyEspressoErrors.install()
+    }
+
     @Before fun beforeEachTest() {
         PersistanceHelper.clearStorage()
     }
