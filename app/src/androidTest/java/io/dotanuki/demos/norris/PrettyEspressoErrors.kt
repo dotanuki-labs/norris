@@ -17,18 +17,21 @@ object PrettyEspressoErrors {
             try {
                 installedFailureHandler.handle(error, viewMatcher)
             } catch (incoming: Throwable) {
-                redecorate(incoming, viewMatcher)
+                redecorate(incoming)
             }
         }
     }
 
-    private fun redecorate(incoming: Throwable, viewMatcher: Matcher<View>): Nothing {
+    private fun redecorate(incoming: Throwable): Nothing {
         val detailMessageField = Throwable::class.java.getDeclaredField("detailMessage")
         val previousAccessible = detailMessageField.isAccessible
 
         try {
             detailMessageField.isAccessible = true
-            detailMessageField[incoming] = Radiography.scan()
+            var actualMessage = (detailMessageField[incoming] as String?).orEmpty()
+            actualMessage = actualMessage.substringBefore("\nView Hierarchy:")
+            actualMessage += "\nView hierarchies:\n${Radiography.scan()}"
+            detailMessageField[incoming] = actualMessage
         } finally {
             detailMessageField.isAccessible = previousAccessible
         }

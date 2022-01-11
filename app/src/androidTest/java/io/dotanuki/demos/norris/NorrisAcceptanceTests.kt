@@ -66,7 +66,7 @@ class NorrisAcceptanceTests {
 
         val suggestions = listOf("career", "dev", "humor")
         val mathFact = "Chuck Norris can divide by zero"
-        val codeFact = "Null will break with ChuckNorrisException"
+        val codeFact = "Null pointer will break with ChuckNorrisException"
 
         val mathFactPayload = RestDataBuilder.factsPayload("math", mathFact)
         val suggestionsPayload = RestDataBuilder.suggestionsPayload(suggestions)
