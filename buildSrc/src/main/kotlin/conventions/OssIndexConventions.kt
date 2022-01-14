@@ -16,6 +16,7 @@ private val vulnerabilitiesTracking = mapOf(
     "69b8043a-3002-48fa-9762-8f6040d83de1" to "Apache Commons Compress not used in the production artefact",
     "68232267-bb25-4b04-8dec-caf7c11c7293" to "Apache Commons Compress not used in the production artefact",
     "5dbdb043-212c-4971-9653-d04e1cfc5080" to "Jsoup not used in the production artefact",
+    "82848549-29bd-4594-b983-e61e4b2c6924" to "Android Lint not invoked in this project",
 )
 
 fun Project.ignoredVulnerabilities(): Set<String> =
