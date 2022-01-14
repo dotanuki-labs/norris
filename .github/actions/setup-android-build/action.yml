@@ -12,7 +12,7 @@ runs:
       - name: Setup JDK
         uses: actions/setup-java@v2.5.0
         with:
-          distribution: 'zulu'
+          distribution: 'temurin'
           java-version: 11
 
       - name: Setup Cache
