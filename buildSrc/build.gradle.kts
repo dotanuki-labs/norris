@@ -85,7 +85,7 @@ dependencies {
     val agp = dependabot("com.android.tools.build:gradle:7.1.0") { "android-gradle-plugin" }
     val kgp = dependabot("org.jetbrains.kotlin:kotlin-gradle-plugin:1.6.10") { "kotlin-gradle-plugin" }
     val tgp = dependabot("com.adarshr:gradle-test-logger-plugin:3.1.0") { "testlogger-gradle-plugin" }
-    val keeper = dependabot("com.slack.keeper:keeper:0.11.1") { "keeper-gradle-plugin" }
+    val keeper = dependabot("com.slack.keeper:keeper:0.11.2") { "keeper-gradle-plugin" }
 
     implementation(agp)
     implementation(kgp)
