@@ -32,6 +32,9 @@ plugins {
 
 doctor {
     GCWarningThreshold.set(0.05f)
+    javaHome {
+        failOnError.set(false)
+    }
 }
 
 talaiot {
