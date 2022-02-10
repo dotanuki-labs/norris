@@ -116,7 +116,7 @@ dependencies {
     // Androidx
     dependabot("androidx.core:core:1.7.0") { "androidx-core" }
     dependabot("androidx.core:core-ktx:1.7.0") { "androidx-core-ktx" }
-    dependabot("androidx.lifecycle:lifecycle-common:2.4.0") { "androidx-lifecycle-common" }
+    dependabot("androidx.lifecycle:lifecycle-common:2.4.1") { "androidx-lifecycle-common" }
     dependabot("androidx.lifecycle:lifecycle-runtime-ktx:2.4.0") { "androidx-lifecycle-runtime" }
     dependabot("androidx.lifecycle:lifecycle-viewmodel:2.4.0") { "androidx-lifecycle-vm" }
     dependabot("androidx.lifecycle:lifecycle-viewmodel-ktx:2.4.0") { "androidx-lifecycle-vm-ktx" }
