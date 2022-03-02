@@ -13,7 +13,7 @@ jobs:
 
     steps:
       - name: Project Checkout
-        uses: actions/checkout@v2.4.0
+        uses: actions/checkout@v3
 
       - name: Setup Android Build
         uses: ./.github/actions/setup-android-build
@@ -36,7 +36,7 @@ jobs:
 
     steps:
       - name: Project Checkout
-        uses: actions/checkout@v2.4.0
+        uses: actions/checkout@v3
 
       - name: Setup Android Build
         uses: ./.github/actions/setup-android-build
@@ -73,7 +73,7 @@ jobs:
 
     steps:
       - name: Project Checkout
-        uses: actions/checkout@v2.4.0
+        uses: actions/checkout@v3
 
       - name: Setup Android Build
         uses: ./.github/actions/setup-android-build
@@ -110,7 +110,7 @@ jobs:
 
     steps:
       - name: Project Checkout
-        uses: actions/checkout@v2.4.0
+        uses: actions/checkout@v3
 
       - name: Setup Android Build
         uses: ./.github/actions/setup-android-build
@@ -176,7 +176,7 @@ jobs:
 
     steps:
       - name: Project Checkout
-        uses: actions/checkout@v2.4.0
+        uses: actions/checkout@v3
 
       - name: Setup Android Build
         uses: ./.github/actions/setup-android-build
@@ -217,7 +217,7 @@ jobs:
     needs: assemble-apk
     steps:
       - name: Project Checkout
-        uses: actions/checkout@v2.4.0
+        uses: actions/checkout@v3
 
       - name: Setup Android Build
         uses: ./.github/actions/setup-android-build
