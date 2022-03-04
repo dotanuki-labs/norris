@@ -25,7 +25,7 @@ jobs:
 
       - name: Archive execution metrics
         if: success()
-        uses: actions/upload-artifact@v2.3.1
+        uses: actions/upload-artifact@v3
         with:
           name: static-analysis-metrics
           path: build/reports/talaiot/json
@@ -55,14 +55,14 @@ jobs:
 
       - name: Archive test results
         if: always()
-        uses: actions/upload-artifact@v2.3.1
+        uses: actions/upload-artifact@v3
         with:
           name: unit-tests-reports
           path: build/test-reports
 
       - name: Archive execution metrics
         if: success()
-        uses: actions/upload-artifact@v2.3.1
+        uses: actions/upload-artifact@v3
         with:
           name: unit-tests-metrics
           path: build/reports/talaiot/json
@@ -85,21 +85,21 @@ jobs:
 
       - name: Archive APK
         if: success()
-        uses: actions/upload-artifact@v2.3.1
+        uses: actions/upload-artifact@v3
         with:
           name: release-apk
           path: app/build/outputs/apk/release
 
       - name: Archive R8 mappings
         if: success()
-        uses: actions/upload-artifact@v2.3.1
+        uses: actions/upload-artifact@v3
         with:
           name: release-mappings
           path: app/build/outputs/mapping/release
 
       - name: Archive execution metrics
         if: success()
-        uses: actions/upload-artifact@v2.3.1
+        uses: actions/upload-artifact@v3
         with:
           name: assemble-apk-metrics
           path: build/reports/talaiot/json
@@ -121,14 +121,14 @@ jobs:
         run: ./gradlew app:assembleAndroidTest -PtestMode=true --stacktrace
 
       - name: Archive Test APK
-        uses: actions/upload-artifact@v2.3.1
+        uses: actions/upload-artifact@v3
         with:
           name: tests-apk
           path: app/build/outputs/apk/androidTest/release
 
       - name: Archive execution metrics
         if: success()
-        uses: actions/upload-artifact@v2.3.1
+        uses: actions/upload-artifact@v3
         with:
           name: espresso-prepare-metrics
           path: build/reports/talaiot/json
@@ -159,7 +159,7 @@ jobs:
 
       - name: Archive execution results
         if: always()
-        uses: actions/upload-artifact@v2.3.1
+        uses: actions/upload-artifact@v3
         with:
           name: acceptance-tests-reports
           path: emulator-wtf-results
@@ -206,7 +206,7 @@ jobs:
 
       - name: Archive test results
         if: always()
-        uses: actions/upload-artifact@v2.3.1
+        uses: actions/upload-artifact@v3
         with:
           name: screenshot-tests-reports
           path: build/test-reports
@@ -251,7 +251,7 @@ jobs:
 
       - name: Report to thundra.io
         if: always()
-        uses: actions/upload-artifact@v2.3.1
+        uses: actions/upload-artifact@v3
         with:
           name: test-result-junit
           path: all-reports
