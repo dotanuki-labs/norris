@@ -98,7 +98,7 @@ dependencies {
     // either as build script dependency or some other configuration
 
     // Gradle plugins
-    dependabot("org.jetbrains.kotlin:kotlin-serialization:1.6.10") { "kotlinx-serialization-gradle-plugin" }
+    dependabot("org.jetbrains.kotlin:kotlin-serialization:1.6.20") { "kotlinx-serialization-gradle-plugin" }
     dependabot("com.karumi:shot:5.13.0") { "shot-gradle-plugin" }
 
     // Kodein
