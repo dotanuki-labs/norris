@@ -47,7 +47,7 @@ jobs:
         run: ./gradlew koverReport --stacktrace
 
       - name: Upload test reports to Codecov
-        uses: codecov/codecov-action@v2.1.0
+        uses: codecov/codecov-action@v3
 
       - name: Collect all test results from all modules
         if: always()
