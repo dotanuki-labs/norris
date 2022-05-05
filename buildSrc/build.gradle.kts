@@ -124,7 +124,7 @@ dependencies {
     dependabot("androidx.swiperefreshlayout:swiperefreshlayout:1.1.0") { "androidx-swipetorefresh" }
     dependabot("androidx.coordinatorlayout:coordinatorlayout:1.2.0") { "androidx-coordinatorlayout" }
     dependabot("androidx.recyclerview:recyclerview:1.2.1") { "androidx-recyclerview" }
-    dependabot("com.google.android.material:material:1.5.0") { "google-material-design" }
+    dependabot("com.google.android.material:material:1.6.0") { "google-material-design" }
 
     // Networking
     dependabot("com.squareup.okhttp3:okhttp:4.9.3") { "square-okhttp" }
