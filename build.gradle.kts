@@ -26,7 +26,7 @@ plugins {
     id("io.gitlab.arturbosch.detekt") version "1.20.0"
     id("com.osacky.doctor") version "0.8.0"
     id("io.github.cdsap.talaiot") version "1.5.1"
-    id("org.sonatype.gradle.plugins.scan") version "2.2.3"
+    id("org.sonatype.gradle.plugins.scan") version "2.3.0"
     id("org.jetbrains.kotlinx.kover") version "0.5.0"
 }
 
