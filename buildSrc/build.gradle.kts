@@ -110,7 +110,7 @@ dependencies {
     dependabot("org.jetbrains.kotlinx:kotlinx-coroutines-core-jvm:1.6.1") { "kotlinx-coroutines-jvm" }
     dependabot("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.1") { "kotlinx-coroutines-android" }
     dependabot("org.jetbrains.kotlinx:kotlinx-serialization-core:1.3.3") { "kotlinx-serialization-core" }
-    dependabot("org.jetbrains.kotlinx:kotlinx-serialization-core-jvm:1.3.2") { "kotlinx-serialization-jvm" }
+    dependabot("org.jetbrains.kotlinx:kotlinx-serialization-core-jvm:1.3.3") { "kotlinx-serialization-jvm" }
     dependabot("org.jetbrains.kotlinx:kotlinx-serialization-json:1.3.3") { "kotlinx-serialization-json" }
 
     // Androidx
