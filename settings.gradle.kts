@@ -4,6 +4,12 @@ pluginManagement {
         mavenCentral()
         gradlePluginPortal()
     }
+
+    includeBuild("build-logic")
+}
+
+plugins {
+    id("norris.plugins.catalogsourcer") version "1.0"
 }
 
 include(

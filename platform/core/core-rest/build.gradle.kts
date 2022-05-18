@@ -6,21 +6,21 @@ plugins {
 dependencies {
     implementation(projects.platform.core.coreNetworking)
 
-    implementation(Deps.kodeinDi)
-    implementation(Deps.kodeinType)
+    implementation(libs.kodein.di.jvm)
+    implementation(libs.kodein.type.jvm)
 
-    implementation(Deps.okHttp)
-    implementation(Deps.okHttpLogging)
-    implementation(Deps.retrofit)
-    implementation(Deps.kotlinSerializationCore)
-    implementation(Deps.kotlinSerializationJson)
-    implementation(Deps.kotlinSerializationJvm)
-    implementation(Deps.coroutinesCore)
+    implementation(libs.okhttp.core)
+    implementation(libs.okhttp.logging)
+    implementation(libs.retrofit)
+    implementation(libs.kotlinx.serialization.core)
+    implementation(libs.kotlinx.serialization.json)
+    implementation(libs.kotlinx.serialization.jvm)
+    implementation(libs.kotlinx.coroutines.core)
 
     testImplementation(projects.platform.testing.testingRest)
 
-    testImplementation(Deps.junit4)
-    testImplementation(Deps.truth)
-    testImplementation(Deps.slf4j)
-    testImplementation(Deps.coroutinesJvm)
+    testImplementation(libs.junit4)
+    testImplementation(libs.truth)
+    testImplementation(libs.slf4j)
+    testImplementation(libs.kotlinx.coroutines.jvm)
 }

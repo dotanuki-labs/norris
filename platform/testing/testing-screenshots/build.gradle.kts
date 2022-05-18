@@ -5,7 +5,7 @@ plugins {
 
 dependencies {
     implementation(kotlin("stdlib-jdk8"))
-    implementation(Deps.androidxTestCore)
-    implementation(Deps.androidxTestCoreKtx)
-    implementation(Deps.androidxLifecycleCommon)
+    implementation(libs.androidx.test.core)
+    implementation(libs.androidx.test.corektx)
+    implementation(libs.androidx.lifecycle.common)
 }

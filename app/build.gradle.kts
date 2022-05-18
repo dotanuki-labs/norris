@@ -14,39 +14,39 @@ dependencies {
     implementation(projects.features.facts)
     implementation(projects.features.search)
 
-    implementation(Deps.kodeinDi)
-    implementation(Deps.kodeinType)
-    implementation(Deps.coroutinesCore)
-    implementation(Deps.coroutinesJvm)
-    implementation(Deps.coroutinesAndroid)
+    implementation(libs.kodein.di.jvm)
+    implementation(libs.kodein.type.jvm)
+    implementation(libs.kotlinx.coroutines.core)
+    implementation(libs.kotlinx.coroutines.jvm)
+    implementation(libs.kotlinx.coroutines.android)
 
-    implementation(Deps.androidxCore)
-    implementation(Deps.androidxCoreKtx)
-    implementation(Deps.androidxAppCompat)
-    implementation(Deps.androidxLifecycleCommon)
-    implementation(Deps.androidxLifecycleRuntime)
-    implementation(Deps.okHttp)
+    implementation(libs.androidx.core)
+    implementation(libs.androidx.core.ktx)
+    implementation(libs.androidx.appcompat)
+    implementation(libs.androidx.lifecycle.common)
+    implementation(libs.androidx.lifecycle.runtime)
+    implementation(libs.okhttp.core)
 
     if (isTestMode()) {
-        releaseImplementation(Deps.leakCanary)
+        releaseImplementation(libs.leak.canary.release)
     }
 
     androidTestImplementation(projects.platform.testing.testingPersistance)
     androidTestImplementation(projects.platform.testing.testingRest)
 
-    androidTestImplementation(Deps.junit4)
-    androidTestImplementation(Deps.truth)
-    androidTestImplementation(Deps.androidxTestCore)
-    androidTestImplementation(Deps.androidxTestCoreKtx)
-    androidTestImplementation(Deps.androidxTestExtJunit)
-    androidTestImplementation(Deps.androidxTestExtJunitKtx)
-    androidTestImplementation(Deps.androidxTestRunner)
-    androidTestImplementation(Deps.androidxTestRules)
-    androidTestImplementation(Deps.okHttpMockWebServer)
-    androidTestImplementation(Deps.espressoCore)
-    androidTestImplementation(Deps.radiography)
+    androidTestImplementation(libs.junit4)
+    androidTestImplementation(libs.truth)
+    androidTestImplementation(libs.androidx.test.core)
+    androidTestImplementation(libs.androidx.test.corektx)
+    androidTestImplementation(libs.androidx.test.runner)
+    androidTestImplementation(libs.androidx.test.rules)
+    androidTestImplementation(libs.androidx.testext.junit)
+    androidTestImplementation(libs.androidx.testext.junitktx)
+    androidTestImplementation(libs.espresso.core)
+    androidTestImplementation(libs.okhttp.mockwebserver)
+    androidTestImplementation(libs.radiography)
 
-    androidTestImplementation(Deps.barista) {
+    androidTestImplementation(libs.barista) {
         exclude(group = "org.jetbrains.kotlin")
         exclude(group = "org.checkerframework")
     }

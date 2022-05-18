@@ -1,4 +1,3 @@
-
 plugins {
     id("norris.modules.kotlin")
 }
@@ -7,12 +6,12 @@ dependencies {
     implementation(projects.platform.core.coreNetworking)
     implementation(projects.platform.core.coreRest)
 
-    implementation(Deps.okHttp)
-    implementation(Deps.okHttpLogging)
-    implementation(Deps.okHttpMockWebServer)
-    implementation(Deps.retrofit)
-    implementation(Deps.kotlinSerializationJson)
-    implementation(Deps.kodeinDi)
-    implementation(Deps.kodeinType)
-    implementation(Deps.junit4)
+    implementation(libs.okhttp.core)
+    implementation(libs.okhttp.logging)
+    implementation(libs.okhttp.mockwebserver)
+    implementation(libs.retrofit)
+    implementation(libs.kotlinx.serialization.json)
+    implementation(libs.kodein.di.jvm)
+    implementation(libs.kodein.type.jvm)
+    implementation(libs.junit4)
 }

@@ -10,12 +10,12 @@ buildscript {
     }
 
     dependencies {
-        classpath(Deps.androidGradlePlugin)
-        classpath(Deps.kotlinGradlePlugin)
-        classpath(Deps.testLoggerGradlePlugin)
-        classpath(Deps.kotlinxSerializationGradlePlugin)
-        classpath(Deps.shotGradlePlugin)
-        classpath(Deps.keeperGradlePlugin)
+        classpath(libs.android.gradle.plugin)
+        classpath(libs.kotlin.gradle.plugin)
+        classpath(libs.testlogger.gradle.plugin)
+        classpath(libs.kotlinx.serialization.gradle.plugin)
+        classpath(libs.shot.gradle.plugin)
+        classpath(libs.keeper.gradle.plugin)
     }
 }
 

@@ -1,12 +1,14 @@
+package io.dotanuki.gradle.catalogsourcer
+
 import java.io.File
 
-object BuildSrcBuildScriptBridge {
+object DependabotBridge {
 
     private val finder = "dependabot\\(.+\\)\\s+\\{.+}".toRegex()
     private val sanitizer = "dependabot\\(|\\)|\\s+\\{|\"|}".toRegex()
 
     fun extractDependencies(): Map<String, String> =
-        File("buildSrc/build.gradle.kts").readText().trimIndent().let { contents ->
+        File("build-logic/build.gradle.kts").readText().trimIndent().let { contents ->
             finder.findAll(contents).map { it.parseDependabotMatch() }.toMap()
         }
 

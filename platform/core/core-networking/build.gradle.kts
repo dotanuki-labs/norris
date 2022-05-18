@@ -5,15 +5,15 @@ plugins {
 
 dependencies {
 
-    implementation(Deps.okHttp)
-    implementation(Deps.retrofit)
-    implementation(Deps.retrofitKotlixConverter)
-    implementation(Deps.kotlinSerializationCore)
-    implementation(Deps.kotlinSerializationJvm)
-    implementation(Deps.kotlinSerializationJson)
-    implementation(Deps.coroutinesCore)
+    implementation(libs.okhttp.core)
+    implementation(libs.retrofit)
+    implementation(libs.jw.retrofit.kotlinx.serialisation)
+    implementation(libs.kotlinx.serialization.core)
+    implementation(libs.kotlinx.serialization.jvm)
+    implementation(libs.kotlinx.serialization.json)
+    implementation(libs.kotlinx.coroutines.core)
 
-    testImplementation(Deps.junit4)
-    testImplementation(Deps.truth)
-    testImplementation(Deps.coroutinesJvm)
+    testImplementation(libs.junit4)
+    testImplementation(libs.truth)
+    testImplementation(libs.kotlinx.coroutines.jvm)
 }
