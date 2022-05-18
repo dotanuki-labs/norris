@@ -1,4 +1,4 @@
-package definitions
+package io.dotanuki.gradle.shapers.definitions
 
 import java.io.File
 

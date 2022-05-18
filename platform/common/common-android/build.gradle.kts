@@ -1,5 +1,5 @@
 plugins {
-    id("norris.modules.android.platform")
+    id("norris.plugins.shapers.platform.android")
 }
 
 dependencies {

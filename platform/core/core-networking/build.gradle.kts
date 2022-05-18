@@ -1,6 +1,6 @@
 
 plugins {
-    id("norris.modules.kotlin")
+    id("norris.plugins.shapers.platform.kotlin")
 }
 
 dependencies {

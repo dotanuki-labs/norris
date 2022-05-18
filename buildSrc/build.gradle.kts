@@ -9,7 +9,6 @@ repositories {
 plugins {
     java
     `kotlin-dsl`
-    `java-gradle-plugin`
 }
 
 buildscript {
@@ -30,30 +29,6 @@ tasks.withType<KotlinCompile>().configureEach {
 tasks.withType<JavaCompile>().configureEach {
     targetCompatibility = JavaVersion.VERSION_11.toString()
     sourceCompatibility = JavaVersion.VERSION_11.toString()
-}
-
-gradlePlugin {
-    plugins {
-        register("kotlin-module-plugin") {
-            id = "norris.modules.kotlin"
-            implementationClass = "plugins.NorrisKotlinModulePlugin"
-        }
-
-        register("android-platform-module-plugin") {
-            id = "norris.modules.android.platform"
-            implementationClass = "plugins.NorrisAndroidPlatformModulePlugin"
-        }
-
-        register("android-feature-module-plugin") {
-            id = "norris.modules.android.feature"
-            implementationClass = "plugins.NorrisAndroidFeatureModulePlugin"
-        }
-
-        register("android-application-module-plugin") {
-            id = "norris.modules.android.app"
-            implementationClass = "plugins.NorrisAndroidApplicationModulePlugin"
-        }
-    }
 }
 
 

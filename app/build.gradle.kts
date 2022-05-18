@@ -1,7 +1,6 @@
-import conventions.isTestMode
 
 plugins {
-    id("norris.modules.android.app")
+    id("norris.plugins.shapers.app")
 }
 
 dependencies {
@@ -26,10 +25,6 @@ dependencies {
     implementation(libs.androidx.lifecycle.common)
     implementation(libs.androidx.lifecycle.runtime)
     implementation(libs.okhttp.core)
-
-    if (isTestMode()) {
-        releaseImplementation(libs.leak.canary.release)
-    }
 
     androidTestImplementation(projects.platform.testing.testingPersistance)
     androidTestImplementation(projects.platform.testing.testingRest)

@@ -1,4 +1,4 @@
-package conventions
+package io.dotanuki.gradle.shapers.conventions
 
 import org.gradle.api.Project
 

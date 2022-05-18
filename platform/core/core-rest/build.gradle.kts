@@ -1,5 +1,5 @@
 plugins {
-    id("norris.modules.kotlin")
+    id("norris.plugins.shapers.platform.kotlin")
     id("org.jetbrains.kotlin.plugin.serialization")
 }
 

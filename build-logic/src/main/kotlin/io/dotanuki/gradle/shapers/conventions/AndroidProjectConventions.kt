@@ -1,17 +1,18 @@
-package conventions
+package io.dotanuki.gradle.shapers.conventions
 
 import com.android.build.api.dsl.ApplicationExtension
 import com.android.build.api.dsl.BuildType
 import com.android.build.gradle.BaseExtension
 import com.slack.keeper.KeeperExtension
-import definitions.AndroidDefinitions
-import definitions.ProguardDefinitions
-import definitions.Versioning
+import io.dotanuki.gradle.catalogsourcer.DependabotBridge
+import io.dotanuki.gradle.shapers.definitions.AndroidDefinitions
+import io.dotanuki.gradle.shapers.definitions.ProguardDefinitions
+import io.dotanuki.gradle.shapers.definitions.Versioning
 import org.gradle.api.JavaVersion
 import org.gradle.api.Project
 import java.io.File
 import java.io.FileInputStream
-import java.util.*
+import java.util.Properties
 
 fun Project.applyAndroidStandardConventions() {
     val android = extensions.findByName("android") as BaseExtension
@@ -22,30 +23,30 @@ fun Project.applyAndroidStandardConventions() {
 
         defaultConfig {
 
-            minSdk = AndroidDefinitions.minSdk
-            targetSdk = AndroidDefinitions.targetSdk
-            versionCode = Versioning.version.code
-            versionName = Versioning.version.name
+            it.minSdk = AndroidDefinitions.minSdk
+            it.targetSdk = AndroidDefinitions.targetSdk
+            it.versionCode = Versioning.version.code
+            it.versionName = Versioning.version.name
 
-            vectorDrawables.apply {
+            it.vectorDrawables.apply {
                 useSupportLibrary = true
                 generatedDensities(*(AndroidDefinitions.noGeneratedDensities))
             }
 
-            resourceConfigurations.add("en")
+            it.resourceConfigurations.add("en")
         }
 
         compileOptions {
-            sourceCompatibility = JavaVersion.VERSION_11
-            targetCompatibility = JavaVersion.VERSION_11
+            it.sourceCompatibility = JavaVersion.VERSION_11
+            it.targetCompatibility = JavaVersion.VERSION_11
         }
 
         testOptions {
-            unitTests.isReturnDefaultValues = true
-            unitTests.isIncludeAndroidResources = true
-            unitTests.all {
+            it.unitTests.isReturnDefaultValues = true
+            it.unitTests.isIncludeAndroidResources = true
+            it.unitTests.all { unitTests ->
                 // https://github.com/robolectric/robolectric/issues/3023
-                it.jvmArgs?.addAll(
+                unitTests.jvmArgs?.addAll(
                     listOf("-ea", "-noverify")
                 )
             }
@@ -60,19 +61,19 @@ fun Project.applyAndroidLibraryConventions() {
 
     android.apply {
         buildTypes {
-            getByName("release") {
-                isMinifyEnabled = true
+            it.getByName("release") { buildType ->
+                buildType.isMinifyEnabled = true
 
                 val proguardDefinitions = ProguardDefinitions("$rootDir/app/proguard")
-                proguardFiles(*(proguardDefinitions.customRules))
-                proguardFiles(getDefaultProguardFile(proguardDefinitions.androidRules))
+                buildType.proguardFiles(*(proguardDefinitions.customRules))
+                buildType.proguardFiles(getDefaultProguardFile(proguardDefinitions.androidRules))
             }
         }
     }
 
     tasks.whenTaskAdded {
         if (name.startsWith("test") and name.contains("DebugUnitTest")) {
-            enabled = false
+            it.enabled = false
         }
     }
 }
@@ -85,7 +86,7 @@ fun Project.applyAndroidApplicationConventions() {
     if (isTestMode()) {
         val keeper = extensions.findByName("keeper") as KeeperExtension
         keeper.variantFilter {
-            setIgnore(name != "release")
+            it.setIgnore(name != "release")
         }
     }
 
@@ -104,16 +105,16 @@ fun Project.applyAndroidApplicationConventions() {
         }
 
         signingConfigs {
-            create("release") {
+            create("release") { signingConfig ->
                 val signingProperties = Properties().apply {
                     load(FileInputStream("$rootDir/signing.properties"))
                 }
 
                 signingProperties.run {
-                    storeFile = File("$rootDir/dotanuki-demos.jks")
-                    storePassword = getProperty("io.dotanuki.norris.storepass")
-                    keyAlias = getProperty("io.dotanuki.norris.keyalias")
-                    keyPassword = getProperty("io.dotanuki.norris.keypass")
+                    signingConfig.storeFile = File("$rootDir/dotanuki-demos.jks")
+                    signingConfig.storePassword = getProperty("io.dotanuki.norris.storepass")
+                    signingConfig.keyAlias = getProperty("io.dotanuki.norris.keyalias")
+                    signingConfig.keyPassword = getProperty("io.dotanuki.norris.keypass")
                 }
             }
         }
@@ -133,27 +134,31 @@ fun Project.applyAndroidApplicationConventions() {
                 }
             }
 
-            getByName("debug") {
-                applicationIdSuffix = ".debug"
-                versionNameSuffix = "-DEBUG"
-                isTestCoverageEnabled = true
-                configureHttps(this)
+            getByName("debug") { buildType ->
+                buildType.applicationIdSuffix = ".debug"
+                buildType.versionNameSuffix = "-DEBUG"
+                buildType.isTestCoverageEnabled = true
+                configureHttps(buildType)
             }
 
-            getByName("release") {
-                isMinifyEnabled = true
-                isShrinkResources = true
+            getByName("release") { buildType ->
+                buildType.isMinifyEnabled = true
+                buildType.isShrinkResources = true
 
                 val proguardDefinitions = ProguardDefinitions("$rootDir/app/proguard")
-                proguardFiles(*(proguardDefinitions.customRules))
-                proguardFiles(getDefaultProguardFile(proguardDefinitions.androidRules))
-                signingConfig = signingConfigs.findByName("release")
-                configureHttps(this)
+                buildType.proguardFiles(*(proguardDefinitions.customRules))
+                buildType.proguardFiles(getDefaultProguardFile(proguardDefinitions.androidRules))
+                buildType.signingConfig = signingConfigs.findByName("release")
+                configureHttps(buildType)
             }
         }
 
         packagingOptions {
             jniLibs.useLegacyPackaging = true
         }
+    }
+
+    if(isTestMode()) {
+        dependencies.add("releaseImplementation", DependabotBridge.extractDependencies()["leak-canary-release"])
     }
 }

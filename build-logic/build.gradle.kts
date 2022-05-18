@@ -16,9 +16,29 @@ tasks.withType<KotlinCompile>().configureEach {
 
 gradlePlugin {
     plugins {
-        register("catalog-sourcer") {
+        create("catalog-sourcer") {
             id = "norris.plugins.catalogsourcer"
             implementationClass = "io.dotanuki.gradle.catalogsourcer.CatalogSourcerPlugin"
+        }
+
+        create("norris-platform-kotlin-module") {
+            id = "norris.plugins.shapers.platform.kotlin"
+            implementationClass = "io.dotanuki.gradle.shapers.PlatformKotlinModulePlugin"
+        }
+
+        create("norris-platform-android-module") {
+            id = "norris.plugins.shapers.platform.android"
+            implementationClass = "io.dotanuki.gradle.shapers.PlatformAndroidModulePlugin"
+        }
+
+        create("norris-android-feature-module") {
+            id = "norris.plugins.shapers.feature"
+            implementationClass = "io.dotanuki.gradle.shapers.FeatureModulePlugin"
+        }
+
+        create("norris-android-app-module") {
+            id = "norris.plugins.shapers.app"
+            implementationClass = "io.dotanuki.gradle.shapers.AndroidAppModulePlugin"
         }
     }
 }

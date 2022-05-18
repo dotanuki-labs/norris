@@ -1,4 +1,4 @@
-package conventions
+package io.dotanuki.gradle.shapers.conventions
 
 import com.adarshr.gradle.testlogger.TestLoggerExtension
 import com.adarshr.gradle.testlogger.theme.ThemeType
