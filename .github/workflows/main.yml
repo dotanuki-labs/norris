@@ -44,10 +44,7 @@ jobs:
           norris-key: ${{ secrets.NORRIS_CRYPTO_KEY }}
 
       - name: Run unit tests
-        run: ./gradlew koverReport --stacktrace
-
-      - name: Upload test reports to Codecov
-        uses: codecov/codecov-action@v3
+        run: ./gradlew test --stacktrace
 
       - name: Collect all test results from all modules
         if: always()
