@@ -75,12 +75,16 @@ dependencies {
     val tgp = dependabot("com.adarshr:gradle-test-logger-plugin:3.2.0") { "testlogger-gradle-plugin" }
     val keeper = dependabot("com.slack.keeper:keeper:0.11.2") { "keeper-gradle-plugin" }
     val ossAudit = dependabot("org.sonatype.gradle.plugins:scan-gradle-plugin:2.3.0") { "oss-audit-gradle-plugin" }
+    val detekt = dependabot("io.gitlab.arturbosch.detekt:detekt-gradle-plugin:1.20.0") { "detekt-gradle-plugin" }
+    val ktlint = dependabot("org.jlleitschuh.gradle:ktlint-gradle:10.3.0") { "ktlint-gradle-plugin" }
 
     implementation(agp)
     implementation(kgp)
     implementation(tgp)
     implementation(keeper)
     implementation(ossAudit)
+    implementation(detekt)
+    implementation(ktlint)
 
     // Gradle plugins
     dependabot("org.jetbrains.kotlin:kotlin-serialization:1.6.21") { "kotlinx-serialization-gradle-plugin" }

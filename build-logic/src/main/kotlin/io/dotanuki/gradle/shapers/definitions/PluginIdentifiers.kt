@@ -9,4 +9,6 @@ object PluginIdentifiers {
     const val KOTLIN_JVM = "kotlin"
     const val TESTLOGGER = "com.adarshr.test-logger"
     const val OSS_AUDIT = "org.sonatype.gradle.plugins.scan"
+    const val KTLINT = "org.jlleitschuh.gradle.ktlint"
+    const val DETEKT = "io.gitlab.arturbosch.detekt"
 }

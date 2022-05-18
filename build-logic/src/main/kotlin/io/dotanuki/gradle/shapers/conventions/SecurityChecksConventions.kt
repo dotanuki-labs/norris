@@ -4,7 +4,7 @@ import org.gradle.api.Project
 import org.sonatype.gradle.plugins.scan.ossindex.OssIndexPluginExtension
 
 fun Project.applySecurityConventions() {
-    val ossAuditExtension = extensions.findByName("ossAudit") as OssIndexPluginExtension
+    val ossAuditExtension = extensions.findByName("ossIndexAudit") as OssIndexPluginExtension
 
     ossAuditExtension.run {
         isAllConfigurations = true

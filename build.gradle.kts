@@ -14,22 +14,13 @@ buildscript {
         classpath(libs.kotlinx.serialization.gradle.plugin)
         classpath(libs.shot.gradle.plugin)
         classpath(libs.keeper.gradle.plugin)
+        classpath(libs.oss.audit.gradle.plugin)
+        classpath(libs.detekt.gradle.plugin)
+        classpath(libs.ktlint.gradle.plugin)
     }
 }
 
-plugins {
-    id("org.jlleitschuh.gradle.ktlint") version "10.3.0"
-    id("io.gitlab.arturbosch.detekt") version "1.20.0"
-}
-
-detekt {
-    config = files("$rootDir/detekt.yml")
-    reports {
-        xml.enabled = false
-        html.enabled = false
-        txt.enabled = false
-    }
-}
+apply(plugin = "norris.plugins.shapers.root")
 
 allprojects {
     repositories {
