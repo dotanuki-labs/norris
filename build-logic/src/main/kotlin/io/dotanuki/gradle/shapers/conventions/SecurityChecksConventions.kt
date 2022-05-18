@@ -1,6 +1,24 @@
-package conventions
+package io.dotanuki.gradle.shapers.conventions
 
 import org.gradle.api.Project
+import org.sonatype.gradle.plugins.scan.ossindex.OssIndexPluginExtension
+
+fun Project.applySecurityConventions() {
+    val ossAuditExtension = extensions.findByName("ossAudit") as OssIndexPluginExtension
+
+    ossAuditExtension.run {
+        isAllConfigurations = true
+        isPrintBanner = false
+        isShowAll = true
+        excludeVulnerabilityIds = vulnerabilitiesTracking.let {
+            logger.lifecycle("This project deliberately ignores some CVEs from its transistive dependencies")
+            it.entries
+                .onEach { (id, reason) -> logger.info(formattedMessage(id, reason)) }
+                .map { entry -> entry.key }
+                .toSet()
+        }
+    }
+}
 
 private val vulnerabilitiesTracking = mapOf(
     "7ea56ad4-8a8b-4e51-8ed9-5aad83d8efb1" to "Affecst junit4 for temp folder, which we dont use",
@@ -18,15 +36,6 @@ private val vulnerabilitiesTracking = mapOf(
     "5dbdb043-212c-4971-9653-d04e1cfc5080" to "Jsoup not used in the production artefact",
     "82848549-29bd-4594-b983-e61e4b2c6924" to "Android Lint not invoked in this project",
 )
-
-fun Project.ignoredVulnerabilities(): Set<String> =
-    vulnerabilitiesTracking.let {
-        logger.lifecycle("This project deliberately ignores CVEs for some of its transistive dependencies")
-        it.entries
-            .onEach { (id, reason) -> logger.info(formattedMessage(id, reason)) }
-            .map { entry -> entry.key }
-            .toSet()
-    }
 
 private fun formattedMessage(vulnerabilityId: String, reason: String): String =
     """

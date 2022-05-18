@@ -1,7 +1,7 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
-    kotlin("jvm") version "1.6.10"
+    kotlin("jvm") version "1.6.21"
     id("idea")
     id("org.gradle.java-gradle-plugin")
 }
@@ -40,6 +40,11 @@ gradlePlugin {
             id = "norris.plugins.shapers.app"
             implementationClass = "io.dotanuki.gradle.shapers.AndroidAppModulePlugin"
         }
+
+        create("norris-root-module") {
+            id = "norris.plugins.shapers.root"
+            implementationClass = "io.dotanuki.gradle.shapers.RootModulePlugin"
+        }
     }
 }
 
@@ -69,11 +74,13 @@ dependencies {
     val kgp = dependabot("org.jetbrains.kotlin:kotlin-gradle-plugin:1.6.21") { "kotlin-gradle-plugin" }
     val tgp = dependabot("com.adarshr:gradle-test-logger-plugin:3.2.0") { "testlogger-gradle-plugin" }
     val keeper = dependabot("com.slack.keeper:keeper:0.11.2") { "keeper-gradle-plugin" }
+    val ossAudit = dependabot("org.sonatype.gradle.plugins:scan-gradle-plugin:2.3.0") { "oss-audit-gradle-plugin" }
 
     implementation(agp)
     implementation(kgp)
     implementation(tgp)
     implementation(keeper)
+    implementation(ossAudit)
 
     // Gradle plugins
     dependabot("org.jetbrains.kotlin:kotlin-serialization:1.6.21") { "kotlinx-serialization-gradle-plugin" }

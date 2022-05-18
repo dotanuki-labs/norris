@@ -8,4 +8,5 @@ object PluginIdentifiers {
     const val KOTLIN_ANDROID = "kotlin-android"
     const val KOTLIN_JVM = "kotlin"
     const val TESTLOGGER = "com.adarshr.test-logger"
+    const val OSS_AUDIT = "org.sonatype.gradle.plugins.scan"
 }
