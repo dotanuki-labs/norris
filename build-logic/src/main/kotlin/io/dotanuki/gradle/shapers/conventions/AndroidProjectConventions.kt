@@ -2,8 +2,9 @@ package io.dotanuki.gradle.shapers.conventions
 
 import com.android.build.api.dsl.ApplicationExtension
 import com.android.build.api.dsl.BuildType
+import com.android.build.api.variant.ApplicationAndroidComponentsExtension
 import com.android.build.gradle.BaseExtension
-import com.slack.keeper.KeeperExtension
+import com.slack.keeper.optInToKeeper
 import io.dotanuki.gradle.catalogsourcer.DependabotBridge
 import io.dotanuki.gradle.shapers.definitions.AndroidDefinitions
 import io.dotanuki.gradle.shapers.definitions.ProguardDefinitions
@@ -12,7 +13,7 @@ import org.gradle.api.JavaVersion
 import org.gradle.api.Project
 import java.io.File
 import java.io.FileInputStream
-import java.util.Properties
+import java.util.*
 
 fun Project.applyAndroidStandardConventions() {
     val android = extensions.findByName("android") as BaseExtension
@@ -82,13 +83,18 @@ fun Project.applyAndroidApplicationConventions() {
     applyAndroidStandardConventions()
 
     val android = extensions.findByName("android") as ApplicationExtension
+    val androidComponents = extensions.findByName("androidComponents") as ApplicationAndroidComponentsExtension
 
-    if (isTestMode()) {
-        val keeper = extensions.findByName("keeper") as KeeperExtension
-        keeper.variantFilter {
-            it.setIgnore(name != "release")
+    androidComponents.beforeVariants { builder ->
+        if (isTestMode()) {
+            builder.optInToKeeper() // Helpful extension function
         }
     }
+
+//    val keeper = extensions.findByName("keeper") as KeeperExtension
+//    keeper.variantFilter {
+//        it.setIgnore(name != "release")
+//    }
 
     android.apply {
         testBuildType = when {
@@ -158,7 +164,7 @@ fun Project.applyAndroidApplicationConventions() {
         }
     }
 
-    if(isTestMode()) {
+    if (isTestMode()) {
         dependencies.add("releaseImplementation", DependabotBridge.extractDependencies()["leak-canary-release"])
     }
 }

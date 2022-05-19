@@ -70,10 +70,10 @@ dependencies {
     implementation(kotlin("stdlib-jdk8"))
     implementation(kotlin("android-extensions"))
 
-    val agp = dependabot("com.android.tools.build:gradle:7.1.3") { "android-gradle-plugin" }
+    val agp = dependabot("com.android.tools.build:gradle:7.2.0") { "android-gradle-plugin" }
     val kgp = dependabot("org.jetbrains.kotlin:kotlin-gradle-plugin:1.6.21") { "kotlin-gradle-plugin" }
     val tgp = dependabot("com.adarshr:gradle-test-logger-plugin:3.2.0") { "testlogger-gradle-plugin" }
-    val keeper = dependabot("com.slack.keeper:keeper:0.11.2") { "keeper-gradle-plugin" }
+    val keeper = dependabot("com.slack.keeper:keeper:0.12.0") { "keeper-gradle-plugin" }
     val ossAudit = dependabot("org.sonatype.gradle.plugins:scan-gradle-plugin:2.3.0") { "oss-audit-gradle-plugin" }
     val detekt = dependabot("io.gitlab.arturbosch.detekt:detekt-gradle-plugin:1.20.0") { "detekt-gradle-plugin" }
     val ktlint = dependabot("org.jlleitschuh.gradle:ktlint-gradle:10.3.0") { "ktlint-gradle-plugin" }

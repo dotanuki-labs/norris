@@ -14,10 +14,7 @@ class AndroidAppModulePlugin : Plugin<Project> {
         target.run {
             plugins.apply(PluginIdentifiers.AGP_APP)
             plugins.apply(PluginIdentifiers.KOTLIN_ANDROID)
-
-            if (target.isTestMode()) {
-                plugins.apply(PluginIdentifiers.KEEPER)
-            }
+            plugins.apply(PluginIdentifiers.KEEPER)
 
             applyKotlinProjectConventions()
             applyAndroidApplicationConventions()
