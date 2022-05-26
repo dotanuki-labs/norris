@@ -23,7 +23,7 @@ plugins {
     id("org.jlleitschuh.gradle.ktlint") version "10.3.0"
     id("io.gitlab.arturbosch.detekt") version "1.20.0"
     id("com.osacky.doctor") version "0.8.0"
-    id("io.github.cdsap.talaiot") version "1.5.2"
+    id("io.github.cdsap.talaiot") version "1.5.3"
     id("org.sonatype.gradle.plugins.scan") version "2.3.0"
 }
 
