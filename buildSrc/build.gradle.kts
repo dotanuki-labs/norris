@@ -137,7 +137,7 @@ dependencies {
     dependabot("org.slf4j:slf4j-nop:1.7.36") { "slf4j" }
     dependabot("org.robolectric:robolectric:4.8.1") { "robolectric" }
     dependabot("com.google.truth:truth:1.1.3") { "truth" }
-    dependabot("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.6.1") { "kotlinx-coroutines-test" }
+    dependabot("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.6.2") { "kotlinx-coroutines-test" }
     dependabot("androidx.test:core:1.4.0") { "androidx-test-core" }
     dependabot("androidx.test:core-ktx:1.4.0") { "androidx-test-corektx" }
     dependabot("androidx.test.ext:junit:1.1.3") { "androidx-testext-junit" }
