@@ -102,7 +102,7 @@ dependencies {
     dependabot("com.karumi:shot:5.14.1") { "shot-gradle-plugin" }
 
     // Kodein
-    dependabot("org.kodein.di:kodein-di-jvm:7.11.0") { "kodein-di-jvm" }
+    dependabot("org.kodein.di:kodein-di-jvm:7.12.0") { "kodein-di-jvm" }
     dependabot("org.kodein.type:kodein-type-jvm:1.12.0") { "kodein-type-jvm" }
 
     // Kotlinx
