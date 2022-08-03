@@ -167,7 +167,7 @@ jobs:
       matrix:
         device: ['nexus4', 'pixel']
 
-    runs-on: macOS-10.15
+    runs-on: macos-12
     needs: acceptance-tests
     timeout-minutes: 20
 
