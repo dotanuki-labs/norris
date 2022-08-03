@@ -21,7 +21,7 @@ buildscript {
 
 plugins {
     id("org.jlleitschuh.gradle.ktlint") version "10.3.0"
-    id("io.gitlab.arturbosch.detekt") version "1.20.0"
+    id("io.gitlab.arturbosch.detekt") version "1.21.0"
     id("com.osacky.doctor") version "0.8.1"
     id("org.sonatype.gradle.plugins.scan") version "2.4.0"
 }
