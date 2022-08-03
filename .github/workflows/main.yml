@@ -162,7 +162,7 @@ jobs:
           device: ${{ matrix.device }}
 
       - name: Run Screenshot tests
-        uses: reactivecircus/android-emulator-runner@v2.24.0
+        uses: reactivecircus/android-emulator-runner@v2.25.0
         with:
           api-level: 28
           target: 'google_apis'
