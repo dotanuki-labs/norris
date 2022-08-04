@@ -156,7 +156,7 @@ jobs:
           app: release-apk/app-release.apk
           test: test-apks/features/${{ matrix.module }}/build/outputs/apk/androidTest/debug/${{ matrix.module }}-debug-androidTest.apk
           outputs-dir: emulator-wtf-results
-          devices: model=pixel2,version=31,atd=false
+          devices: model=Pixel2,version=31
           use-orchestrator: true
           clear-package-data: true
 
