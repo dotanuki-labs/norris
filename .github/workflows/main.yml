@@ -218,9 +218,11 @@ jobs:
       - name: Copy all test results
         run: mkdir all-reports && mv *-tests-reports/ all-reports
 
-      - name: Report to thundra.io
+      - name: Analysis test results
         if: always()
-        uses: actions/upload-artifact@v3
+        uses: runforesight/foresight-test-kit-action@v1.1.1
         with:
-          name: test-result-junit
-          path: all-reports
+          api_key: ${{ secrets.FORESIGHT_API_KEY }}
+          test_format: JUNIT
+          test_framework: JUNIT
+          test_path: all-reports
