@@ -102,7 +102,7 @@ dependencies {
     dependabot("com.dropbox.dropshots:dropshots-gradle-plugin:0.3.0") { "dropshots-gradle-plugin" }
 
     // Kodein
-    dependabot("org.kodein.di:kodein-di-jvm:7.11.0") { "kodein-di-jvm" }
+    dependabot("org.kodein.di:kodein-di-jvm:7.14.0") { "kodein-di-jvm" }
     dependabot("org.kodein.type:kodein-type-jvm:1.13.0") { "kodein-type-jvm" }
 
     // Kotlinx
