@@ -180,8 +180,14 @@ jobs:
         with:
           norris-key: ${{ secrets.NORRIS_CRYPTO_KEY }}
 
-      - name: Scan project dependencies for Security issues
+      - name: Check security issues in project dependencies and generate SBOM
         run: ./gradlew clean ossIndexAudit --stacktrace
+
+      - name: Archive CycloneDx SBOM
+        uses: actions/upload-artifact@v3
+        with:
+          name: cyclonedx-sbom
+          path: ./oss-index-cyclonedx-bom.json
 
       - name: Fetch APK from previous build
         uses: actions/download-artifact@v3

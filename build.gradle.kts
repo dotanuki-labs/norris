@@ -1,4 +1,7 @@
+
 import conventions.ignoredVulnerabilities
+import org.sonatype.gradle.plugins.scan.ossindex.OutputFormat.JSON_CYCLONE_DX_1_4
+import shadow.nexus.shadow.org.cyclonedx.model.Component.Type
 
 buildscript {
 
@@ -47,6 +50,8 @@ ossIndexAudit {
     isPrintBanner = false
     isShowAll = true
     excludeVulnerabilityIds = ignoredVulnerabilities()
+    outputFormat = JSON_CYCLONE_DX_1_4
+    cycloneDxComponentType = Type.APPLICATION
 }
 
 allprojects {
