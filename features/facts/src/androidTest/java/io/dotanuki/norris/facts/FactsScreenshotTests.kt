@@ -1,27 +1,30 @@
 package io.dotanuki.norris.facts
 
-import androidx.test.filters.LargeTest
-import com.karumi.shot.ScreenshotTest
+import androidx.test.ext.junit.rules.ActivityScenarioRule
+import androidx.test.ext.junit.runners.AndroidJUnit4
+import com.dropbox.dropshots.Dropshots
 import io.dotanuki.norris.facts.presentation.FactDisplayRow
 import io.dotanuki.norris.facts.presentation.FactsPresentation
 import io.dotanuki.norris.facts.presentation.FactsScreenState
-import io.dotanuki.norris.facts.presentation.FactsScreenState.Empty
-import io.dotanuki.norris.facts.presentation.FactsScreenState.Failed
-import io.dotanuki.norris.facts.presentation.FactsScreenState.Success
 import io.dotanuki.norris.networking.errors.RemoteServiceIntegrationError
-import io.dotanuki.testing.screenshots.prepareToCaptureScreenshot
+import io.dotanuki.testing.screenshots.screenshot
+import org.junit.Rule
 import org.junit.Test
+import org.junit.runner.RunWith
 
-@LargeTest
-class FactsScreenshotTests : ScreenshotTest {
+@RunWith(AndroidJUnit4::class)
+class FactsScreenshotTests {
+
+    @get:Rule val activityScenarioRule = ActivityScenarioRule(FactsTestActivity::class.java)
+    @get:Rule val dropshots = Dropshots()
 
     @Test fun emptyState() {
-        checkScreenshot(Empty)
+        checkScreenshot(FactsScreenState.Empty)
     }
 
     @Test fun errorState() {
         val error = RemoteServiceIntegrationError.RemoteSystem
-        checkScreenshot(Failed(error))
+        checkScreenshot(FactsScreenState.Failed(error))
     }
 
     @Test fun successState() {
@@ -39,15 +42,22 @@ class FactsScreenshotTests : ScreenshotTest {
         )
 
         val presentation = FactsPresentation("humor", facts)
-        checkScreenshot(Success(presentation))
+        checkScreenshot(FactsScreenState.Success(presentation))
     }
 
     private fun checkScreenshot(targetState: FactsScreenState) {
-        val testActivity = prepareToCaptureScreenshot<FactsTestActivity> { target ->
-            listOf(FactsScreenState.Idle, targetState).forEach {
-                target.screen.updateWith(it)
+
+        val screenshotName = "FactsScreenshotTests-${targetState.javaClass.simpleName}State"
+
+        activityScenarioRule.scenario.screenshot(
+            prepare = { launched ->
+                listOf(FactsScreenState.Idle, targetState).forEach {
+                    launched.screen.updateWith(it)
+                }
+            },
+            capture = { resumed ->
+                dropshots.assertSnapshot(resumed, name = screenshotName)
             }
-        }
-        compareScreenshot(testActivity)
+        )
     }
 }

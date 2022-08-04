@@ -10,7 +10,7 @@ fun Project.applyScreenshotTestsConventions() {
     android.apply {
         defaultConfig {
             testApplicationId = "io.dotanuki.demos.norris.test"
-            testInstrumentationRunner = "com.karumi.shot.ShotTestRunner"
+            testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         }
 
 

@@ -69,12 +69,6 @@ fun Project.applyAndroidLibraryConventions() {
             }
         }
     }
-
-    tasks.whenTaskAdded {
-        if (name.startsWith("test") and name.contains("DebugUnitTest")) {
-            enabled = false
-        }
-    }
 }
 
 fun Project.applyAndroidApplicationConventions() {

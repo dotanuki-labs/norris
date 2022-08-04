@@ -1,15 +1,22 @@
 package io.dotanuki.norris.search
 
-import androidx.test.filters.LargeTest
+import androidx.test.ext.junit.rules.ActivityScenarioRule
+import androidx.test.ext.junit.runners.AndroidJUnit4
+import com.dropbox.dropshots.Dropshots
 import com.karumi.shot.ScreenshotTest
 import io.dotanuki.norris.networking.errors.RemoteServiceIntegrationError
 import io.dotanuki.norris.search.presentation.SearchScreenState
 import io.dotanuki.norris.search.presentation.SearchScreenState.Error
-import io.dotanuki.testing.screenshots.prepareToCaptureScreenshot
+import io.dotanuki.testing.screenshots.screenshot
+import org.junit.Rule
 import org.junit.Test
+import org.junit.runner.RunWith
 
-@LargeTest
+@RunWith(AndroidJUnit4::class)
 class SearchScreenshotTests : ScreenshotTest {
+
+    @get:Rule val activityScenarioRule = ActivityScenarioRule(SearchTestActivity::class.java)
+    @get:Rule val dropshots = Dropshots()
 
     @Test fun errorState() {
         val cause = RemoteServiceIntegrationError.RemoteSystem
@@ -35,12 +42,18 @@ class SearchScreenshotTests : ScreenshotTest {
     }
 
     private fun checkScreenshot(targetState: SearchScreenState) {
-        val testActivity = prepareToCaptureScreenshot<SearchTestActivity> { target ->
-            listOf(SearchScreenState.Idle, targetState).forEach {
-                target.screen.updateWith(it)
-            }
-        }
 
-        compareScreenshot(testActivity)
+        val screenshotName = "SearchScreenshotTests-${targetState.javaClass.simpleName}State"
+
+        activityScenarioRule.scenario.screenshot(
+            prepare = { launched ->
+                listOf(SearchScreenState.Idle, targetState).forEach {
+                    launched.screen.updateWith(it)
+                }
+            },
+            capture = { resumed ->
+                dropshots.assertSnapshot(resumed, name = screenshotName)
+            }
+        )
     }
 }

@@ -14,7 +14,7 @@ class NorrisAndroidFeatureModulePlugin : Plugin<Project> {
             plugins.apply("com.android.library")
             plugins.apply("kotlin-android")
             plugins.apply("com.adarshr.test-logger")
-            plugins.apply("shot")
+            plugins.apply("com.dropbox.dropshots")
 
             applyKotlinProjectConventions()
             applyTestLoggingConventions()
