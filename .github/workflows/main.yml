@@ -94,13 +94,15 @@ jobs:
           norris-key: ${{ secrets.NORRIS_CRYPTO_KEY }}
 
       - name: Assemble Instrumentation tests
-        run: ./gradlew app:assembleAndroidTest -PtestMode=true --stacktrace
+        run: ./gradlew assembleAndroidTest -PtestMode=true --stacktrace
 
       - name: Archive Test APK
         uses: actions/upload-artifact@v3
         with:
-          name: tests-apk
-          path: app/build/outputs/apk/androidTest/release
+          name: test-apks
+          path: |
+            app/build/outputs/apk/androidTest/release
+            features/**/build/outputs/apk/androidTest/debug
 
   acceptance-tests:
     runs-on: ubuntu-20.04
@@ -120,9 +122,9 @@ jobs:
         with:
           api-token: ${{ secrets.EMULATOR_WTF_TOKEN }}
           app: release-apk/app-release.apk
-          test: tests-apk/app-release-androidTest.apk
+          test: test-apks/app-release-androidTest.apk
           outputs-dir: emulator-wtf-results
-          devices: model=${{ matrix.device }},version=30,atd=true
+          devices: model=${{ matrix.device }},version=31,atd=true
           use-orchestrator: true
           clear-package-data: true
 
@@ -137,48 +139,33 @@ jobs:
     strategy:
       fail-fast: true
       matrix:
-        device: ['nexus4', 'pixel']
+        module: ['facts', 'search']
 
-    runs-on: macos-12
-    needs: acceptance-tests
-    timeout-minutes: 20
+    runs-on: ubuntu-20.04
+    timeout-minutes: 15
+    needs: [assemble-apk, espresso-prepare, unit-tests, static-analysis]
 
     steps:
-      - name: Project Checkout
-        uses: actions/checkout@v3
+      - name: Fetch Instrumentation artefacts
+        uses: actions/download-artifact@v3
 
-      - name: Setup Android Build
-        uses: ./.github/actions/setup-android-build
+      - name: Run screenshot tests over emulator.wtf
+        uses: emulator-wtf/run-tests@v0.0.10
         with:
-          norris-key: ${{ secrets.NORRIS_CRYPTO_KEY }}
+          api-token: ${{ secrets.EMULATOR_WTF_TOKEN }}
+          app: release-apk/app-release.apk
+          test: test-apks/${{ matrix.module }}-debug-androidTest.apk
+          outputs-dir: emulator-wtf-results
+          devices: model=pixel2,version=31,atd=false
+          use-orchestrator: true
+          clear-package-data: true
 
-      - name: Synchronize screenshots
-        run: ./scripts/screenshots-sync.sh ${{ matrix.device }}
-
-      - name: Assign emulator profile
-        id: emulator-profile
-        uses: ./.github/actions/assign-emulator-profile
-        with:
-          device: ${{ matrix.device }}
-
-      - name: Run Screenshot tests
-        uses: reactivecircus/android-emulator-runner@v2.25.0
-        with:
-          api-level: 28
-          target: 'google_apis'
-          profile: ${{ steps.emulator-profile.outputs.assigned }}
-          script: ./gradlew clean executeScreenTests --no-daemon --stacktrace
-
-      - name: Collect all test results from all modules
-        if: always()
-        run: ./scripts/aggregate-test-reports.sh build/test-reports
-
-      - name: Archive test results
+      - name: Archive execution results
         if: always()
         uses: actions/upload-artifact@v3
         with:
           name: screenshot-tests-reports
-          path: build/test-reports
+          path: emulator-wtf-results
 
   security-analysis:
     runs-on: ubuntu-20.04
