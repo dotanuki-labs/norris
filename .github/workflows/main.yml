@@ -194,7 +194,7 @@ jobs:
           INPUT_FILE: release-apk/app-release.apk
           MAPPING_FILE: release-mappings/mapping.txt
 
-  monitoring-test-executions:
+  test-results-analysis:
     runs-on: ubuntu-20.04
     timeout-minutes: 10
     needs: [acceptance-tests, screenshot-tests]
