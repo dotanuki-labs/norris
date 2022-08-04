@@ -155,7 +155,6 @@ jobs:
           api-token: ${{ secrets.EMULATOR_WTF_TOKEN }}
           app: release-apk/app-release.apk
           test: test-apks/features/${{ matrix.module }}/build/outputs/apk/androidTest/debug/${{ matrix.module }}-debug-androidTest.apk
-          directories-to-pull: /sdcard/Download/screenshots
           outputs-dir: emulator-wtf-results
           devices: model=Pixel2,version=31
           use-orchestrator: true
