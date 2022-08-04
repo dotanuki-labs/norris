@@ -137,7 +137,7 @@ jobs:
 
   screenshot-tests:
     strategy:
-      fail-fast: true
+      fail-fast: false
       matrix:
         module: ['facts', 'search']
 
