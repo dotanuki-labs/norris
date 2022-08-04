@@ -116,7 +116,7 @@ dependencies {
     // Androidx
     dependabot("androidx.core:core:1.7.0") { "androidx-core" }
     dependabot("androidx.core:core-ktx:1.7.0") { "androidx-core-ktx" }
-    dependabot("androidx.lifecycle:lifecycle-common:2.4.1") { "androidx-lifecycle-common" }
+    dependabot("androidx.lifecycle:lifecycle-common:2.5.1") { "androidx-lifecycle-common" }
     dependabot("androidx.lifecycle:lifecycle-runtime-ktx:2.4.1") { "androidx-lifecycle-runtime" }
     dependabot("androidx.lifecycle:lifecycle-viewmodel:2.4.1") { "androidx-lifecycle-vm" }
     dependabot("androidx.lifecycle:lifecycle-viewmodel-ktx:2.4.1") { "androidx-lifecycle-vm-ktx" }
@@ -124,7 +124,7 @@ dependencies {
     dependabot("androidx.swiperefreshlayout:swiperefreshlayout:1.1.0") { "androidx-swipetorefresh" }
     dependabot("androidx.coordinatorlayout:coordinatorlayout:1.2.0") { "androidx-coordinatorlayout" }
     dependabot("androidx.recyclerview:recyclerview:1.2.1") { "androidx-recyclerview" }
-    dependabot("com.google.android.material:material:1.6.0") { "google-material-design" }
+    dependabot("com.google.android.material:material:1.6.1") { "google-material-design" }
 
     // Networking
     dependabot("com.squareup.okhttp3:okhttp:4.9.3") { "square-okhttp" }
