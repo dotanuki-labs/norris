@@ -114,7 +114,7 @@ dependencies {
     dependabot("org.jetbrains.kotlinx:kotlinx-serialization-json:1.3.3") { "kotlinx-serialization-json" }
 
     // Androidx
-    dependabot("androidx.core:core:1.7.0") { "androidx-core" }
+    dependabot("androidx.core:core:1.8.0") { "androidx-core" }
     dependabot("androidx.core:core-ktx:1.8.0") { "androidx-core-ktx" }
     dependabot("androidx.lifecycle:lifecycle-common:2.5.1") { "androidx-lifecycle-common" }
     dependabot("androidx.lifecycle:lifecycle-runtime-ktx:2.5.1") { "androidx-lifecycle-runtime" }
