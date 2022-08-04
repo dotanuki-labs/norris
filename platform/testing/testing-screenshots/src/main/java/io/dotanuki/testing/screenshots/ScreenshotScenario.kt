@@ -12,7 +12,7 @@ inline fun <reified T : Activity> ActivityScenario<T>.screenshot(
 
     onActivity {
         prepare(it)
-        Thread.sleep(1000L)
+        Thread.sleep(2000L)
     }
 
     moveToState(Lifecycle.State.RESUMED)

@@ -23,15 +23,6 @@ class SearchScreenshotTests : ScreenshotTest {
         checkScreenshot(Error(cause))
     }
 
-    @Test fun contentWithoutHistory() {
-        val content = SearchScreenState.Content(
-            suggestions = listOf("career", "celebrity", "dev"),
-            history = emptyList()
-        )
-
-        checkScreenshot(content)
-    }
-
     @Test fun contentWithHistory() {
         val content = SearchScreenState.Content(
             suggestions = listOf("science", "celebrity", "humor"),
