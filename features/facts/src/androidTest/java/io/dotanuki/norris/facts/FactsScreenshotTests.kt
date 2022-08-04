@@ -2,6 +2,7 @@ package io.dotanuki.norris.facts
 
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
+import com.dropbox.differ.SimpleImageComparator
 import com.dropbox.dropshots.Dropshots
 import io.dotanuki.norris.facts.presentation.FactDisplayRow
 import io.dotanuki.norris.facts.presentation.FactsPresentation
@@ -16,7 +17,9 @@ import org.junit.runner.RunWith
 class FactsScreenshotTests {
 
     @get:Rule val activityScenarioRule = ActivityScenarioRule(FactsTestActivity::class.java)
-    @get:Rule val dropshots = Dropshots()
+    @get:Rule val dropshots = Dropshots(
+        imageComparator = SimpleImageComparator(maxDistance = 0.007f)
+    )
 
     @Test fun emptyState() {
         checkScreenshot(FactsScreenState.Empty)

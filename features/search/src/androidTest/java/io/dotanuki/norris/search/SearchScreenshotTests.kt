@@ -2,6 +2,7 @@ package io.dotanuki.norris.search
 
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
+import com.dropbox.differ.SimpleImageComparator
 import com.dropbox.dropshots.Dropshots
 import com.karumi.shot.ScreenshotTest
 import io.dotanuki.norris.networking.errors.RemoteServiceIntegrationError
@@ -16,7 +17,9 @@ import org.junit.runner.RunWith
 class SearchScreenshotTests : ScreenshotTest {
 
     @get:Rule val activityScenarioRule = ActivityScenarioRule(SearchTestActivity::class.java)
-    @get:Rule val dropshots = Dropshots()
+    @get:Rule val dropshots = Dropshots(
+        imageComparator = SimpleImageComparator(maxDistance = 0.007f)
+    )
 
     @Test fun errorState() {
         val cause = RemoteServiceIntegrationError.RemoteSystem
