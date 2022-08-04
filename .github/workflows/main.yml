@@ -164,7 +164,7 @@ jobs:
         if: always()
         uses: actions/upload-artifact@v3
         with:
-          name: screenshot-tests-reports
+          name: screenshot-tests-reports-${{ matrix.module }}
           path: emulator-wtf-results
 
   security-analysis:
