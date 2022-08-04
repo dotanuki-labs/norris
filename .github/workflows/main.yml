@@ -122,7 +122,7 @@ jobs:
         with:
           api-token: ${{ secrets.EMULATOR_WTF_TOKEN }}
           app: release-apk/app-release.apk
-          test: test-apks/app-release-androidTest.apk
+          test: test-apks/app/build/outputs/apk/androidTest/release/app-release-androidTest.apk
           outputs-dir: emulator-wtf-results
           devices: model=${{ matrix.device }},version=31,atd=true
           use-orchestrator: true
@@ -154,7 +154,7 @@ jobs:
         with:
           api-token: ${{ secrets.EMULATOR_WTF_TOKEN }}
           app: release-apk/app-release.apk
-          test: test-apks/${{ matrix.module }}-debug-androidTest.apk
+          test: test-apks/features/${{ matrix.module }}/build/outputs/apk/androidTest/debug/${{ matrix.module }}-debug-androidTest.apk
           outputs-dir: emulator-wtf-results
           devices: model=pixel2,version=31,atd=false
           use-orchestrator: true
