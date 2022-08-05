@@ -1,4 +1,4 @@
-package io.dotanuki.norris.facts
+package io.dotanuki.norris.facts.test
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity

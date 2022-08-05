@@ -1,10 +1,8 @@
-package io.dotanuki.demos.norris
+package io.dotanuki.demos.norris.test
 
-import android.view.View
 import androidx.test.espresso.Espresso
 import androidx.test.espresso.base.DefaultFailureHandler
 import androidx.test.platform.app.InstrumentationRegistry
-import org.hamcrest.Matcher
 import radiography.Radiography
 
 object PrettyEspressoErrors {

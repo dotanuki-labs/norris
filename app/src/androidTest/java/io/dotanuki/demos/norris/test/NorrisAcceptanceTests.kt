@@ -1,4 +1,4 @@
-package io.dotanuki.demos.norris
+package io.dotanuki.demos.norris.test
 
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.adevinta.android.barista.interaction.BaristaClickInteractions.clickOn

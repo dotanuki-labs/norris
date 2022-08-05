@@ -1,4 +1,4 @@
-package io.dotanuki.norris.search
+package io.dotanuki.norris.search.test
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
