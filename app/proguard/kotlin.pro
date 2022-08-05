@@ -13,3 +13,5 @@
 	public static void throwIllegalArgument(...);
 	public static void throwIllegalState(...);
 }
+
+-keepclasseswithmembers class kotlin.text.**
