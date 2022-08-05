@@ -2,8 +2,9 @@ package conventions
 
 import com.android.build.api.dsl.ApplicationExtension
 import com.android.build.api.dsl.BuildType
+import com.android.build.api.extension.impl.ApplicationAndroidComponentsExtensionImpl
 import com.android.build.gradle.BaseExtension
-import com.slack.keeper.KeeperExtension
+import com.slack.keeper.optInToKeeper
 import definitions.AndroidDefinitions
 import definitions.ProguardDefinitions
 import definitions.Versioning
@@ -74,16 +75,18 @@ fun Project.applyAndroidLibraryConventions() {
 fun Project.applyAndroidApplicationConventions() {
     applyAndroidStandardConventions()
 
-    val android = extensions.findByName("android") as ApplicationExtension
-
     if (isTestMode()) {
-        val keeper = extensions.findByName("keeper") as KeeperExtension
-        keeper.variantFilter {
-            setIgnore(name != "release")
+        val androidComponents = extensions.findByName("androidComponents") as ApplicationAndroidComponentsExtensionImpl
+
+        androidComponents.beforeVariants {
+            it.optInToKeeper()
         }
     }
 
+    val android = extensions.findByName("android") as ApplicationExtension
+
     android.apply {
+
         testBuildType = when {
             isTestMode() -> "release"
             else -> "debug"

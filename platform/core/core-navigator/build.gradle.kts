@@ -8,7 +8,6 @@ dependencies {
 
     implementation(Deps.androidxAppCompat)
     implementation(Deps.kodeinDi)
-    implementation(Deps.kodeinType)
 
     testImplementation(projects.platform.testing.testingCommons)
     testImplementation(Deps.junit4)

@@ -7,8 +7,6 @@ dependencies {
     implementation(projects.platform.core.coreNetworking)
 
     implementation(Deps.kodeinDi)
-    implementation(Deps.kodeinType)
-
     implementation(Deps.okHttp)
     implementation(Deps.okHttpLogging)
     implementation(Deps.retrofit)

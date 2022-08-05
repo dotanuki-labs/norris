@@ -82,10 +82,10 @@ dependencies {
     // Gradle build scripts, eg <root-project>/build.gradle.kts
     // Note that not all Gradle plugins in this project use the legacy convention
 
-    val agp = dependabot("com.android.tools.build:gradle:7.1.3") { "android-gradle-plugin" }
-    val kgp = dependabot("org.jetbrains.kotlin:kotlin-gradle-plugin:1.6.21") { "kotlin-gradle-plugin" }
+    val agp = dependabot("com.android.tools.build:gradle:7.2.2") { "android-gradle-plugin" }
+    val kgp = dependabot("org.jetbrains.kotlin:kotlin-gradle-plugin:1.7.10") { "kotlin-gradle-plugin" }
     val tgp = dependabot("com.adarshr:gradle-test-logger-plugin:3.2.0") { "testlogger-gradle-plugin" }
-    val keeper = dependabot("com.slack.keeper:keeper:0.11.2") { "keeper-gradle-plugin" }
+    val keeper = dependabot("com.slack.keeper:keeper:0.12.0") { "keeper-gradle-plugin" }
 
     implementation(agp)
     implementation(kgp)
@@ -93,17 +93,17 @@ dependencies {
     implementation(keeper)
     implementation(kotlin("stdlib-jdk8"))
     implementation(kotlin("android-extensions"))
+    implementation("com.android.tools.build:gradle:7.2.2")
 
     // Used on Gradle scripts outside buildSrc,
     // either as build script dependency or some other configuration
 
     // Gradle plugins
-    dependabot("org.jetbrains.kotlin:kotlin-serialization:1.6.21") { "kotlinx-serialization-gradle-plugin" }
+    dependabot("org.jetbrains.kotlin:kotlin-serialization:1.7.10") { "kotlinx-serialization-gradle-plugin" }
     dependabot("com.dropbox.dropshots:dropshots-gradle-plugin:0.3.0") { "dropshots-gradle-plugin" }
 
     // Kodein
-    dependabot("org.kodein.di:kodein-di-jvm:7.11.0") { "kodein-di-jvm" }
-    dependabot("org.kodein.type:kodein-type-jvm:1.13.0") { "kodein-type-jvm" }
+    dependabot("org.kodein.di:kodein-di-jvm:7.14.0") { "kodein-di-jvm" }
 
     // Kotlinx
     dependabot("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4") { "kotlinx-coroutines-core" }

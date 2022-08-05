@@ -13,8 +13,8 @@ fun Project.applyKotlinProjectConventions() {
         withType<KotlinCompile>().configureEach {
             kotlinOptions.jvmTarget = "11"
             kotlinOptions.freeCompilerArgs += listOf(
-                "-Xopt-in=kotlin.time.ExperimentalTime",
-                "-Xopt-in=kotlin.RequiresOptIn"
+                "-opt-in=kotlin.time.ExperimentalTime",
+                "-opt-in=kotlin.RequiresOptIn"
             )
         }
 
