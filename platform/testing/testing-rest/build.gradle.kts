@@ -13,6 +13,5 @@ dependencies {
     implementation(Deps.retrofit)
     implementation(Deps.kotlinSerializationJson)
     implementation(Deps.kodeinDi)
-    implementation(Deps.kodeinType)
     implementation(Deps.junit4)
 }

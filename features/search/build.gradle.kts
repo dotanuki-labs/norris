@@ -11,7 +11,6 @@ dependencies {
     implementation(projects.platform.core.corePersistance)
 
     implementation(Deps.kodeinDi)
-    implementation(Deps.kodeinType)
     implementation(Deps.coroutinesCore)
     implementation(Deps.coroutinesAndroid)
     implementation(Deps.coroutinesJvm)

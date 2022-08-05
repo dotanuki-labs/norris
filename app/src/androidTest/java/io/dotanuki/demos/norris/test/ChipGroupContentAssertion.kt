@@ -1,4 +1,4 @@
-package io.dotanuki.demos.norris
+package io.dotanuki.demos.norris.test
 
 import android.view.View
 import androidx.core.view.children

@@ -15,7 +15,6 @@ dependencies {
     implementation(projects.features.search)
 
     implementation(Deps.kodeinDi)
-    implementation(Deps.kodeinType)
     implementation(Deps.coroutinesCore)
     implementation(Deps.coroutinesJvm)
     implementation(Deps.coroutinesAndroid)

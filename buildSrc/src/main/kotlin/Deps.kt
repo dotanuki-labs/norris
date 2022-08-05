@@ -14,7 +14,6 @@ object Deps {
 
     // Kodein
     val kodeinDi by deps.coordinates("kodein-di-jvm")
-    val kodeinType by deps.coordinates("kodein-type-jvm")
 
     // Kotlinx
     val coroutinesCore by deps.coordinates("kotlinx-coroutines-core")

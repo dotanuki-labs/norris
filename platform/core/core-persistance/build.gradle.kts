@@ -7,7 +7,6 @@ dependencies {
 
     implementation(Deps.coroutinesCore)
     implementation(Deps.kodeinDi)
-    implementation(Deps.kodeinType)
 
     testImplementation(Deps.junit4)
     testImplementation(Deps.truth)

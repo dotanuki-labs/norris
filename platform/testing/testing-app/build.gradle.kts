@@ -10,7 +10,6 @@ dependencies {
     implementation(projects.platform.core.corePersistance)
 
     implementation(Deps.kodeinDi)
-    implementation(Deps.kodeinType)
     implementation(Deps.androidxLifecycleCommon)
     implementation(Deps.okHttp)
     implementation(Deps.robolectric)
