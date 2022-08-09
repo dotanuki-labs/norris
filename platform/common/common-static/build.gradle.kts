@@ -4,5 +4,5 @@ plugins {
 }
 
 dependencies {
-    implementation(Deps.googleMaterialDesign)
+    implementation(libs.google.material.design)
 }

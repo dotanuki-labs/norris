@@ -4,7 +4,6 @@ import androidx.test.ext.junit.rules.ActivityScenarioRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.dropbox.differ.SimpleImageComparator
 import com.dropbox.dropshots.Dropshots
-import com.karumi.shot.ScreenshotTest
 import io.dotanuki.norris.networking.errors.RemoteServiceIntegrationError
 import io.dotanuki.norris.search.presentation.SearchScreenState
 import io.dotanuki.norris.search.presentation.SearchScreenState.Error
@@ -14,7 +13,7 @@ import org.junit.Test
 import org.junit.runner.RunWith
 
 @RunWith(AndroidJUnit4::class)
-class SearchScreenshotTests : ScreenshotTest {
+class SearchScreenshotTests {
 
     @get:Rule val activityScenarioRule = ActivityScenarioRule(SearchTestActivity::class.java)
     @get:Rule val dropshots = Dropshots(

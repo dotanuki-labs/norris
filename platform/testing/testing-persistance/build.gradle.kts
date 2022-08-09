@@ -5,8 +5,9 @@ plugins {
 
 dependencies {
     implementation(projects.platform.core.corePersistance)
-    implementation(Deps.kodeinDi)
-    implementation(Deps.coroutinesCore)
-    implementation(Deps.coroutinesJvm)
-    implementation(Deps.androidxTestMonitor)
+
+    implementation(libs.kodein.di.jvm)
+    implementation(libs.kotlinx.coroutines.core)
+    implementation(libs.kotlinx.coroutines.jvm)
+    implementation(libs.androidx.test.monitor)
 }

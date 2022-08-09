@@ -5,8 +5,8 @@ plugins {
 dependencies {
     implementation(projects.platform.common.commonKodein)
 
-    implementation(Deps.kodeinDi)
-    implementation(Deps.androidxAppCompat)
-    implementation(Deps.androidxLifecycleCommon)
-    implementation(Deps.coroutinesJvm)
+    implementation(libs.kodein.di.jvm)
+    implementation(libs.androidx.appcompat)
+    implementation(libs.androidx.lifecycle.common)
+    implementation(libs.kotlinx.coroutines.jvm)
 }
