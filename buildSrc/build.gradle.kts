@@ -58,11 +58,10 @@ gradlePlugin {
 dependencies {
     project.logger.lifecycle("This project manages dependencies with Dependabot")
 
-    implementation("com.android.tools.build:gradle:7.2.2")
-    implementation("org.jetbrains.kotlin:kotlin-gradle-plugin:1.7.10")
-    implementation("com.adarshr:gradle-test-logger-plugin:3.2.0")
-    implementation("com.slack.keeper:keeper:0.12.0")
     implementation(kotlin("stdlib-jdk8"))
     implementation(kotlin("android-extensions"))
-    implementation("com.android.tools.build:gradle:7.2.2")
+    implementation(deps.android.build.tools)
+    implementation(deps.gradle.kotlin)
+    implementation(deps.gradle.testlogger)
+    implementation(deps.gradle.keeper)
 }
