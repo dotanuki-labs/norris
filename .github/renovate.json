@@ -1,11 +1,13 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "extends": [
-    "config:base"
+    ":prHourlyLimit2",
+    "group:monorepos",
+    "workarounds:all"
   ],
   "packageRules": [
     {
-      "matchUpdateTypes": ["major", "minor", "patch", "pin"],
+      "matchUpdateTypes": ["major", "minor", "patch"],
       "automerge": false
     }
   ],
