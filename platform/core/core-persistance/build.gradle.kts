@@ -1,14 +1,13 @@
-
 plugins {
     id("norris.modules.android.platform")
 }
 
 dependencies {
 
-    implementation(Deps.coroutinesCore)
-    implementation(Deps.kodeinDi)
+    implementation(libs.kodein.di.jvm)
+    implementation(libs.kotlinx.coroutines.core)
 
-    testImplementation(Deps.junit4)
-    testImplementation(Deps.truth)
-    testImplementation(Deps.coroutinesJvm)
+    testImplementation(libs.junit4)
+    testImplementation(libs.google.truth)
+    testImplementation(libs.kotlinx.coroutines.jvm)
 }

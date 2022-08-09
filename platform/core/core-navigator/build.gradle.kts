@@ -6,11 +6,11 @@ plugins {
 dependencies {
     implementation(projects.platform.common.commonKodein)
 
-    implementation(Deps.androidxAppCompat)
-    implementation(Deps.kodeinDi)
+    implementation(libs.kodein.di.jvm)
+    implementation(libs.androidx.appcompat)
 
     testImplementation(projects.platform.testing.testingCommons)
-    testImplementation(Deps.junit4)
-    testImplementation(Deps.truth)
-    testImplementation(Deps.robolectric)
+    testImplementation(libs.google.truth)
+    testImplementation(libs.junit4)
+    testImplementation(libs.robolectric)
 }

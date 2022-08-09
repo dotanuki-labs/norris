@@ -4,9 +4,9 @@ plugins {
 }
 
 dependencies {
-    implementation(Deps.coroutinesCore)
-    implementation(Deps.coroutinesJvm)
-    implementation(Deps.coroutinesTest)
-    implementation(Deps.junit4)
-    implementation(Deps.truth)
+    implementation(libs.kotlinx.coroutines.core)
+    implementation(libs.kotlinx.coroutines.jvm)
+    implementation(libs.kotlinx.coroutines.test)
+    implementation(libs.google.truth)
+    implementation(libs.junit4)
 }

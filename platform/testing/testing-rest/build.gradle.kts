@@ -7,11 +7,11 @@ dependencies {
     implementation(projects.platform.core.coreNetworking)
     implementation(projects.platform.core.coreRest)
 
-    implementation(Deps.okHttp)
-    implementation(Deps.okHttpLogging)
-    implementation(Deps.okHttpMockWebServer)
-    implementation(Deps.retrofit)
-    implementation(Deps.kotlinSerializationJson)
-    implementation(Deps.kodeinDi)
-    implementation(Deps.junit4)
+    implementation(libs.square.okhttp.core)
+    implementation(libs.square.okhttp.logging)
+    implementation(libs.square.okhttp.mockwebserver)
+    implementation(libs.square.retrofit)
+    implementation(libs.kotlinx.serialization.json)
+    implementation(libs.kodein.di.jvm)
+    implementation(libs.junit4)
 }
