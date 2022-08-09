@@ -53,6 +53,11 @@ gradlePlugin {
             id = "norris.modules.android.app"
             implementationClass = "plugins.NorrisAndroidApplicationModulePlugin"
         }
+
+        register("platform-checks-plugin") {
+            id = "norris.platform.checks"
+            implementationClass = "plugins.PlatformChecksPlugin"
+        }
     }
 }
 dependencies {
@@ -60,8 +65,11 @@ dependencies {
 
     implementation(kotlin("stdlib-jdk8"))
     implementation(kotlin("android-extensions"))
-    implementation(deps.android.build.tools)
+    implementation(deps.gradle.android)
     implementation(deps.gradle.kotlin)
     implementation(deps.gradle.testlogger)
     implementation(deps.gradle.keeper)
+    implementation(deps.gradle.ktlint)
+    implementation(deps.gradle.detekt)
+    implementation(deps.gradle.oss.scan)
 }
