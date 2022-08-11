@@ -12,6 +12,15 @@ pull_request_rules:
       merge:
         method: squash
 
+  - name: Automatic merges for Renovate pull requests
+    conditions:
+      - author~=^renovate\[bot\]$
+      - check-success=security-analysis
+      - check-success=test-results-analysis
+    actions:
+      merge:
+        method: squash
+
   - name: Automatic merges for Dotanukibot pull requests
     conditions:
       - author~=^dotanukibot
