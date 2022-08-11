@@ -5,13 +5,14 @@
     "group:monorepos",
     "workarounds:all"
   ],
+  "enabledManagers": ["gradle"],
   "packageRules": [
     {
       "matchUpdateTypes": ["major", "minor", "patch"],
       "automerge": false
     }
   ],
-  "labels": ["dependencies"],
+  "labels": ["dependencies", "gradle"],
   "gradle": {
     "fileMatch": ["(^|\/)gradle\/.+\.toml$", "\.versions\.toml$"]
   }
