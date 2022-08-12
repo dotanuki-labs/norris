@@ -10,7 +10,7 @@ setup() {
 readonly cyan="\033[1;36m"
 readonly normal="\033[0m"
 
-readonly help_linters="Runs Ktlint and Detekt for all configured modules"
+readonly help_linters="Runs Ktlint and Detekt for all source files"
 readonly help_unit_tests="Runs JVM/Robolectric tests for all modules"
 readonly help_acceptance_tests="Runs acceptance tests over the product. Requires an online device"
 
@@ -37,8 +37,7 @@ clean() {
 }
 
 static_analysis() {
-    clean
-    ./gradlew ktlintCheck detekt --no-daemon --stacktrace
+    ./scripts/static-analysis.sh both
 }
 
 jvm_tests() {

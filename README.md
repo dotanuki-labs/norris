@@ -80,19 +80,11 @@ so you can chose between :
 
 - Run static analysers ([Ktlint](https://github.com/pinterest/ktlint) and [Detekt](https://arturbosch.github.io/detekt/))
 - Run all unit/integration tests over JVM
-- Run all screenshot tests over Android/Instrumentation
 - Run acceptance tests over with Espresso
-
-Please note that an online device is required in order to run screenshot/acceptance tests .
-I recommend `api-28/google-apis` with `pixel` device profile as the your AVD configuration for that. Note that we have a companion `scripts/screenshots-sync.sh` to sync images required for local screenshot testing.
-
-```
-./scripts/screenshots-sync.sh pixel
-```
 
 Also note that local builds **require JDK11**, since this project compiles against Java11 bytecode.
 
-In addition to that, this project requires [latest stable release of Android Studio](https://developer.android.com/studio/releases), ie, 7.x.z (Artic Fox) or newer.
+In addition to that, this project requires [latest stable release of Android Studio](https://developer.android.com/studio/releases), ie, 2021.2.x (ChimpMunk) or newer.
 
 ## Credits
 
