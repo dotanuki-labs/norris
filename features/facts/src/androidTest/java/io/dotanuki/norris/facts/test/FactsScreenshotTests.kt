@@ -17,6 +17,7 @@ import org.junit.runner.RunWith
 class FactsScreenshotTests {
 
     @get:Rule val activityScenarioRule = ActivityScenarioRule(FactsTestActivity::class.java)
+
     @get:Rule val dropshots = Dropshots(
         imageComparator = SimpleImageComparator(maxDistance = 0.007f)
     )

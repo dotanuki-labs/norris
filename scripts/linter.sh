@@ -11,7 +11,7 @@ readonly normal="\033[0m"
 readonly cache_dir="$HOME/.dotanuki/cached"
 
 readonly ktlint_version="0.46.1"
-readonly ktlint_home="$cache_dir/$ktlint_version"
+readonly ktlint_home="$cache_dir/ktlint/$ktlint_version"
 readonly ktlint_bin="$ktlint_home/ktlint"
 readonly ktlint_releases="https://github.com/pinterest/ktlint/releases/download"
 
@@ -27,7 +27,7 @@ run_ktlint() {
 	echo -e "${cyan}• Running ktlint (v$ktlint_version)${normal}"
 	echo
 	
-	"$ktlint_bin" --version
+	"$ktlint_bin" --reporter=plain?group_by_file --android
 
 	echo
 	echo -e "${cyan}• No issues found with ktlint${normal}"

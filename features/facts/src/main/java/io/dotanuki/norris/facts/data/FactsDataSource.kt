@@ -23,7 +23,7 @@ class FactsDataSource(
             ChuckNorrisFact(
                 id = it.id,
                 shareableUrl = it.url,
-                textual = it.value,
+                textual = it.value
             )
         }
 }

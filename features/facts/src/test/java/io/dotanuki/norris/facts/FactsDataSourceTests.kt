@@ -55,12 +55,12 @@ internal class FactsDataSourceTests {
             ChuckNorrisFact(
                 id = "lhan43nqsgowtaffzxouua",
                 shareableUrl = "https://api.chucknorris.io/jokes/lhan43nqsgowtaffzxouua",
-                textual = "Police label anyone attacking Chuck Norris as a Code 45-11.... A suicide.",
+                textual = "Police label anyone attacking Chuck Norris as a Code 45-11.... A suicide."
             ),
             ChuckNorrisFact(
                 id = "2wzginmks8azrbaxnamxdw",
                 shareableUrl = "https://api.chucknorris.io/jokes/2wzginmks8azrbaxnamxdw",
-                textual = "SQL statements that Chuck Norris code have implicit COMMITs in its end.",
+                textual = "SQL statements that Chuck Norris code have implicit COMMITs in its end."
             )
         )
 
