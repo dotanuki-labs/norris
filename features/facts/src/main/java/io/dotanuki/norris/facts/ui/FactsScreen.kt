@@ -138,10 +138,7 @@ class WrappedContainer : FactsScreen {
 
         val highlightedFact = SpannableString(query).apply {
             setSpan(StyleSpan(Typeface.BOLD), 0, query.length, Spannable.SPAN_EXCLUSIVE_INCLUSIVE)
-            setSpan(
-                ForegroundColorSpan(highlightColor), 0, query.length,
-                Spannable.SPAN_EXCLUSIVE_INCLUSIVE
-            )
+            setSpan(ForegroundColorSpan(highlightColor), 0, query.length, Spannable.SPAN_EXCLUSIVE_INCLUSIVE)
         }
 
         val prefix = hostActivity.getString(R.string.headline_facts)

@@ -15,13 +15,8 @@ jobs:
       - name: Project Checkout
         uses: actions/checkout@v3
 
-      - name: Setup Android Build
-        uses: ./.github/actions/setup-android-build
-        with:
-          norris-key: ${{ secrets.NORRIS_CRYPTO_KEY }}
-
       - name: Check code formatting
-        run: ./gradlew ktlintCheck detekt --stacktrace
+        run: ./scripts/static-analysis.sh all
 
   unit-tests:
     runs-on: ubuntu-20.04

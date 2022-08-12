@@ -17,8 +17,6 @@ buildscript {
         classpath(libs.gradle.keeper)
         classpath(libs.gradle.dropshots)
         classpath(libs.gradle.oss.scan)
-        classpath(libs.gradle.ktlint)
-        classpath(libs.gradle.detekt)
     }
 }
 

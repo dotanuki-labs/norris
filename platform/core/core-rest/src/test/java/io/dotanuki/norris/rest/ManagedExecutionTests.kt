@@ -25,7 +25,7 @@ internal class ManagedExecutionTests {
             UnknownHostException("No Internet") to HostUnreachable,
             SerializationException("Ouch") to UnexpectedResponse,
             httpException() to RemoteSystem,
-            otherError to otherError,
+            otherError to otherError
         ).forEach { (incoming, expected) ->
             runBlocking {
                 val result = runCatching { managedExecution { emulateError(incoming) } }

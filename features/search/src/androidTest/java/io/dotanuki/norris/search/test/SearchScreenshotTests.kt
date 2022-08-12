@@ -16,6 +16,7 @@ import org.junit.runner.RunWith
 class SearchScreenshotTests {
 
     @get:Rule val activityScenarioRule = ActivityScenarioRule(SearchTestActivity::class.java)
+
     @get:Rule val dropshots = Dropshots(
         imageComparator = SimpleImageComparator(maxDistance = 0.007f)
     )

@@ -13,7 +13,6 @@ fun Project.applyScreenshotTestsConventions() {
             testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         }
 
-
         packagingOptions {
             excludes.add("META-INF/*.kotlin_module")
             excludes.add("META-INF/AL2.0")

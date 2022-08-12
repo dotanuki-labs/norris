@@ -69,7 +69,5 @@ dependencies {
     implementation(deps.gradle.kotlin)
     implementation(deps.gradle.testlogger)
     implementation(deps.gradle.keeper)
-    implementation(deps.gradle.ktlint)
-    implementation(deps.gradle.detekt)
     implementation(deps.gradle.oss.scan)
 }
