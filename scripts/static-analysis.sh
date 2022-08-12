@@ -64,9 +64,9 @@ readonly help_all="Run ktlint and detekt for this project"
 usage() {
     echo "Usage instructions:"
     echo
-    echo -e " ‣ linter.sh ${cyan}ktlint${normal}  $help_ktlint"
-    echo -e " ‣ linter.sh ${cyan}detekt${normal}  $help_detekt"    
-    echo -e " ‣ linter.sh ${cyan}all${normal}     $help_all"   
+    echo -e " ‣ static-analysis.sh ${cyan}ktlint${normal}  $help_ktlint"
+    echo -e " ‣ static-analysis.sh ${cyan}detekt${normal}  $help_detekt"    
+    echo -e " ‣ static-analysis.sh ${cyan}all${normal}     $help_all"   
 }
 
 
@@ -74,7 +74,7 @@ readonly what="$1"
 
 main() {
     if [[ -z "$what" ]]; then
-        echo "Error: no command supplied"
+        echo "Error: no linter supplied"
         usage
         return
     fi
