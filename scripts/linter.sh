@@ -25,11 +25,9 @@ run_ktlint() {
 	fi
 
 	echo -e "${cyan}• Running ktlint (v$ktlint_version)${normal}"
-	echo
 	
 	"$ktlint_bin" --reporter=plain?group_by_file --android
 
-	echo
 	echo -e "${cyan}• No issues found with ktlint${normal}"
 }
 
@@ -52,12 +50,10 @@ run_detekt() {
 	    chmod +x "$detekt_bin"
 	fi
 
-	echo -e "${cyan}• Running detekt (v$ktlint_version)${normal}"
-	echo
+	echo -e "${cyan}• Running detekt (v$detekt_version)${normal}"
 	
-	"$detekt_bin" --version
+	"$detekt_bin" -c detekt.yml --build-upon-default-config
 
-	echo
 	echo -e "${cyan}• No issues found with detekt${normal}"
 }
 
@@ -92,6 +88,7 @@ main() {
         ;;
     "all")
 		run_ktlint
+		echo
         run_detekt
         ;;        
     *)
