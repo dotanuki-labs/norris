@@ -13,7 +13,7 @@ jobs:
 
     steps:
       - name: Project Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v3.0.2
 
       - name: Check code formatting
         run: ./scripts/static-analysis.sh all
@@ -24,7 +24,7 @@ jobs:
 
     steps:
       - name: Project Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v3.0.2
 
       - name: Setup Android Build
         uses: ./.github/actions/setup-android-build
@@ -51,7 +51,7 @@ jobs:
 
     steps:
       - name: Project Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v3.0.2
 
       - name: Setup Android Build
         uses: ./.github/actions/setup-android-build
@@ -81,7 +81,7 @@ jobs:
 
     steps:
       - name: Project Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v3.0.2
 
       - name: Setup Android Build
         uses: ./.github/actions/setup-android-build
@@ -168,7 +168,7 @@ jobs:
     needs: assemble-apk
     steps:
       - name: Project Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v3.0.2
 
       - name: Setup Android Build
         uses: ./.github/actions/setup-android-build
