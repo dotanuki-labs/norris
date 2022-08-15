@@ -6,22 +6,15 @@ import com.adevinta.android.barista.rule.flaky.FlakyTestRule
 import com.adevinta.android.barista.rule.flaky.Repeat
 import io.dotanuki.norris.facts.ui.FactsActivity
 import io.dotanuki.testing.persistance.PersistanceHelper
-import io.dotanuki.testing.rest.RestDataBuilder
-import io.dotanuki.testing.rest.RestInfrastructureRule
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
-import org.junit.rules.RuleChain
 import org.junit.runner.RunWith
 
 @RunWith(AndroidJUnit4::class)
 class NorrisAcceptanceTests {
 
-    private val restInfrastructure = RestInfrastructureRule(customPort = 4242)
-    private val stressedExecution = FlakyTestRule()
-
-    @get:Rule val rules: RuleChain =
-        RuleChain.outerRule(stressedExecution).around(restInfrastructure)
+    @get:Rule val rule = FlakyTestRule()
 
     init {
         PrettyEspressoErrors.install()
@@ -36,14 +29,6 @@ class NorrisAcceptanceTests {
         val searchTerm = "math"
         val suggestions = listOf("career", "dev", "humor")
         val fact = "Chuck Norris can divide by zero"
-
-        val suggestionsPayload = RestDataBuilder.suggestionsPayload(suggestions)
-        val factsPayload = RestDataBuilder.factsPayload(searchTerm, fact)
-
-        restInfrastructure.run {
-            restScenario(200, suggestionsPayload)
-            restScenario(200, factsPayload)
-        }
 
         startingFrom<FactsActivity> {
             checkEmptyState()
@@ -60,25 +45,16 @@ class NorrisAcceptanceTests {
 
     @Repeat @Test fun shouldPerformASecondSearch_ByChosingASuggestion() {
 
-        val searches = listOf("math", "code").onEach {
+        val searches = listOf("code", "math").onEach {
             PersistanceHelper.registerNewSearch(it)
         }
 
-        val suggestions = listOf("career", "dev", "humor")
         val mathFact = "Chuck Norris can divide by zero"
         val codeFact = "Null pointer will break with ChuckNorrisException"
 
-        val mathFactPayload = RestDataBuilder.factsPayload("math", mathFact)
-        val suggestionsPayload = RestDataBuilder.suggestionsPayload(suggestions)
-        val codeFactPayload = RestDataBuilder.factsPayload("code", codeFact)
-
-        restInfrastructure.run {
-            restScenario(200, mathFactPayload)
-            restScenario(200, suggestionsPayload)
-            restScenario(200, codeFactPayload)
-        }
-
         startingFrom<FactsActivity> {
+            awaitTransition()
+
             checkDisplayed(mathFact)
             clickOnSearchIcon()
 

@@ -11,9 +11,11 @@ val applicationModule = DI.Module("application") {
 
     bind {
         singleton {
-            requireNotNull(
-                BuildConfig.CHUCKNORRIS_API_URL.toHttpUrlOrNull()
-            )
+            val url = when {
+                BuildConfig.IS_TEST_MODE -> "https://norris-app.mocklab.io/"
+                else -> "https://api.chucknorris.io"
+            }
+            requireNotNull(url.toHttpUrlOrNull())
         }
     }
 
