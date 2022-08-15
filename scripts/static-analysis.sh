@@ -52,7 +52,7 @@ run_detekt() {
 
 	echo -e "${cyan}• Running detekt (v$detekt_version)${normal}"
 	
-	"$detekt_bin" -c detekt.yml --build-upon-default-config
+	"$detekt_bin" -c config/detekt.yml --build-upon-default-config
 
 	echo -e "${cyan}• No issues found with detekt${normal}"
 }

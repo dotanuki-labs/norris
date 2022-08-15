@@ -11,7 +11,6 @@ import io.dotanuki.norris.facts.presentation.FactsUserInteraction.RequestedFresh
 import io.dotanuki.norris.facts.presentation.FactsViewModel
 import io.dotanuki.norris.navigator.Navigator
 import io.dotanuki.norris.navigator.Screen
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import org.kodein.di.DIAware
 import org.kodein.di.instance

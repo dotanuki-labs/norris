@@ -21,13 +21,13 @@ decriypt_with_gpg() {
 }
 
 encrypt() {
-    encript_with_gpg "$1" signing/dotanuki-demos.gpg dotanuki-demos.jks
-    encript_with_gpg "$1" signing/credentials.gpg signing.properties
+    encript_with_gpg "$1" config/dotanuki-demos.gpg dotanuki-demos.jks
+    encript_with_gpg "$1" config/credentials.gpg signing.properties
 }
 
 decrypt() {
-    decriypt_with_gpg "$1" dotanuki-demos.jks signing/dotanuki-demos.gpg
-    decriypt_with_gpg "$1" signing.properties signing/credentials.gpg
+    decriypt_with_gpg "$1" dotanuki-demos.jks config/dotanuki-demos.gpg
+    decriypt_with_gpg "$1" signing.properties config/credentials.gpg
 }
 
 setup
