@@ -1,7 +1,6 @@
 package conventions
 
 import com.android.build.api.dsl.ApplicationExtension
-import com.android.build.api.dsl.BuildType
 import com.android.build.api.extension.impl.ApplicationAndroidComponentsExtensionImpl
 import com.android.build.gradle.BaseExtension
 import com.slack.keeper.optInToKeeper
@@ -12,7 +11,7 @@ import org.gradle.api.JavaVersion
 import org.gradle.api.Project
 import java.io.File
 import java.io.FileInputStream
-import java.util.*
+import java.util.Properties
 
 fun Project.applyAndroidStandardConventions() {
     val android = extensions.findByName("android") as BaseExtension
@@ -116,25 +115,11 @@ fun Project.applyAndroidApplicationConventions() {
         }
 
         buildTypes {
-
-            fun Project.configureHttps(buildType: BuildType) {
-
-                val apiUrl = when {
-                    isTestMode() -> "http://localhost:4242"
-                    else -> "https://api.chucknorris.io"
-                }
-
-                buildType.run {
-                    buildConfigField("String", "CHUCKNORRIS_API_URL", "\"${apiUrl}\"")
-                    resValue("bool", "clear_networking_traffic_enabled", "${project.isTestMode()}")
-                }
-            }
-
             getByName("debug") {
                 applicationIdSuffix = ".debug"
                 versionNameSuffix = "-DEBUG"
                 isTestCoverageEnabled = true
-                configureHttps(this)
+                buildConfigField("boolean", "IS_TEST_MODE", "${project.isTestMode()}")
             }
 
             getByName("release") {
@@ -145,7 +130,7 @@ fun Project.applyAndroidApplicationConventions() {
                 proguardFiles(*(proguardDefinitions.customRules))
                 proguardFiles(getDefaultProguardFile(proguardDefinitions.androidRules))
                 signingConfig = signingConfigs.findByName("release")
-                configureHttps(this)
+                buildConfigField("boolean", "IS_TEST_MODE", "${project.isTestMode()}")
             }
         }
 
