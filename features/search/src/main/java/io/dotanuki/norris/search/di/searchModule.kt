@@ -24,7 +24,7 @@ val searchModule = DI.Module("search") {
                     api = instance()
                 )
 
-                override fun <VM : ViewModel> create(klass: Class<VM>) =
+                override fun <VM : ViewModel> create(modelClass: Class<VM>) =
                     SearchViewModel(dataSource) as VM
             }
 

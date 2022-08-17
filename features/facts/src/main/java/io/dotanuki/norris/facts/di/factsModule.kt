@@ -27,7 +27,7 @@ val factsModule = DI.Module("facts-module") {
                     api = instance()
                 )
 
-                override fun <VM : ViewModel> create(klass: Class<VM>) =
+                override fun <VM : ViewModel> create(modelClass: Class<VM>) =
                     FactsViewModel(factsDataSource, actualSearchDataSource) as VM
             }
 
