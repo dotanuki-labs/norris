@@ -1,9 +1,10 @@
-package io.dotanuki.norris.gradle.internal
+package io.dotanuki.norris.gradle.internal.conventions
 
 import com.android.build.api.variant.ApplicationAndroidComponentsExtension
-import com.android.build.api.variant.BuildConfigField
 import com.android.build.gradle.BaseExtension
 import com.slack.keeper.optInToKeeper
+import io.dotanuki.norris.gradle.internal.ProguardRules
+import io.dotanuki.norris.gradle.internal.Versioning
 import org.gradle.api.JavaVersion
 import org.gradle.api.Project
 import java.io.File
@@ -121,11 +122,6 @@ internal fun Project.applyAndroidApplicationConventions() {
         }
     }
 
-    androidComponents.onVariants {
-        val testModeConfig = BuildConfigField("boolean", "IS_TEST_MODE", "${project.isTestMode()}")
-        it.buildConfigFields.put("TEST_MODE", testModeConfig)
-    }
-
     androidComponents.finalizeDsl { android ->
         android.apply {
 
@@ -162,6 +158,7 @@ internal fun Project.applyAndroidApplicationConventions() {
                     applicationIdSuffix = ".debug"
                     versionNameSuffix = "-DEBUG"
                     isTestCoverageEnabled = false
+                    buildConfigField("boolean", "IS_TEST_MODE", "${project.isTestMode()}")
                 }
 
                 getByName("release") {

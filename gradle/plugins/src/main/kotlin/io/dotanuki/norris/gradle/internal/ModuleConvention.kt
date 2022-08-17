@@ -4,7 +4,7 @@ import org.gradle.api.GradleException
 import org.gradle.api.Project
 import java.io.File
 
-enum class ModuleConvention {
+internal enum class ModuleConvention {
     KOTLIN_PLATFORM_LIBRARY,
     ANDROID_PLATFORM_LIBRARY,
     ANDROID_FEATURE_LIBRARY,
@@ -42,4 +42,3 @@ enum class ModuleConvention {
         }
     }
 }
-

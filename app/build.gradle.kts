@@ -1,6 +1,3 @@
-import conventions.isTestMode
-import org.gradle.internal.impldep.org.junit.experimental.categories.Categories.CategoryFilter.exclude
-
 plugins {
     id("io.dotanuki.gradle.automodule")
 }

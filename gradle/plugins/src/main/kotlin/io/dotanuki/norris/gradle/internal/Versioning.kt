@@ -4,15 +4,7 @@ import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
 
-data class Version(
-    val name: String,
-    val major: Int,
-    val minor: Int,
-    val patch: Int,
-    val code: Int
-)
-
-object Versioning {
+internal object Versioning {
     private const val major = 2
     private const val minor = 0
     private const val patch = 0
@@ -28,7 +20,7 @@ object Versioning {
 
     @JvmStatic
     val version by lazy {
-        Version(name, major, minor, patch, code)
+        AppVersion(name, major, minor, patch, code)
     }
 
     private fun computeDateTimestamp() =
