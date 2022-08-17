@@ -4,8 +4,8 @@ plugins {
 }
 
 dependencies {
-    implementation(projects.platform.core.coreNetworking)
-    implementation(projects.platform.core.coreRest)
+    implementation(projects.platform.jvm.coreNetworking)
+    implementation(projects.platform.jvm.coreRest)
 
     implementation(libs.square.okhttp.core)
     implementation(libs.square.okhttp.logging)

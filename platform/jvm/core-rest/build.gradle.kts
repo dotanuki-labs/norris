@@ -4,7 +4,7 @@ plugins {
 }
 
 dependencies {
-    implementation(projects.platform.core.coreNetworking)
+    implementation(projects.platform.jvm.coreNetworking)
 
     implementation(libs.kodein.di.jvm)
     implementation(libs.square.okhttp.core)
@@ -15,7 +15,7 @@ dependencies {
     implementation(libs.kotlinx.serialization.jvm)
     implementation(libs.kotlinx.coroutines.core)
 
-    testImplementation(projects.platform.testing.testingRest)
+    testImplementation(projects.platform.jvm.testingRest)
 
     testImplementation(libs.google.truth)
     testImplementation(libs.junit4)

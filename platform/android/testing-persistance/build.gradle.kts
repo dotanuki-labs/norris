@@ -4,7 +4,7 @@ plugins {
 }
 
 dependencies {
-    implementation(projects.platform.core.corePersistance)
+    implementation(projects.platform.android.corePersistance)
 
     implementation(libs.kodein.di.jvm)
     implementation(libs.kotlinx.coroutines.core)

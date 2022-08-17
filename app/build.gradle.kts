@@ -3,12 +3,12 @@ plugins {
 }
 
 dependencies {
-    implementation(projects.platform.core.coreRest)
-    implementation(projects.platform.core.corePersistance)
-    implementation(projects.platform.core.coreNavigator)
-    implementation(projects.platform.common.commonAndroid)
-    implementation(projects.platform.common.commonKodein)
-    implementation(projects.platform.common.commonStatic)
+    implementation(projects.platform.jvm.coreRest)
+    implementation(projects.platform.jvm.coreKodein)
+    implementation(projects.platform.android.corePersistance)
+    implementation(projects.platform.android.coreNavigator)
+    implementation(projects.platform.android.coreHelpers)
+    implementation(projects.platform.android.coreAssets)
     implementation(projects.features.facts)
     implementation(projects.features.search)
 
@@ -26,8 +26,8 @@ dependencies {
 
     releaseImplementation(libs.square.leakcanary.release)
 
-    androidTestImplementation(projects.platform.testing.testingPersistance)
-    androidTestImplementation(projects.platform.testing.testingRest)
+    androidTestImplementation(projects.platform.android.testingPersistance)
+    androidTestImplementation(projects.platform.jvm.testingRest)
 
     androidTestImplementation(libs.junit4)
     androidTestImplementation(libs.google.truth)
