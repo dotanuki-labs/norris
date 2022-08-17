@@ -26,14 +26,20 @@ gradlePlugin {
             displayName = "AutoModule Gradle Plugin"
             implementationClass = "io.dotanuki.norris.gradle.AutoModulePlugin"
         }
+
+        create("security-checks-plugin") {
+            id = "io.dotanuki.gradle.security"
+            displayName = "Security Checks Gradle Plugin"
+            implementationClass = "io.dotanuki.norris.gradle.SecurityChecksPlugin"
+        }
     }
 }
 
 tasks.withType<KotlinCompile>().configureEach {
     kotlinOptions.jvmTarget = "11"
     kotlinOptions.freeCompilerArgs += listOf(
-        "-Xopt-in=kotlin.time.ExperimentalTime",
-        "-Xopt-in=kotlin.RequiresOptIn"
+        "-opt-in=kotlin.time.ExperimentalTime",
+        "-opt-in=kotlin.RequiresOptIn"
     )
 }
 
@@ -50,4 +56,5 @@ dependencies {
     compileOnly(deps.gradle.kotlin)
     compileOnly(deps.gradle.testlogger)
     compileOnly(deps.gradle.keeper)
+    compileOnly(deps.gradle.oss.scan)
 }
