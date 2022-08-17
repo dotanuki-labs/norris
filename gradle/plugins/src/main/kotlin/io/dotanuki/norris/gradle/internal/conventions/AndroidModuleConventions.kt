@@ -1,5 +1,6 @@
 package io.dotanuki.norris.gradle.internal.conventions
 
+import com.android.build.api.dsl.ApplicationExtension
 import com.android.build.api.variant.ApplicationAndroidComponentsExtension
 import com.android.build.gradle.BaseExtension
 import com.slack.keeper.optInToKeeper
@@ -111,58 +112,60 @@ internal fun Project.applyAndroidApplicationConventions() {
         }
     }
 
-    androidComponents.finalizeDsl { android ->
-        android.apply {
+    val android = extensions.findByName("android") as ApplicationExtension
 
-            testBuildType = when {
-                isTestMode() -> "release"
-                else -> "debug"
+    android.apply {
+
+        testBuildType = when {
+            isTestMode() -> "release"
+            else -> "debug"
+        }
+
+        defaultConfig {
+            testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+
+            if (isTestMode()) {
+                testInstrumentationRunnerArguments["listener"] = "leakcanary.FailTestOnLeakRunListener"
             }
+        }
 
-            defaultConfig {
-                if (isTestMode()) {
-                    testInstrumentationRunnerArguments["listener"] = "leakcanary.FailTestOnLeakRunListener"
-                }
-            }
-
-            signingConfigs {
-                create("release") {
-                    val signingProperties = Properties().apply {
-                        load(FileInputStream("${rootProject.rootDir}/signing.properties"))
-                    }
-
-                    signingProperties.run {
-                        storeFile = File("$rootDir/dotanuki-demos.jks")
-                        storePassword = getProperty("io.dotanuki.norris.storepass")
-                        keyAlias = getProperty("io.dotanuki.norris.keyalias")
-                        keyPassword = getProperty("io.dotanuki.norris.keypass")
-                    }
-                }
-            }
-
-            buildTypes {
-                getByName("debug") {
-                    applicationIdSuffix = ".debug"
-                    versionNameSuffix = "-DEBUG"
-                    isTestCoverageEnabled = false
-                    buildConfigField("boolean", "IS_TEST_MODE", "${project.isTestMode()}")
+        signingConfigs {
+            create("release") {
+                val signingProperties = Properties().apply {
+                    load(FileInputStream("${rootProject.rootDir}/signing.properties"))
                 }
 
-                getByName("release") {
-                    isMinifyEnabled = true
-                    isShrinkResources = true
-
-                    val proguardRules = ProguardRules("$rootDir/app/proguard")
-                    proguardFiles(*(proguardRules.extras))
-                    proguardFiles(getDefaultProguardFile(proguardRules.androidDefault))
-                    signingConfig = signingConfigs.findByName("release")
-                    buildConfigField("boolean", "IS_TEST_MODE", "${project.isTestMode()}")
+                signingProperties.run {
+                    storeFile = File("$rootDir/dotanuki-demos.jks")
+                    storePassword = getProperty("io.dotanuki.norris.storepass")
+                    keyAlias = getProperty("io.dotanuki.norris.keyalias")
+                    keyPassword = getProperty("io.dotanuki.norris.keypass")
                 }
             }
+        }
 
-            packagingOptions {
-                jniLibs.useLegacyPackaging = true
+        buildTypes {
+            getByName("debug") {
+                applicationIdSuffix = ".debug"
+                versionNameSuffix = "-DEBUG"
+                isTestCoverageEnabled = false
+                buildConfigField("boolean", "IS_TEST_MODE", "${project.isTestMode()}")
             }
+
+            getByName("release") {
+                isMinifyEnabled = true
+                isShrinkResources = true
+
+                val proguardRules = ProguardRules("$rootDir/app/proguard")
+                proguardFiles(*(proguardRules.extras))
+                proguardFiles(getDefaultProguardFile(proguardRules.androidDefault))
+                signingConfig = signingConfigs.findByName("release")
+                buildConfigField("boolean", "IS_TEST_MODE", "${project.isTestMode()}")
+            }
+        }
+
+        packagingOptions {
+            jniLibs.useLegacyPackaging = true
         }
     }
 }
