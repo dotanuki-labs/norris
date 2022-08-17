@@ -1,4 +1,4 @@
-package conventions
+package io.dotanuki.norris.gradle.internal.conventions
 
 import org.gradle.api.Project
 

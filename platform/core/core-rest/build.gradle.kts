@@ -1,5 +1,5 @@
 plugins {
-    id("norris.modules.kotlin")
+    id("io.dotanuki.gradle.automodule")
     id("org.jetbrains.kotlin.plugin.serialization")
 }
 

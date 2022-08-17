@@ -1,10 +1,11 @@
-package conventions
+package io.dotanuki.norris.gradle.internal.conventions
 
 import com.adarshr.gradle.testlogger.TestLoggerExtension
 import com.adarshr.gradle.testlogger.theme.ThemeType
 import org.gradle.api.Project
 
-fun Project.applyTestLoggingConventions() {
+internal fun Project.applyTestLoggingConventions() {
+
     val testLoggerExtension = extensions.findByName("testlogger") as TestLoggerExtension
 
     testLoggerExtension.apply {

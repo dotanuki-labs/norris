@@ -1,15 +1,21 @@
-package plugins
+package io.dotanuki.norris.gradle
 
-import conventions.ignoredVulnerabilities
+import io.dotanuki.norris.gradle.internal.conventions.ignoredVulnerabilities
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.sonatype.gradle.plugins.scan.ossindex.OssIndexPluginExtension
 import org.sonatype.gradle.plugins.scan.ossindex.OutputFormat.JSON_CYCLONE_DX_1_4
 import shadow.nexus.shadow.org.cyclonedx.model.Component.Type
 
-class PlatformChecksPlugin : Plugin<Project> {
+class SecurityChecksPlugin : Plugin<Project> {
+
     override fun apply(target: Project) {
-        target.configureOssScan()
+
+        val isCI = System.getenv().containsKey("CI")
+
+        if (isCI) {
+            target.configureOssScan()
+        }
     }
 
     private fun Project.configureOssScan() {

@@ -1,5 +1,4 @@
 
-
 buildscript {
 
     repositories {
@@ -21,7 +20,7 @@ buildscript {
 }
 
 plugins {
-    id("norris.platform.checks")
+    id("io.dotanuki.gradle.security")
 }
 
 allprojects {

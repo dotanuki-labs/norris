@@ -1,4 +1,4 @@
-package conventions
+package io.dotanuki.norris.gradle.internal.conventions
 
 import org.gradle.api.JavaVersion
 import org.gradle.api.Project
@@ -7,15 +7,25 @@ import org.gradle.api.tasks.testing.Test
 import org.gradle.kotlin.dsl.withType
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
-fun Project.applyKotlinProjectConventions() {
+internal fun Project.applyKotlinProjectConventions() {
+
+    val kotlinCompilerFlags = listOf(
+        "-opt-in=kotlin.time.ExperimentalTime",
+        "-opt-in=kotlin.RequiresOptIn"
+    )
+
+    // Fix for retrofit :
+    // WARNING: Illegal reflective access by retrofit2.Platform
+    val jvmArgsAdditionalFlags = listOf(
+        "--add-opens",
+        "java.base/java.lang.invoke=ALL-UNNAMED"
+    )
+
     tasks.run {
 
         withType<KotlinCompile>().configureEach {
             kotlinOptions.jvmTarget = "11"
-            kotlinOptions.freeCompilerArgs += listOf(
-                "-opt-in=kotlin.time.ExperimentalTime",
-                "-opt-in=kotlin.RequiresOptIn"
-            )
+            kotlinOptions.freeCompilerArgs += kotlinCompilerFlags
         }
 
         withType<JavaCompile>().configureEach {
@@ -24,10 +34,7 @@ fun Project.applyKotlinProjectConventions() {
         }
 
         withType<Test>().configureEach {
-            // Fix for retrofit `WARNING: Illegal reflective access by retrofit2.Platform`
-            jvmArgs?.addAll(
-                listOf("--add-opens", "java.base/java.lang.invoke=ALL-UNNAMED")
-            )
+            jvmArgs.addAll(jvmArgsAdditionalFlags)
         }
     }
 }

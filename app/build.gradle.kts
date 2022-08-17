@@ -1,7 +1,5 @@
-import conventions.isTestMode
-
 plugins {
-    id("norris.modules.android.app")
+    id("io.dotanuki.gradle.automodule")
 }
 
 dependencies {
@@ -26,9 +24,7 @@ dependencies {
     implementation(libs.androidx.lifecycle.runtime)
     implementation(libs.square.okhttp.core)
 
-    if (isTestMode()) {
-        releaseImplementation(libs.square.leakcanary.release)
-    }
+    releaseImplementation(libs.square.leakcanary.release)
 
     androidTestImplementation(projects.platform.testing.testingPersistance)
     androidTestImplementation(projects.platform.testing.testingRest)

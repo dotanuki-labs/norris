@@ -1,4 +1,4 @@
 
 plugins {
-    id("norris.modules.kotlin")
+    id("io.dotanuki.gradle.automodule")
 }
