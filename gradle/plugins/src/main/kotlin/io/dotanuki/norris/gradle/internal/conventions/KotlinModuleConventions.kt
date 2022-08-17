@@ -26,6 +26,7 @@ internal fun Project.applyKotlinProjectConventions() {
         withType<KotlinCompile>().configureEach {
             kotlinOptions.jvmTarget = "11"
             kotlinOptions.freeCompilerArgs += kotlinCompilerFlags
+            kotlinOptions.allWarningsAsErrors = true
         }
 
         withType<JavaCompile>().configureEach {
@@ -34,7 +35,7 @@ internal fun Project.applyKotlinProjectConventions() {
         }
 
         withType<Test>().configureEach {
-            jvmArgs.addAll(jvmArgsAdditionalFlags)
+            jvmArgs?.addAll(jvmArgsAdditionalFlags)
         }
     }
 }
