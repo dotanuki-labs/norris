@@ -18,8 +18,7 @@ internal object Versioning {
         "$major.$minor.$patch-$timestamp"
     }
 
-    @JvmStatic
-    val version by lazy {
+    @JvmStatic val version by lazy {
         AppVersion(name, major, minor, patch, code)
     }
 

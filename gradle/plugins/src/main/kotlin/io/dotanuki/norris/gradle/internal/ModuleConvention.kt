@@ -17,6 +17,7 @@ internal enum class ModuleConvention {
             "Expecting 'kotlin-library' or 'android-library' as definition, not <definition>"
         private const val WRONG_LOCATION = "<module> not defined as :platform or :features sub-modules"
 
+        @Suppress("ThrowsCount")
         fun from(target: Project): ModuleConvention {
             val path = target.projectDir.path
 
@@ -25,11 +26,8 @@ internal enum class ModuleConvention {
                 path.contains("features/") -> ANDROID_FEATURE_LIBRARY
                 path.contains("platform/") -> {
                     val optIn = File("$path/.automodule")
-                    println(optIn)
 
-                    if (!optIn.exists()) {
-                        throw GradleException(MISSING_DEFINITION)
-                    }
+                    if (!optIn.exists()) throw GradleException(MISSING_DEFINITION)
 
                     when (val definition = optIn.readText().replace("\n", "").trim()) {
                         "kotlin-library" -> KOTLIN_PLATFORM_LIBRARY

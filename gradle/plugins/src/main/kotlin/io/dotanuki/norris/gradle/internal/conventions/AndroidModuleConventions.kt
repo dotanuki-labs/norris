@@ -3,25 +3,14 @@ package io.dotanuki.norris.gradle.internal.conventions
 import com.android.build.api.variant.ApplicationAndroidComponentsExtension
 import com.android.build.gradle.BaseExtension
 import com.slack.keeper.optInToKeeper
+import io.dotanuki.norris.gradle.internal.AndroidDefinitions
 import io.dotanuki.norris.gradle.internal.ProguardRules
 import io.dotanuki.norris.gradle.internal.Versioning
 import org.gradle.api.JavaVersion
 import org.gradle.api.Project
 import java.io.File
 import java.io.FileInputStream
-import java.util.Collections
 import java.util.Properties
-
-internal object AndroidDefinitions {
-
-    const val compileSdk = 32
-    const val minSdk = 25
-    const val targetSdk = compileSdk
-
-    const val buildToolsVersion = "32.0.0"
-    const val instrumentationTestRunner = "androidx.test.runner.AndroidJUnitRunner"
-    val noGeneratedDensities = Collections.emptySet<String>().toTypedArray()
-}
 
 internal fun Project.isTestMode(): Boolean = properties["testMode"]?.let { true } ?: false
 
@@ -131,8 +120,6 @@ internal fun Project.applyAndroidApplicationConventions() {
             }
 
             defaultConfig {
-                testInstrumentationRunner = AndroidDefinitions.instrumentationTestRunner
-
                 if (isTestMode()) {
                     testInstrumentationRunnerArguments["listener"] = "leakcanary.FailTestOnLeakRunListener"
                 }
