@@ -1,9 +1,15 @@
 package io.dotanuki.norris.gradle.internal
 
+import com.android.build.api.variant.ApplicationAndroidComponentsExtension
+import com.android.build.api.variant.BuildConfigField
 import com.android.build.gradle.BaseExtension
+import com.slack.keeper.optInToKeeper
 import org.gradle.api.JavaVersion
 import org.gradle.api.Project
+import java.io.File
+import java.io.FileInputStream
 import java.util.Collections
+import java.util.Properties
 
 internal object AndroidDefinitions {
 
@@ -96,6 +102,83 @@ fun Project.applyAndroidFeatureLibraryConventions() {
 
         testOptions {
             animationsDisabled = true
+        }
+    }
+}
+
+internal fun Project.applyAndroidApplicationConventions() {
+    applyAndroidStandardConventions()
+
+    if (isTestMode()) {
+        pluginManager.apply("com.slack.keeper")
+    }
+
+    val androidComponents = extensions.findByName("androidComponents") as ApplicationAndroidComponentsExtension
+
+    androidComponents.beforeVariants {
+        if (isTestMode()) {
+            it.optInToKeeper()
+        }
+    }
+
+    androidComponents.onVariants {
+        val testModeConfig = BuildConfigField("boolean", "IS_TEST_MODE", "${project.isTestMode()}")
+        it.buildConfigFields.put("TEST_MODE", testModeConfig)
+    }
+
+    androidComponents.finalizeDsl { android ->
+        android.apply {
+
+            testBuildType = when {
+                isTestMode() -> "release"
+                else -> "debug"
+            }
+
+            defaultConfig {
+                testInstrumentationRunner = AndroidDefinitions.instrumentationTestRunner
+
+                if (isTestMode()) {
+                    testInstrumentationRunnerArguments["listener"] = "leakcanary.FailTestOnLeakRunListener"
+                }
+            }
+
+            signingConfigs {
+                create("release") {
+                    val signingProperties = Properties().apply {
+                        load(FileInputStream("${rootProject.rootDir}/signing.properties"))
+                    }
+
+                    signingProperties.run {
+                        storeFile = File("$rootDir/dotanuki-demos.jks")
+                        storePassword = getProperty("io.dotanuki.norris.storepass")
+                        keyAlias = getProperty("io.dotanuki.norris.keyalias")
+                        keyPassword = getProperty("io.dotanuki.norris.keypass")
+                    }
+                }
+            }
+
+            buildTypes {
+                getByName("debug") {
+                    applicationIdSuffix = ".debug"
+                    versionNameSuffix = "-DEBUG"
+                    isTestCoverageEnabled = false
+                }
+
+                getByName("release") {
+                    isMinifyEnabled = true
+                    isShrinkResources = true
+
+                    val proguardRules = ProguardRules("$rootDir/app/proguard")
+                    proguardFiles(*(proguardRules.extras))
+                    proguardFiles(getDefaultProguardFile(proguardRules.androidDefault))
+                    signingConfig = signingConfigs.findByName("release")
+                    buildConfigField("boolean", "IS_TEST_MODE", "${project.isTestMode()}")
+                }
+            }
+
+            packagingOptions {
+                jniLibs.useLegacyPackaging = true
+            }
         }
     }
 }

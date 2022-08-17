@@ -21,7 +21,7 @@ enum class ModuleConvention {
             val path = target.projectDir.path
 
             return when {
-                path.startsWith("app") -> ANDROID_APPLICATION
+                path.contains("app") -> ANDROID_APPLICATION
                 path.contains("features/") -> ANDROID_FEATURE_LIBRARY
                 path.contains("platform/") -> {
                     val optIn = File("$path/.automodule")

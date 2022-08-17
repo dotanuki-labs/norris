@@ -5,6 +5,7 @@ import io.dotanuki.norris.gradle.internal.ModuleConvention.ANDROID_APPLICATION
 import io.dotanuki.norris.gradle.internal.ModuleConvention.ANDROID_FEATURE_LIBRARY
 import io.dotanuki.norris.gradle.internal.ModuleConvention.ANDROID_PLATFORM_LIBRARY
 import io.dotanuki.norris.gradle.internal.ModuleConvention.KOTLIN_PLATFORM_LIBRARY
+import io.dotanuki.norris.gradle.internal.applyAndroidApplicationConventions
 import io.dotanuki.norris.gradle.internal.applyAndroidFeatureLibraryConventions
 import io.dotanuki.norris.gradle.internal.applyAndroidPlatformLibraryConventions
 import io.dotanuki.norris.gradle.internal.applyKotlinProjectConventions
@@ -16,38 +17,35 @@ class AutoModulePlugin : Plugin<Project> {
 
     override fun apply(target: Project) {
         with(target) {
-
             pluginManager.apply("com.adarshr.test-logger")
-
+            target.applyTestLoggingConventions()
 
             when (ModuleConvention.from(target)) {
                 KOTLIN_PLATFORM_LIBRARY -> {
                     pluginManager.apply("kotlin")
-
-                    target.applyTestLoggingConventions()
-                    target.applyKotlinProjectConventions()
+                    applyKotlinProjectConventions()
                 }
                 ANDROID_PLATFORM_LIBRARY -> {
                     pluginManager.apply("kotlin-android")
                     pluginManager.apply("com.android.library")
-                    pluginManager.apply("com.adarshr.test-logger")
 
-                    target.applyTestLoggingConventions()
-                    target.applyKotlinProjectConventions()
-                    target.applyAndroidPlatformLibraryConventions()
+                    applyKotlinProjectConventions()
+                    applyAndroidPlatformLibraryConventions()
                 }
                 ANDROID_FEATURE_LIBRARY -> {
                     pluginManager.apply("kotlin-android")
                     pluginManager.apply("com.android.library")
-                    pluginManager.apply("com.adarshr.test-logger")
                     pluginManager.apply("com.dropbox.dropshots")
 
-                    target.applyTestLoggingConventions()
-                    target.applyKotlinProjectConventions()
-                    target.applyAndroidFeatureLibraryConventions()
+                    applyKotlinProjectConventions()
+                    applyAndroidFeatureLibraryConventions()
                 }
                 ANDROID_APPLICATION -> {
-                    TODO()
+                    pluginManager.apply("kotlin-android")
+                    pluginManager.apply("com.android.application")
+
+                    applyKotlinProjectConventions()
+                    applyAndroidApplicationConventions()
                 }
             }
         }
