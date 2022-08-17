@@ -32,7 +32,7 @@ jobs:
           norris-key: ${{ secrets.NORRIS_CRYPTO_KEY }}
 
       - name: Run unit tests
-        run: ./gradlew test --stacktrace
+        run: ./gradlew test
 
       - name: Collect all test results from all modules
         if: always()
@@ -59,7 +59,7 @@ jobs:
           norris-key: ${{ secrets.NORRIS_CRYPTO_KEY }}
 
       - name: Assemble production APK
-        run: ./gradlew app:assembleRelease -PtestMode=true --stacktrace
+        run: ./gradlew app:assembleRelease -PtestMode=true
 
       - name: Archive APK
         if: success()
@@ -89,7 +89,7 @@ jobs:
           norris-key: ${{ secrets.NORRIS_CRYPTO_KEY }}
 
       - name: Assemble Instrumentation tests
-        run: ./gradlew assembleAndroidTest -PtestMode=true --stacktrace
+        run: ./gradlew assembleAndroidTest -PtestMode=true
 
       - name: Archive Test APK
         uses: actions/upload-artifact@v3
@@ -176,7 +176,7 @@ jobs:
           norris-key: ${{ secrets.NORRIS_CRYPTO_KEY }}
 
       - name: Check security issues in project dependencies and generate SBOM
-        run: ./gradlew clean ossIndexAudit --stacktrace
+        run: ./gradlew clean ossIndexAudit
 
       - name: Archive CycloneDx SBOM
         uses: actions/upload-artifact@v3
