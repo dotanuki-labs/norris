@@ -21,8 +21,6 @@ internal fun Project.applyKotlinProjectConventions() {
         "java.base/java.lang.invoke=ALL-UNNAMED"
     )
 
-    pluginManager.apply("kotlin")
-
     tasks.run {
 
         withType<KotlinCompile>().configureEach {

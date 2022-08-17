@@ -47,6 +47,7 @@ dependencies {
     compileOnly(gradleApi())
     compileOnly(deps.gradle.android)
     compileOnly(deps.gradle.kotlin)
+    compileOnly(deps.gradle.kotlin)
     compileOnly(deps.gradle.testlogger)
     compileOnly(deps.gradle.keeper)
 }

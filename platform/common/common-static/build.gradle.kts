@@ -1,6 +1,6 @@
 
 plugins {
-    id("norris.modules.android.platform")
+    id("io.dotanuki.gradle.automodule")
 }
 
 dependencies {
