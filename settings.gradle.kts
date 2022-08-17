@@ -9,19 +9,26 @@ pluginManagement {
 }
 
 include(
+    // Product
     ":app",
-    ":platform:testing:testing-app",
-    ":platform:testing:testing-commons",
-    ":platform:testing:testing-rest",
-    ":platform:testing:testing-persistance",
-    ":platform:testing:testing-screenshots",
-    ":platform:core:core-navigator",
-    ":platform:core:core-networking",
-    ":platform:core:core-persistance",
-    ":platform:core:core-rest",
-    ":platform:common:common-static",
-    ":platform:common:common-android",
-    ":platform:common:common-kodein",
+
+    // JVM platform
+    ":platform:jvm:core-networking",
+    ":platform:jvm:core-rest",
+    ":platform:jvm:core-kodein",
+    ":platform:jvm:testing-helpers",
+    ":platform:jvm:testing-rest",
+
+    // Android platform
+    ":platform:android:core-assets",
+    ":platform:android:core-helpers",
+    ":platform:android:core-navigator",
+    ":platform:android:core-persistance",
+    ":platform:android:testing-app",
+    ":platform:android:testing-persistance",
+    ":platform:android:testing-screenshots",
+
+    // Features
     ":features:facts",
     ":features:search"
 )

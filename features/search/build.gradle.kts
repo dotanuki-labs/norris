@@ -4,11 +4,11 @@ plugins {
 }
 
 dependencies {
-    implementation(projects.platform.common.commonAndroid)
-    implementation(projects.platform.common.commonKodein)
-    implementation(projects.platform.common.commonStatic)
-    implementation(projects.platform.core.coreRest)
-    implementation(projects.platform.core.corePersistance)
+    implementation(projects.platform.jvm.coreKodein)
+    implementation(projects.platform.jvm.coreRest)
+    implementation(projects.platform.android.coreHelpers)
+    implementation(projects.platform.android.coreAssets)
+    implementation(projects.platform.android.corePersistance)
 
     implementation(libs.kodein.di.jvm)
     implementation(libs.kotlinx.coroutines.core)
@@ -26,9 +26,9 @@ dependencies {
     implementation(libs.androidx.recyclerview)
     implementation(libs.google.material.design)
 
-    testImplementation(projects.platform.testing.testingApp)
-    testImplementation(projects.platform.testing.testingPersistance)
-    testImplementation(projects.platform.testing.testingRest)
+    testImplementation(projects.platform.android.testingApp)
+    testImplementation(projects.platform.android.testingPersistance)
+    testImplementation(projects.platform.jvm.testingRest)
 
     testImplementation(libs.junit4)
     testImplementation(libs.google.truth)
@@ -37,8 +37,8 @@ dependencies {
     testImplementation(libs.androidx.testext.junit)
     testImplementation(libs.robolectric)
 
-    androidTestImplementation(projects.platform.core.coreNetworking)
-    androidTestImplementation(projects.platform.testing.testingScreenshots)
+    androidTestImplementation(projects.platform.jvm.coreNetworking)
+    androidTestImplementation(projects.platform.android.testingScreenshots)
 
     androidTestImplementation(libs.junit4)
     androidTestImplementation(libs.androidx.test.core)

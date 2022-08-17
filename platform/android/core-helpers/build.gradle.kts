@@ -3,7 +3,7 @@ plugins {
 }
 
 dependencies {
-    implementation(projects.platform.common.commonKodein)
+    implementation(projects.platform.jvm.coreKodein)
 
     implementation(libs.kodein.di.jvm)
     implementation(libs.androidx.appcompat)
