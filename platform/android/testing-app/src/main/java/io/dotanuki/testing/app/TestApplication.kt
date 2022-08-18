@@ -42,12 +42,12 @@ class TestApplication : Application(), DIAware {
     override val di by lazy { container }
 
     companion object {
-        fun setupWith(vararg extrasModules: DI.Module) {
+        fun setupWith(vararg extrasModules: DI.Module): TestApplication {
 
             val instrumentation = InstrumentationRegistry.getInstrumentation()
             val app = instrumentation.targetContext.applicationContext as TestApplication
 
-            app.run {
+            return app.apply {
                 extrasModules.forEach {
                     modules += it
                 }

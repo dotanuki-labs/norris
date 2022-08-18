@@ -25,6 +25,7 @@ import io.dotanuki.norris.facts.presentation.FactsScreenState.Failed
 import io.dotanuki.norris.facts.presentation.FactsScreenState.Idle
 import io.dotanuki.norris.facts.presentation.FactsScreenState.Loading
 import io.dotanuki.norris.facts.presentation.FactsScreenState.Success
+import io.dotanuki.norris.sharedassets.R as sharedR
 
 class FactsView @JvmOverloads constructor(ctx: Context, attrs: AttributeSet? = null) : CoordinatorLayout(ctx, attrs) {
 
@@ -121,7 +122,7 @@ class FactsView @JvmOverloads constructor(ctx: Context, attrs: AttributeSet? = n
 
     private fun showHeadline(query: String) {
 
-        val highlightColor = ContextCompat.getColor(context, io.dotanuki.norris.sharedassets.R.color.colorAccent)
+        val highlightColor = ContextCompat.getColor(context, sharedR.color.colorAccent)
 
         val highlightedFact = SpannableString(query).apply {
             setSpan(StyleSpan(Typeface.BOLD), 0, query.length, Spannable.SPAN_EXCLUSIVE_INCLUSIVE)
