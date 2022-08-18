@@ -3,12 +3,14 @@ package io.dotanuki.norris.search
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.google.common.truth.Truth.assertThat
 import io.dotanuki.norris.search.di.searchModule
+import io.dotanuki.norris.search.presentation.SearchScreenState
 import io.dotanuki.norris.search.presentation.SearchScreenState.Content
 import io.dotanuki.norris.search.presentation.SearchScreenState.Done
 import io.dotanuki.norris.search.presentation.SearchScreenState.Idle
 import io.dotanuki.norris.search.presentation.SearchScreenState.Loading
 import io.dotanuki.norris.search.ui.SearchActivity
-import io.dotanuki.norris.search.util.FakeSearchScreen
+import io.dotanuki.norris.search.ui.SearchView
+import io.dotanuki.norris.search.util.FakeSearchEventsHandler
 import io.dotanuki.norris.search.util.searchTestModule
 import io.dotanuki.testing.app.TestApplication
 import io.dotanuki.testing.app.awaitPendingExecutions
@@ -25,8 +27,6 @@ import org.junit.runner.RunWith
 @RunWith(AndroidJUnit4::class)
 class SearchActivityTests {
 
-    private lateinit var screen: FakeSearchScreen
-
     @get:Rule val restInfrastructure = RestInfrastructureRule()
 
     private val suggestions = RestDataBuilder.suggestionsPayload(
@@ -35,21 +35,17 @@ class SearchActivityTests {
 
     @Before fun `before each test`() {
         val restTestModule = RestInfrastructureTestModule(restInfrastructure.server)
-        val testApp = TestApplication.setupWith(searchModule, searchTestModule, restTestModule)
+        TestApplication.setupWith(searchModule, searchTestModule, restTestModule)
         PersistanceHelper.clearStorage()
 
         restInfrastructure.restScenario(
             status = 200,
             response = suggestions
         )
-
-        screen = FakeSearchScreen.from(testApp)
     }
 
     @Test fun `at first lunch, should display only suggestions`() {
-        whenActivityResumed<SearchActivity> {
-
-            assertThat(screen.isLinked).isTrue()
+        whenActivityResumed<SearchActivity> { target ->
 
             val content = Content(
                 suggestions = listOf("career", "celebrity", "dev"),
@@ -57,15 +53,15 @@ class SearchActivityTests {
             )
 
             val expectedStates = listOf(Idle, Loading, content)
-            assertThat(screen.trackedStates).isEqualTo(expectedStates)
+            assertThat(target.receivedStates()).isEqualTo(expectedStates)
         }
     }
 
     @Test fun `should proceed saving term chosen from suggestions`() {
         PersistanceHelper.registerNewSearch("code")
 
-        whenActivityResumed<SearchActivity> {
-            screen.screenDelegate.onChipClicked("dev")
+        whenActivityResumed<SearchActivity> { target ->
+            target.onChipClicked("dev")
 
             awaitPendingExecutions()
 
@@ -79,7 +75,7 @@ class SearchActivityTests {
             )
 
             val expectedStates = listOf(Idle, Loading, content, Loading, Done)
-            assertThat(screen.trackedStates).isEqualTo(expectedStates)
+            assertThat(target.receivedStates()).isEqualTo(expectedStates)
         }
     }
 
@@ -87,13 +83,14 @@ class SearchActivityTests {
         PersistanceHelper.registerNewSearch("code")
         PersistanceHelper.registerNewSearch("dev")
 
-        whenActivityResumed<SearchActivity> {
+        whenActivityResumed<SearchActivity> { target ->
+            target.onNewSearch("kotlin")
 
-            screen.screenDelegate.onNewSearch("kotlin")
             awaitPendingExecutions()
 
             val savedSearches = PersistanceHelper.savedSearches()
             val expectedSearches = listOf("code", "dev", "kotlin")
+
             assertThat(savedSearches).isEqualTo(expectedSearches)
 
             val content = Content(
@@ -102,7 +99,23 @@ class SearchActivityTests {
             )
 
             val expectedStates = listOf(Idle, Loading, content, Loading, Done)
-            assertThat(screen.trackedStates).isEqualTo(expectedStates)
+            assertThat(target.receivedStates()).isEqualTo(expectedStates)
         }
+    }
+
+    private fun SearchActivity.receivedStates(): List<SearchScreenState> {
+        val rootView = findViewById<SearchView>(R.id.searchScreenRoot)
+        val callbacks = rootView.eventsHandler as FakeSearchEventsHandler
+        return callbacks.trackedStates
+    }
+
+    private fun SearchActivity.onNewSearch(term: String) {
+        val rootView = findViewById<SearchView>(R.id.searchScreenRoot)
+        rootView.eventsHandler.onNewSearch(term)
+    }
+
+    private fun SearchActivity.onChipClicked(item: String) {
+        val rootView = findViewById<SearchView>(R.id.searchScreenRoot)
+        rootView.eventsHandler.onChipClicked(item)
     }
 }

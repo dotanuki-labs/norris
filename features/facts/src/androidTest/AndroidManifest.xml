@@ -6,9 +6,8 @@
     <application android:requestLegacyExternalStorage="true">
         <activity
             android:theme="@style/NorrisTheme"
-            android:name=".FactsTestActivity"
+            android:name=".FactsScreeshotsHelperActivity"
             android:exported="true"
             />
     </application>
-
 </manifest>
