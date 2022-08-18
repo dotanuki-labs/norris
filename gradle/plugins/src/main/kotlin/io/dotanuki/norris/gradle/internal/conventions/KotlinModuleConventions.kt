@@ -24,14 +24,14 @@ internal fun Project.applyKotlinProjectConventions() {
     tasks.run {
 
         withType<KotlinCompile>().configureEach {
-            kotlinOptions.jvmTarget = "11"
+            kotlinOptions.jvmTarget = "1.8"
             kotlinOptions.freeCompilerArgs += kotlinCompilerFlags
             kotlinOptions.allWarningsAsErrors = true
         }
 
         withType<JavaCompile>().configureEach {
-            targetCompatibility = JavaVersion.VERSION_11.toString()
-            sourceCompatibility = JavaVersion.VERSION_11.toString()
+            targetCompatibility = JavaVersion.VERSION_1_8.toString()
+            sourceCompatibility = JavaVersion.VERSION_1_8.toString()
         }
 
         withType<Test>().configureEach {
