@@ -1,0 +1,3 @@
+-dontwarn io.dotanuki.norris.sharedassets.R$color
+-dontwarn io.dotanuki.norris.sharedassets.R$drawable
+-dontwarn io.dotanuki.norris.sharedassets.R$string
