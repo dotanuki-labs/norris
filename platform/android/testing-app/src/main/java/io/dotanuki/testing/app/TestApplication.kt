@@ -23,7 +23,6 @@ class TestApplication : Application(), DIAware {
     }
 
     private val containerApplicationModule = DI.Module("application") {
-
         bind {
             singleton {
                 requireNotNull(

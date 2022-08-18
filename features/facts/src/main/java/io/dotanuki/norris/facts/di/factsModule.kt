@@ -7,8 +7,8 @@ import io.dotanuki.norris.common.kodein.KodeinTags
 import io.dotanuki.norris.facts.data.ActualSearchDataSource
 import io.dotanuki.norris.facts.data.FactsDataSource
 import io.dotanuki.norris.facts.presentation.FactsViewModel
-import io.dotanuki.norris.facts.ui.FactsScreen
-import io.dotanuki.norris.facts.ui.WrappedContainer
+import io.dotanuki.norris.facts.ui.FactsEventsHandler
+import io.dotanuki.norris.navigator.Navigator
 import org.kodein.di.DI
 import org.kodein.di.bind
 import org.kodein.di.instance
@@ -36,9 +36,11 @@ val factsModule = DI.Module("facts-module") {
         }
     }
 
-    bind<FactsScreen> {
+    bind<FactsEventsHandler> {
         provider {
-            WrappedContainer()
+            val viewModel = instance<FactsViewModel>()
+            val navigator = instance<Navigator>()
+            FactsEventsHandler.Unidirectional(viewModel, navigator)
         }
     }
 }

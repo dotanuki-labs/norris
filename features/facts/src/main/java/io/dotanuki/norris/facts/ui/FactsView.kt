@@ -1,19 +1,22 @@
 package io.dotanuki.norris.facts.ui
 
+import android.content.Context
 import android.graphics.Typeface
 import android.text.Spannable
 import android.text.SpannableString
 import android.text.SpannableStringBuilder
 import android.text.style.ForegroundColorSpan
 import android.text.style.StyleSpan
+import android.util.AttributeSet
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import io.dotanuki.norris.facts.R
-import io.dotanuki.norris.facts.databinding.ActivityFactsBinding
-import io.dotanuki.norris.facts.domain.FactsRetrievalError.NoResultsFound
+import io.dotanuki.norris.facts.databinding.ViewFactsBinding
+import io.dotanuki.norris.facts.domain.FactsRetrievalError
 import io.dotanuki.norris.facts.presentation.ErrorStateResources
 import io.dotanuki.norris.facts.presentation.FactsPresentation
 import io.dotanuki.norris.facts.presentation.FactsScreenState
@@ -22,31 +25,17 @@ import io.dotanuki.norris.facts.presentation.FactsScreenState.Failed
 import io.dotanuki.norris.facts.presentation.FactsScreenState.Idle
 import io.dotanuki.norris.facts.presentation.FactsScreenState.Loading
 import io.dotanuki.norris.facts.presentation.FactsScreenState.Success
-import io.dotanuki.norris.sharedassets.R as sharedR
 
-interface FactsScreen {
+class FactsView @JvmOverloads constructor(
+    context: Context, attrs: AttributeSet? = null
+) : CoordinatorLayout(context, attrs) {
 
-    interface Delegate {
+    // Non private for testing purposes
+    lateinit var eventsHandler: FactsEventsHandler
 
-        fun onRefresh()
+    private lateinit var viewBinding: ViewFactsBinding
 
-        fun onSearch()
-
-        fun onShare(fact: String)
-    }
-
-    fun link(host: AppCompatActivity, delegate: Delegate): View
-
-    fun updateWith(newState: FactsScreenState)
-}
-
-class WrappedContainer : FactsScreen {
-
-    private lateinit var hostActivity: AppCompatActivity
-    private lateinit var bindings: ActivityFactsBinding
-    private lateinit var screenDelegate: FactsScreen.Delegate
-
-    override fun updateWith(newState: FactsScreenState) {
+    fun updateWith(newState: FactsScreenState) {
         when (newState) {
             Idle -> preExecution()
             Loading -> showExecuting()
@@ -54,26 +43,26 @@ class WrappedContainer : FactsScreen {
             is Failed -> showErrorState(newState.reason)
             is Success -> showResults(newState.value)
         }
+
+        eventsHandler.postReceive(newState)
     }
 
-    override fun link(host: AppCompatActivity, delegate: FactsScreen.Delegate): View {
-        hostActivity = host
-        screenDelegate = delegate
-        bindings = ActivityFactsBinding.inflate(hostActivity.layoutInflater)
-        return bindings.root
+    private fun link(handler: FactsEventsHandler, binding: ViewFactsBinding) {
+        this.eventsHandler = handler
+        this.viewBinding = binding
     }
 
     private fun preExecution() {
-        bindings.run {
+        viewBinding.run {
             errorStateView.visibility = View.GONE
             factsHeadlineLabel.visibility = View.GONE
-            factsSwipeToRefresh.setOnRefreshListener { screenDelegate.onRefresh() }
-            factsRecyclerView.layoutManager = LinearLayoutManager(hostActivity)
+            factsSwipeToRefresh.setOnRefreshListener { eventsHandler.onRefresh() }
+            factsRecyclerView.layoutManager = LinearLayoutManager(context)
 
             factsToolbar.inflateMenu(R.menu.menu_facts_list)
             factsToolbar.setOnMenuItemClickListener { item ->
                 if (item.itemId == R.id.menu_item_search_facts) {
-                    screenDelegate.onSearch()
+                    eventsHandler.onSearch()
                 }
                 false
             }
@@ -81,27 +70,27 @@ class WrappedContainer : FactsScreen {
     }
 
     private fun showExecuting() {
-        bindings.run {
+        viewBinding.run {
             errorStateView.visibility = View.GONE
             factsSwipeToRefresh.isRefreshing = true
         }
     }
 
     private fun showResults(presentation: FactsPresentation) {
-        bindings.run {
+        viewBinding.run {
             factsSwipeToRefresh.isRefreshing = false
-            factsRecyclerView.adapter = FactsRecyclerAdapter(presentation, screenDelegate::onShare)
+            factsRecyclerView.adapter = FactsRecyclerAdapter(presentation, eventsHandler::onShare)
         }
         showHeadline(presentation.relatedQuery)
     }
 
     private fun showEmptyState() {
-        bindings.run {
+        viewBinding.run {
             factsSwipeToRefresh.isRefreshing = false
 
-            val (errorImage, errorMessage) = ErrorStateResources(NoResultsFound)
+            val (errorImage, errorMessage) = ErrorStateResources(FactsRetrievalError.NoResultsFound)
 
-            with(bindings) {
+            with(viewBinding) {
                 errorStateView.visibility = View.VISIBLE
                 errorStateImage.setImageResource(errorImage)
                 errorStateLabel.setText(errorMessage)
@@ -112,7 +101,7 @@ class WrappedContainer : FactsScreen {
 
     private fun showErrorState(error: Throwable) {
 
-        bindings.run {
+        viewBinding.run {
             factsSwipeToRefresh.isRefreshing = false
 
             val (errorImage, errorMessage) = ErrorStateResources(error)
@@ -121,11 +110,11 @@ class WrappedContainer : FactsScreen {
             when {
                 hasContent -> toast(errorMessage)
                 else -> {
-                    with(bindings) {
+                    with(viewBinding) {
                         errorStateView.visibility = View.VISIBLE
                         errorStateImage.setImageResource(errorImage)
                         errorStateLabel.setText(errorMessage)
-                        retryButton.setOnClickListener { screenDelegate.onRefresh() }
+                        retryButton.setOnClickListener { eventsHandler.onRefresh() }
                     }
                 }
             }
@@ -134,20 +123,28 @@ class WrappedContainer : FactsScreen {
 
     private fun showHeadline(query: String) {
 
-        val highlightColor = ContextCompat.getColor(hostActivity, sharedR.color.colorAccent)
+        val highlightColor = ContextCompat.getColor(context, io.dotanuki.norris.sharedassets.R.color.colorAccent)
 
         val highlightedFact = SpannableString(query).apply {
             setSpan(StyleSpan(Typeface.BOLD), 0, query.length, Spannable.SPAN_EXCLUSIVE_INCLUSIVE)
             setSpan(ForegroundColorSpan(highlightColor), 0, query.length, Spannable.SPAN_EXCLUSIVE_INCLUSIVE)
         }
 
-        val prefix = hostActivity.getString(R.string.headline_facts)
+        val prefix = resources.getString(R.string.headline_facts)
         val headline = SpannableStringBuilder(prefix).append(" : ").append(highlightedFact)
-        bindings.factsHeadlineLabel.visibility = View.VISIBLE
-        bindings.factsHeadlineLabel.text = headline
+        viewBinding.factsHeadlineLabel.visibility = View.VISIBLE
+        viewBinding.factsHeadlineLabel.text = headline
     }
 
     private fun toast(errorMessage: Int) {
-        Toast.makeText(hostActivity, errorMessage, Toast.LENGTH_LONG).show()
+        Toast.makeText(context, errorMessage, Toast.LENGTH_LONG).show()
+    }
+
+    companion object {
+        fun create(host: AppCompatActivity, handler: FactsEventsHandler): FactsView {
+            val binding = ViewFactsBinding.inflate(host.layoutInflater)
+            val rootView = binding.factsViewRoot
+            return rootView.apply { link(handler, binding) }
+        }
     }
 }

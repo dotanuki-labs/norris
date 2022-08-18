@@ -7,10 +7,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import io.dotanuki.norris.common.android.selfBind
 import io.dotanuki.norris.facts.presentation.FactsUserInteraction
-import io.dotanuki.norris.facts.presentation.FactsUserInteraction.RequestedFreshContent
 import io.dotanuki.norris.facts.presentation.FactsViewModel
-import io.dotanuki.norris.navigator.Navigator
-import io.dotanuki.norris.navigator.Screen
 import kotlinx.coroutines.launch
 import org.kodein.di.DIAware
 import org.kodein.di.instance
@@ -20,36 +17,20 @@ class FactsActivity : AppCompatActivity(), DIAware {
     override val di by selfBind()
 
     private val viewModel by instance<FactsViewModel>()
-    private val navigator by instance<Navigator>()
-    private val factsScreen by instance<FactsScreen>()
-
-    private val delegate by lazy {
-        object : FactsScreen.Delegate {
-            override fun onRefresh() {
-                viewModel.handle(RequestedFreshContent)
-            }
-
-            override fun onSearch() {
-                navigator.navigateTo(Screen.SearchQuery)
-            }
-
-            override fun onShare(fact: String) {
-                navigator.toSharingApp(fact, "Share this fact!")
-            }
-        }
-    }
+    private val viewCallbacks by instance<FactsEventsHandler>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val rootView = factsScreen.link(this, delegate)
-        setContentView(rootView)
+        val factsView = FactsView.create(this, viewCallbacks)
+
+        setContentView(factsView)
 
         lifecycleScope.launch {
             lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.run {
                     handle(FactsUserInteraction.OpenedScreen)
                     bind().collect { newState ->
-                        factsScreen.updateWith(newState)
+                        factsView.updateWith(newState)
                     }
                 }
             }

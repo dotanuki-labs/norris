@@ -11,8 +11,8 @@ import io.dotanuki.norris.facts.presentation.FactsScreenState.Idle
 import io.dotanuki.norris.facts.presentation.FactsScreenState.Loading
 import io.dotanuki.norris.facts.presentation.FactsScreenState.Success
 import io.dotanuki.norris.facts.ui.FactsActivity
-import io.dotanuki.norris.facts.util.FakeFactsScreen
-import io.dotanuki.norris.facts.util.FakeFactsScreen.Companion.factsScreen
+import io.dotanuki.norris.facts.ui.FactsView
+import io.dotanuki.norris.facts.util.FakeFactsEventsHandler
 import io.dotanuki.norris.facts.util.factsTestModule
 import io.dotanuki.norris.networking.errors.RemoteServiceIntegrationError
 import io.dotanuki.testing.app.TestApplication
@@ -29,26 +29,20 @@ import org.junit.runner.RunWith
 @RunWith(AndroidJUnit4::class)
 class FactsActivityTests {
 
-    private lateinit var screen: FakeFactsScreen
-
     @get:Rule val restInfrastructure = RestInfrastructureRule()
 
     @Before fun `before each test`() {
-        val testApp = TestApplication.setupWith(
+        TestApplication.setupWith(
             factsModule,
             factsTestModule,
             RestInfrastructureTestModule(restInfrastructure.server)
         )
-
-        screen = testApp.factsScreen()
     }
 
     @Test fun `at first lunch, should start on empty state`() {
-        whenActivityResumed<FactsActivity> {
-            assertThat(screen.isLinked).isTrue()
-
+        whenActivityResumed<FactsActivity> { target ->
             val expectedStates = listOf(Idle, Loading, FactsScreenState.Empty)
-            assertThat(screen.trackedStates).isEqualTo(expectedStates)
+            assertThat(target.receivedStates()).isEqualTo(expectedStates)
         }
     }
 
@@ -63,7 +57,7 @@ class FactsActivityTests {
             response = RestDataBuilder.factsPayload(previousSearch, fact)
         )
 
-        whenActivityResumed<FactsActivity> {
+        whenActivityResumed<FactsActivity> { target ->
             val facts = listOf(
                 FactDisplayRow(
                     url = RestDataBuilder.FACT_URL,
@@ -73,8 +67,9 @@ class FactsActivityTests {
             )
 
             val presentation = FactsPresentation("humor", facts)
+
             val expectedStates = listOf(Idle, Loading, Success(presentation))
-            assertThat(screen.trackedStates).isEqualTo(expectedStates)
+            assertThat(target.receivedStates()).isEqualTo(expectedStates)
         }
     }
 
@@ -82,10 +77,17 @@ class FactsActivityTests {
         restInfrastructure.restScenario(status = 503)
         PersistanceHelper.registerNewSearch("code")
 
-        whenActivityResumed<FactsActivity> {
+        whenActivityResumed<FactsActivity> { target ->
             val error = Failed(RemoteServiceIntegrationError.RemoteSystem)
+
             val expectedStates = listOf(Idle, Loading, error)
-            assertThat(screen.trackedStates).isEqualTo(expectedStates)
+            assertThat(target.receivedStates()).isEqualTo(expectedStates)
         }
+    }
+
+    private fun FactsActivity.receivedStates(): List<FactsScreenState> {
+        val rootView = findViewById<FactsView>(R.id.factsViewRoot)
+        val callbacks = rootView.eventsHandler as FakeFactsEventsHandler
+        return callbacks.trackedStates
     }
 }
