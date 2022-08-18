@@ -109,12 +109,12 @@ class SearchActivityTests {
         return callbacks.trackedStates
     }
 
-    private fun SearchActivity.onNewSearch(term : String) {
+    private fun SearchActivity.onNewSearch(term: String) {
         val rootView = findViewById<SearchView>(R.id.searchScreenRoot)
         rootView.eventsHandler.onNewSearch(term)
     }
 
-    private fun SearchActivity.onChipClicked(item : String) {
+    private fun SearchActivity.onChipClicked(item: String) {
         val rootView = findViewById<SearchView>(R.id.searchScreenRoot)
         rootView.eventsHandler.onChipClicked(item)
     }

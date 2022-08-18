@@ -26,9 +26,7 @@ import io.dotanuki.norris.facts.presentation.FactsScreenState.Idle
 import io.dotanuki.norris.facts.presentation.FactsScreenState.Loading
 import io.dotanuki.norris.facts.presentation.FactsScreenState.Success
 
-class FactsView @JvmOverloads constructor(
-    context: Context, attrs: AttributeSet? = null
-) : CoordinatorLayout(context, attrs) {
+class FactsView @JvmOverloads constructor(ctx: Context, attrs: AttributeSet? = null) : CoordinatorLayout(ctx, attrs) {
 
     // Non private for testing purposes
     lateinit var eventsHandler: FactsEventsHandler

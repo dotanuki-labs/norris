@@ -15,9 +15,7 @@ import io.dotanuki.norris.search.databinding.ViewSearchFactsBinding
 import io.dotanuki.norris.search.domain.SearchQueryValidation
 import io.dotanuki.norris.search.presentation.SearchScreenState
 
-class SearchView @JvmOverloads constructor(
-    context: Context, attrs: AttributeSet? = null
-) : CoordinatorLayout(context, attrs) {
+class SearchView @JvmOverloads constructor(ctx: Context, attrs: AttributeSet? = null) : CoordinatorLayout(ctx, attrs) {
 
     lateinit var eventsHandler: SearchEventsHandler
     private lateinit var viewBinding: ViewSearchFactsBinding
