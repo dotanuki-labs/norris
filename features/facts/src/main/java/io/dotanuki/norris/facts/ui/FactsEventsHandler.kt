@@ -32,7 +32,7 @@ interface FactsEventsHandler {
         private val navigator: Navigator
     ) : FactsEventsHandler {
         override fun postReceive(state: FactsScreenState) {
-            Log.d("FactsActivity", "Processed -> ${state.javaClass.simpleName}")
+            Log.d("FactsScreen", "Processed -> ${state.javaClass.simpleName}")
         }
 
         override fun onRefresh() {

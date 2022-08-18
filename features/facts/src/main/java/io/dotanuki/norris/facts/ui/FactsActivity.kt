@@ -17,11 +17,11 @@ class FactsActivity : AppCompatActivity(), DIAware {
     override val di by selfBind()
 
     private val viewModel by instance<FactsViewModel>()
-    private val viewCallbacks by instance<FactsEventsHandler>()
+    private val eventsHandler by instance<FactsEventsHandler>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val factsView = FactsView.create(this, viewCallbacks)
+        val factsView = FactsView.create(this, eventsHandler)
 
         setContentView(factsView)
 
