@@ -18,7 +18,7 @@ readonly ktlint_releases="https://github.com/pinterest/ktlint/releases/download"
 run_ktlint() {
 
 	if ! test -f "$ktlint_bin"; then
-		echo -e "${cyan}• Installing ktlint (v$ktlint_version)${normal}"
+	    echo -e "${cyan}• Installing ktlint (v$ktlint_version)${normal}"
 	    mkdir -p "$ktlint_home"
 	    curl -sSL "$ktlint_releases/$ktlint_version/ktlint" -o "$ktlint_bin"
 	    chmod +x "$ktlint_bin"
@@ -39,7 +39,7 @@ readonly detekt_releases="https://github.com/detekt/detekt/releases/download"
 run_detekt() {
 
 	if ! test -f "$detekt_bin"; then
-		echo -e "${cyan}• Installing detekt (v$detekt_version)${normal}"
+	    echo -e "${cyan}• Installing detekt (v$detekt_version)${normal}"
 	    mkdir -p "$detekt_home"
 	    
 	    local detekt_zip="detekt-cli-$detekt_version.zip"
@@ -87,8 +87,8 @@ main() {
         run_detekt
         ;;
     "all")
-		run_ktlint
-		echo
+        run_ktlint
+        echo
         run_detekt
         ;;        
     *)
