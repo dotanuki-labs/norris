@@ -2,19 +2,14 @@ package io.dotanuki.demos.norris.test
 
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.adevinta.android.barista.interaction.BaristaClickInteractions.clickOn
-import com.adevinta.android.barista.rule.flaky.FlakyTestRule
-import com.adevinta.android.barista.rule.flaky.Repeat
 import io.dotanuki.norris.facts.ui.FactsActivity
 import io.dotanuki.testing.persistance.PersistanceHelper
 import org.junit.Before
-import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 
 @RunWith(AndroidJUnit4::class)
 class NorrisAcceptanceTests {
-
-    @get:Rule val rule = FlakyTestRule()
 
     init {
         PrettyEspressoErrors.install()
@@ -24,7 +19,7 @@ class NorrisAcceptanceTests {
         PersistanceHelper.clearStorage()
     }
 
-    @Repeat @Test fun shouldPerformFirstSearch_AfterFirstLunch_ByTypingATerm() {
+    @Test fun shouldPerformFirstSearch_AfterFirstLunch_ByTypingATerm() {
 
         val searchTerm = "math"
         val suggestions = listOf("career", "dev", "humor")
@@ -43,7 +38,7 @@ class NorrisAcceptanceTests {
         }
     }
 
-    @Repeat @Test fun shouldPerformASecondSearch_ByChosingASuggestion() {
+    @Test fun shouldPerformASecondSearch_ByChosingASuggestion() {
 
         val searches = listOf("code", "math").onEach {
             PersistanceHelper.registerNewSearch(it)
