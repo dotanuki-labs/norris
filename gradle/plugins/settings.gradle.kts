@@ -1,3 +1,5 @@
+rootProject.name = "gradle-plugins"
+
 dependencyResolutionManagement {
     versionCatalogs {
         create("deps") {

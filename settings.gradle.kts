@@ -1,3 +1,5 @@
+rootProject.name = "norris"
+
 pluginManagement {
     repositories {
         google()
