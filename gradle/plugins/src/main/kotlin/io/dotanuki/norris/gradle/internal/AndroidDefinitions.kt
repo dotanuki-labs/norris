@@ -8,6 +8,6 @@ internal object AndroidDefinitions {
     const val minSdk = 25
     const val targetSdk = compileSdk
 
-    const val buildToolsVersion = "32.0.0"
+    const val buildToolsVersion = "33.0.0"
     val noGeneratedDensities = Collections.emptySet<String>().toTypedArray()
 }
