@@ -32,7 +32,7 @@ val factsModule = DI.Module("facts-module") {
             }
 
             val host: FragmentActivity = instance(KodeinTags.hostActivity)
-            ViewModelProvider(host, factory).get(FactsViewModel::class.java)
+            ViewModelProvider(host, factory)[FactsViewModel::class.java]
         }
     }
 
