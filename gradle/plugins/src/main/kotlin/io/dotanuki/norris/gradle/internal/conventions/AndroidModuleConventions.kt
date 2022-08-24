@@ -81,7 +81,7 @@ fun Project.applyAndroidFeatureLibraryConventions() {
 
     android.apply {
         defaultConfig {
-            testApplicationId = "io.dotanuki.demos.norris.test"
+            testApplicationId = "io.dotanuki.demos.norris"
             testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         }
 

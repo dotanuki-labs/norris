@@ -6,7 +6,7 @@
     <application android:requestLegacyExternalStorage="true">
         <activity
             android:theme="@style/NorrisTheme"
-            android:name=".SearchScreenshotsHelperActivity"
+            android:name=".test.SearchScreenshotsHelperActivity"
             android:exported="true"
             />
     </application>
