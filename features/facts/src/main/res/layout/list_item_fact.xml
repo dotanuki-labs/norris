@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    tools:viewBindingIgnore="true"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="8dp"
@@ -29,5 +30,4 @@
             android:textAppearance="@style/TextAppearance.MaterialComponents.Button"
             android:textColor="@color/primary_dark" />
     </LinearLayout>
-
 </com.google.android.material.card.MaterialCardView>
