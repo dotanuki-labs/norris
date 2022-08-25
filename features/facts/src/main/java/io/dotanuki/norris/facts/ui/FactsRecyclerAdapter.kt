@@ -30,7 +30,6 @@ class FactsRecyclerAdapter(
 
         fun bind(row: FactDisplayRow, action: (String) -> Unit) {
             itemView.run {
-
                 val factLabel = itemView.findViewById<TextView>(R.id.factLabel)
 
                 val appearance =

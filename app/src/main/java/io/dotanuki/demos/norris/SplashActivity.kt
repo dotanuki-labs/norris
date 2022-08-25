@@ -3,9 +3,7 @@ package io.dotanuki.demos.norris
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
-import io.dotanuki.demos.norris.databinding.ActivitySplashBinding
 import io.dotanuki.norris.common.android.selfBind
-import io.dotanuki.norris.common.android.viewBinding
 import io.dotanuki.norris.navigator.Navigator
 import io.dotanuki.norris.navigator.Screen
 import kotlinx.coroutines.delay
@@ -19,12 +17,11 @@ class SplashActivity : AppCompatActivity(), DIAware {
 
     override val di by selfBind()
 
-    private val viewBindings by viewBinding(ActivitySplashBinding::inflate)
     private val navigator by instance<Navigator>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(viewBindings.root)
+        setContentView(R.layout.activity_splash)
 
         lifecycleScope.launch {
             delay(1000)
