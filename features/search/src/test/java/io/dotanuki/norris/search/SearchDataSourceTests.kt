@@ -17,8 +17,10 @@ import org.junit.runner.RunWith
 import org.kodein.di.direct
 import org.kodein.di.instance
 import org.robolectric.RobolectricTestRunner
+import org.robolectric.annotation.Config
 
 @RunWith(RobolectricTestRunner::class)
+@Config(application = TestApplication::class)
 class SearchDataSourceTests {
 
     @get:Rule val restInfrastructure = RestInfrastructureRule()
