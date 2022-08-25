@@ -1,16 +1,14 @@
 package io.dotanuki.norris.facts.test
 
-import androidx.test.ext.junit.rules.ActivityScenarioRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import com.dropbox.differ.SimpleImageComparator
-import com.dropbox.dropshots.Dropshots
 import io.dotanuki.norris.facts.R
 import io.dotanuki.norris.facts.presentation.FactDisplayRow
 import io.dotanuki.norris.facts.presentation.FactsPresentation
 import io.dotanuki.norris.facts.presentation.FactsScreenState
 import io.dotanuki.norris.facts.ui.FactsView
 import io.dotanuki.norris.networking.errors.RemoteServiceIntegrationError
-import io.dotanuki.testing.screenshots.screenshot
+import io.dotanuki.testing.screenshots.ScreenshotDriver
+import io.dotanuki.testing.screenshots.ScreenshotTestRule
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -18,19 +16,26 @@ import org.junit.runner.RunWith
 @RunWith(AndroidJUnit4::class)
 class FactsScreenshotTests {
 
-    @get:Rule val activityScenarioRule = ActivityScenarioRule(FactsScreeshotsHelperActivity::class.java)
+    private fun driver() = object : ScreenshotDriver<FactsScreeshotsHelperActivity, FactsScreenState> {
+        override fun beforeCapturing(target: FactsScreeshotsHelperActivity, state: FactsScreenState) {
+            val factsView = target.findViewById<FactsView>(R.id.factsViewRoot)
+            listOf(FactsScreenState.Idle, state).forEach { factsView.updateWith(it) }
+        }
 
-    @get:Rule val dropshots = Dropshots(
-        imageComparator = SimpleImageComparator(maxDistance = 0.007f)
-    )
+        override fun imageName(state: FactsScreenState): String =
+            "FactsScreenshotTests-${state.javaClass.simpleName}State"
+    }
+
+    @get:Rule val screenshotTestRule = ScreenshotTestRule.create(driver())
 
     @Test fun emptyState() {
-        checkScreenshot(FactsScreenState.Empty)
+        val state = FactsScreenState.Empty
+        screenshotTestRule.checkScreenshot(state)
     }
 
     @Test fun errorState() {
-        val error = RemoteServiceIntegrationError.RemoteSystem
-        checkScreenshot(FactsScreenState.Failed(error))
+        val state = FactsScreenState.Failed(RemoteServiceIntegrationError.RemoteSystem)
+        screenshotTestRule.checkScreenshot(state)
     }
 
     @Test fun successState() {
@@ -48,24 +53,7 @@ class FactsScreenshotTests {
         )
 
         val presentation = FactsPresentation("humor", facts)
-        checkScreenshot(FactsScreenState.Success(presentation))
-    }
-
-    private fun checkScreenshot(targetState: FactsScreenState) {
-
-        val screenshotName = "FactsScreenshotTests-${targetState.javaClass.simpleName}State"
-
-        activityScenarioRule.scenario.screenshot(
-            prepare = { launched ->
-                val factsView = launched.findViewById<FactsView>(R.id.factsViewRoot)
-
-                listOf(FactsScreenState.Idle, targetState).forEach {
-                    factsView.updateWith(it)
-                }
-            },
-            capture = { resumed ->
-                dropshots.assertSnapshot(resumed, name = screenshotName)
-            }
-        )
+        val state = FactsScreenState.Success(presentation)
+        screenshotTestRule.checkScreenshot(state)
     }
 }
