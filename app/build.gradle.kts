@@ -24,8 +24,6 @@ dependencies {
     implementation(libs.androidx.lifecycle.runtime)
     implementation(libs.square.okhttp.core)
 
-    releaseImplementation(libs.square.leakcanary.release)
-
     androidTestImplementation(projects.platform.android.testingPersistance)
     androidTestImplementation(projects.platform.jvm.testingRest)
 
