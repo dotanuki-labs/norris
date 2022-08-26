@@ -2,49 +2,46 @@ package io.dotanuki.norris.gradle.internal.conventions
 
 import org.gradle.api.Project
 
-private val vulnerabilitiesTracking = mapOf(
-    "sonatype-2018-0705" to "commons-io not packaged in the final product",
-    "sonatype-2020-0641" to "grpc-core not packaged in the final product",
-    "sonatype-2020-0926" to "guava not packaged in the final product",
-    "CVE-2021-22569" to "protobuf-java not packaged in the final product",
-    "CVE-2021-37714" to "jsoup not packaged in the final product",
-    "CVE-2019-9512" to "netty-codec-http2 not packaged in the final product",
-    "CVE-2019-9514" to "netty-codec-http2 not packaged in the final product",
-    "CVE-2019-9515" to "netty-codec-http2 not packaged in the final product",
-    "CVE-2019-9518" to "netty-codec-http2 not packaged in the final product",
-    "CVE-2021-21295" to "netty-codec-http2 not packaged in the final product",
-    "CVE-2019-20444" to "netty-codec-http not packaged in the final product",
-    "sonatype-2020-1031" to "netty-codec-http not packaged in the final product",
-    "CVE-2021-43797" to "netty-codec-http not packaged in the final product",
-    "CVE-2021-21295" to "netty-codec-http not packaged in the final product",
-    "CVE-2021-21290" to "netty-codec-http not packaged in the final product",
-    "CVE-2019-20445" to "netty-codec-http not packaged in the final product",
-    "CVE-2019-16869" to "netty-codec-http not packaged in the final product",
-    "sonatype-2020-0026" to "netty-handler not packaged in the final product",
-    "CVE-2021-21290" to "netty-handler not packaged in the final product",
-    "CVE-2021-21290" to "netty-handler not packaged in the final product",
-    "sonatype-2021-0789" to "netty-codec not packaged in the final product",
-    "CVE-2021-37136" to "netty-codec not packaged in the final product",
-    "CVE-2021-37137" to "netty-codec not packaged in the final product",
-    "CVE-2021-21290" to "netty-common not packaged in the final product",
-    "CVE-2020-15250" to "junit not packaged in the final product",
-    "CVE-2022-36033" to "jsoup not packaged in the final product",
-    "sonatype-2021-4916" to "bcprov-jdk15on not packaged in the final product",
-    "sonatype-2021-1694" to "gson not packaged in the final product"
+private val flaggedDependencies = mapOf(
+    "sonatype-2018-0705" to "commons-io",
+    "sonatype-2020-0641" to "grpc-core",
+    "sonatype-2020-0926" to "guava",
+    "CVE-2021-22569" to "protobuf-java",
+    "CVE-2021-37714" to "jsoup",
+    "CVE-2019-9512" to "netty-codec-http2",
+    "CVE-2019-9514" to "netty-codec-http2",
+    "CVE-2019-9515" to "netty-codec-http2",
+    "CVE-2019-9518" to "netty-codec-http2",
+    "CVE-2021-21295" to "netty-codec-http2",
+    "CVE-2019-20444" to "netty-codec-http",
+    "sonatype-2020-1031" to "netty-codec-http",
+    "CVE-2021-43797" to "netty-codec-http",
+    "CVE-2021-21295" to "netty-codec-http",
+    "CVE-2021-21290" to "netty-codec-http",
+    "CVE-2019-20445" to "netty-codec-http",
+    "CVE-2019-16869" to "netty-codec-http",
+    "sonatype-2020-0026" to "netty-handler",
+    "CVE-2021-21290" to "netty-handler",
+    "CVE-2021-21290" to "netty-handler",
+    "sonatype-2021-0789" to "netty-codec",
+    "CVE-2021-37136" to "netty-codec",
+    "CVE-2021-37137" to "netty-codec",
+    "CVE-2021-21290" to "netty-common",
+    "CVE-2020-15250" to "junit",
+    "CVE-2022-36033" to "jsoup",
+    "sonatype-2021-4916" to "bcprov-jdk15on",
+    "sonatype-2021-1694" to "gson"
 )
 
 fun Project.ignoredVulnerabilities(): Set<String> =
-    vulnerabilitiesTracking.let {
-        logger.lifecycle("This project deliberately ignores CVEs for some of its transistive dependencies")
-        it.entries
-            .onEach { (id, reason) -> logger.info(formattedMessage(id, reason)) }
-            .map { entry -> entry.key }
-            .toSet()
-    }
+    flaggedDependencies.let {
+        logger.lifecycle("")
+        logger.lifecycle("Security Checks Plugin:")
+        logger.lifecycle("Ignoring CVE/Sonatype advisories for some project transistive dependencies.")
+        logger.lifecycle("Reason : they are not packaged in the final APK")
+        logger.lifecycle("")
 
-private fun formattedMessage(vulnerabilityId: String, reason: String): String =
-    """
-    Ignoring : https://ossindex.sonatype.org/vulnerability/$vulnerabilityId
-    Reason : $reason
-    
-    """.trimIndent()
+        it.map { entry -> entry.key }.toSet().onEach { id ->
+            logger.lifecycle(" • https://ossindex.sonatype.org/vulnerability/$id")
+        }
+    }
