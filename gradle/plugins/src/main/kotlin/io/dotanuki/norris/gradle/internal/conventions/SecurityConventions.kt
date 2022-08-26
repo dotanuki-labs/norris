@@ -28,6 +28,7 @@ private val vulnerabilitiesTracking = mapOf(
     "CVE-2021-37137" to "netty-codec not packaged in the final product",
     "CVE-2021-21290" to "netty-common not packaged in the final product",
     "CVE-2020-15250" to "junit not packaged in the final product",
+    "CVE-2022-36033" to "jsoup not packaged in the final product",
     "sonatype-2021-4916" to "bcprov-jdk15on not packaged in the final product",
     "sonatype-2021-1694" to "gson not packaged in the final product"
 )
