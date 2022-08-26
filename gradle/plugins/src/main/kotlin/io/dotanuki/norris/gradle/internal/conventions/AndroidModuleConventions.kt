@@ -105,6 +105,7 @@ internal fun Project.applyAndroidApplicationConventions() {
 
     if (isTestMode()) {
         pluginManager.apply("com.slack.keeper")
+
         val catalog = extensions.getByType(VersionCatalogsExtension::class).named("libs")
         catalog.findLibrary("square-leakcanary-release").ifPresent {
             dependencies.add("releaseImplementation", it.get())
