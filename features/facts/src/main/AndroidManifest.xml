@@ -6,7 +6,7 @@
         android:theme="@style/NorrisTheme">
         <activity
             android:name=".ui.FactsActivity"
-            android:exported="true"
+            android:exported="false"
             android:screenOrientation="portrait"
             />
     </application>
