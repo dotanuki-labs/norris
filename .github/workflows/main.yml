@@ -172,9 +172,15 @@ jobs:
         image: opensecurity/mobile-security-framework-mobsf:latest
         env:
           MOBSF_API_KEY: dotanuki
-          API_ONLY: 1
+          MOBSF_API_ONLY: 1
         ports:
           - 8000:8000
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 20s
+          --health-timeout 10s
+          --health-retries 10
+
     steps:
       - name: Project Checkout
         uses: actions/checkout@v3.0.2
