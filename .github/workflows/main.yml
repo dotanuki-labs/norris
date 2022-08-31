@@ -166,6 +166,15 @@ jobs:
     runs-on: ubuntu-20.04
     timeout-minutes: 10
     needs: assemble-apk
+
+    services:
+      mobsf:
+        image: opensecurity/mobile-security-framework-mobsf:latest
+        env:
+          MOBSF_API_KEY: dotanuki
+          API_ONLY: 1
+        ports:
+          - 8000:8000
     steps:
       - name: Project Checkout
         uses: actions/checkout@v3.0.2
@@ -180,6 +189,18 @@ jobs:
           head: HEAD
           extra_args: --debug --only-verified
 
+      - name: Fetch APK from previous build
+        uses: actions/download-artifact@v3
+
+      - name: Inspect APK with MobSF
+        run: ./scripts/mobsf-scan.sh release-apk/app-release.apk
+
+      - name: Archive MobSF reports
+        uses: actions/upload-artifact@v3
+        with:
+          name: mobsf-reports
+          path: mobsf-reports
+
       - name: Setup Android Build
         uses: ./.github/actions/setup-android-build
         with:
@@ -193,9 +214,6 @@ jobs:
         with:
           name: cyclonedx-sbom
           path: ./oss-index-cyclonedx-bom.json
-
-      - name: Fetch APK from previous build
-        uses: actions/download-artifact@v3
 
       - name: Analyse APK with AppSweep
         uses: guardsquare/appsweep-action@main
