@@ -5,7 +5,7 @@
     <application android:theme="@style/NorrisTheme">
         <activity
             android:name=".ui.SearchActivity"
-            android:exported="true"
+            android:exported="false"
             android:screenOrientation="portrait"
             />
     </application>
