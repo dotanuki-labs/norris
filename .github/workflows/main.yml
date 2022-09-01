@@ -164,7 +164,7 @@ jobs:
 
   security-analysis:
     runs-on: ubuntu-20.04
-    timeout-minutes: 10
+    timeout-minutes: 20
     needs: assemble-apk
 
     services:
@@ -179,8 +179,8 @@ jobs:
           --health-cmd "curl --fail http://0.0.0.0:8000/about"
           --health-interval 20s
           --health-timeout 10s
-          --health-retries 50
-          --health-start-period 150s
+          --health-retries 20
+          --health-start-period 200s
 
     steps:
       - name: Project Checkout
