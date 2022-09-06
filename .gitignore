@@ -70,3 +70,6 @@ dotanuki-demos.jks
 
 # SBOMs
 oss-index-cyclonedx-bom.json
+
+# Reports
+mobsf-reports
