@@ -4,7 +4,7 @@ import java.util.Collections
 
 internal object AndroidDefinitions {
 
-    const val compileSdk = 32
+    const val compileSdk = 33
     const val minSdk = 25
     const val targetSdk = compileSdk
 
