@@ -20,7 +20,7 @@ import org.robolectric.RobolectricTestRunner
 import org.robolectric.annotation.Config
 
 @RunWith(RobolectricTestRunner::class)
-@Config(application = TestApplication::class)
+@Config(application = TestApplication::class, sdk = [32])
 class SearchDataSourceTests {
 
     @get:Rule val restInfrastructure = RestInfrastructureRule()
