@@ -16,7 +16,7 @@ runs:
       - name: Normalize JDK name
         shell: bash
         id: normalise-jdk
-        run: ${{ github.action_path }}/normalise-jdk-version.sh
+        run: ${{ github.action_path }}/normalize-jdk-version.sh
 
       - name: Setup JDK
         uses: actions/setup-java@v3.4.1
