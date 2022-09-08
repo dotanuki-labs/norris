@@ -4,15 +4,15 @@ import com.android.build.api.dsl.ApplicationExtension
 import com.android.build.api.variant.ApplicationAndroidComponentsExtension
 import com.android.build.gradle.BaseExtension
 import com.slack.keeper.optInToKeeper
-import io.dotanuki.norris.gradle.internal.AndroidDefinitions
+import io.dotanuki.norris.gradle.internal.PlatformDefinitions
 import io.dotanuki.norris.gradle.internal.ProguardRules
 import io.dotanuki.norris.gradle.internal.Versioning
-import org.gradle.api.JavaVersion
 import org.gradle.api.Project
 import org.gradle.api.artifacts.VersionCatalogsExtension
 import org.gradle.kotlin.dsl.getByType
 import java.io.File
 import java.io.FileInputStream
+import java.util.Collections
 import java.util.Properties
 
 internal fun Project.isTestMode(): Boolean = properties["testMode"]?.let { true } ?: false
@@ -20,29 +20,29 @@ internal fun Project.isTestMode(): Boolean = properties["testMode"]?.let { true 
 internal fun Project.applyAndroidStandardConventions() {
 
     val android = extensions.findByName("android") as BaseExtension
+    val platformDefinitions = PlatformDefinitions.from(this)
 
     android.run {
-        compileSdkVersion(AndroidDefinitions.compileSdk)
-        buildToolsVersion(AndroidDefinitions.buildToolsVersion)
+        compileSdkVersion(platformDefinitions.androidTargetSdk)
+        buildToolsVersion(platformDefinitions.androidBuildToolsVersion)
 
         defaultConfig {
-
-            minSdk = AndroidDefinitions.minSdk
-            targetSdk = AndroidDefinitions.targetSdk
+            minSdk = platformDefinitions.androidMinSdk
+            targetSdk = platformDefinitions.androidTargetSdk
             versionCode = Versioning.version.code
             versionName = Versioning.version.name
 
             vectorDrawables.run {
                 useSupportLibrary = true
-                generatedDensities(*(AndroidDefinitions.noGeneratedDensities))
+                generatedDensities(*Collections.emptySet<String>().toTypedArray())
             }
 
             resourceConfigurations.add("en")
         }
 
         compileOptions {
-            sourceCompatibility = JavaVersion.VERSION_1_8
-            targetCompatibility = JavaVersion.VERSION_1_8
+            sourceCompatibility = platformDefinitions.javaCompatibilityVersion
+            targetCompatibility = platformDefinitions.javaCompatibilityVersion
         }
 
         testOptions {
@@ -50,7 +50,7 @@ internal fun Project.applyAndroidStandardConventions() {
             unitTests.isIncludeAndroidResources = true
             unitTests.all {
                 // https://github.com/robolectric/robolectric/issues/3023
-                it.jvmArgs?.addAll(listOf("-ea", "-noverify"))
+                it.jvmArgs.addAll(listOf("-ea", "-noverify"))
             }
         }
     }
