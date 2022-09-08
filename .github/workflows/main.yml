@@ -92,6 +92,10 @@ jobs:
   espresso-prepare:
     runs-on: ubuntu-20.04
     timeout-minutes: 10
+    strategy:
+      fail-fast: false
+      matrix:
+        jdk: ['jdk11', 'jdk17']
 
     steps:
       - name: Project Checkout
@@ -101,7 +105,7 @@ jobs:
         uses: ./.github/actions/setup-android-build
         with:
           norris-key: ${{ secrets.NORRIS_CRYPTO_KEY }}
-          jdk-version: 'jdk11'
+          jdk-version: ${{ matrix.jdk }}
 
       - name: Assemble Instrumentation tests
         run: ./gradlew assembleAndroidTest -PtestMode=true
@@ -109,7 +113,7 @@ jobs:
       - name: Archive Test APK
         uses: actions/upload-artifact@v3
         with:
-          name: test-apks
+          name: test-apks-${{ matrix.jdk }}
           path: |
             app/build/outputs/apk/androidTest/release
             features/**/build/outputs/apk/androidTest/debug
@@ -132,7 +136,7 @@ jobs:
         with:
           api-token: ${{ secrets.EMULATOR_WTF_TOKEN }}
           app: release-apk-jdk11/app-release.apk
-          test: test-apks/app/build/outputs/apk/androidTest/release/app-release-androidTest.apk
+          test: test-apks-jdk11/app/build/outputs/apk/androidTest/release/app-release-androidTest.apk
           outputs-dir: emulator-wtf-results
           devices: model=${{ matrix.device }},version=31,atd=true
           use-orchestrator: true
@@ -164,7 +168,7 @@ jobs:
         with:
           api-token: ${{ secrets.EMULATOR_WTF_TOKEN }}
           app: release-apk-jdk11/app-release.apk
-          test: test-apks/features/${{ matrix.module }}/build/outputs/apk/androidTest/debug/${{ matrix.module }}-debug-androidTest.apk
+          test: test-apks-jdk11/features/${{ matrix.module }}/build/outputs/apk/androidTest/debug/${{ matrix.module }}-debug-androidTest.apk
           outputs-dir: emulator-wtf-results
           devices: model=Pixel2,version=31
           use-orchestrator: true
