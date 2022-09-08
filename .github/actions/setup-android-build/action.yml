@@ -30,7 +30,7 @@ runs:
           path: |
             ~/.gradle/caches
             ~/.gradle/wrapper
-          key: ${{ runner.os }}-${{ github.job }}-${{ hashFiles('**/gradle/wrapper/gradle-wrapper.properties') }}-${{ hashFiles('**/gradle/libs.versions.toml') }}-${{ hashFiles('**/gradle/plugins/**/*.kt') }}
+          key: ${{ runner.os }}-${{ github.job }}-${{ inputs.jdk-version }}-${{ hashFiles('**/gradle/wrapper/gradle-wrapper.properties') }}-${{ hashFiles('**/gradle/libs.versions.toml') }}-${{ hashFiles('**/gradle/plugins/**/*.kt') }}
           restore-keys: ${{ runner.os }}-${{ github.job }}-
 
       - name: Optimize for Gradle build
