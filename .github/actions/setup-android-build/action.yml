@@ -2,10 +2,10 @@ name: "Setup Android build"
 description: "Common steps before running a Gradle command, regarding the Runner OS"
 
 inputs:
-  jdkversion:
+  jdk-version:
     description: “JDK version to setup”
     required: false
-    default: '11'
+    default: 'jdk11'
   norris-key:
     description: “GPG key required to decript local files”
     required: true
@@ -16,7 +16,7 @@ runs:
       - name: Normalize JDK name
         shell: bash
         id: normalise-jdk
-        run: ${{ github.action_path }}/normalize-jdk-version.sh
+        run: ${{ github.action_path }}/normalize-jdk-version.sh ${{ inputs.jdk-version }}
 
       - name: Setup JDK
         uses: actions/setup-java@v3.4.1
