@@ -6,6 +6,8 @@ on:
     branches:
       - master
 
+permissions: read-all
+
 jobs:
   static-analysis:
     runs-on: ubuntu-20.04
@@ -180,6 +182,25 @@ jobs:
           head: HEAD
           extra_args: --debug --only-verified
 
+      - name: Evaluate Scorecard with OpenSSF
+        uses: ossf/scorecard-action@v1.1.2
+        with:
+          results_file: results.sarif
+          results_format: sarif
+          repo_token: ${{ secrets.DOTANUKI_BOT_TOKEN }}
+          publish_results: true
+
+      - name: "Archive Scorecard results"
+        uses: actions/upload-artifact@v3.1.0 
+        with:
+          name: ossf-scorecard-sarif
+          path: results.sarif
+
+      - name: "Upload to code-scanning"
+        uses: github/codeql-action/upload-sarif@v2.1.21
+        with:
+          sarif_file: results.sarif
+
       - name: Validate Gradle Wrapper
         uses: gradle/wrapper-validation-action@v1.0.4
 
@@ -191,7 +212,7 @@ jobs:
       - name: Check security issues in project dependencies and generate SBOM
         run: ./gradlew clean ossIndexAudit
 
-      - name: Archive CycloneDx SBOM
+      - name: Archive CycloneDX SBOM
         uses: actions/upload-artifact@v3
         with:
           name: cyclonedx-sbom
