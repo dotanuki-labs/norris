@@ -21,6 +21,7 @@ buildscript {
 
 plugins {
     id("io.dotanuki.gradle.security")
+    id("io.dotanuki.gradle.featurematrix")
 }
 
 allprojects {

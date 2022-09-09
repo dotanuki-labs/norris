@@ -32,6 +32,12 @@ gradlePlugin {
             displayName = "Security Checks Gradle Plugin"
             implementationClass = "io.dotanuki.norris.gradle.SecurityChecksPlugin"
         }
+
+        create("feature-matrix-plugin") {
+            id = "io.dotanuki.gradle.featurematrix"
+            displayName = "Feature Matrix Gradle Plugin"
+            implementationClass = "io.dotanuki.norris.gradle.FeatureMatrixPlugin"
+        }
     }
 }
 

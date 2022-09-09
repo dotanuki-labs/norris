@@ -22,6 +22,25 @@ jobs:
       - name: Check code formatting
         run: ./scripts/static-analysis.sh all
 
+  features-lookup:
+    runs-on: ubuntu-20.04
+    timeout-minutes: 10
+    steps:
+      - name: Project Checkout
+        uses: actions/checkout@v3.0.2
+
+      - name: Setup Android Build
+        uses: ./.github/actions/setup-android-build
+        with:
+          jdk-version: 'jdk11'
+          norris-key: ${{ secrets.NORRIS_CRYPTO_KEY }}
+
+      - name: Evaluate features
+        run: ./gradlew featureMatrix
+
+      - name: Expose evaluated features into Workflow
+        run: echo "::set-output name=matrix::$(cat build/outputs/matrix/features.json)"
+
   unit-tests:
     runs-on: ubuntu-20.04
     timeout-minutes: 10
@@ -150,14 +169,12 @@ jobs:
           path: emulator-wtf-results
 
   screenshot-tests:
-    strategy:
-      fail-fast: false
-      matrix:
-        module: ['facts', 'search']
-
     runs-on: ubuntu-20.04
     timeout-minutes: 15
-    needs: [assemble-apk, espresso-prepare, unit-tests, static-analysis]
+    needs: [assemble-apk, espresso-prepare, unit-tests, static-analysis, features-lookup]
+    strategy:
+      fail-fast: false
+      matrix: ${{ fromJson(needs.features-lookup.outputs.matrix) }}
 
     steps:
       - name: Fetch Instrumentation artefacts
