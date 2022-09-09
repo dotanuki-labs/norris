@@ -39,7 +39,10 @@ jobs:
         run: ./gradlew featureMatrix
 
       - name: Expose evaluated features into Workflow
-        run: echo "::set-output name=matrix::$(cat build/outputs/matrix/features.json)"
+        run: |
+          modules=$(cat build/outputs/matrix/features.json)
+          echo $modules
+          echo "::set-output name=matrix::{\"module\":$modules}"
 
   unit-tests:
     runs-on: ubuntu-20.04
