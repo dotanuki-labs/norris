@@ -10,7 +10,7 @@ abstract class FeatureMatrixTask : DefaultTask() {
         val features =
             project.rootProject.subprojects
                 .filter { it.layout.projectDirectory.asFile.path.contains("features/") }
-                .map { it.layout.projectDirectory.asFile.name }
+                .map { "\"" + it.layout.projectDirectory.asFile.name + "\"" }
 
         val buildDir = File("${project.rootProject.buildDir}/outputs/matrix").apply {
             if (!exists()) mkdirs()

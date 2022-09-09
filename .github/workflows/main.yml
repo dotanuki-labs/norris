@@ -25,6 +25,9 @@ jobs:
   features-lookup:
     runs-on: ubuntu-20.04
     timeout-minutes: 10
+    outputs:
+      matrix: ${{ steps.set-matrix.outputs.matrix }}
+    
     steps:
       - name: Project Checkout
         uses: actions/checkout@v3.0.2
@@ -39,6 +42,7 @@ jobs:
         run: ./gradlew featureMatrix
 
       - name: Expose evaluated features into Workflow
+        id: set-matrix
         run: |
           modules=$(cat build/outputs/matrix/features.json)
           echo $modules
