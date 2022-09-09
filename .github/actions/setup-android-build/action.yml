@@ -19,7 +19,7 @@ runs:
         run: ${{ github.action_path }}/normalize-jdk-version.sh ${{ inputs.jdk-version }}
 
       - name: Setup JDK
-        uses: actions/setup-java@v3.4.1
+        uses: actions/setup-java@v3.5.0
         with:
           distribution: 'corretto'
           java-version: ${{ steps.normalise-jdk.outputs.jdk }}
