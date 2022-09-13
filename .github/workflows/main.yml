@@ -269,7 +269,7 @@ jobs:
           paths: all-reports/**/*.xml
 
       - name: Report test results to Foresight
-        uses: runforesight/foresight-test-kit-action@v1.1.1
+        uses: runforesight/foresight-test-kit-action@v1.1.2
         with:
           api_key: ${{ secrets.FORESIGHT_API_KEY }}
           test_format: JUNIT
