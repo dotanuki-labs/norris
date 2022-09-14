@@ -9,6 +9,7 @@ gradle-kotlinx-serialization = "org.jetbrains.kotlin:kotlin-serialization:1.7.10
 gradle-dropshots = "com.dropbox.dropshots:dropshots-gradle-plugin:0.3.0"
 gradle-oss-scan = "org.sonatype.gradle.plugins:scan-gradle-plugin:2.4.1"
 gradle-ruler = "com.spotify.ruler:ruler-gradle-plugin:1.4.0"
+gradle-dependency-guard = "com.dropbox.dependency-guard:dependency-guard:0.3.2"
 
 # Kodein
 kodein-di-jvm = "org.kodein.di:kodein-di-jvm:7.14.0"
