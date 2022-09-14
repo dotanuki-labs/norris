@@ -41,6 +41,7 @@ class AutoModulePlugin : Plugin<Project> {
                 ANDROID_APPLICATION -> {
                     pluginManager.apply("kotlin-android")
                     pluginManager.apply("com.android.application")
+                    pluginManager.apply("com.spotify.ruler")
                     applyKotlinProjectConventions()
                     applyAndroidApplicationConventions()
                 }

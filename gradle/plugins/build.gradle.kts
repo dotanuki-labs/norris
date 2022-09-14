@@ -63,4 +63,5 @@ dependencies {
     compileOnly(deps.gradle.testlogger)
     compileOnly(deps.gradle.keeper)
     compileOnly(deps.gradle.oss.scan)
+    compileOnly(deps.gradle.ruler)
 }

@@ -4,6 +4,7 @@ import com.android.build.api.dsl.ApplicationExtension
 import com.android.build.api.variant.ApplicationAndroidComponentsExtension
 import com.android.build.gradle.BaseExtension
 import com.slack.keeper.optInToKeeper
+import com.spotify.ruler.plugin.RulerExtension
 import io.dotanuki.norris.gradle.internal.PlatformDefinitions
 import io.dotanuki.norris.gradle.internal.ProguardRules
 import io.dotanuki.norris.gradle.internal.Versioning
@@ -175,5 +176,15 @@ internal fun Project.applyAndroidApplicationConventions() {
         packagingOptions {
             jniLibs.useLegacyPackaging = true
         }
+    }
+
+    val platformDefinitions = PlatformDefinitions.from(this)
+    val ruler = extensions.findByName("ruler") as RulerExtension
+
+    ruler.run {
+        abi.set("arm64-v8a")
+        locale.set("en")
+        screenDensity.set(480)
+        sdkVersion.set(platformDefinitions.androidMinSdk)
     }
 }
