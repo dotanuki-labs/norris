@@ -17,6 +17,7 @@ buildscript {
         classpath(libs.gradle.dropshots)
         classpath(libs.gradle.oss.scan)
         classpath(libs.gradle.ruler)
+        classpath(libs.gradle.dependency.guard)
     }
 }
 

@@ -3,6 +3,7 @@ package io.dotanuki.norris.gradle.internal.conventions
 import com.android.build.api.dsl.ApplicationExtension
 import com.android.build.api.variant.ApplicationAndroidComponentsExtension
 import com.android.build.gradle.BaseExtension
+import com.dropbox.gradle.plugins.dependencyguard.DependencyGuardPluginExtension
 import com.slack.keeper.optInToKeeper
 import com.spotify.ruler.plugin.RulerExtension
 import io.dotanuki.norris.gradle.internal.PlatformDefinitions
@@ -186,5 +187,13 @@ internal fun Project.applyAndroidApplicationConventions() {
         locale.set("en")
         screenDensity.set(480)
         sdkVersion.set(platformDefinitions.androidMinSdk)
+    }
+
+    val dependencyGuard = extensions.findByName("dependencyGuard") as DependencyGuardPluginExtension
+
+    dependencyGuard.run {
+        configuration("releaseRuntimeClasspath") {
+            tree = true
+        }
     }
 }
