@@ -209,6 +209,7 @@ jobs:
     runs-on: ubuntu-20.04
     timeout-minutes: 10
     needs: assemble-apk
+
     steps:
       - name: Project Checkout
         uses: actions/checkout@v3.0.2
@@ -251,6 +252,30 @@ jobs:
           COMMIT_HASH: ${{ steps.vars.outputs.sha_short }}
           INPUT_FILE: release-apk-jdk11/app-release.apk
           MAPPING_FILE: release-mappings-jdk11/mapping.txt
+
+  app-size-analysis:
+    runs-on: ubuntu-20.04
+    timeout-minutes: 10
+    needs: assemble-apk
+
+    steps:
+      - name: Project Checkout
+        uses: actions/checkout@v3.0.2
+
+      - name: Setup Android Build
+        uses: ./.github/actions/setup-android-build
+        with:
+          jdk-version: 'jdk11'
+          norris-key: ${{ secrets.NORRIS_CRYPTO_KEY }}
+
+      - name: Analyse AppBundle size
+        run: ./gradlew app:analyzeReleaseBundle
+
+      - name: Archive Reports
+        uses: actions/upload-artifact@v3
+        with:
+          name: app-size-reports
+          path: app/build/reports/ruler/release
 
   test-results-analysis:
     runs-on: ubuntu-20.04
