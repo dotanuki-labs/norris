@@ -42,7 +42,6 @@ class AutoModulePlugin : Plugin<Project> {
                     pluginManager.apply("kotlin-android")
                     pluginManager.apply("com.android.application")
                     pluginManager.apply("com.spotify.ruler")
-                    pluginManager.apply("com.dropbox.dependency-guard")
                     applyKotlinProjectConventions()
                     applyAndroidApplicationConventions()
                 }
