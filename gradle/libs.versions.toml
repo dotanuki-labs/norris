@@ -7,7 +7,7 @@ gradle-testlogger = "com.adarshr:gradle-test-logger-plugin:3.2.0"
 gradle-keeper= "com.slack.keeper:keeper:0.12.0"
 gradle-kotlinx-serialization = "org.jetbrains.kotlin:kotlin-serialization:1.7.10"
 gradle-dropshots = "com.dropbox.dropshots:dropshots-gradle-plugin:0.3.0"
-gradle-oss-scan = "org.sonatype.gradle.plugins:scan-gradle-plugin:2.4.1"
+gradle-oss-scan = "org.sonatype.gradle.plugins:scan-gradle-plugin:2.5.0"
 gradle-ruler = "com.spotify.ruler:ruler-gradle-plugin:1.4.0"
 
 # Kodein
