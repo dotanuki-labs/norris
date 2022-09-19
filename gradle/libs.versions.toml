@@ -1,7 +1,7 @@
 [libraries]
 
 # Gradle Plugins
-gradle-android = "com.android.tools.build:gradle:7.2.2"
+gradle-android = "com.android.tools.build:gradle:7.3.0"
 gradle-kotlin = "org.jetbrains.kotlin:kotlin-gradle-plugin:1.7.10"
 gradle-testlogger = "com.adarshr:gradle-test-logger-plugin:3.2.0"
 gradle-keeper= "com.slack.keeper:keeper:0.12.0"
