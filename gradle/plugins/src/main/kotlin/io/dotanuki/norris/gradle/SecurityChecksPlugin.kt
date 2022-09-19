@@ -5,7 +5,7 @@ import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.sonatype.gradle.plugins.scan.ossindex.OssIndexPluginExtension
 import org.sonatype.gradle.plugins.scan.ossindex.OutputFormat.JSON_CYCLONE_DX_1_4
-import shadow.nexus.shadow.org.cyclonedx.model.Component.Type
+import shadow.org.cyclonedx.model.Component
 
 class SecurityChecksPlugin : Plugin<Project> {
 
@@ -29,7 +29,7 @@ class SecurityChecksPlugin : Plugin<Project> {
             isShowAll = true
             excludeVulnerabilityIds = ignoredVulnerabilities()
             outputFormat = JSON_CYCLONE_DX_1_4
-            cycloneDxComponentType = Type.APPLICATION
+            cycloneDxComponentType = Component.Type.APPLICATION
         }
     }
 }
