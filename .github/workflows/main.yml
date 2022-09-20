@@ -288,11 +288,6 @@ jobs:
       - name: Copy all test results
         run: mkdir all-reports && mv *-tests-reports/ all-reports
 
-      - name: Report test results to GHA
-        uses: test-summary/action@v1.0
-        with:
-          paths: all-reports/**/*.xml
-
       - name: Report test results to Foresight
         uses: runforesight/foresight-test-kit-action@v1.1.2
         with:
