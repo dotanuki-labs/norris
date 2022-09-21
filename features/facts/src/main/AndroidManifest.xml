@@ -4,7 +4,7 @@
     <application
         android:theme="@style/NorrisTheme">
         <activity
-            android:name="io.dotanuki.norris.facts.ui.FactsActivity"
+            android:name=".ui.FactsActivity"
             android:exported="false"
             android:screenOrientation="portrait"
             />
