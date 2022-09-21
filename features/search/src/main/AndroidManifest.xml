@@ -3,7 +3,7 @@
 
     <application android:theme="@style/NorrisTheme">
         <activity
-            android:name="io.dotanuki.norris.search.ui.SearchActivity"
+            android:name=".ui.SearchActivity"
             android:exported="false"
             android:screenOrientation="portrait"
             />
