@@ -1,8 +1,8 @@
 package io.dotanuki.norris.search.test
 
 import androidx.test.ext.junit.runners.AndroidJUnit4
+import io.dotanuki.norris.features.search.R
 import io.dotanuki.norris.networking.errors.RemoteServiceIntegrationError
-import io.dotanuki.norris.search.R
 import io.dotanuki.norris.search.presentation.SearchScreenState
 import io.dotanuki.norris.search.presentation.SearchScreenState.Error
 import io.dotanuki.norris.search.ui.SearchView
