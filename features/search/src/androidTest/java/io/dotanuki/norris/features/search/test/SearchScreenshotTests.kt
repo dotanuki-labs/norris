@@ -5,7 +5,7 @@ import io.dotanuki.norris.features.search.R
 import io.dotanuki.norris.features.search.presentation.SearchScreenState
 import io.dotanuki.norris.features.search.presentation.SearchScreenState.Error
 import io.dotanuki.norris.features.search.ui.SearchView
-import io.dotanuki.norris.networking.errors.RemoteServiceIntegrationError
+import io.dotanuki.platform.jvm.core.networking.errors.RemoteServiceIntegrationError
 import io.dotanuki.testing.screenshots.ScreenshotDriver
 import io.dotanuki.testing.screenshots.ScreenshotTestRule
 import org.junit.Rule

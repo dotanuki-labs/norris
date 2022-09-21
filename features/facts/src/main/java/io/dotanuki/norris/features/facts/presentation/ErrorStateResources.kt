@@ -1,8 +1,8 @@
 package io.dotanuki.norris.features.facts.presentation
 
 import io.dotanuki.norris.features.facts.domain.FactsRetrievalError
-import io.dotanuki.norris.networking.errors.NetworkingError
-import io.dotanuki.norris.networking.errors.RemoteServiceIntegrationError.RemoteSystem
+import io.dotanuki.platform.jvm.core.networking.errors.NetworkingError
+import io.dotanuki.platform.jvm.core.networking.errors.RemoteServiceIntegrationError.RemoteSystem
 import io.dotanuki.norris.platform.android.core.assets.R as assetsR
 
 data class ErrorStateResources(

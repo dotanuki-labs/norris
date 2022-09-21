@@ -7,7 +7,7 @@ import com.google.common.truth.Truth.assertAbout
 import com.google.common.truth.Truth.assertThat
 import io.dotanuki.norris.navigator.Screen.FactsList
 import io.dotanuki.norris.navigator.Screen.SearchQuery
-import io.dotanuki.testing.truth.EspeculativeExecution
+import io.dotanuki.platform.jvm.testing.helpers.truth.EspeculativeExecution
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith

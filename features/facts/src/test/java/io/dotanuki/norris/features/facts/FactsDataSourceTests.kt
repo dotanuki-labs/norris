@@ -3,10 +3,10 @@ package io.dotanuki.norris.features.facts
 import com.google.common.truth.Truth.assertThat
 import io.dotanuki.norris.features.facts.data.FactsDataSource
 import io.dotanuki.norris.features.facts.domain.ChuckNorrisFact
-import io.dotanuki.norris.networking.errors.RemoteServiceIntegrationError
-import io.dotanuki.testing.files.loadFile
-import io.dotanuki.testing.rest.RestInfrastructureRule
-import io.dotanuki.testing.rest.wireRestApi
+import io.dotanuki.platform.jvm.core.networking.errors.RemoteServiceIntegrationError
+import io.dotanuki.platform.jvm.testing.helpers.files.loadFile
+import io.dotanuki.platform.jvm.testing.rest.RestInfrastructureRule
+import io.dotanuki.platform.jvm.testing.rest.wireRestApi
 import kotlinx.coroutines.runBlocking
 import org.junit.Before
 import org.junit.Rule

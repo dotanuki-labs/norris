@@ -14,13 +14,13 @@ import io.dotanuki.norris.features.facts.ui.FactsActivity
 import io.dotanuki.norris.features.facts.ui.FactsView
 import io.dotanuki.norris.features.facts.util.FakeFactsEventsHandler
 import io.dotanuki.norris.features.facts.util.factsTestModule
-import io.dotanuki.norris.networking.errors.RemoteServiceIntegrationError
+import io.dotanuki.platform.jvm.core.networking.errors.RemoteServiceIntegrationError
+import io.dotanuki.platform.jvm.testing.rest.RestDataBuilder
+import io.dotanuki.platform.jvm.testing.rest.RestInfrastructureRule
+import io.dotanuki.platform.jvm.testing.rest.RestInfrastructureTestModule
 import io.dotanuki.testing.app.TestApplication
 import io.dotanuki.testing.app.whenActivityResumed
 import io.dotanuki.testing.persistance.PersistanceHelper
-import io.dotanuki.testing.rest.RestDataBuilder
-import io.dotanuki.testing.rest.RestInfrastructureRule
-import io.dotanuki.testing.rest.RestInfrastructureTestModule
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test

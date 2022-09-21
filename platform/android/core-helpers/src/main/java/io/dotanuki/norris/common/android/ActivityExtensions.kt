@@ -4,7 +4,7 @@ import android.view.LayoutInflater
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.FragmentActivity
 import androidx.viewbinding.ViewBinding
-import io.dotanuki.norris.common.kodein.KodeinTags
+import io.dotanuki.platform.jvm.core.kodein.KodeinTags
 import org.kodein.di.DI
 import org.kodein.di.DIAware
 import org.kodein.di.bind

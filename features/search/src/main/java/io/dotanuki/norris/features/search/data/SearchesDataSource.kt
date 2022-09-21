@@ -2,7 +2,7 @@ package io.dotanuki.norris.features.search.data
 
 import io.dotanuki.norris.features.search.domain.SearchOptions
 import io.dotanuki.norris.persistance.LocalStorage
-import io.dotanuki.norris.rest.ChuckNorrisDotIO
+import io.dotanuki.platform.jvm.core.rest.ChuckNorrisDotIO
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 

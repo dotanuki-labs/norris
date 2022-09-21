@@ -12,13 +12,13 @@ import io.dotanuki.norris.features.search.ui.SearchActivity
 import io.dotanuki.norris.features.search.ui.SearchView
 import io.dotanuki.norris.features.search.util.FakeSearchEventsHandler
 import io.dotanuki.norris.features.search.util.searchTestModule
+import io.dotanuki.platform.jvm.testing.rest.RestDataBuilder
+import io.dotanuki.platform.jvm.testing.rest.RestInfrastructureRule
+import io.dotanuki.platform.jvm.testing.rest.RestInfrastructureTestModule
 import io.dotanuki.testing.app.TestApplication
 import io.dotanuki.testing.app.awaitPendingExecutions
 import io.dotanuki.testing.app.whenActivityResumed
 import io.dotanuki.testing.persistance.PersistanceHelper
-import io.dotanuki.testing.rest.RestDataBuilder
-import io.dotanuki.testing.rest.RestInfrastructureRule
-import io.dotanuki.testing.rest.RestInfrastructureTestModule
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
