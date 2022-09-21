@@ -10,9 +10,8 @@ import com.adevinta.android.barista.interaction.BaristaKeyboardInteractions.pres
 import com.adevinta.android.barista.interaction.BaristaMenuClickInteractions.clickMenu
 import com.adevinta.android.barista.interaction.BaristaSleepInteractions
 import com.adevinta.android.barista.internal.matcher.DisplayedMatchers.displayedWithId
-import io.dotanuki.norris.facts.R as FactsR
-import io.dotanuki.norris.search.R as SearchR
-import io.dotanuki.norris.sharedassets.R as SharedR
+import io.dotanuki.norris.features.facts.R as FactsR
+import io.dotanuki.norris.features.search.R as SearchR
 
 inline fun <reified T : Activity> startingFrom(block: ScreenRobot.() -> Unit) {
     launchActivity<T>().run {
@@ -51,7 +50,7 @@ class ScreenRobot {
     }
 
     fun checkEmptyState() {
-        assertDisplayed(SharedR.string.error_no_results)
+        assertDisplayed("No facts to show")
     }
 
     fun awaitTransition() {

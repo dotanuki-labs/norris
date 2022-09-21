@@ -18,6 +18,13 @@ import java.util.Properties
 
 internal fun Project.isTestMode(): Boolean = properties["testMode"]?.let { true } ?: false
 
+internal fun Project.conventionNamespace(): String {
+    val rootDir = rootProject.rootDir.path
+    val relativePath = projectDir.path.replace(rootDir, "")
+    val relativeNamespace = relativePath.split("/").joinToString(separator = ".") { it.replace("-", ".") }
+    return "io.dotanuki.norris$relativeNamespace"
+}
+
 internal fun Project.applyAndroidStandardConventions() {
 
     val android = extensions.findByName("android") as BaseExtension
@@ -26,6 +33,8 @@ internal fun Project.applyAndroidStandardConventions() {
     android.run {
         compileSdkVersion(platformDefinitions.androidTargetSdk)
         buildToolsVersion(platformDefinitions.androidBuildToolsVersion)
+
+        namespace = conventionNamespace()
 
         defaultConfig {
             minSdk = platformDefinitions.androidMinSdk
@@ -83,6 +92,7 @@ fun Project.applyAndroidFeatureLibraryConventions() {
     val android = extensions.findByName("android") as BaseExtension
 
     android.apply {
+
         defaultConfig {
             testApplicationId = "io.dotanuki.demos.norris.test"
             testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"

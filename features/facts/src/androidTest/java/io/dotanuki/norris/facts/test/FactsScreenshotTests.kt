@@ -1,11 +1,11 @@
 package io.dotanuki.norris.facts.test
 
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import io.dotanuki.norris.facts.R
 import io.dotanuki.norris.facts.presentation.FactDisplayRow
 import io.dotanuki.norris.facts.presentation.FactsPresentation
 import io.dotanuki.norris.facts.presentation.FactsScreenState
 import io.dotanuki.norris.facts.ui.FactsView
+import io.dotanuki.norris.features.facts.R
 import io.dotanuki.norris.networking.errors.RemoteServiceIntegrationError
 import io.dotanuki.testing.screenshots.ScreenshotDriver
 import io.dotanuki.testing.screenshots.ScreenshotTestRule

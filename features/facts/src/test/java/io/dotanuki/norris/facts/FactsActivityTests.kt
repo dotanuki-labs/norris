@@ -14,6 +14,7 @@ import io.dotanuki.norris.facts.ui.FactsActivity
 import io.dotanuki.norris.facts.ui.FactsView
 import io.dotanuki.norris.facts.util.FakeFactsEventsHandler
 import io.dotanuki.norris.facts.util.factsTestModule
+import io.dotanuki.norris.features.facts.R
 import io.dotanuki.norris.networking.errors.RemoteServiceIntegrationError
 import io.dotanuki.testing.app.TestApplication
 import io.dotanuki.testing.app.whenActivityResumed
