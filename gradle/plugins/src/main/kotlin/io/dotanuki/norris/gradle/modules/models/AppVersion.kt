@@ -1,4 +1,4 @@
-package io.dotanuki.norris.gradle.internal
+package io.dotanuki.norris.gradle.modules.models
 
 internal data class AppVersion(
     val name: String,

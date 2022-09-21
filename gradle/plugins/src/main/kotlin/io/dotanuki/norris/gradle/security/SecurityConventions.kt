@@ -1,4 +1,4 @@
-package io.dotanuki.norris.gradle.internal.conventions
+package io.dotanuki.norris.gradle.security
 
 import org.gradle.api.Project
 

@@ -24,19 +24,19 @@ gradlePlugin {
         create("module-conventions-plugin") {
             id = "io.dotanuki.gradle.automodule"
             displayName = "AutoModule Gradle Plugin"
-            implementationClass = "io.dotanuki.norris.gradle.AutoModulePlugin"
+            implementationClass = "io.dotanuki.norris.gradle.modules.AutoModulePlugin"
         }
 
         create("security-checks-plugin") {
             id = "io.dotanuki.gradle.security"
             displayName = "Security Checks Gradle Plugin"
-            implementationClass = "io.dotanuki.norris.gradle.SecurityChecksPlugin"
+            implementationClass = "io.dotanuki.norris.gradle.security.SecurityChecksPlugin"
         }
 
         create("feature-matrix-plugin") {
             id = "io.dotanuki.gradle.featurematrix"
             displayName = "Feature Matrix Gradle Plugin"
-            implementationClass = "io.dotanuki.norris.gradle.FeatureMatrixPlugin"
+            implementationClass = "io.dotanuki.norris.gradle.features.FeatureMatrixPlugin"
         }
     }
 }
