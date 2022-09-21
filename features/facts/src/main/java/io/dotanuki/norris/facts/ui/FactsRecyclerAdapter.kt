@@ -5,9 +5,9 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import io.dotanuki.norris.facts.R
 import io.dotanuki.norris.facts.presentation.FactDisplayRow
 import io.dotanuki.norris.facts.presentation.FactsPresentation
+import io.dotanuki.norris.features.facts.R
 
 class FactsRecyclerAdapter(
     private val presentation: FactsPresentation,

@@ -1,12 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    package="io.dotanuki.norris.search.test">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
 
     <application android:requestLegacyExternalStorage="true">
         <activity
             android:theme="@style/NorrisTheme"
-            android:name=".SearchScreenshotsHelperActivity"
+            android:name="io.dotanuki.norris.search.test.SearchScreenshotsHelperActivity"
             android:exported="true"
             />
     </application>

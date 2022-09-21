@@ -10,8 +10,8 @@ import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.widget.addTextChangedListener
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputEditText
-import io.dotanuki.norris.search.R
-import io.dotanuki.norris.search.databinding.ViewSearchFactsBinding
+import io.dotanuki.norris.features.search.R
+import io.dotanuki.norris.features.search.databinding.ViewSearchFactsBinding
 import io.dotanuki.norris.search.domain.SearchQueryValidation
 import io.dotanuki.norris.search.presentation.SearchScreenState
 

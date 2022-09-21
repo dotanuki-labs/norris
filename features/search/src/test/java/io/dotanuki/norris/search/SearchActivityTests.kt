@@ -2,6 +2,7 @@ package io.dotanuki.norris.search
 
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.google.common.truth.Truth.assertThat
+import io.dotanuki.norris.features.search.R
 import io.dotanuki.norris.search.di.searchModule
 import io.dotanuki.norris.search.presentation.SearchScreenState
 import io.dotanuki.norris.search.presentation.SearchScreenState.Content

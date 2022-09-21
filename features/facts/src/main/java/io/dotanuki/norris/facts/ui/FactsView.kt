@@ -14,8 +14,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
-import io.dotanuki.norris.facts.R
-import io.dotanuki.norris.facts.databinding.ViewFactsBinding
 import io.dotanuki.norris.facts.domain.FactsRetrievalError
 import io.dotanuki.norris.facts.presentation.ErrorStateResources
 import io.dotanuki.norris.facts.presentation.FactsPresentation
@@ -25,7 +23,9 @@ import io.dotanuki.norris.facts.presentation.FactsScreenState.Failed
 import io.dotanuki.norris.facts.presentation.FactsScreenState.Idle
 import io.dotanuki.norris.facts.presentation.FactsScreenState.Loading
 import io.dotanuki.norris.facts.presentation.FactsScreenState.Success
-import io.dotanuki.norris.sharedassets.R as sharedR
+import io.dotanuki.norris.features.facts.R
+import io.dotanuki.norris.features.facts.databinding.ViewFactsBinding
+import io.dotanuki.norris.platform.android.core.assets.R as assetsR
 
 class FactsView @JvmOverloads constructor(ctx: Context, attrs: AttributeSet? = null) : CoordinatorLayout(ctx, attrs) {
 
@@ -122,7 +122,7 @@ class FactsView @JvmOverloads constructor(ctx: Context, attrs: AttributeSet? = n
 
     private fun showHeadline(query: String) {
 
-        val highlightColor = ContextCompat.getColor(context, sharedR.color.colorAccent)
+        val highlightColor = ContextCompat.getColor(context, assetsR.color.colorAccent)
 
         val highlightedFact = SpannableString(query).apply {
             setSpan(StyleSpan(Typeface.BOLD), 0, query.length, Spannable.SPAN_EXCLUSIVE_INCLUSIVE)
