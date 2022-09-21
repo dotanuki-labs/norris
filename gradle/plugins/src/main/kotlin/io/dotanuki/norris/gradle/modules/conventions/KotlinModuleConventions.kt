@@ -1,6 +1,6 @@
-package io.dotanuki.norris.gradle.internal.conventions
+package io.dotanuki.norris.gradle.modules.conventions
 
-import io.dotanuki.norris.gradle.internal.PlatformDefinitions
+import io.dotanuki.norris.gradle.modules.models.PlatformDefinitions
 import org.gradle.api.Project
 import org.gradle.api.tasks.compile.JavaCompile
 import org.gradle.api.tasks.testing.Test
@@ -37,7 +37,7 @@ internal fun Project.applyKotlinProjectConventions() {
         }
 
         withType<Test>().configureEach {
-            jvmArgs.addAll(jvmArgsAdditionalFlags)
+            jvmArgs?.addAll(jvmArgsAdditionalFlags)
         }
     }
 }

@@ -1,4 +1,4 @@
-package io.dotanuki.norris.gradle.internal
+package io.dotanuki.norris.gradle.modules.models
 
 import org.gradle.api.JavaVersion
 import org.gradle.api.Project

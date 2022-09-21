@@ -1,6 +1,5 @@
-package io.dotanuki.norris.gradle
+package io.dotanuki.norris.gradle.security
 
-import io.dotanuki.norris.gradle.internal.conventions.ignoredVulnerabilities
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.sonatype.gradle.plugins.scan.ossindex.OssIndexPluginExtension

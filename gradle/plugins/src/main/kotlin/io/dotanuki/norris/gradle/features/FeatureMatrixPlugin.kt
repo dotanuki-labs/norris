@@ -1,4 +1,4 @@
-package io.dotanuki.norris.gradle
+package io.dotanuki.norris.gradle.features
 
 import org.gradle.api.Plugin
 import org.gradle.api.Project

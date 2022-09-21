@@ -1,15 +1,15 @@
-package io.dotanuki.norris.gradle
+package io.dotanuki.norris.gradle.modules
 
-import io.dotanuki.norris.gradle.internal.ModuleConvention
-import io.dotanuki.norris.gradle.internal.ModuleConvention.ANDROID_APPLICATION
-import io.dotanuki.norris.gradle.internal.ModuleConvention.ANDROID_FEATURE_LIBRARY
-import io.dotanuki.norris.gradle.internal.ModuleConvention.ANDROID_PLATFORM_LIBRARY
-import io.dotanuki.norris.gradle.internal.ModuleConvention.KOTLIN_PLATFORM_LIBRARY
-import io.dotanuki.norris.gradle.internal.conventions.applyAndroidApplicationConventions
-import io.dotanuki.norris.gradle.internal.conventions.applyAndroidFeatureLibraryConventions
-import io.dotanuki.norris.gradle.internal.conventions.applyAndroidPlatformLibraryConventions
-import io.dotanuki.norris.gradle.internal.conventions.applyKotlinProjectConventions
-import io.dotanuki.norris.gradle.internal.conventions.applyTestLoggingConventions
+import io.dotanuki.norris.gradle.modules.conventions.applyAndroidApplicationConventions
+import io.dotanuki.norris.gradle.modules.conventions.applyAndroidFeatureLibraryConventions
+import io.dotanuki.norris.gradle.modules.conventions.applyAndroidPlatformLibraryConventions
+import io.dotanuki.norris.gradle.modules.conventions.applyKotlinProjectConventions
+import io.dotanuki.norris.gradle.modules.conventions.applyTestLoggingConventions
+import io.dotanuki.norris.gradle.modules.models.ModuleConvention
+import io.dotanuki.norris.gradle.modules.models.ModuleConvention.ANDROID_APPLICATION
+import io.dotanuki.norris.gradle.modules.models.ModuleConvention.ANDROID_FEATURE_LIBRARY
+import io.dotanuki.norris.gradle.modules.models.ModuleConvention.ANDROID_PLATFORM_LIBRARY
+import io.dotanuki.norris.gradle.modules.models.ModuleConvention.KOTLIN_PLATFORM_LIBRARY
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 

@@ -1,13 +1,13 @@
-package io.dotanuki.norris.gradle.internal.conventions
+package io.dotanuki.norris.gradle.modules.conventions
 
 import com.android.build.api.dsl.ApplicationExtension
 import com.android.build.api.variant.ApplicationAndroidComponentsExtension
 import com.android.build.gradle.BaseExtension
 import com.slack.keeper.optInToKeeper
 import com.spotify.ruler.plugin.RulerExtension
-import io.dotanuki.norris.gradle.internal.PlatformDefinitions
-import io.dotanuki.norris.gradle.internal.ProguardRules
-import io.dotanuki.norris.gradle.internal.Versioning
+import io.dotanuki.norris.gradle.modules.models.PlatformDefinitions
+import io.dotanuki.norris.gradle.modules.models.ProguardRules
+import io.dotanuki.norris.gradle.modules.models.Versioning
 import org.gradle.api.Project
 import org.gradle.api.artifacts.VersionCatalogsExtension
 import org.gradle.kotlin.dsl.getByType
@@ -51,7 +51,7 @@ internal fun Project.applyAndroidStandardConventions() {
             unitTests.isIncludeAndroidResources = true
             unitTests.all {
                 // https://github.com/robolectric/robolectric/issues/3023
-                it.jvmArgs.addAll(listOf("-ea", "-noverify"))
+                it.jvmArgs?.addAll(listOf("-ea", "-noverify"))
             }
         }
     }

@@ -1,4 +1,4 @@
-package io.dotanuki.norris.gradle.internal.conventions
+package io.dotanuki.norris.gradle.modules.conventions
 
 import com.adarshr.gradle.testlogger.TestLoggerExtension
 import com.adarshr.gradle.testlogger.theme.ThemeType
