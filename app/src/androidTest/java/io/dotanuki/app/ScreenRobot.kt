@@ -1,4 +1,4 @@
-package io.dotanuki.demos.norris.test
+package io.dotanuki.app
 
 import android.app.Activity
 import androidx.lifecycle.Lifecycle

@@ -1,7 +1,7 @@
-package io.dotanuki.demos.norris
+package io.dotanuki.app
 
 import android.app.Application
-import io.dotanuki.demos.norris.di.applicationModule
+import io.dotanuki.app.di.applicationModule
 import io.dotanuki.features.facts.di.factsModule
 import io.dotanuki.features.search.di.searchModule
 import io.dotanuki.platform.android.core.navigator.di.navigatorModule

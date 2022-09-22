@@ -1,4 +1,4 @@
-package io.dotanuki.demos.norris.navigation
+package io.dotanuki.app.navigation
 
 import android.app.Activity
 import io.dotanuki.features.facts.ui.FactsActivity

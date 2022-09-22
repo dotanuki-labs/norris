@@ -1,6 +1,6 @@
-package io.dotanuki.demos.norris.di
+package io.dotanuki.app.di
 
-import io.dotanuki.demos.norris.navigation.ScreenLinks
+import io.dotanuki.app.navigation.ScreenLinks
 import io.dotanuki.app.BuildConfig
 import okhttp3.HttpUrl.Companion.toHttpUrlOrNull
 import org.kodein.di.DI

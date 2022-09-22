@@ -1,4 +1,4 @@
-package io.dotanuki.demos.norris.test
+package io.dotanuki.app
 
 import androidx.test.espresso.Espresso
 import androidx.test.espresso.base.DefaultFailureHandler

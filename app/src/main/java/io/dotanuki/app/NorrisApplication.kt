@@ -1,4 +1,4 @@
-package io.dotanuki.demos.norris
+package io.dotanuki.app
 
 import android.app.Application
 import org.kodein.di.DIAware

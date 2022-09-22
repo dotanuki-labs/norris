@@ -142,10 +142,6 @@ internal fun Project.applyAndroidApplicationConventions() {
 
         defaultConfig {
             testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-
-            if (isTestMode()) {
-                testInstrumentationRunnerArguments["listener"] = "leakcanary.FailTestOnLeakRunListener"
-            }
         }
 
         signingConfigs {
