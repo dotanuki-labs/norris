@@ -2,8 +2,8 @@ package io.dotanuki.demos.norris
 
 import android.app.Application
 import io.dotanuki.demos.norris.di.applicationModule
-import io.dotanuki.norris.features.facts.di.factsModule
-import io.dotanuki.norris.features.search.di.searchModule
+import io.dotanuki.features.facts.di.factsModule
+import io.dotanuki.features.search.di.searchModule
 import io.dotanuki.platform.android.core.navigator.di.navigatorModule
 import io.dotanuki.platform.android.core.persistance.di.persistanceModule
 import io.dotanuki.platform.jvm.core.rest.di.restInfrastructureModule

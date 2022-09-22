@@ -2,7 +2,7 @@ package io.dotanuki.demos.norris.test
 
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.adevinta.android.barista.interaction.BaristaClickInteractions.clickOn
-import io.dotanuki.norris.features.facts.ui.FactsActivity
+import io.dotanuki.features.facts.ui.FactsActivity
 import io.dotanuki.platform.android.testing.persistance.PersistanceHelper
 import org.junit.Before
 import org.junit.Test
