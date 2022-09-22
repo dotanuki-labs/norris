@@ -10,8 +10,8 @@ import com.adevinta.android.barista.interaction.BaristaKeyboardInteractions.pres
 import com.adevinta.android.barista.interaction.BaristaMenuClickInteractions.clickMenu
 import com.adevinta.android.barista.interaction.BaristaSleepInteractions
 import com.adevinta.android.barista.internal.matcher.DisplayedMatchers.displayedWithId
-import io.dotanuki.norris.features.facts.R as FactsR
-import io.dotanuki.norris.features.search.R as SearchR
+import io.dotanuki.features.facts.R as FactsR
+import io.dotanuki.features.search.R as SearchR
 
 inline fun <reified T : Activity> startingFrom(block: ScreenRobot.() -> Unit) {
     launchActivity<T>().run {

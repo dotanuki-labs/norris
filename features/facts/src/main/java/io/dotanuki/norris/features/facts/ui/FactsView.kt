@@ -14,8 +14,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
-import io.dotanuki.norris.features.facts.R
-import io.dotanuki.norris.features.facts.databinding.ViewFactsBinding
+import io.dotanuki.features.facts.R
+import io.dotanuki.features.facts.databinding.ViewFactsBinding
 import io.dotanuki.norris.features.facts.domain.FactsRetrievalError
 import io.dotanuki.norris.features.facts.presentation.ErrorStateResources
 import io.dotanuki.norris.features.facts.presentation.FactsPresentation
@@ -25,7 +25,7 @@ import io.dotanuki.norris.features.facts.presentation.FactsScreenState.Failed
 import io.dotanuki.norris.features.facts.presentation.FactsScreenState.Idle
 import io.dotanuki.norris.features.facts.presentation.FactsScreenState.Loading
 import io.dotanuki.norris.features.facts.presentation.FactsScreenState.Success
-import io.dotanuki.norris.platform.android.core.assets.R as assetsR
+import io.dotanuki.platform.android.core.assets.R as assetsR
 
 class FactsView @JvmOverloads constructor(ctx: Context, attrs: AttributeSet? = null) : CoordinatorLayout(ctx, attrs) {
 

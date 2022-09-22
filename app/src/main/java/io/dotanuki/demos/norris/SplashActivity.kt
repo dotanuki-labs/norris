@@ -3,7 +3,7 @@ package io.dotanuki.demos.norris
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
-import io.dotanuki.norris.app.R
+import io.dotanuki.app.R
 import io.dotanuki.platform.android.core.helpers.selfBind
 import io.dotanuki.platform.android.core.navigator.Navigator
 import io.dotanuki.platform.android.core.navigator.Screen

@@ -1,7 +1,7 @@
 package io.dotanuki.demos.norris.di
 
 import io.dotanuki.demos.norris.navigation.ScreenLinks
-import io.dotanuki.norris.app.BuildConfig
+import io.dotanuki.app.BuildConfig
 import okhttp3.HttpUrl.Companion.toHttpUrlOrNull
 import org.kodein.di.DI
 import org.kodein.di.bind

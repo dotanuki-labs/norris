@@ -22,7 +22,7 @@ internal fun Project.conventionNamespace(): String {
     val rootDir = rootProject.rootDir.path
     val relativePath = projectDir.path.replace(rootDir, "")
     val relativeNamespace = relativePath.split("/").joinToString(separator = ".") { it.replace("-", ".") }
-    return "io.dotanuki.norris$relativeNamespace"
+    return "io.dotanuki$relativeNamespace"
 }
 
 internal fun Project.applyAndroidStandardConventions() {

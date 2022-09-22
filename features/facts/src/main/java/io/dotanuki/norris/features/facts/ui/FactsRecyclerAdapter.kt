@@ -5,7 +5,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import io.dotanuki.norris.features.facts.R
+import io.dotanuki.features.facts.R
 import io.dotanuki.norris.features.facts.presentation.FactDisplayRow
 import io.dotanuki.norris.features.facts.presentation.FactsPresentation
 
