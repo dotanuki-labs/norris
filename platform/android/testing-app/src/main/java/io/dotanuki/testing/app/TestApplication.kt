@@ -4,7 +4,7 @@ import android.app.Application
 import androidx.test.platform.app.InstrumentationRegistry
 import io.dotanuki.norris.navigator.di.navigatorModule
 import io.dotanuki.norris.persistance.di.persistanceModule
-import io.dotanuki.norris.rest.di.restInfrastructureModule
+import io.dotanuki.platform.jvm.core.rest.di.restInfrastructureModule
 import okhttp3.HttpUrl.Companion.toHttpUrlOrNull
 import org.kodein.di.DI
 import org.kodein.di.DIAware

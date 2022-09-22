@@ -2,9 +2,9 @@ package io.dotanuki.norris.features.facts.data
 
 import io.dotanuki.norris.features.facts.domain.ChuckNorrisFact
 import io.dotanuki.norris.features.facts.domain.FactsRetrievalError
-import io.dotanuki.norris.rest.ChuckNorrisDotIO
-import io.dotanuki.norris.rest.RawSearch
-import io.dotanuki.norris.rest.managedExecution
+import io.dotanuki.platform.jvm.core.rest.ChuckNorrisDotIO
+import io.dotanuki.platform.jvm.core.rest.RawSearch
+import io.dotanuki.platform.jvm.core.rest.managedExecution
 
 class FactsDataSource(
     private val api: ChuckNorrisDotIO
