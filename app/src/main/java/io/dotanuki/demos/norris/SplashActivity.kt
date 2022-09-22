@@ -4,9 +4,9 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import io.dotanuki.norris.app.R
-import io.dotanuki.norris.common.android.selfBind
-import io.dotanuki.norris.navigator.Navigator
-import io.dotanuki.norris.navigator.Screen
+import io.dotanuki.platform.android.core.helpers.selfBind
+import io.dotanuki.platform.android.core.navigator.Navigator
+import io.dotanuki.platform.android.core.navigator.Screen
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.kodein.di.DIAware

@@ -3,7 +3,7 @@ package io.dotanuki.demos.norris.navigation
 import android.app.Activity
 import io.dotanuki.norris.features.facts.ui.FactsActivity
 import io.dotanuki.norris.features.search.ui.SearchActivity
-import io.dotanuki.norris.navigator.Screen
+import io.dotanuki.platform.android.core.navigator.Screen
 
 object ScreenLinks {
 

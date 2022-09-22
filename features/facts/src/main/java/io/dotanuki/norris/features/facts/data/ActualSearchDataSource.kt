@@ -1,6 +1,6 @@
 package io.dotanuki.norris.features.facts.data
 
-import io.dotanuki.norris.persistance.LocalStorage
+import io.dotanuki.platform.android.core.persistance.LocalStorage
 
 class ActualSearchDataSource(private val storage: LocalStorage) {
 

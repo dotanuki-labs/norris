@@ -4,11 +4,11 @@ import com.google.common.truth.Truth.assertThat
 import io.dotanuki.norris.features.search.data.SearchesDataSource
 import io.dotanuki.norris.features.search.di.searchModule
 import io.dotanuki.norris.features.search.domain.SearchOptions
-import io.dotanuki.norris.persistance.LocalStorage
+import io.dotanuki.platform.android.core.persistance.LocalStorage
+import io.dotanuki.platform.android.testing.app.TestApplication
 import io.dotanuki.platform.jvm.testing.rest.RestDataBuilder
 import io.dotanuki.platform.jvm.testing.rest.RestInfrastructureRule
 import io.dotanuki.platform.jvm.testing.rest.wireRestApi
-import io.dotanuki.testing.app.TestApplication
 import kotlinx.coroutines.runBlocking
 import org.junit.Before
 import org.junit.Rule

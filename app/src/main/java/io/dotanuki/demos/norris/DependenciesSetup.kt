@@ -4,8 +4,8 @@ import android.app.Application
 import io.dotanuki.demos.norris.di.applicationModule
 import io.dotanuki.norris.features.facts.di.factsModule
 import io.dotanuki.norris.features.search.di.searchModule
-import io.dotanuki.norris.navigator.di.navigatorModule
-import io.dotanuki.norris.persistance.di.persistanceModule
+import io.dotanuki.platform.android.core.navigator.di.navigatorModule
+import io.dotanuki.platform.android.core.persistance.di.persistanceModule
 import io.dotanuki.platform.jvm.core.rest.di.restInfrastructureModule
 import org.kodein.di.DI
 import org.kodein.di.bind
