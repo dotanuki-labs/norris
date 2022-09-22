@@ -1,7 +1,7 @@
 package io.dotanuki.app.di
 
-import io.dotanuki.app.navigation.ScreenLinks
 import io.dotanuki.app.BuildConfig
+import io.dotanuki.app.navigation.ScreenLinks
 import okhttp3.HttpUrl.Companion.toHttpUrlOrNull
 import org.kodein.di.DI
 import org.kodein.di.bind
