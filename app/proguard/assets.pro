@@ -1,3 +1,3 @@
--dontwarn io.dotanuki.norris.platform.android.core.assets.R$color
--dontwarn io.dotanuki.norris.platform.android.core.assets.R$drawable
--dontwarn io.dotanuki.norris.platform.android.core.assets.R$string
+-dontwarn io.dotanuki.platform.android.core.assets.R$color
+-dontwarn io.dotanuki.platform.android.core.assets.R$drawable
+-dontwarn io.dotanuki.platform.android.core.assets.R$string

@@ -4,7 +4,7 @@
     <application android:requestLegacyExternalStorage="true">
         <activity
             android:theme="@style/NorrisTheme"
-            android:name="io.dotanuki.norris.features.search.test.SearchScreenshotsHelperActivity"
+            android:name="io.dotanuki.features.search.SearchScreenshotsHelperActivity"
             android:exported="true"
             />
     </application>

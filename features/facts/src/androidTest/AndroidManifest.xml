@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
-
     <application android:requestLegacyExternalStorage="true">
         <activity
             android:theme="@style/NorrisTheme"
-            android:name="io.dotanuki.norris.features.facts.test.FactsScreeshotsHelperActivity"
+            android:name="io.dotanuki.features.facts.FactsScreeshotsHelperActivity"
             android:exported="true"
             />
     </application>

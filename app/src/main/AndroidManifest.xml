@@ -6,7 +6,7 @@
     <uses-permission android:name="android.permission.INTERNET"/>
 
     <application
-        android:name="io.dotanuki.demos.norris.NorrisApplication"
+        android:name=".NorrisApplication"
         android:allowBackup="false"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -17,7 +17,7 @@
 
         <activity
             android:exported="true"
-            android:name="io.dotanuki.demos.norris.SplashActivity">
+            android:name=".SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
