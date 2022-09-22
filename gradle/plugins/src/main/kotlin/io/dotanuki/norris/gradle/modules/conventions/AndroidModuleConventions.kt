@@ -9,8 +9,6 @@ import io.dotanuki.norris.gradle.modules.models.PlatformDefinitions
 import io.dotanuki.norris.gradle.modules.models.ProguardRules
 import io.dotanuki.norris.gradle.modules.models.Versioning
 import org.gradle.api.Project
-import org.gradle.api.artifacts.VersionCatalogsExtension
-import org.gradle.kotlin.dsl.getByType
 import java.io.File
 import java.io.FileInputStream
 import java.util.Collections
@@ -116,11 +114,6 @@ internal fun Project.applyAndroidApplicationConventions() {
 
     if (isTestMode()) {
         pluginManager.apply("com.slack.keeper")
-
-        val catalog = extensions.getByType(VersionCatalogsExtension::class).named("libs")
-        catalog.findLibrary("square-leakcanary-release").ifPresent {
-            dependencies.add("releaseImplementation", it.get())
-        }
     }
 
     val androidComponents = extensions.findByName("androidComponents") as ApplicationAndroidComponentsExtension
