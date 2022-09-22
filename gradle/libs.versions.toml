@@ -51,7 +51,6 @@ square-okhttp-core = "com.squareup.okhttp3:okhttp:4.10.0"
 square-okhttp-logging = "com.squareup.okhttp3:logging-interceptor:4.10.0"
 square-okhttp-mockwebserver = "com.squareup.okhttp3:mockwebserver:4.10.0"
 square-retrofit = "com.squareup.retrofit2:retrofit:2.9.0"
-square-leakcanary-release = "com.squareup.leakcanary:leakcanary-android-release:2.9.1"
 square-radiography = "com.squareup.radiography:radiography:2.4.1"
 jw-retrofit-kotlinx = "com.jakewharton.retrofit:retrofit2-kotlinx-serialization-converter:0.8.0"
 
