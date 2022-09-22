@@ -6,9 +6,9 @@ import io.dotanuki.norris.features.facts.presentation.FactDisplayRow
 import io.dotanuki.norris.features.facts.presentation.FactsPresentation
 import io.dotanuki.norris.features.facts.presentation.FactsScreenState
 import io.dotanuki.norris.features.facts.ui.FactsView
+import io.dotanuki.platform.android.testing.screenshots.ScreenshotDriver
+import io.dotanuki.platform.android.testing.screenshots.ScreenshotTestRule
 import io.dotanuki.platform.jvm.core.networking.errors.RemoteServiceIntegrationError
-import io.dotanuki.testing.screenshots.ScreenshotDriver
-import io.dotanuki.testing.screenshots.ScreenshotTestRule
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith

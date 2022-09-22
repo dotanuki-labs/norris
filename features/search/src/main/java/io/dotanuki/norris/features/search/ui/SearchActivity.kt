@@ -5,9 +5,9 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
-import io.dotanuki.norris.common.android.selfBind
 import io.dotanuki.norris.features.search.presentation.SearchInteraction
 import io.dotanuki.norris.features.search.presentation.SearchViewModel
+import io.dotanuki.platform.android.core.helpers.selfBind
 import kotlinx.coroutines.launch
 import org.kodein.di.DIAware
 import org.kodein.di.instance

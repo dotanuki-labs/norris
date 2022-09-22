@@ -7,7 +7,7 @@ import io.dotanuki.norris.features.facts.data.ActualSearchDataSource
 import io.dotanuki.norris.features.facts.data.FactsDataSource
 import io.dotanuki.norris.features.facts.presentation.FactsViewModel
 import io.dotanuki.norris.features.facts.ui.FactsEventsHandler
-import io.dotanuki.norris.navigator.Navigator
+import io.dotanuki.platform.android.core.navigator.Navigator
 import io.dotanuki.platform.jvm.core.kodein.KodeinTags
 import org.kodein.di.DI
 import org.kodein.di.bind

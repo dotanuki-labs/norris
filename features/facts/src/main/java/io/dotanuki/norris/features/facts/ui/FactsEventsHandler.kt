@@ -4,8 +4,8 @@ import android.util.Log
 import io.dotanuki.norris.features.facts.presentation.FactsScreenState
 import io.dotanuki.norris.features.facts.presentation.FactsUserInteraction
 import io.dotanuki.norris.features.facts.presentation.FactsViewModel
-import io.dotanuki.norris.navigator.Navigator
-import io.dotanuki.norris.navigator.Screen
+import io.dotanuki.platform.android.core.navigator.Navigator
+import io.dotanuki.platform.android.core.navigator.Screen
 
 interface FactsEventsHandler {
 
