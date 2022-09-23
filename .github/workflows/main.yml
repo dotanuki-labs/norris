@@ -51,6 +51,7 @@ jobs:
   unit-tests:
     runs-on: ubuntu-20.04
     timeout-minutes: 10
+    needs: [features-lookup, static-analysis]
     strategy:
       fail-fast: false
       matrix:
@@ -83,6 +84,7 @@ jobs:
   assemble-apk:
     runs-on: ubuntu-20.04
     timeout-minutes: 10
+    needs: [features-lookup, static-analysis]
     strategy:
       fail-fast: false
       matrix:
@@ -118,7 +120,7 @@ jobs:
   espresso-prepare:
     runs-on: ubuntu-20.04
     timeout-minutes: 10
-    needs: features-lookup
+    needs: [features-lookup, static-analysis]
     strategy:
       fail-fast: true
       matrix: ${{ fromJson(needs.features-lookup.outputs.matrix) }}
@@ -149,7 +151,7 @@ jobs:
   acceptance-tests:
     runs-on: ubuntu-20.04
     timeout-minutes: 15
-    needs: [assemble-apk, espresso-prepare, unit-tests, static-analysis]
+    needs: [assemble-apk, espresso-prepare]
     strategy:
       fail-fast: true
       matrix:
@@ -180,7 +182,7 @@ jobs:
   screenshot-tests:
     runs-on: ubuntu-20.04
     timeout-minutes: 15
-    needs: [assemble-apk, espresso-prepare, unit-tests, static-analysis, features-lookup]
+    needs: [features-lookup, assemble-apk, espresso-prepare]
     strategy:
       fail-fast: false
       matrix: ${{ fromJson(needs.features-lookup.outputs.matrix) }}
@@ -282,7 +284,7 @@ jobs:
   test-results-analysis:
     runs-on: ubuntu-20.04
     timeout-minutes: 10
-    needs: [acceptance-tests, screenshot-tests]
+    needs: [acceptance-tests, screenshot-tests, unit-tests]
     steps:
       - name: Fetch all artefacts
         uses: actions/download-artifact@v3
