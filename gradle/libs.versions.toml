@@ -57,6 +57,6 @@ jw-retrofit-kotlinx = "com.jakewharton.retrofit:retrofit2-kotlinx-serialization-
 # Other / Testing
 junit4 = "junit:junit:4.13.2"
 slf4j = "org.slf4j:slf4j-nop:2.0.3"
-robolectric = "org.robolectric:robolectric:4.8.2"
+robolectric = "org.robolectric:robolectric:4.9"
 adevinta-barista = "com.adevinta.android:barista:4.2.0"
 dropshots = "com.dropbox.dropshots:dropshots:0.3.0"
