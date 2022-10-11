@@ -258,7 +258,11 @@ jobs:
           MAPPING_FILE: release-mappings-jdk11/mapping.txt
 
       - name: Generate Security reports with MobSF
-        run: ./scripts/security-scan.sh ${{ secrets.NORRIS_CRYPTO_KEY }} release-apk-jdk11/app-release.apk
+        uses: nick-fields/retry@v2.8.1
+        with:
+          timeout_minutes: 1
+          max_attempts: 2
+          command: ./scripts/security-scan.sh ${{ secrets.NORRIS_CRYPTO_KEY }} release-apk-jdk11/app-release.apk
 
       - name: Archive security reports
         if: always()
