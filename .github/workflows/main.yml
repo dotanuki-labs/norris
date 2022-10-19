@@ -258,7 +258,7 @@ jobs:
           MAPPING_FILE: release-mappings-jdk11/mapping.txt
 
       - name: Generate Security reports with MobSF
-        uses: nick-fields/retry@v2.8.1
+        uses: nick-fields/retry@v2.8.2
         with:
           timeout_minutes: 1
           max_attempts: 2
