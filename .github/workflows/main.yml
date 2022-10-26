@@ -11,7 +11,7 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  static-analysis:
+  code-quality:
     runs-on: ubuntu-20.04
     timeout-minutes: 10
 
@@ -24,7 +24,7 @@ jobs:
 
   features-lookup:
     runs-on: ubuntu-20.04
-    timeout-minutes: 10
+    timeout-minutes: 25
     outputs:
       matrix: ${{ steps.set-matrix.outputs.matrix }}
     
@@ -35,7 +35,6 @@ jobs:
       - name: Setup Android Build
         uses: ./.github/actions/setup-android-build
         with:
-          jdk-version: 'jdk11'
           norris-key: ${{ secrets.NORRIS_CRYPTO_KEY }}
 
       - name: Evaluate features
@@ -51,11 +50,7 @@ jobs:
   unit-tests:
     runs-on: ubuntu-20.04
     timeout-minutes: 10
-    needs: [features-lookup, static-analysis]
-    strategy:
-      fail-fast: false
-      matrix:
-        jdk: ['jdk11', 'jdk17']
+    needs: [features-lookup, code-quality]
 
     steps:
       - name: Project Checkout
@@ -64,7 +59,6 @@ jobs:
       - name: Setup Android Build
         uses: ./.github/actions/setup-android-build
         with:
-          jdk-version: ${{ matrix.jdk }}
           norris-key: ${{ secrets.NORRIS_CRYPTO_KEY }}
 
       - name: Run unit tests
@@ -83,12 +77,8 @@ jobs:
 
   assemble-apk:
     runs-on: ubuntu-20.04
-    timeout-minutes: 10
-    needs: [features-lookup, static-analysis]
-    strategy:
-      fail-fast: false
-      matrix:
-        jdk: ['jdk11', 'jdk17']
+    timeout-minutes: 25
+    needs: [features-lookup, code-quality]
 
     steps:
       - name: Project Checkout
@@ -97,7 +87,6 @@ jobs:
       - name: Setup Android Build
         uses: ./.github/actions/setup-android-build
         with:
-          jdk-version: ${{ matrix.jdk }}
           norris-key: ${{ secrets.NORRIS_CRYPTO_KEY }}
 
       - name: Assemble production APK
@@ -119,8 +108,8 @@ jobs:
 
   espresso-prepare:
     runs-on: ubuntu-20.04
-    timeout-minutes: 10
-    needs: [features-lookup, static-analysis]
+    timeout-minutes: 25
+    needs: [features-lookup, code-quality]
     strategy:
       fail-fast: true
       matrix: ${{ fromJson(needs.features-lookup.outputs.matrix) }}
@@ -133,7 +122,6 @@ jobs:
         uses: ./.github/actions/setup-android-build
         with:
           norris-key: ${{ secrets.NORRIS_CRYPTO_KEY }}
-          jdk-version: 'jdk11'
 
       - name: Assemble Instrumentation tests
         run: |
@@ -150,7 +138,8 @@ jobs:
 
   acceptance-tests:
     runs-on: ubuntu-20.04
-    timeout-minutes: 15
+    if: false
+    timeout-minutes: 25
     needs: [assemble-apk, espresso-prepare]
     strategy:
       fail-fast: true
@@ -181,7 +170,8 @@ jobs:
 
   screenshot-tests:
     runs-on: ubuntu-20.04
-    timeout-minutes: 15
+    timeout-minutes: 25
+    if: false
     needs: [features-lookup, assemble-apk, espresso-prepare]
     strategy:
       fail-fast: false
@@ -195,7 +185,7 @@ jobs:
         uses: emulator-wtf/run-tests@v0.0.10
         with:
           api-token: ${{ secrets.EMULATOR_WTF_TOKEN }}
-          app: release-apk-jdk11/app-release.apk
+          app: release-apk-jdk/app-release.apk
           test: test-apks/features/${{ matrix.module }}/build/outputs/apk/androidTest/debug/${{ matrix.module }}-debug-androidTest.apk
           outputs-dir: emulator-wtf-results
           devices: model=Pixel2,version=31
@@ -211,7 +201,7 @@ jobs:
 
   security-analysis:
     runs-on: ubuntu-20.04
-    timeout-minutes: 10
+    timeout-minutes: 25
     needs: assemble-apk
 
     steps:
@@ -235,7 +225,6 @@ jobs:
         uses: ./.github/actions/setup-android-build
         with:
           norris-key: ${{ secrets.NORRIS_CRYPTO_KEY }}
-          jdk-version: 'jdk11'
 
       - name: Check security issues in project dependencies and generate SBOM
         run: ./gradlew clean ossIndexAudit
@@ -254,15 +243,15 @@ jobs:
         env:
           APPSWEEP_API_KEY: ${{ secrets.APP_SWEEP_TOKEN }}
           COMMIT_HASH: ${{ steps.vars.outputs.sha_short }}
-          INPUT_FILE: release-apk-jdk11/app-release.apk
-          MAPPING_FILE: release-mappings-jdk11/mapping.txt
+          INPUT_FILE: release-apk-jdk/app-release.apk
+          MAPPING_FILE: release-mappings-jdk/mapping.txt
 
       - name: Generate Security reports with MobSF
         uses: nick-fields/retry@v2.8.2
         with:
           timeout_minutes: 1
           max_attempts: 2
-          command: ./scripts/security-scan.sh ${{ secrets.NORRIS_CRYPTO_KEY }} release-apk-jdk11/app-release.apk
+          command: ./scripts/security-scan.sh ${{ secrets.NORRIS_CRYPTO_KEY }} release-apk-jdk/app-release.apk
 
       - name: Archive security reports
         if: always()
@@ -273,7 +262,7 @@ jobs:
 
   app-size-analysis:
     runs-on: ubuntu-20.04
-    timeout-minutes: 10
+    timeout-minutes: 25
     needs: assemble-apk
 
     steps:
@@ -283,7 +272,6 @@ jobs:
       - name: Setup Android Build
         uses: ./.github/actions/setup-android-build
         with:
-          jdk-version: 'jdk11'
           norris-key: ${{ secrets.NORRIS_CRYPTO_KEY }}
 
       - name: Analyse AppBundle size
@@ -297,8 +285,8 @@ jobs:
 
   test-results-analysis:
     runs-on: ubuntu-20.04
-    timeout-minutes: 10
-    needs: [acceptance-tests, screenshot-tests, unit-tests]
+    timeout-minutes: 25
+    needs: [unit-tests]
     steps:
       - name: Fetch all artefacts
         uses: actions/download-artifact@v3
