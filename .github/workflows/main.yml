@@ -96,14 +96,14 @@ jobs:
         if: success()
         uses: actions/upload-artifact@v3
         with:
-          name: release-apk-${{ matrix.jdk }}
+          name: release-apk
           path: app/build/outputs/apk/release
 
       - name: Archive R8 mappings
         if: success()
         uses: actions/upload-artifact@v3
         with:
-          name: release-mappings-${{ matrix.jdk }}
+          name: release-mappings
           path: app/build/outputs/mapping/release
 
   espresso-prepare:
@@ -154,7 +154,7 @@ jobs:
         uses: emulator-wtf/run-tests@v0.0.10
         with:
           api-token: ${{ secrets.EMULATOR_WTF_TOKEN }}
-          app: release-apk-jdk11/app-release.apk
+          app: release-apk/app-release.apk
           test: test-apks/app/build/outputs/apk/androidTest/release/app-release-androidTest.apk
           outputs-dir: emulator-wtf-results
           devices: model=${{ matrix.device }},version=31,atd=true
@@ -185,7 +185,7 @@ jobs:
         uses: emulator-wtf/run-tests@v0.0.10
         with:
           api-token: ${{ secrets.EMULATOR_WTF_TOKEN }}
-          app: release-apk-jdk/app-release.apk
+          app: release-apk/app-release.apk
           test: test-apks/features/${{ matrix.module }}/build/outputs/apk/androidTest/debug/${{ matrix.module }}-debug-androidTest.apk
           outputs-dir: emulator-wtf-results
           devices: model=Pixel2,version=31
@@ -243,15 +243,15 @@ jobs:
         env:
           APPSWEEP_API_KEY: ${{ secrets.APP_SWEEP_TOKEN }}
           COMMIT_HASH: ${{ steps.vars.outputs.sha_short }}
-          INPUT_FILE: release-apk-jdk/app-release.apk
-          MAPPING_FILE: release-mappings-jdk/mapping.txt
+          INPUT_FILE: release-apk/app-release.apk
+          MAPPING_FILE: release-mappings/mapping.txt
 
       - name: Generate Security reports with MobSF
         uses: nick-fields/retry@v2.8.2
         with:
           timeout_minutes: 1
           max_attempts: 2
-          command: ./scripts/security-scan.sh ${{ secrets.NORRIS_CRYPTO_KEY }} release-apk-jdk/app-release.apk
+          command: ./scripts/security-scan.sh ${{ secrets.NORRIS_CRYPTO_KEY }} release-apk/app-release.apk
 
       - name: Archive security reports
         if: always()
