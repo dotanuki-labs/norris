@@ -3,8 +3,8 @@ package io.dotanuki.platform.android.testing.screenshots
 import android.app.Activity
 import androidx.lifecycle.Lifecycle
 import androidx.test.ext.junit.rules.ActivityScenarioRule
-import com.dropbox.differ.SimpleImageComparator
 import com.dropbox.dropshots.Dropshots
+import com.dropbox.dropshots.ThresholdValidator
 import org.junit.rules.RuleChain
 import org.junit.rules.TestRule
 import org.junit.runner.Description
@@ -20,7 +20,7 @@ class ScreenshotTestRule<A : Activity, State>(
     }
 
     private val dropshots by lazy {
-        Dropshots(imageComparator = SimpleImageComparator(maxDistance = 0.007f))
+        Dropshots(resultValidator = ThresholdValidator(0.1f))
     }
 
     private val chain by lazy {
