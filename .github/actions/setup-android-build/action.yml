@@ -2,10 +2,6 @@ name: "Setup Android build"
 description: "Common steps before running a Gradle command, regarding the Runner OS"
 
 inputs:
-  jdk-version:
-    description: “JDK version to setup”
-    required: false
-    default: 'jdk11'
   norris-key:
     description: “GPG key required to decript local files”
     required: true
@@ -13,25 +9,14 @@ inputs:
 runs:
   using: "composite"
   steps:
-      - name: Normalize JDK name
-        shell: bash
-        id: normalise-jdk
-        run: ${{ github.action_path }}/normalize-jdk-version.sh ${{ inputs.jdk-version }}
-
       - name: Setup JDK
         uses: actions/setup-java@v3.5.0
         with:
           distribution: 'corretto'
-          java-version: ${{ steps.normalise-jdk.outputs.jdk }}
+          java-version: '17'
 
       - name: Setup Cache
-        uses: actions/cache@v3.0.7
-        with:
-          path: |
-            ~/.gradle/caches
-            ~/.gradle/wrapper
-          key: ${{ runner.os }}-${{ github.job }}-${{ inputs.jdk-version }}-${{ hashFiles('**/gradle/wrapper/gradle-wrapper.properties') }}-${{ hashFiles('**/gradle/libs.versions.toml') }}-${{ hashFiles('**/gradle/plugins/**/*.kt') }}
-          restore-keys: ${{ runner.os }}-${{ github.job }}-
+        uses: gradle/gradle-build-action@v2.3.3
 
       - name: Optimize for Gradle build
         shell: bash
