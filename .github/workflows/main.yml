@@ -254,7 +254,7 @@ jobs:
   test-results-analysis:
     runs-on: ubuntu-20.04
     timeout-minutes: 25
-    needs: [unit-tests]
+    needs: [unit-tests, espresso-prepare]
     steps:
       - name: Fetch all artefacts
         uses: actions/download-artifact@v3
