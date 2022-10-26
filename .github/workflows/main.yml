@@ -22,35 +22,10 @@ jobs:
       - name: Check code formatting
         run: ./scripts/static-analysis.sh all
 
-  features-lookup:
-    runs-on: ubuntu-20.04
-    timeout-minutes: 25
-    outputs:
-      matrix: ${{ steps.set-matrix.outputs.matrix }}
-    
-    steps:
-      - name: Project Checkout
-        uses: actions/checkout@v3.1.0
-
-      - name: Setup Android Build
-        uses: ./.github/actions/setup-android-build
-        with:
-          norris-key: ${{ secrets.NORRIS_CRYPTO_KEY }}
-
-      - name: Evaluate features
-        run: ./gradlew featureMatrix
-
-      - name: Expose evaluated features into Workflow
-        id: set-matrix
-        run: |
-          modules=$(cat build/outputs/matrix/features.json)
-          echo $modules
-          echo "::set-output name=matrix::{\"module\":$modules}"
-
   unit-tests:
     runs-on: ubuntu-20.04
     timeout-minutes: 10
-    needs: [features-lookup, code-quality]
+    needs: [code-quality]
 
     steps:
       - name: Project Checkout
@@ -78,7 +53,7 @@ jobs:
   assemble-apk:
     runs-on: ubuntu-20.04
     timeout-minutes: 25
-    needs: [features-lookup, code-quality]
+    needs: [code-quality]
 
     steps:
       - name: Project Checkout
@@ -109,10 +84,7 @@ jobs:
   espresso-prepare:
     runs-on: ubuntu-20.04
     timeout-minutes: 25
-    needs: [features-lookup, code-quality]
-    strategy:
-      fail-fast: true
-      matrix: ${{ fromJson(needs.features-lookup.outputs.matrix) }}
+    needs: [code-quality]
 
     steps:
       - name: Project Checkout
@@ -125,8 +97,7 @@ jobs:
 
       - name: Assemble Instrumentation tests
         run: |
-          ./gradlew features:${{ matrix.module }}:assembleAndroidTest -PtestMode=true
-          ./gradlew app:assembleAndroidTest -PtestMode=true
+          ./gradlew assembleAndroidTest -PtestMode=true
 
       - name: Archive Test APK
         uses: actions/upload-artifact@v3
@@ -172,10 +143,7 @@ jobs:
     runs-on: ubuntu-20.04
     timeout-minutes: 25
     if: false
-    needs: [features-lookup, assemble-apk, espresso-prepare]
-    strategy:
-      fail-fast: false
-      matrix: ${{ fromJson(needs.features-lookup.outputs.matrix) }}
+    needs: [assemble-apk, espresso-prepare]
 
     steps:
       - name: Fetch Instrumentation artefacts
@@ -186,7 +154,7 @@ jobs:
         with:
           api-token: ${{ secrets.EMULATOR_WTF_TOKEN }}
           app: release-apk/app-release.apk
-          test: test-apks/features/${{ matrix.module }}/build/outputs/apk/androidTest/debug/${{ matrix.module }}-debug-androidTest.apk
+          test: test-apks/features/build/outputs/apk/androidTest/debug/${{ matrix.module }}-debug-androidTest.apk
           outputs-dir: emulator-wtf-results
           devices: model=Pixel2,version=31
           use-orchestrator: true
@@ -196,7 +164,7 @@ jobs:
         if: always()
         uses: actions/upload-artifact@v3
         with:
-          name: ${{ matrix.module }}-screenshot-tests-reports
+          name: screenshot-tests-reports
           path: emulator-wtf-results
 
   security-analysis:
