@@ -17,6 +17,10 @@ runs:
 
       - name: Setup Cache
         uses: gradle/gradle-build-action@v2.3.3
+        with:
+          generate-job-summary: false
+          gradle-home-cache-strict-match: true
+          gradle-home-cache-cleanup: true
 
       - name: Optimize for Gradle build
         shell: bash
