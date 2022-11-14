@@ -109,7 +109,6 @@ jobs:
 
   acceptance-tests:
     runs-on: ubuntu-20.04
-    if: false
     timeout-minutes: 25
     needs: [assemble-apk, espresso-prepare]
 
@@ -253,7 +252,7 @@ jobs:
   test-results-analysis:
     runs-on: ubuntu-20.04
     timeout-minutes: 25
-    needs: [unit-tests, screenshot-tests]
+    needs: [unit-tests, screenshot-tests, acceptance-tests]
     steps:
       - name: Fetch all artefacts
         uses: actions/download-artifact@v3
