@@ -1,0 +1,31 @@
+appId: io.dotanuki.app
+---
+
+- launchApp:
+    clearState: true
+
+- assertVisible: "No facts to show"
+
+- tapOn:
+    id: "menu_item_search_facts"  
+
+- assertVisible: "career"
+- assertVisible: "dev"
+- assertVisible: "humor"
+
+- inputText: "math"
+
+- tapOn:
+    id: "key_pos_ime_action"
+
+- assertVisible: "Chuck Norris can divide by zero"
+
+- tapOn:
+    id: "menu_item_search_facts" 
+
+- assertVisible: "math"
+
+- tapOn:
+    text: "dev" 
+
+- assertVisible: "Null pointer will break with ChuckNorrisException"
