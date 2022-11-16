@@ -213,20 +213,6 @@ jobs:
           INPUT_FILE: release-apk/app-release.apk
           MAPPING_FILE: release-mappings/mapping.txt
 
-      - name: Generate Security reports with MobSF
-        uses: nick-fields/retry@v2.8.2
-        with:
-          timeout_minutes: 1
-          max_attempts: 2
-          command: ./scripts/security-scan.sh ${{ secrets.NORRIS_CRYPTO_KEY }} release-apk/app-release.apk
-
-      - name: Archive security reports
-        if: always()
-        uses: actions/upload-artifact@v3
-        with:
-          name: security-reports
-          path: mobsf-reports
-
   app-size-analysis:
     runs-on: ubuntu-20.04
     timeout-minutes: 25
