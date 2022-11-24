@@ -120,7 +120,9 @@ jobs:
         uses: actions/download-artifact@v3.0.1
 
       - name: Run E2E tests on mobile.dev clould
-        run: ./scripts/maestro-run.sh ${{ secrets.MOBILE_DEV_CLOUD_TOKEN }} release-apk/app-release.apk
+        run: ./scripts/maestro-run.sh release-apk/app-release.apk
+        env:
+          MOBILE_DEV_CLOUD_TOKEN: ${{ secrets.MOBILE_DEV_CLOUD_TOKEN }}
 
   screenshot-tests:
     runs-on: ubuntu-20.04
