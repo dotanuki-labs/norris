@@ -1,4 +1,4 @@
-appId: io.dotanuki.app
+appId: io.dotanuki.norris.android
 ---
 
 - launchApp:
