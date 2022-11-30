@@ -42,13 +42,6 @@ class ScreenRobot {
         )
     }
 
-    fun checkHistory(previous: List<String>) {
-        onView(displayedWithId(SearchR.id.historyChipGroup))
-            .check(
-                ChipGroupContentAssertion(previous)
-            )
-    }
-
     fun checkEmptyState() {
         assertDisplayed("No facts to show")
     }
