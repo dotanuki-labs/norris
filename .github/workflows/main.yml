@@ -110,6 +110,33 @@ jobs:
   acceptance-tests:
     runs-on: ubuntu-20.04
     timeout-minutes: 25
+    needs: [assemble-apk, espresso-prepare]
+
+    steps:
+      - name: Fetch Instrumentation artefacts
+        uses: actions/download-artifact@v3.0.1
+
+      - name: Run Espresso tests with emulator.wtf
+        uses: emulator-wtf/run-tests@v0.0.10
+        with:
+          api-token: ${{ secrets.EMULATOR_WTF_TOKEN }}
+          app: release-apk/app-release.apk
+          test: test-apks/app/build/outputs/apk/androidTest/release/app-release-androidTest.apk
+          outputs-dir: emulator-wtf-results
+          devices: model=Pixel2,version=31,atd=true
+          use-orchestrator: true
+          clear-package-data: true
+
+      - name: Archive execution results
+        if: always()
+        uses: actions/upload-artifact@v3.1.1
+        with:
+          name: acceptance-tests-reports
+          path: emulator-wtf-results
+
+  e2e-tests:
+    runs-on: ubuntu-20.04
+    timeout-minutes: 25
     needs: [assemble-apk]
 
     steps:
