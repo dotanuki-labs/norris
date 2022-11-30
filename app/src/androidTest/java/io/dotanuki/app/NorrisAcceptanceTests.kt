@@ -40,7 +40,7 @@ class NorrisAcceptanceTests {
 
     @Test fun shouldPerformASecondSearch_ByChosingASuggestion() {
 
-        val searches = listOf("code", "math").onEach {
+        val searches = listOf("dev", "math").onEach {
             PersistanceHelper.registerNewSearch(it)
         }
 
@@ -55,7 +55,7 @@ class NorrisAcceptanceTests {
 
             awaitTransition()
             checkHistory(searches)
-            clickOn("code")
+            clickOn("dev")
 
             awaitTransition()
             checkDisplayed(codeFact)
