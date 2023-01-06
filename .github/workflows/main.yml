@@ -19,8 +19,11 @@ jobs:
       - name: Project Checkout
         uses: actions/checkout@v3.3.0
 
-      - name: Check code formatting
-        run: ./scripts/static-analysis.sh all
+      - name: Check Kotlin sources
+        run: ./scripts/code-style-kotlin.sh all
+
+      - name: Check Bash sources
+        run: ./scripts/code-style-bash.sh
 
   unit-tests:
     runs-on: ubuntu-20.04

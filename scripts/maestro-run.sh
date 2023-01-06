@@ -9,7 +9,6 @@ readonly maestro_bin="$HOME/.maestro/bin/maestro"
 readonly maestro_workspace=".maestro"
 readonly apk_file="$1"
 
-current_branch_name=
 target_runner=
 
 detect_runner() {
@@ -97,18 +96,20 @@ execute_tests_local() {
 execute_tests_cloud() {
 
     require_maestro_token
+    local branch
+    local commit
 
     if [[ -z "$GITHUB_ACTIONS" ]]; then
-        local branch="$(git rev-parse --abbrev-ref HEAD)"
+        branch="$(git rev-parse --abbrev-ref HEAD)"
     else
         if [[ -z "$GITHUB_HEAD_REF" ]]; then
-            local branch="master"
+            branch="master"
         else
-            local branch="$GITHUB_HEAD_REF"
+            branch="$GITHUB_HEAD_REF"
         fi
     fi
 
-    local commit="$(git rev-parse --short HEAD)"
+    commit="$(git rev-parse --short HEAD)"
     execution_name="norris-$branch@$commit"
 
     echo "‣ Execution name will be : $execution_name"
