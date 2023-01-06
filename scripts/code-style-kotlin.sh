@@ -10,7 +10,7 @@ readonly normal="\033[0m"
 
 readonly cache_dir="$HOME/.dotanuki/cached"
 
-readonly ktlint_version="0.46.1"
+readonly ktlint_version="0.48.1"
 readonly ktlint_home="$cache_dir/ktlint/$ktlint_version"
 readonly ktlint_bin="$ktlint_home/ktlint"
 readonly ktlint_releases="https://github.com/pinterest/ktlint/releases/download"
