@@ -48,7 +48,7 @@ jobs:
 
       - name: Archive test results
         if: always()
-        uses: actions/upload-artifact@v3.1.1
+        uses: actions/upload-artifact@v3.1.2
         with:
           name: unit-tests-reports
           path: build/test-reports
@@ -72,14 +72,14 @@ jobs:
 
       - name: Archive APK
         if: success()
-        uses: actions/upload-artifact@v3.1.1
+        uses: actions/upload-artifact@v3.1.2
         with:
           name: release-apk
           path: app/build/outputs/apk/release
 
       - name: Archive R8 mappings
         if: success()
-        uses: actions/upload-artifact@v3.1.1
+        uses: actions/upload-artifact@v3.1.2
         with:
           name: release-mappings
           path: app/build/outputs/mapping/release
@@ -103,7 +103,7 @@ jobs:
           ./gradlew assembleAndroidTest -PtestMode=true
 
       - name: Archive Test APK
-        uses: actions/upload-artifact@v3.1.1
+        uses: actions/upload-artifact@v3.1.2
         with:
           name: test-apks
           path: |
@@ -132,7 +132,7 @@ jobs:
 
       - name: Archive execution results
         if: always()
-        uses: actions/upload-artifact@v3.1.1
+        uses: actions/upload-artifact@v3.1.2
         with:
           name: acceptance-tests-reports
           path: emulator-wtf-results
@@ -180,7 +180,7 @@ jobs:
 
       - name: Archive execution results
         if: always()
-        uses: actions/upload-artifact@v3.1.1
+        uses: actions/upload-artifact@v3.1.2
         with:
           name: screenshot-tests-reports
           path: emulator-wtf-results-${{ matrix.feature }}
@@ -216,7 +216,7 @@ jobs:
         run: ./gradlew clean ossIndexAudit
 
       - name: Archive CycloneDx SBOM
-        uses: actions/upload-artifact@v3.1.1
+        uses: actions/upload-artifact@v3.1.2
         with:
           name: cyclonedx-sbom
           path: ./oss-index-cyclonedx-bom.json
@@ -250,7 +250,7 @@ jobs:
         run: ./gradlew app:analyzeReleaseBundle
 
       - name: Archive Reports
-        uses: actions/upload-artifact@v3.1.1
+        uses: actions/upload-artifact@v3.1.2
         with:
           name: app-size-reports
           path: app/build/reports/ruler/release
