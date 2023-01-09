@@ -29,7 +29,7 @@ run_ktlint() {
     echo -e "${cyan}• No issues found with ktlint${normal}"
 }
 
-readonly detekt_version="1.21.0"
+readonly detekt_version="1.22.0"
 readonly detekt_home="$cache_dir/detekt"
 readonly detekt_bin="$detekt_home/detekt-cli-$detekt_version/bin/detekt-cli"
 readonly detekt_releases="https://github.com/detekt/detekt/releases/download"
