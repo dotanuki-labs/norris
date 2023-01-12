@@ -267,7 +267,7 @@ jobs:
         run: mkdir all-reports && mv *-tests-reports/ all-reports
 
       - name: Report test results to Foresight
-        uses: runforesight/foresight-test-kit-action@v1.3.1
+        uses: runforesight/foresight-test-kit-action@v1.3.2
         with:
           api_key: ${{ secrets.FORESIGHT_API_KEY }}
           test_format: JUNIT
