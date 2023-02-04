@@ -5,6 +5,7 @@
     "group:monorepos",
     "workarounds:all"
   ],
+  "dependencyDashboard": true,
   "enabledManagers": ["gradle"],
   "packageRules": [
     {
