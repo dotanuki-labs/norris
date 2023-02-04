@@ -2,10 +2,10 @@
 
 # Gradle Plugins
 gradle-android = "com.android.tools.build:gradle:7.4.1"
-gradle-kotlin = "org.jetbrains.kotlin:kotlin-gradle-plugin:1.8.0"
+gradle-kotlin = "org.jetbrains.kotlin:kotlin-gradle-plugin:1.8.10"
 gradle-testlogger = "com.adarshr:gradle-test-logger-plugin:3.2.0"
 gradle-keeper= "com.slack.keeper:keeper:0.13.0"
-gradle-kotlinx-serialization = "org.jetbrains.kotlin:kotlin-serialization:1.8.0"
+gradle-kotlinx-serialization = "org.jetbrains.kotlin:kotlin-serialization:1.8.10"
 gradle-dropshots = "com.dropbox.dropshots:dropshots-gradle-plugin:0.4.0"
 gradle-oss-scan = "org.sonatype.gradle.plugins:scan-gradle-plugin:2.5.5"
 gradle-ruler = "com.spotify.ruler:ruler-gradle-plugin:1.4.0"
