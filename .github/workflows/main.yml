@@ -120,7 +120,7 @@ jobs:
         uses: actions/download-artifact@v3.0.2
 
       - name: Run Espresso tests with emulator.wtf
-        uses: emulator-wtf/run-tests@v0.0.10
+        uses: ubiratansoares/run-tests@ufs/node-16
         with:
           api-token: ${{ secrets.EMULATOR_WTF_TOKEN }}
           app: release-apk/app-release.apk
@@ -168,7 +168,7 @@ jobs:
         uses: actions/download-artifact@v3.0.2
 
       - name: Run screenshot tests
-        uses: emulator-wtf/run-tests@v0.0.10
+        uses: ubiratansoares/run-tests@ufs/node-16
         with:
           api-token: ${{ secrets.EMULATOR_WTF_TOKEN }}
           app: release-apk/app-release.apk
