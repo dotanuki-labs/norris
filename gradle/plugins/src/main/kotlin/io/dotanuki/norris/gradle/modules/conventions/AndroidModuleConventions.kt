@@ -8,11 +8,11 @@ import com.spotify.ruler.plugin.RulerExtension
 import io.dotanuki.norris.gradle.modules.models.PlatformDefinitions
 import io.dotanuki.norris.gradle.modules.models.ProguardRules
 import io.dotanuki.norris.gradle.modules.models.Versioning
-import org.gradle.api.Project
 import java.io.File
 import java.io.FileInputStream
 import java.util.Collections
 import java.util.Properties
+import org.gradle.api.Project
 
 internal fun Project.isTestMode(): Boolean = properties["testMode"]?.let { true } ?: false
 
@@ -56,10 +56,6 @@ internal fun Project.applyAndroidStandardConventions() {
         testOptions {
             unitTests.isReturnDefaultValues = true
             unitTests.isIncludeAndroidResources = true
-            unitTests.all {
-                // https://github.com/robolectric/robolectric/issues/3023
-                it.jvmArgs?.addAll(listOf("-ea", "-noverify"))
-            }
         }
     }
 }
@@ -186,5 +182,6 @@ internal fun Project.applyAndroidApplicationConventions() {
         locale.set("en")
         screenDensity.set(480)
         sdkVersion.set(platformDefinitions.androidMinSdk)
+
     }
 }
