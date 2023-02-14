@@ -17,6 +17,7 @@ write_common_properties() {
     write_property "org.gradle.configureondemand=false"
     write_property "org.gradle.caching=true"
     write_property "org.gradle.daemon=false"
+    write_property "org.gradle.logging.stacktrace=all"
 
     # Kotlin properties common to all build environments
     write_property "kotlin.code.style=official"
