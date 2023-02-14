@@ -258,7 +258,7 @@ jobs:
   test-results-analysis:
     runs-on: ubuntu-20.04
     timeout-minutes: 25
-    needs: [unit-tests, screenshot-tests, acceptance-tests]
+    needs: [unit-tests, screenshot-tests, acceptance-tests, e2e-tests]
     steps:
       - name: Fetch all artefacts
         uses: actions/download-artifact@v3.0.2
