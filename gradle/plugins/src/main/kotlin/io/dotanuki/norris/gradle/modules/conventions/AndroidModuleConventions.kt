@@ -182,6 +182,5 @@ internal fun Project.applyAndroidApplicationConventions() {
         locale.set("en")
         screenDensity.set(480)
         sdkVersion.set(platformDefinitions.androidMinSdk)
-
     }
 }
