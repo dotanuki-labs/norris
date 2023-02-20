@@ -205,7 +205,7 @@ jobs:
           extra_args: --debug --only-verified
 
       - name: Validate Gradle Wrapper
-        uses: gradle/wrapper-validation-action@v1.0.5
+        uses: gradle/wrapper-validation-action@v1.0.6
 
       - name: Setup Android Build
         uses: ./.github/actions/setup-android-build
