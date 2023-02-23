@@ -8,11 +8,11 @@ import com.spotify.ruler.plugin.RulerExtension
 import io.dotanuki.norris.gradle.modules.models.PlatformDefinitions
 import io.dotanuki.norris.gradle.modules.models.ProguardRules
 import io.dotanuki.norris.gradle.modules.models.Versioning
-import org.gradle.api.Project
 import java.io.File
 import java.io.FileInputStream
 import java.util.Collections
 import java.util.Properties
+import org.gradle.api.Project
 
 internal fun Project.isTestMode(): Boolean = properties["testMode"]?.let { true } ?: false
 
@@ -56,10 +56,6 @@ internal fun Project.applyAndroidStandardConventions() {
         testOptions {
             unitTests.isReturnDefaultValues = true
             unitTests.isIncludeAndroidResources = true
-            unitTests.all {
-                // https://github.com/robolectric/robolectric/issues/3023
-                it.jvmArgs?.addAll(listOf("-ea", "-noverify"))
-            }
         }
     }
 }
@@ -97,9 +93,13 @@ fun Project.applyAndroidFeatureLibraryConventions() {
         }
 
         packagingOptions {
-            excludes.add("META-INF/*.kotlin_module")
-            excludes.add("META-INF/AL2.0")
-            excludes.add("META-INF/LGPL2.1")
+            resources.excludes.addAll(
+                listOf(
+                    "META-INF/*.kotlin_module",
+                    "META-INF/AL2.0",
+                    "META-INF/LGPL2.1"
+                )
+            )
         }
 
         testOptions {
@@ -108,8 +108,7 @@ fun Project.applyAndroidFeatureLibraryConventions() {
     }
 }
 
-@Suppress("LongMethod")
-internal fun Project.applyAndroidApplicationConventions() {
+@Suppress("LongMethod") internal fun Project.applyAndroidApplicationConventions() {
     applyAndroidStandardConventions()
 
     if (isTestMode()) {
@@ -157,7 +156,8 @@ internal fun Project.applyAndroidApplicationConventions() {
             getByName("debug") {
                 applicationIdSuffix = ".debug"
                 versionNameSuffix = "-DEBUG"
-                isTestCoverageEnabled = false
+                enableAndroidTestCoverage = false
+                enableUnitTestCoverage = false
                 buildConfigField("boolean", "IS_TEST_MODE", "${project.isTestMode()}")
             }
 
