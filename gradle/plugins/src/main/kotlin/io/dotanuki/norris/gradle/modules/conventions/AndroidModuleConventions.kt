@@ -126,12 +126,6 @@ fun Project.applyAndroidFeatureLibraryConventions() {
     val android = extensions.findByName("android") as ApplicationExtension
 
     android.apply {
-
-        testBuildType = when {
-            isTestMode() -> "release"
-            else -> "debug"
-        }
-
         defaultConfig {
             testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
             applicationId = "io.dotanuki.norris.android"
