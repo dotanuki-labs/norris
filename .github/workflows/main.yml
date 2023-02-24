@@ -67,10 +67,17 @@ jobs:
         with:
           norris-key: ${{ secrets.NORRIS_CRYPTO_KEY }}
 
-      - name: Assemble production APK
-        run: ./gradlew app:assembleRelease -PtestMode=true
+      - name: Assemble APKs
+        run: ./gradlew app:assembleDebug app:assembleRelease -PtestMode=true
 
-      - name: Archive APK
+      - name: Archive Debug APK
+        if: success()
+        uses: actions/upload-artifact@v3.1.2
+        with:
+            name: debug-apk
+            path: app/build/outputs/apk/debug
+
+      - name: Archive Release APK
         if: success()
         uses: actions/upload-artifact@v3.1.2
         with:
@@ -99,15 +106,14 @@ jobs:
           norris-key: ${{ secrets.NORRIS_CRYPTO_KEY }}
 
       - name: Assemble Instrumentation tests
-        run: |
-          ./gradlew assembleAndroidTest -PtestMode=true
+        run: ./gradlew assembleAndroidTest
 
       - name: Archive Test APK
         uses: actions/upload-artifact@v3.1.2
         with:
           name: test-apks
           path: |
-            app/build/outputs/apk/androidTest/release
+            app/build/outputs/apk/androidTest/debug
             features/**/build/outputs/apk/androidTest/debug
 
   acceptance-tests:
@@ -123,8 +129,8 @@ jobs:
         uses: emulator-wtf/run-tests@v0.0.11
         with:
           api-token: ${{ secrets.EMULATOR_WTF_TOKEN }}
-          app: release-apk/app-release.apk
-          test: test-apks/app/build/outputs/apk/androidTest/release/app-release-androidTest.apk
+          app: debug-apk/app-debug.apk
+          test: test-apks/app/build/outputs/apk/androidTest/debug/app-debug-androidTest.apk
           outputs-dir: emulator-wtf-results
           devices: model=Pixel2,version=31,atd=true
           use-orchestrator: true
@@ -171,7 +177,7 @@ jobs:
         uses: emulator-wtf/run-tests@v0.0.11
         with:
           api-token: ${{ secrets.EMULATOR_WTF_TOKEN }}
-          app: release-apk/app-release.apk
+          app: debug-apk/app-debug.apk
           test: test-apks/features/${{ matrix.feature }}/build/outputs/apk/androidTest/debug/${{ matrix.feature }}-debug-androidTest.apk
           outputs-dir: emulator-wtf-results-${{ matrix.feature }}
           devices: model=Pixel2,version=31
