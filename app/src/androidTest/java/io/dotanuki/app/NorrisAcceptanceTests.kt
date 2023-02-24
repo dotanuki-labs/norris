@@ -4,12 +4,16 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.adevinta.android.barista.interaction.BaristaClickInteractions.clickOn
 import io.dotanuki.features.facts.ui.FactsActivity
 import io.dotanuki.platform.android.testing.persistance.PersistanceHelper
+import leakcanary.DetectLeaksAfterTestSuccess
 import org.junit.Before
+import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 
 @RunWith(AndroidJUnit4::class)
 class NorrisAcceptanceTests {
+
+    @get:Rule val noMemoryLeaks = DetectLeaksAfterTestSuccess()
 
     init {
         PrettyEspressoErrors.install()

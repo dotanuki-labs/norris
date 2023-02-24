@@ -38,6 +38,8 @@ dependencies {
     androidTestImplementation(libs.androidx.test.rules)
     androidTestImplementation(libs.square.okhttp.mockwebserver)
     androidTestImplementation(libs.square.radiography)
+    debugImplementation(libs.square.leakcanary.core)
+    androidTestImplementation(libs.square.leakcanary.instrumentation)
 
     androidTestImplementation(libs.adevinta.barista) {
         exclude(group = "org.jetbrains.kotlin")
