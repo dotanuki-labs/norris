@@ -27,7 +27,7 @@ Some of the tools used in this project that maybe you are not aware about:
 
 - [Dropshots](https://github.com/dropbox/dropshots) to drive screenshot tests
 - [Maestro Clould](https://maestro.mobile.dev/) for E2E testing
-- [Emulator.wtf](https://emulator.dev) as a device farm
+- [Emulator.wtf](https://emulator.wtf) as a device farm
 - [AppSweep](https://appsweep.guardsquare.com) to drive Security checks over a release build
 - [Foresight](https://foresight.thundra.io/) to consolidade test reports from CI runs (JVM and Android/Instrumentation)
 - [Renovate](https://docs.renovatebot.com/) to drive regular depencency updates
