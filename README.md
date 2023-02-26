@@ -49,7 +49,7 @@ Stay tuned! 🚀
 
 ## Author
 
-Coded by Ubiratan Soares (follow me on [Twitter](https://twitter.com/ubiratanfsoares))
+Coded by Ubiratan Soares (follow me on [Mastodon](https://hachyderm.io/@ubiratansoares))
 
 ## License
 
