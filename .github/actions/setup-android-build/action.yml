@@ -9,6 +9,10 @@ inputs:
 runs:
   using: "composite"
   steps:
+      - name: Extract credentials
+        shell: bash
+        run: ./scripts/secrets.sh decrypt ${{ inputs.norris-key }}
+
       - name: Setup JDK
         id: setup-jdk
         uses: actions/setup-java@v3.6.0
@@ -26,7 +30,3 @@ runs:
           generate-job-summary: false
           gradle-home-cache-strict-match: true
           gradle-home-cache-cleanup: true
-
-      - name: Extract credentials
-        shell: bash      
-        run: ./scripts/secrets.sh decrypt ${{ inputs.norris-key }}
