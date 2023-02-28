@@ -13,7 +13,7 @@ data class PlatformDefinitions(
     val androidBuildToolsVersion: String,
     val javaCompatibilityVersion: JavaVersion,
     val targetJdkVersion: JavaLanguageVersion,
-    val targetJdkVendor: JvmVendorSpec = JvmVendorSpec.AMAZON
+    val targetJdkVendor: JvmVendorSpec = JvmVendorSpec.AZUL
 ) {
 
     companion object {

@@ -4,6 +4,7 @@ set -e
 
 readonly workdir="$GITHUB_WORKSPACE"
 readonly properties_file="$workdir/gradle.properties"
+readonly gha_jdk_path="$1"
 
 write_property() {
     echo "$1" >>$properties_file
@@ -33,6 +34,9 @@ write_common_properties() {
     write_property "android.defaults.buildfeatures.aidl=false"
     write_property "android.defaults.buildfeatures.renderscript=false"
     write_property "android.defaults.buildfeatures.shaders=false"
+
+    # JDK path exposed by actions/setup-java
+    write_property "org.gradle.java.installations.paths=$gha_jdk_path"
 }
 
 write_macos_properties() {
