@@ -1,15 +1,19 @@
 package io.dotanuki.norris.gradle.modules.models
 
-import org.gradle.api.JavaVersion
-import org.gradle.api.Project
 import java.io.File
 import java.util.Properties
+import org.gradle.api.JavaVersion
+import org.gradle.api.Project
+import org.gradle.jvm.toolchain.JavaLanguageVersion
+import org.gradle.jvm.toolchain.JvmVendorSpec
 
 data class PlatformDefinitions(
     val androidMinSdk: Int,
     val androidTargetSdk: Int,
     val androidBuildToolsVersion: String,
-    val javaCompatibilityVersion: JavaVersion
+    val javaCompatibilityVersion: JavaVersion,
+    val targetJdkVersion: JavaLanguageVersion,
+    val targetJdkVendor: JvmVendorSpec = JvmVendorSpec.AZUL
 ) {
 
     companion object {
@@ -21,13 +25,22 @@ data class PlatformDefinitions(
             val androidTargetSdk = properties.extract("android.sdk.target").toInt()
             val buildToolsVersion = properties.extract("android.buildtools.version")
 
-            val javaCompatibilityVersion = when (properties.extract("java.compatibility.version").toInt()) {
+            val javaBytecodeLevel = when (properties.extract("java.bytecode.level").toInt()) {
                 8 -> JavaVersion.VERSION_1_8
                 11 -> JavaVersion.VERSION_11
                 else -> error("Compatible Java levels are : $COMPATIBLE_JAVA_BYTECODE_LEVELS")
             }
 
-            return PlatformDefinitions(androidMinSdk, androidTargetSdk, buildToolsVersion, javaCompatibilityVersion)
+            val javaToolchainVersion = properties.extract("java.toolchain.version").toInt()
+            val targetJdk = JavaLanguageVersion.of(javaToolchainVersion)
+
+            return PlatformDefinitions(
+                androidMinSdk,
+                androidTargetSdk,
+                buildToolsVersion,
+                javaBytecodeLevel,
+                targetJdk
+            )
         }
 
         private fun Properties.extract(key: String): String = getProperty(key) ?: error("Missing $key on properties")

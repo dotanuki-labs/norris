@@ -9,11 +9,20 @@ inputs:
 runs:
   using: "composite"
   steps:
+      - name: Extract credentials
+        shell: bash
+        run: ./scripts/secrets.sh decrypt ${{ inputs.norris-key }}
+
       - name: Setup JDK
+        id: setup-jdk
         uses: actions/setup-java@v3.6.0
         with:
-          distribution: 'corretto'
-          java-version: '17'
+            distribution: 'zulu'
+            java-version: '17'
+
+      - name: Optimize for Gradle build
+        shell: bash
+        run: ${{ github.action_path }}/setup-gradle-properties.sh ${{ steps.setup-jdk.outputs.path }}
 
       - name: Setup Cache
         uses: gradle/gradle-build-action@v2.3.3
@@ -21,12 +30,3 @@ runs:
           generate-job-summary: false
           gradle-home-cache-strict-match: true
           gradle-home-cache-cleanup: true
-
-      - name: Optimize for Gradle build
-        shell: bash
-        run: ${{ github.action_path }}/setup-gradle-properties.sh
-
-      - name: Extract credentials
-        shell: bash      
-        run: ./scripts/secrets.sh decrypt ${{ inputs.norris-key }}
-
