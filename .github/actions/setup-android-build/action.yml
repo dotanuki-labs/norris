@@ -23,7 +23,3 @@ runs:
       - name: Extract credentials
         shell: bash      
         run: ./scripts/secrets.sh decrypt ${{ inputs.norris-key }}
-
-      - name: List available Java toolchains
-        shell: bash
-        run: ./gradlew -q javaToolchains
