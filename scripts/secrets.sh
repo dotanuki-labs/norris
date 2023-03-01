@@ -3,41 +3,65 @@
 set -e
 
 readonly operation="$1"
-readonly password="$2"
+readonly age_private_key="norris-key.txt"
+readonly age_public_key="age1euw5h4datlkvmlmaw6vlu6pzw83kwnl83glkxhwqvfqysk8p0d2s72qnt4"
 
 setup() {
     dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
     cd "${dir%/*}"
 }
 
-encript_with_gpg() {
-    echo "$1" |
-        gpg --batch --yes --passphrase-fd 0 --cipher-algo aes256 --symmetric --output "$2" "$3"
+require_age() {
+    if ! which age >/dev/null; then
+        echo "𝙓 Error : 'age' must be installed and available in your \$PATH"
+        echo
+        exit 1
+    fi
 }
 
-decriypt_with_gpg() {
-    echo "$1" |
-        gpg --decrypt --batch --yes --passphrase-fd 0 --output "$2" "$3"
+require_private_key() {
+    if ! test -f "$age_private_key"; then
+        echo "𝙓 Error : 'norris-key.txt' required to perform crypto operations"
+        echo
+        exit 1
+    fi
+}
+
+encript_with_age() {
+    local plain_input="$1"
+    local encrypted_output="$2"
+    cat "$plain_input" | age -r "$age_public_key" > "$encrypted_output"
+}
+
+decriypt_with_age() {
+    local encrypted_input="$1"
+    local plain_output="$2"
+    age --decrypt -i "$age_private_key" "$encrypted_input" > "$plain_output"
 }
 
 encrypt() {
-    encript_with_gpg "$1" .config/dotanuki-demos.gpg dotanuki-demos.jks
-    encript_with_gpg "$1" .config/credentials.gpg signing.properties
+    require_age
+    require_private_key
+    mkdir -p .config
+    encript_with_age dotanuki-demos.jks .config/dotanuki-demos.age
+    encript_with_age signing.properties .config/credentials.age
 }
 
 decrypt() {
-    decriypt_with_gpg "$1" dotanuki-demos.jks .config/dotanuki-demos.gpg
-    decriypt_with_gpg "$1" signing.properties .config/credentials.gpg
+    require_age
+    require_private_key
+    decriypt_with_age .config/dotanuki-demos.age dotanuki-demos.jks
+    decriypt_with_age .config/credentials.age signing.properties 
 }
 
 setup
 
 case "$operation" in
 "encrypt")
-    encrypt "$password"
+    encrypt
     ;;
 "decrypt")
-    decrypt "$password"
+    decrypt
     ;;
 *)
     echo
