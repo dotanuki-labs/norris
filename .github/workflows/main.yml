@@ -37,7 +37,7 @@ jobs:
       - name: Setup Android Build
         uses: ./.github/actions/setup-android-build
         with:
-          norris-key: ${{ secrets.NORRIS_CRYPTO_KEY }}
+          norris-key: ${{ secrets.NORRIS_SECRET_KEY }}
 
       - name: Run unit tests
         run: ./gradlew test
@@ -65,7 +65,7 @@ jobs:
       - name: Setup Android Build
         uses: ./.github/actions/setup-android-build
         with:
-          norris-key: ${{ secrets.NORRIS_CRYPTO_KEY }}
+          norris-key: ${{ secrets.NORRIS_SECRET_KEY }}
 
       - name: Assemble APKs
         run: ./gradlew app:assembleDebug app:assembleRelease -PtestMode=true
@@ -103,7 +103,7 @@ jobs:
       - name: Setup Android Build
         uses: ./.github/actions/setup-android-build
         with:
-          norris-key: ${{ secrets.NORRIS_CRYPTO_KEY }}
+          norris-key: ${{ secrets.NORRIS_SECRET_KEY }}
 
       - name: Assemble Instrumentation tests
         run: ./gradlew assembleAndroidTest
@@ -216,7 +216,7 @@ jobs:
       - name: Setup Android Build
         uses: ./.github/actions/setup-android-build
         with:
-          norris-key: ${{ secrets.NORRIS_CRYPTO_KEY }}
+          norris-key: ${{ secrets.NORRIS_SECRET_KEY }}
 
       - name: Check security issues in project dependencies and generate SBOM
         run: ./gradlew clean ossIndexAudit
@@ -250,7 +250,7 @@ jobs:
       - name: Setup Android Build
         uses: ./.github/actions/setup-android-build
         with:
-          norris-key: ${{ secrets.NORRIS_CRYPTO_KEY }}
+          norris-key: ${{ secrets.NORRIS_SECRET_KEY }}
 
       - name: Analyse AppBundle size
         run: ./gradlew app:analyzeReleaseBundle
