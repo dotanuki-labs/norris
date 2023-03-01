@@ -30,13 +30,13 @@ require_private_key() {
 encript_with_age() {
     local plain_input="$1"
     local encrypted_output="$2"
-    cat "$plain_input" | age -r "$age_public_key" > "$encrypted_output"
+    age -r "$age_public_key" <"$plain_input" >"$encrypted_output"
 }
 
 decriypt_with_age() {
     local encrypted_input="$1"
     local plain_output="$2"
-    age --decrypt -i "$age_private_key" "$encrypted_input" > "$plain_output"
+    age --decrypt -i "$age_private_key" "$encrypted_input" >"$plain_output"
 }
 
 encrypt() {
@@ -51,7 +51,7 @@ decrypt() {
     require_age
     require_private_key
     decriypt_with_age .config/dotanuki-demos.age dotanuki-demos.jks
-    decriypt_with_age .config/credentials.age signing.properties 
+    decriypt_with_age .config/credentials.age signing.properties
 }
 
 setup
