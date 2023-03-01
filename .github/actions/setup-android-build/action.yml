@@ -3,7 +3,7 @@ description: "Common steps before running a Gradle command, regarding the Runner
 
 inputs:
   norris-key:
-    description: "Private key required to decript local files”
+    description: "Private key required to decript local files"
     required: true
 
 runs:
