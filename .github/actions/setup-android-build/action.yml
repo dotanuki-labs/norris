@@ -3,15 +3,18 @@ description: "Common steps before running a Gradle command, regarding the Runner
 
 inputs:
   norris-key:
-    description: “GPG key required to decript local files”
+    description: "Private key required to decript local files"
     required: true
 
 runs:
   using: "composite"
   steps:
+      - name: Install asdf
+        uses: asdf-vm/actions/install@v1.1.0
+
       - name: Extract credentials
         shell: bash
-        run: ./scripts/secrets.sh decrypt ${{ inputs.norris-key }}
+        run: echo ${{ inputs.norris-key }} >> norris-key.txt && ./scripts/secrets.sh decrypt
 
       - name: Setup JDK
         id: setup-jdk

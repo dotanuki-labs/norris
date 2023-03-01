@@ -67,6 +67,7 @@ proguard/mapping.txt
 # Project signing
 signing.properties
 dotanuki-demos.jks
+norris-key.txt
 
 # SBOMs
 oss-index-cyclonedx-bom.json
