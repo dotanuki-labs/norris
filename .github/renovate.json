@@ -5,6 +5,7 @@
     "group:monorepos",
     "workarounds:all"
   ],
+  "osvVulnerabilityAlerts": true,
   "dependencyDashboard": true,
   "enabledManagers": ["gradle"],
   "packageRules": [
