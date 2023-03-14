@@ -9,13 +9,6 @@ inputs:
 runs:
   using: "composite"
   steps:
-      - name: Install asdf
-        uses: asdf-vm/actions/install@v1.1.0
-
-      - name: Extract credentials
-        shell: bash
-        run: echo ${{ inputs.norris-key }} >> norris-key.txt && ./scripts/secrets.sh decrypt
-
       - name: Setup JDK
         id: setup-jdk
         uses: actions/setup-java@v3.6.0
@@ -26,6 +19,10 @@ runs:
       - name: Optimize for Gradle build
         shell: bash
         run: ${{ github.action_path }}/setup-gradle-properties.sh ${{ steps.setup-jdk.outputs.path }}
+
+      - name: Generate new Android Debug Keystore
+        shell: bash
+        run: ${{ github.action_path }}/setup-android-keystore.sh
 
       - name: Setup Cache
         uses: gradle/gradle-build-action@v2.3.3

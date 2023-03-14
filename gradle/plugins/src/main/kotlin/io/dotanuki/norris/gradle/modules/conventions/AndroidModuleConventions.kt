@@ -8,10 +8,7 @@ import com.spotify.ruler.plugin.RulerExtension
 import io.dotanuki.norris.gradle.modules.models.PlatformDefinitions
 import io.dotanuki.norris.gradle.modules.models.ProguardRules
 import io.dotanuki.norris.gradle.modules.models.Versioning
-import java.io.File
-import java.io.FileInputStream
 import java.util.Collections
-import java.util.Properties
 import org.gradle.api.Project
 
 internal fun Project.isTestMode(): Boolean = properties["testMode"]?.let { true } ?: false
@@ -132,18 +129,7 @@ fun Project.applyAndroidFeatureLibraryConventions() {
         }
 
         signingConfigs {
-            create("release") {
-                val signingProperties = Properties().apply {
-                    load(FileInputStream("${rootProject.rootDir}/signing.properties"))
-                }
-
-                signingProperties.run {
-                    storeFile = File("$rootDir/dotanuki-demos.jks")
-                    storePassword = getProperty("io.dotanuki.norris.storepass")
-                    keyAlias = getProperty("io.dotanuki.norris.keyalias")
-                    keyPassword = getProperty("io.dotanuki.norris.keypass")
-                }
-            }
+            create("release").initWith(getByName("debug"))
         }
 
         buildTypes {
