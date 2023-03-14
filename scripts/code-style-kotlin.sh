@@ -26,13 +26,13 @@ run_ktlint() {
         exit 1
     fi
 
-    echo -e "${cyan}• Running ktlint (v$ktlint_version)${normal}"
+    echo "• Checking code formatting"
     echo
 
     ktlint --reporter=plain?group_by_file --android || echo
 
     echo
-    echo -e "${cyan}• No issues found with ktlint${normal}"
+    echo -e "• No issues found by${cyan}ktlint${normal}"
 }
 
 readonly detekt_version="1.22.0"
