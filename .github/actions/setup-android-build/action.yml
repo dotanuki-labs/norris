@@ -16,6 +16,9 @@ runs:
             distribution: 'zulu'
             java-version: '17'
 
+      - name: Install asdf dependencies
+        uses: asdf-vm/actions/install@v2.0.0
+
       - name: Optimize for Gradle build
         shell: bash
         run: ${{ github.action_path }}/setup-gradle-properties.sh ${{ steps.setup-jdk.outputs.path }}
