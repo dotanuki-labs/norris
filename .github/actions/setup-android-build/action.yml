@@ -22,7 +22,7 @@ runs:
 
       - name: Generate new Android Debug Keystore
         shell: bash
-        run: mkdir -p $HOME/.android && keytool -dname "cn=Ubiratan Soares, ou=Dotanuki, o=Dotanuki, l=Barcelona, st=Catalonia, c=ES" -genkey -v -keystore $HOME/.android/debug.keystore -storepass android -alias androiddebugkey -keypass android -keyalg RSA -keysize 2048 -validity 10000
+        run: ${{ github.action_path }}/setup-android-keystore.sh
 
       - name: Setup Cache
         uses: gradle/gradle-build-action@v2.3.3
