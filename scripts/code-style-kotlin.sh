@@ -10,23 +10,29 @@ readonly normal="\033[0m"
 
 readonly cache_dir="$HOME/.dotanuki/cached"
 
-readonly ktlint_version="0.48.1"
-readonly ktlint_home="$cache_dir/ktlint/$ktlint_version"
-readonly ktlint_bin="$ktlint_home/ktlint"
-readonly ktlint_releases="https://github.com/pinterest/ktlint/releases/download"
-
 run_ktlint() {
 
-    if ! test -f "$ktlint_bin"; then
-        echo -e "${cyan}• Installing ktlint (v$ktlint_version)${normal}"
-        mkdir -p "$ktlint_home"
-        curl -sSL "$ktlint_releases/$ktlint_version/ktlint" -o "$ktlint_bin"
-        chmod +x "$ktlint_bin"
+    if ! test -f "$HOME/.asdf/shims/ktlint"; then
+        echo -e "Error : $(cyan "ktlint") not properly installed"
+        echo "Setup your environtment with"
+        echo -e "$> $(cyan "asdf plugin add ktlint")"
+        echo -e "$> $(cyan "asdf install")"
+        echo
+        exit 1
     fi
 
-    echo -e "${cyan}• Running ktlint (v$ktlint_version)${normal}"
-    "$ktlint_bin" --reporter=plain?group_by_file --android
-    echo -e "${cyan}• No issues found with ktlint${normal}"
+    if ! which ktlint >/dev/null; then
+        echo -e "Error : $(cyan "ktlint") required but not available"
+        exit 1
+    fi
+
+    echo "• Checking code formatting"
+    echo
+
+    ktlint --reporter=plain?group_by_file --android || echo
+
+    echo
+    echo -e "• No issues found by${cyan}ktlint${normal}"
 }
 
 readonly detekt_version="1.22.0"
@@ -60,9 +66,9 @@ readonly help_all="Run ktlint and detekt for this project"
 usage() {
     echo "Usage instructions:"
     echo
-    echo -e "‣ static-analysis.sh ${cyan}ktlint${normal}  $help_ktlint"
-    echo -e "‣ static-analysis.sh ${cyan}detekt${normal}  $help_detekt"
-    echo -e "‣ static-analysis.sh ${cyan}all${normal}     $help_all"
+    echo -e "‣ code-style-kotlin.sh ${cyan}ktlint${normal}  $help_ktlint"
+    echo -e "‣ code-style-kotlin.sh ${cyan}detekt${normal}  $help_detekt"
+    echo -e "‣ code-style-kotlin.sh ${cyan}all${normal}     $help_all"
 }
 
 readonly what="$1"
