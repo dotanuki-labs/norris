@@ -1,12 +1,12 @@
 #! /usr/bin/env bash
 
-set -e
+set -ex
 
 dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 cd "${dir%/*}"
 
 readonly maestro_bin="$HOME/.maestro/bin/maestro"
-readonly maestro_workspace=".maestro"
+readonly maestro_workspace="functional-tests"
 readonly apk_file="$1"
 
 target_runner=
