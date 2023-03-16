@@ -146,7 +146,7 @@ jobs:
           name: acceptance-tests-reports
           path: emulator-wtf-results
 
-  e2e-tests:
+  functional-tests:
     runs-on: ubuntu-20.04
     timeout-minutes: 25
     needs: [assemble-apk]
@@ -159,7 +159,7 @@ jobs:
         uses: actions/download-artifact@v3.0.2
 
       - name: Run E2E tests on mobile.dev clould
-        run: ./scripts/maestro-run.sh release-apk/app-release.apk
+        run: ./scripts/maestro.sh release-apk/app-release.apk
         env:
           MOBILE_DEV_CLOUD_TOKEN: ${{ secrets.MOBILE_DEV_CLOUD_TOKEN }}
 
@@ -267,7 +267,7 @@ jobs:
   test-results-analysis:
     runs-on: ubuntu-20.04
     timeout-minutes: 25
-    needs: [unit-tests, screenshot-tests, acceptance-tests, e2e-tests]
+    needs: [unit-tests, screenshot-tests, acceptance-tests, functional-tests]
     steps:
       - name: Fetch all artefacts
         uses: actions/download-artifact@v3.0.2
