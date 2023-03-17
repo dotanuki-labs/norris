@@ -37,7 +37,7 @@ fun Project.ignoredVulnerabilities(): Set<String> =
     flaggedDependencies.let {
         logger.lifecycle("")
         logger.lifecycle("Security Checks Plugin:")
-        logger.lifecycle("Ignoring CVE/Sonatype advisories for some project transistive dependencies.")
+        logger.lifecycle("Ignoring CVE/Sonatype advisories for some build dependencies.")
         logger.lifecycle("Reason : they are not packaged in the final APK")
         logger.lifecycle("")
 
