@@ -1,21 +1,21 @@
 package io.dotanuki.platform.android.core.persistance
 
+import android.app.Application
+import androidx.test.ext.junit.runners.AndroidJUnit4
+import androidx.test.platform.app.InstrumentationRegistry
 import com.google.common.truth.Truth.assertThat
 import kotlinx.coroutines.runBlocking
 import org.junit.Before
 import org.junit.Test
+import org.junit.runner.RunWith
 
-internal class SearchHistoryInfrastructureTests {
+@RunWith(AndroidJUnit4::class)
+class LocalStorageTests {
 
-    private lateinit var storage: LocalStorage
-
-    @Before fun `before each test`() {
-        storage = SearchHistoryInfrastructure(FakePreferences)
-
-        FakePreferences.run {
-            brokenMode = false
-            storage = ""
-        }
+    private val storage by lazy {
+        val app = InstrumentationRegistry.getInstrumentation().targetContext.applicationContext as Application
+        val wrapper = AppPreferencesWrapper(app)
+        LocalStorage(wrapper.preferences)
     }
 
     @Test fun `should retrive empty search history`() {
