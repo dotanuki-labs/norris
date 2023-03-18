@@ -3,7 +3,7 @@ package io.dotanuki.platform.jvm.core.rest
 import retrofit2.http.GET
 import retrofit2.http.Query
 
-interface ChuckNorrisDotIO {
+interface ChuckNorrisService {
 
     @GET("/jokes/categories")
     suspend fun categories(): RawCategories

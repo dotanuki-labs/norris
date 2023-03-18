@@ -2,13 +2,13 @@ package io.dotanuki.features.search.data
 
 import io.dotanuki.features.search.domain.SearchOptions
 import io.dotanuki.platform.android.core.persistance.LocalStorage
-import io.dotanuki.platform.jvm.core.rest.ChuckNorrisDotIO
+import io.dotanuki.platform.jvm.core.rest.ChuckNorrisService
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
 class SearchesDataSource(
     private val storage: LocalStorage,
-    private val api: ChuckNorrisDotIO
+    private val api: ChuckNorrisService
 ) {
 
     suspend fun searchOptions(): SearchOptions = withContext(Dispatchers.IO) {

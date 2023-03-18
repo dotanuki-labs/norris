@@ -1,7 +1,7 @@
 package io.dotanuki.platform.jvm.core.rest.di
 
 import io.dotanuki.platform.jvm.core.networking.RetrofitBuilder
-import io.dotanuki.platform.jvm.core.rest.ChuckNorrisDotIO
+import io.dotanuki.platform.jvm.core.rest.ChuckNorrisService
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import org.kodein.di.DI
@@ -9,7 +9,7 @@ import org.kodein.di.bind
 import org.kodein.di.instance
 import org.kodein.di.singleton
 
-val restInfrastructureModule = DI.Module("rest-infrastructure") {
+val restServiceModule = DI.Module("rest-service") {
 
     bind {
         singleton {
@@ -27,7 +27,7 @@ val restInfrastructureModule = DI.Module("rest-infrastructure") {
                 httpClient = okHttp
             )
 
-            retrofit.create(ChuckNorrisDotIO::class.java)
+            retrofit.create(ChuckNorrisService::class.java)
         }
     }
 }

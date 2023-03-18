@@ -4,7 +4,7 @@ import android.app.Application
 import androidx.test.platform.app.InstrumentationRegistry
 import io.dotanuki.platform.android.core.navigator.di.navigatorModule
 import io.dotanuki.platform.android.core.persistance.di.persistanceModule
-import io.dotanuki.platform.jvm.core.rest.di.restInfrastructureModule
+import io.dotanuki.platform.jvm.core.rest.di.restServiceModule
 import okhttp3.HttpUrl.Companion.toHttpUrlOrNull
 import org.kodein.di.DI
 import org.kodein.di.DIAware
@@ -34,7 +34,7 @@ class TestApplication : Application(), DIAware {
 
     private var modules = mutableListOf(
         containerApplicationModule,
-        restInfrastructureModule,
+        restServiceModule,
         persistanceModule,
         navigatorModule
     )

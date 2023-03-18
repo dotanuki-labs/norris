@@ -2,12 +2,12 @@ package io.dotanuki.features.facts.data
 
 import io.dotanuki.features.facts.domain.ChuckNorrisFact
 import io.dotanuki.features.facts.domain.FactsRetrievalError
-import io.dotanuki.platform.jvm.core.rest.ChuckNorrisDotIO
+import io.dotanuki.platform.jvm.core.rest.ChuckNorrisService
 import io.dotanuki.platform.jvm.core.rest.RawSearch
-import io.dotanuki.platform.jvm.core.rest.managedExecution
+import io.dotanuki.platform.jvm.core.networking.managedExecution
 
 class FactsDataSource(
-    private val api: ChuckNorrisDotIO
+    private val api: ChuckNorrisService
 ) {
 
     suspend fun search(term: String): List<ChuckNorrisFact> {
