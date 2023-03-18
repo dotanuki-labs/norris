@@ -6,7 +6,7 @@ import io.dotanuki.features.facts.di.factsModule
 import io.dotanuki.features.search.di.searchModule
 import io.dotanuki.platform.android.core.navigator.di.navigatorModule
 import io.dotanuki.platform.android.core.persistance.di.persistanceModule
-import io.dotanuki.platform.jvm.core.rest.di.restInfrastructureModule
+import io.dotanuki.platform.jvm.core.rest.di.restServiceModule
 import org.kodein.di.DI
 import org.kodein.di.bind
 import org.kodein.di.singleton
@@ -24,7 +24,7 @@ class DependenciesSetup(private val app: Application) {
 
     private val modules = listOf(
         applicationModule,
-        restInfrastructureModule,
+        restServiceModule,
         persistanceModule,
         navigatorModule,
         factsModule,

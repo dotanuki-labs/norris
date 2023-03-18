@@ -1,4 +1,4 @@
-package io.dotanuki.platform.jvm.core.rest
+package io.dotanuki.platform.jvm.core.networking
 
 import com.google.common.truth.Truth.assertThat
 import io.dotanuki.platform.jvm.core.networking.errors.NetworkingError.HostUnreachable
