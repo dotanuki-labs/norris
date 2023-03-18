@@ -19,8 +19,8 @@ val searchModule = DI.Module("search") {
             @Suppress("UNCHECKED_CAST") val factory = object : ViewModelProvider.Factory {
 
                 val dataSource = SearchesDataSource(
-                    storage = instance(),
-                    api = instance()
+                    localStorage = instance(),
+                    norrisService = instance()
                 )
 
                 override fun <VM : ViewModel> create(modelClass: Class<VM>) =
