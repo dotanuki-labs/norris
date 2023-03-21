@@ -5,7 +5,6 @@ set -ex
 dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 cd "${dir%/*}"
 
-readonly maestro_bin="$HOME/.maestro/bin/maestro"
 readonly maestro_workspace="functional-tests"
 readonly apk_file="$1"
 
@@ -68,13 +67,10 @@ install_apk_on_emulator() {
 }
 
 require_maestro_binary() {
-    if test -f "$maestro_bin"; then
-        echo "‣ Found maestro installation at user : $maestro_bin"
-    else
-        echo "‣ maestro installation not found. Installing latest version ..."
+    if ! which maestro >/dev/null; then
+        echo "𝙓 Error : 'maestro' required but not available"
         echo
-        curl -Ls "https://get.maestro.mobile.dev" | bash
-        echo
+        exit 1
     fi
 }
 
@@ -90,12 +86,12 @@ execute_tests_local() {
     install_apk_on_emulator
     echo "‣ Running tests from workspace : $maestro_workspace"
     echo
-    "$maestro_bin" test "$maestro_workspace/acceptance.yaml"
+    maestro test "$maestro_workspace/acceptance.yaml"
 }
 
 execute_tests_cloud() {
 
-    require_maestro_token
+    require_maestro_token    
     local branch
     local commit
 
@@ -115,7 +111,7 @@ execute_tests_cloud() {
     echo "‣ Execution name will be : $execution_name"
     echo "‣ Running tests from workspace : $maestro_workspace"
     echo
-    "$maestro_bin" cloud --apiKey "$MOBILE_DEV_CLOUD_TOKEN" "$apk_file" --name "$execution_name" "$maestro_workspace"
+    maestro cloud --apiKey "$MOBILE_DEV_CLOUD_TOKEN" "$apk_file" --name "$execution_name" "$maestro_workspace"
 }
 
 echo

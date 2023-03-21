@@ -19,6 +19,7 @@ fi
 echo
 asdf plugin add ktlint
 asdf plugin add detekt https://github.com/dotanuki-labs/asdf-detekt.git
+asdf plugin add maestro https://github.com/dotanuki-labs/asdf-maestro.git
 asdf install
 echo
 
