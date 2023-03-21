@@ -1,11 +1,6 @@
 name: "Setup Android build"
 description: "Common steps before running a Gradle command, regarding the Runner OS"
 
-inputs:
-  norris-key:
-    description: "Private key required to decript local files"
-    required: true
-
 runs:
   using: "composite"
   steps:
