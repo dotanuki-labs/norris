@@ -8,21 +8,9 @@ cd "${dir%/*}"
 readonly cyan="\033[1;36m"
 readonly normal="\033[0m"
 
-readonly cache_dir="$HOME/.dotanuki/cached"
-
 run_ktlint() {
-
-    if ! test -f "$HOME/.asdf/shims/ktlint"; then
-        echo -e "Error : $(cyan "ktlint") not properly installed"
-        echo "Setup your environtment with"
-        echo -e "$> $(cyan "asdf plugin add ktlint")"
-        echo -e "$> $(cyan "asdf install")"
-        echo
-        exit 1
-    fi
-
     if ! which ktlint >/dev/null; then
-        echo -e "Error : $(cyan "ktlint") required but not available"
+        echo -e "Error : ${cyan}ktlint${normal} required but not available"
         exit 1
     fi
 
@@ -32,31 +20,20 @@ run_ktlint() {
     ktlint --reporter=plain?group_by_file --android || echo
 
     echo
-    echo -e "• No issues found by${cyan}ktlint${normal}"
+    echo -e "• No issues found by ${cyan}ktlint${normal}"
 }
 
-readonly detekt_version="1.22.0"
-readonly detekt_home="$cache_dir/detekt"
-readonly detekt_bin="$detekt_home/detekt-cli-$detekt_version/bin/detekt-cli"
-readonly detekt_releases="https://github.com/detekt/detekt/releases/download"
-
 run_detekt() {
-
-    if ! test -f "$detekt_bin"; then
-        echo -e "${cyan}• Installing detekt (v$detekt_version)${normal}"
-        mkdir -p "$detekt_home"
-
-        local detekt_zip="detekt-cli-$detekt_version.zip"
-
-        rm -rf "${detekt_home:?}/${detekt_zip:?}"
-        curl -sSL "$detekt_releases/v$detekt_version/$detekt_zip" -o "$cache_dir/$detekt_zip"
-        unzip "$cache_dir/$detekt_zip" -d "$detekt_home" >/dev/null 2>&1
-        chmod +x "$detekt_bin"
+    if ! which detekt >/dev/null; then
+        echo -e "Error : ${cyan}detekt${normal} required but not available"
+        exit 1
     fi
 
-    echo -e "${cyan}• Running detekt (v$detekt_version)${normal}"
-    "$detekt_bin" -c .config/detekt.yml --build-upon-default-config
-    echo -e "${cyan}• No issues found with detekt${normal}"
+    echo -e "${cyan}• Checking code smells"
+    detekt -c .config/detekt.yml --build-upon-default-config || echo
+
+    echo
+    echo -e "• No issues found by ${cyan}detekt${normal}"
 }
 
 readonly help_ktlint="Run ktlint static analyser for this project"
