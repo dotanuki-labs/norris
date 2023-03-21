@@ -90,8 +90,7 @@ execute_tests_local() {
 }
 
 execute_tests_cloud() {
-
-    require_maestro_token    
+    require_maestro_token
     local branch
     local commit
 
