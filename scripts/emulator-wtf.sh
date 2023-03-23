@@ -43,9 +43,9 @@ locate_instrumentation_tests_apk() {
     local apk_file
 
     if [[ -z "$CI" ]]; then
-        apk_file="features/$common_path/$feature"
+        apk_file="features/$feature/$common_path"
     else
-        apk_file="test-apks/features/$common_path/$feature"
+        apk_file="test-apks/features/$feature/$common_path"
     fi
 
     if ! test -f "$apk_file"; then
