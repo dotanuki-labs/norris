@@ -172,32 +172,33 @@ jobs:
     runs-on: ubuntu-20.04
     timeout-minutes: 25
     needs: [assemble-apk, espresso-prepare]
-    strategy:
-      fail-fast: false
-      matrix:
-        feature: ['facts', 'search']
 
     steps:
+      - name: Project Checkout
+        uses: actions/checkout@v3.4.0
+
       - name: Fetch Instrumentation artefacts
         uses: actions/download-artifact@v3.0.2
 
-      - name: Run screenshot tests
-        uses: emulator-wtf/run-tests@v0.0.11
-        with:
-          api-token: ${{ secrets.EMULATOR_WTF_TOKEN }}
-          app: debug-apk/app-debug.apk
-          test: test-apks/features/${{ matrix.feature }}/build/outputs/apk/androidTest/debug/${{ matrix.feature }}-debug-androidTest.apk
-          outputs-dir: emulator-wtf-results-${{ matrix.feature }}
-          devices: model=Pixel2,version=31
-          use-orchestrator: true
-          clear-package-data: true
+      - name: Install asdf
+        uses: asdf-vm/actions/setup@v2.1.0
+
+      - name: Install local CLI tooling
+        shell: bash
+        run: ./scripts/setup-asdf.sh
+
+      - name: Run screenshot tests 
+        shell: bash
+        run: ./scripts/emulator-wtf.sh
+        env:
+          EW_API_TOKEN: ${{ secrets.EMULATOR_WTF_TOKEN }}
 
       - name: Archive execution results
         if: always()
         uses: actions/upload-artifact@v3.1.2
         with:
           name: screenshot-tests-reports
-          path: emulator-wtf-results-${{ matrix.feature }}
+          path: emulator-wtf-results
 
   security-analysis:
     runs-on: ubuntu-20.04
