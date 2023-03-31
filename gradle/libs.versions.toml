@@ -11,7 +11,7 @@ gradle-oss-scan = "org.sonatype.gradle.plugins:scan-gradle-plugin:2.6.0"
 gradle-ruler = "com.spotify.ruler:ruler-gradle-plugin:1.4.0"
 
 # Kodein
-kodein-di-jvm = "org.kodein.di:kodein-di-jvm:7.19.0"
+kodein-di-jvm = "org.kodein.di:kodein-di-jvm:7.19.1"
 
 # Kotlinx
 kotlinx-coroutines-core = "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4"
