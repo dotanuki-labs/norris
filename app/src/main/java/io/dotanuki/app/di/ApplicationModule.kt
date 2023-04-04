@@ -12,7 +12,7 @@ val applicationModule = DI.Module("application") {
     bind {
         singleton {
             val url = when {
-                BuildConfig.IS_TEST_MODE -> "https://norris-app.mocklab.io/"
+                BuildConfig.IS_TEST_MODE -> "https://norris.wiremockapi.cloud/"
                 else -> "https://api.chucknorris.io"
             }
             requireNotNull(url.toHttpUrlOrNull())
