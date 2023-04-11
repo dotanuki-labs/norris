@@ -5,10 +5,12 @@ appId: io.dotanuki.norris.android
     clearState: true
 
 - assertVisible: "No facts to show"
+- takeScreenshot: facts-empty-state
 
 - tapOn:
     id: "menu_item_search_facts"  
 
+- takeScreenshot: search-empty-state
 - assertVisible: "career"
 - assertVisible: "dev"
 - assertVisible: "humor"
@@ -18,11 +20,13 @@ appId: io.dotanuki.norris.android
 - tapOn:
     id: "key_pos_ime_action"
 
+- takeScreenshot: facts-content-state
 - assertVisible: "Chuck Norris can divide by zero"
 
 - tapOn:
     id: "menu_item_search_facts" 
 
+- takeScreenshot: search-content-state
 - assertVisible: "math"
 
 - tapOn:
