@@ -17,7 +17,7 @@ jobs:
 
     steps:
       - name: Project Checkout
-        uses: actions/checkout@v3.5.0
+        uses: actions/checkout@v3.5.1
 
       - name: Install asdf
         uses: asdf-vm/actions/setup@v2.1.0
@@ -39,7 +39,7 @@ jobs:
 
     steps:
       - name: Project Checkout
-        uses: actions/checkout@v3.5.0
+        uses: actions/checkout@v3.5.1
 
       - name: Setup Android Build
         uses: ./.github/actions/setup-android-build
@@ -65,7 +65,7 @@ jobs:
 
     steps:
       - name: Project Checkout
-        uses: actions/checkout@v3.5.0
+        uses: actions/checkout@v3.5.1
 
       - name: Setup Android Build
         uses: ./.github/actions/setup-android-build
@@ -101,7 +101,7 @@ jobs:
 
     steps:
       - name: Project Checkout
-        uses: actions/checkout@v3.5.0
+        uses: actions/checkout@v3.5.1
 
       - name: Setup Android Build
         uses: ./.github/actions/setup-android-build
@@ -151,7 +151,7 @@ jobs:
 
     steps:
       - name: Project Checkout
-        uses: actions/checkout@v3.5.0
+        uses: actions/checkout@v3.5.1
 
       - name: Install asdf
         uses: asdf-vm/actions/setup@v2.1.0
@@ -175,7 +175,7 @@ jobs:
 
     steps:
       - name: Project Checkout
-        uses: actions/checkout@v3.5.0
+        uses: actions/checkout@v3.5.1
 
       - name: Fetch Instrumentation artefacts
         uses: actions/download-artifact@v3.0.2
@@ -207,7 +207,7 @@ jobs:
 
     steps:
       - name: Project Checkout
-        uses: actions/checkout@v3.5.0
+        uses: actions/checkout@v3.5.1
         with:
           fetch-depth: 0
 
@@ -252,7 +252,7 @@ jobs:
 
     steps:
       - name: Project Checkout
-        uses: actions/checkout@v3.5.0
+        uses: actions/checkout@v3.5.1
 
       - name: Setup Android Build
         uses: ./.github/actions/setup-android-build
