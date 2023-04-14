@@ -1,11 +1,6 @@
 package io.dotanuki.platform.jvm.core.rest
 
-import kotlinx.serialization.KSerializer
 import kotlinx.serialization.Serializable
-import kotlinx.serialization.builtins.ListSerializer
-import kotlinx.serialization.builtins.serializer
-import kotlinx.serialization.encoding.Decoder
-import kotlinx.serialization.encoding.Encoder
 
 @Serializable
 data class RawSearch(
@@ -19,24 +14,3 @@ data class RawFact(
     val value: String,
     val categories: List<String>
 )
-
-@Serializable(with = RawCategoriesSerializer::class)
-data class RawCategories(
-    val raw: List<String>
-)
-
-internal object RawCategoriesSerializer : KSerializer<RawCategories> {
-
-    private val serializer = ListSerializer(String.serializer())
-
-    override val descriptor = serializer.descriptor
-
-    override fun serialize(encoder: Encoder, value: RawCategories) {
-        encoder.encodeSerializableValue(serializer, value.raw)
-    }
-
-    override fun deserialize(decoder: Decoder) =
-        RawCategories(
-            decoder.decodeSerializableValue(serializer)
-        )
-}

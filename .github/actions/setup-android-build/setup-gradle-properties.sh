@@ -25,7 +25,6 @@ write_common_properties() {
     write_property "kotlin.incremental=false"
 
     # Android properties common to all build environments
-    write_property "android.enableR8.fullmode=true"
     write_property "android.r8.failOnMissingClasses=true"
     write_property "android.nonTransitiveRClass=true"
     write_property "android.useAndroidX=true"
