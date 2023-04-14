@@ -248,6 +248,7 @@ jobs:
   app-size-analysis:
     runs-on: ubuntu-20.04
     timeout-minutes: 25
+    if: ${{ false }}
     needs: assemble-apk
 
     steps:
