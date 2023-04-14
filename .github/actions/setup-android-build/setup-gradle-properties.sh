@@ -25,7 +25,6 @@ write_common_properties() {
     write_property "kotlin.incremental=false"
 
     # Android properties common to all build environments
-    write_property "android.enableR8.fullmode=true"
     write_property "android.r8.failOnMissingClasses=true"
     write_property "android.nonTransitiveRClass=true"
     write_property "android.useAndroidX=true"
@@ -34,6 +33,7 @@ write_common_properties() {
     write_property "android.defaults.buildfeatures.aidl=false"
     write_property "android.defaults.buildfeatures.renderscript=false"
     write_property "android.defaults.buildfeatures.shaders=false"
+    write_property "android.defaults.buildfeatures.buildconfig=true"
 
     # JDK path exposed by actions/setup-java
     write_property "org.gradle.java.installations.paths=$gha_jdk_path"

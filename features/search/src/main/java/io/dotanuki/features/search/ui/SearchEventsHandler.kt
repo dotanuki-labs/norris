@@ -23,7 +23,7 @@ interface SearchEventsHandler {
 
     class Unidirectional(private val viewModel: SearchViewModel) : SearchEventsHandler {
         override fun postReceive(state: SearchScreenState) {
-            Log.d("SearchScreen", "Processed -> ${state.javaClass.simpleName}")
+            Log.d("SearchScreen", "Processed -> $state")
         }
 
         override fun onNewSearch(term: String) {

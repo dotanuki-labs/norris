@@ -152,10 +152,6 @@ fun Project.applyAndroidFeatureLibraryConventions() {
                 buildConfigField("boolean", "IS_TEST_MODE", "${project.isTestMode()}")
             }
         }
-
-        packagingOptions {
-            jniLibs.useLegacyPackaging = true
-        }
     }
 
     val platformDefinitions = PlatformDefinitions.from(this)

@@ -13,7 +13,7 @@ class SearchesDataSource(
 
     suspend fun searchOptions(): SearchOptions = withContext(Dispatchers.IO) {
         SearchOptions(
-            recommendations = norrisService.categories().raw,
+            recommendations = norrisService.categories(),
             history = localStorage.lastSearches()
         )
     }
