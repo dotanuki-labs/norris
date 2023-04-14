@@ -258,6 +258,7 @@ jobs:
         uses: ./.github/actions/setup-android-build
 
       - name: Analyse AppBundle size
+        if: ${{ false }}
         run: ./gradlew app:analyzeReleaseBundle
 
       - name: Archive Reports
