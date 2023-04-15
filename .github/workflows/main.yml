@@ -247,25 +247,19 @@ jobs:
 
   app-size-analysis:
     runs-on: ubuntu-20.04
-    timeout-minutes: 25
+    timeout-minutes: 10
     needs: assemble-apk
 
     steps:
-      - name: Project Checkout
-        uses: actions/checkout@v3.5.2
+      - name: Fetch Instrumentation artefacts
+        uses: actions/download-artifact@v3.0.2
 
-      - name: Setup Android Build
-        uses: ./.github/actions/setup-android-build
-
-      - name: Analyse AppBundle size
-        if: ${{ false }}
-        run: ./gradlew app:analyzeReleaseBundle
-
-      - name: Archive Reports
-        uses: actions/upload-artifact@v3.1.2
+      - name: Upload to EmergeTools
+        uses: EmergeTools/emerge-upload-action@v1.0.2
         with:
-          name: app-size-reports
-          path: app/build/reports/ruler/release
+          artifact_path: release-apk/app-release.apk
+          emerge_api_key: ${{ secrets.EMERGETOOLS_API_KEY }}
+          build_type: release
 
   test-results-analysis:
     runs-on: ubuntu-20.04
