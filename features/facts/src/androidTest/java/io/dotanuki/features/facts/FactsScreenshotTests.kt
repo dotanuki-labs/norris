@@ -7,7 +7,7 @@ import io.dotanuki.features.facts.presentation.FactsScreenState
 import io.dotanuki.features.facts.ui.FactsView
 import io.dotanuki.platform.android.testing.screenshots.ScreenshotDriver
 import io.dotanuki.platform.android.testing.screenshots.ScreenshotTestRule
-import io.dotanuki.platform.jvm.core.networking.errors.RemoteServiceIntegrationError
+import io.dotanuki.platform.jvm.core.networking.errors.HttpDrivenError
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -33,7 +33,7 @@ class FactsScreenshotTests {
     }
 
     @Test fun errorState() {
-        val state = FactsScreenState.Failed(RemoteServiceIntegrationError.RemoteSystem)
+        val state = FactsScreenState.Failed(HttpDrivenError.RemoteSystem)
         screenshotTestRule.checkScreenshot(state)
     }
 

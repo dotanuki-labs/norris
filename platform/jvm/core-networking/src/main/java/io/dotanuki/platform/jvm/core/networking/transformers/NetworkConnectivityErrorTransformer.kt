@@ -1,20 +1,20 @@
 package io.dotanuki.platform.jvm.core.networking.transformers
 
-import io.dotanuki.platform.jvm.core.networking.errors.NetworkingError
+import io.dotanuki.platform.jvm.core.networking.errors.NetworkConnectivityError
 import java.io.IOException
 import java.net.ConnectException
 import java.net.NoRouteToHostException
 import java.net.SocketTimeoutException
 import java.net.UnknownHostException
 
-object NetworkingErrorTransformer : ErrorTransformer {
+object NetworkConnectivityErrorTransformer : ErrorTransformer {
 
     override fun transform(incoming: Throwable) =
         when {
             (!isNetworkingError(incoming)) -> incoming
-            isConnectionTimeout(incoming) -> NetworkingError.OperationTimeout
-            cannotReachHost(incoming) -> NetworkingError.HostUnreachable
-            else -> NetworkingError.ConnectionSpike
+            isConnectionTimeout(incoming) -> NetworkConnectivityError.OperationTimeout
+            cannotReachHost(incoming) -> NetworkConnectivityError.HostUnreachable
+            else -> NetworkConnectivityError.ConnectionSpike
         }
 
     private fun isNetworkingError(error: Throwable) =

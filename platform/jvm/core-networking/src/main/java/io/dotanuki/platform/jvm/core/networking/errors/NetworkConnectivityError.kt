@@ -1,10 +1,10 @@
 package io.dotanuki.platform.jvm.core.networking.errors
 
-sealed class NetworkingError : Throwable() {
+sealed class NetworkConnectivityError : Throwable() {
 
-    object HostUnreachable : NetworkingError()
-    object OperationTimeout : NetworkingError()
-    object ConnectionSpike : NetworkingError()
+    object HostUnreachable : NetworkConnectivityError()
+    object OperationTimeout : NetworkConnectivityError()
+    object ConnectionSpike : NetworkConnectivityError()
 
     override fun toString() =
         when (this) {

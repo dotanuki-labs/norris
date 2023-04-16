@@ -1,9 +1,9 @@
 package io.dotanuki.platform.jvm.core.networking.transformers
 
-import io.dotanuki.platform.jvm.core.networking.errors.RemoteServiceIntegrationError
+import io.dotanuki.platform.jvm.core.networking.errors.HttpDrivenError
 import retrofit2.HttpException
 
-object HttpErrorTransformer : ErrorTransformer {
+object HttpDrivenErrorTransformer : ErrorTransformer {
 
     override fun transform(incoming: Throwable) =
         when (incoming) {
@@ -13,7 +13,7 @@ object HttpErrorTransformer : ErrorTransformer {
 
     private fun translateUsingStatusCode(code: Int) =
         when (code) {
-            in 400..499 -> RemoteServiceIntegrationError.ClientOrigin
-            else -> RemoteServiceIntegrationError.RemoteSystem
+            in 400..499 -> HttpDrivenError.ClientOrigin
+            else -> HttpDrivenError.RemoteSystem
         }
 }

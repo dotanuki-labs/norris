@@ -1,16 +1,16 @@
 package io.dotanuki.platform.jvm.core.rest.internal
 
+import io.dotanuki.platform.jvm.core.networking.transformers.DataMarshallingErrorTransformer
 import io.dotanuki.platform.jvm.core.networking.transformers.ErrorTransformer
-import io.dotanuki.platform.jvm.core.networking.transformers.HttpErrorTransformer
-import io.dotanuki.platform.jvm.core.networking.transformers.NetworkingErrorTransformer
-import io.dotanuki.platform.jvm.core.networking.transformers.SerializationErrorTransformer
+import io.dotanuki.platform.jvm.core.networking.transformers.HttpDrivenErrorTransformer
+import io.dotanuki.platform.jvm.core.networking.transformers.NetworkConnectivityErrorTransformer
 
 internal object ManagedErrorTransformer : ErrorTransformer {
 
     private val transformers = listOf(
-        HttpErrorTransformer,
-        NetworkingErrorTransformer,
-        SerializationErrorTransformer
+        HttpDrivenErrorTransformer,
+        NetworkConnectivityErrorTransformer,
+        DataMarshallingErrorTransformer
     )
 
     override fun transform(incoming: Throwable): Throwable =

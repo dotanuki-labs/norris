@@ -6,7 +6,7 @@ import io.dotanuki.features.search.presentation.SearchScreenState.Error
 import io.dotanuki.features.search.ui.SearchView
 import io.dotanuki.platform.android.testing.screenshots.ScreenshotDriver
 import io.dotanuki.platform.android.testing.screenshots.ScreenshotTestRule
-import io.dotanuki.platform.jvm.core.networking.errors.RemoteServiceIntegrationError
+import io.dotanuki.platform.jvm.core.networking.errors.HttpDrivenError
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -28,7 +28,7 @@ class SearchScreenshotTests {
     @get:Rule val screenshotTestRule = ScreenshotTestRule.create(driver())
 
     @Test fun errorState() {
-        val state = Error(RemoteServiceIntegrationError.RemoteSystem)
+        val state = Error(HttpDrivenError.RemoteSystem)
         screenshotTestRule.checkScreenshot(state)
     }
 

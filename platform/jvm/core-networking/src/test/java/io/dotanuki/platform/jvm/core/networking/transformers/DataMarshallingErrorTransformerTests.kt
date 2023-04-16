@@ -1,16 +1,16 @@
 package io.dotanuki.platform.jvm.core.networking.transformers
 
 import com.google.common.truth.Truth.assertThat
+import io.dotanuki.platform.jvm.core.networking.errors.DataMarshallingError
 import io.dotanuki.platform.jvm.core.networking.transformers.CheckErrorTransformation.Companion.checkTransformation
-import io.dotanuki.platform.jvm.core.networking.errors.RemoteServiceIntegrationError
 import kotlinx.serialization.SerializationException
 import org.junit.Test
 
-class SerializationErrorTransformerTests {
+class DataMarshallingErrorTransformerTests {
 
     @Test fun `should transform serialization error from downstream`() {
         val parseError = SerializationException("Found comments inside this JSON")
-        val expected = RemoteServiceIntegrationError.UnexpectedResponse
+        val expected = DataMarshallingError
         assertTransformation(parseError, expected)
     }
 
@@ -22,7 +22,7 @@ class SerializationErrorTransformerTests {
     private fun assertTransformation(target: Throwable, expected: Throwable) {
         checkTransformation(
             from = target,
-            using = SerializationErrorTransformer,
+            using = DataMarshallingErrorTransformer,
             check = { transformed -> assertThat(transformed).isEqualTo(expected) }
         )
     }

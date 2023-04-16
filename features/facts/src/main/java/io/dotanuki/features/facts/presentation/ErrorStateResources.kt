@@ -1,8 +1,8 @@
 package io.dotanuki.features.facts.presentation
 
 import io.dotanuki.features.facts.domain.FactsRetrievalError
-import io.dotanuki.platform.jvm.core.networking.errors.NetworkingError
-import io.dotanuki.platform.jvm.core.networking.errors.RemoteServiceIntegrationError.RemoteSystem
+import io.dotanuki.platform.jvm.core.networking.errors.NetworkConnectivityError
+import io.dotanuki.platform.jvm.core.networking.errors.HttpDrivenError.RemoteSystem
 import io.dotanuki.platform.android.core.assets.R as assetsR
 
 data class ErrorStateResources(
@@ -16,7 +16,7 @@ data class ErrorStateResources(
                     assetsR.drawable.img_server_down,
                     assetsR.string.error_server_down
                 )
-                is NetworkingError -> ErrorStateResources(
+                is NetworkConnectivityError -> ErrorStateResources(
                     assetsR.drawable.img_network_issue,
                     assetsR.string.error_network
                 )
