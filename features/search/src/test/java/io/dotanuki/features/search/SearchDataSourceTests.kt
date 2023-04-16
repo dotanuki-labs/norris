@@ -6,12 +6,11 @@ import io.dotanuki.features.search.di.searchModule
 import io.dotanuki.features.search.domain.SearchOptions
 import io.dotanuki.platform.android.core.persistance.LocalStorage
 import io.dotanuki.platform.android.testing.app.TestApplication
-import io.dotanuki.platform.jvm.testing.rest.RestDataBuilder
-import io.dotanuki.platform.jvm.testing.rest.RestInfrastructureRule
-import io.dotanuki.platform.jvm.testing.rest.wireRestApi
+import io.dotanuki.platform.jvm.core.rest.ChuckNorrisServiceClient
+import io.dotanuki.platform.jvm.testing.rest.FakeChuckNorrisService
+import io.dotanuki.platform.jvm.testing.rest.FakeChuckNorrisService.Scenario
 import kotlinx.coroutines.runBlocking
 import org.junit.Before
-import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.kodein.di.direct
@@ -23,8 +22,7 @@ import org.robolectric.annotation.Config
 @Config(application = TestApplication::class, sdk = [32])
 class SearchDataSourceTests {
 
-    @get:Rule val restInfrastructure = RestInfrastructureRule()
-
+    private val service = FakeChuckNorrisService()
     private lateinit var dataSource: SearchesDataSource
     private lateinit var storage: LocalStorage
 
@@ -32,14 +30,12 @@ class SearchDataSourceTests {
         val testApplication = TestApplication.setupWith(searchModule)
         storage = testApplication.di.direct.instance()
 
-        val api = restInfrastructure.server.wireRestApi()
-        dataSource = SearchesDataSource(storage, api)
+        dataSource = SearchesDataSource(storage, ChuckNorrisServiceClient(service))
     }
 
     @Test fun `should return only suggestions when history not available`() {
         val suggestions = listOf("code", "dev", "humor")
-        val payload = RestDataBuilder.suggestionsPayload(suggestions)
-        restInfrastructure.restScenario(200, payload)
+        service.scenario = Scenario.CategoriesWithSuccess(suggestions)
 
         val actual = runBlocking { dataSource.searchOptions() }
 
@@ -49,8 +45,7 @@ class SearchDataSourceTests {
 
     @Test fun `should return only suggestions and history`() {
         val suggestions = listOf("code", "dev", "humor")
-        val payload = RestDataBuilder.suggestionsPayload(suggestions)
-        restInfrastructure.restScenario(200, payload)
+        service.scenario = Scenario.CategoriesWithSuccess(suggestions)
 
         val searches = listOf("javascript, php").onEach { storage.registerNewSearch(it) }
 

@@ -23,9 +23,7 @@ val factsModule = DI.Module("facts-module") {
                     storage = instance()
                 )
 
-                val factsDataSource = FactsDataSource(
-                    api = instance()
-                )
+                val factsDataSource = FactsDataSource(instance())
 
                 override fun <VM : ViewModel> create(modelClass: Class<VM>) =
                     FactsViewModel(factsDataSource, actualSearchDataSource) as VM

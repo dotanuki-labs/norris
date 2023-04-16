@@ -1,4 +1,4 @@
-package io.dotanuki.platform.jvm.core.networking
+package io.dotanuki.platform.jvm.core.rest.internal
 
 import com.google.common.truth.Truth.assertThat
 import io.dotanuki.platform.jvm.core.networking.errors.NetworkingError.HostUnreachable
@@ -15,7 +15,7 @@ import java.net.UnknownHostException
 import kotlin.coroutines.resumeWithException
 import kotlin.coroutines.suspendCoroutine
 
-internal class ManagedExecutionTests {
+internal class ErrorManagedExecutionTests {
 
     @Test fun `should transform downstream error with managed execution`() {
 
@@ -28,7 +28,7 @@ internal class ManagedExecutionTests {
             otherError to otherError
         ).forEach { (incoming, expected) ->
             runBlocking {
-                val result = runCatching { managedExecution { emulateError(incoming) } }
+                val result = runCatching { ErrorManagedExecution { emulateError(incoming) } }
                 val unwrapped = unwrapCaughtError(result)
                 assertThat(unwrapped).isEqualTo(expected)
             }

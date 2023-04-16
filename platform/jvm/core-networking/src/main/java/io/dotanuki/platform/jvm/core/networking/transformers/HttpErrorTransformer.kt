@@ -5,7 +5,7 @@ import retrofit2.HttpException
 
 object HttpErrorTransformer : ErrorTransformer {
 
-    override suspend fun transform(incoming: Throwable) =
+    override fun transform(incoming: Throwable) =
         when (incoming) {
             is HttpException -> translateUsingStatusCode(incoming.code())
             else -> incoming

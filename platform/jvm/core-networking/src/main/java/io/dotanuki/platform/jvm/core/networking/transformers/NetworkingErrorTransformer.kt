@@ -9,7 +9,7 @@ import java.net.UnknownHostException
 
 object NetworkingErrorTransformer : ErrorTransformer {
 
-    override suspend fun transform(incoming: Throwable) =
+    override fun transform(incoming: Throwable) =
         when {
             (!isNetworkingError(incoming)) -> incoming
             isConnectionTimeout(incoming) -> NetworkingError.OperationTimeout

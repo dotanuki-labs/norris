@@ -1,21 +1,20 @@
-package io.dotanuki.platform.jvm.core.networking
+package io.dotanuki.platform.jvm.core.rest.internal
 
+import io.dotanuki.platform.jvm.core.networking.transformers.ErrorTransformer
 import io.dotanuki.platform.jvm.core.networking.transformers.HttpErrorTransformer
 import io.dotanuki.platform.jvm.core.networking.transformers.NetworkingErrorTransformer
 import io.dotanuki.platform.jvm.core.networking.transformers.SerializationErrorTransformer
 
-suspend fun <T> managedExecution(target: suspend () -> T): T =
-    try {
-        target.invoke()
-    } catch (incoming: Throwable) {
+internal object ManagedErrorTransformer : ErrorTransformer {
 
-        val transformers = listOf(
-            HttpErrorTransformer,
-            NetworkingErrorTransformer,
-            SerializationErrorTransformer
-        )
+    private val transformers = listOf(
+        HttpErrorTransformer,
+        NetworkingErrorTransformer,
+        SerializationErrorTransformer
+    )
 
-        throw transformers
+    override fun transform(incoming: Throwable): Throwable =
+        transformers
             .map { it.transform(incoming) }
             .reduce { transformed, another ->
                 when {
@@ -24,4 +23,4 @@ suspend fun <T> managedExecution(target: suspend () -> T): T =
                     else -> another
                 }
             }
-    }
+}

@@ -14,8 +14,14 @@ dependencies {
     implementation(libs.kotlinx.serialization.json)
     implementation(libs.kotlinx.serialization.jvm)
     implementation(libs.kotlinx.coroutines.core)
+    implementation(libs.jw.retrofit.kotlinx)
 
+    implementation(libs.resilience4j.retry)
+    implementation(libs.resilience4j.kotlin)
+
+    testImplementation(libs.square.okhttp.mockwebserver)
     testImplementation(projects.platform.jvm.testingRest)
+    testImplementation(projects.platform.jvm.testingHelpers)
 
     testImplementation(libs.google.truth)
     testImplementation(libs.junit4)

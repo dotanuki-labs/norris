@@ -11,7 +11,6 @@ class RestInfrastructureRule(private val customPort: Int? = null) : ExternalReso
     override fun before() {
         super.before()
         server = MockWebServer()
-
         customPort?.let { server.start(it) }
     }
 

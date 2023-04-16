@@ -72,6 +72,7 @@ class SearchView @JvmOverloads constructor(ctx: Context, attrs: AttributeSet? = 
 
     private fun showError(messageId: Int = R.string.error_snackbar_cannot_load_suggestions) {
         val message = hostActivity.getString(messageId)
+        hideLoading()
         viewBinding.run {
             Snackbar
                 .make(root, message, Snackbar.LENGTH_INDEFINITE)

@@ -1,10 +1,9 @@
-package io.dotanuki.platform.jvm.core.networking
+package io.dotanuki.platform.jvm.core.networking.transformers
 
 import com.google.common.truth.Truth.assertThat
-import io.dotanuki.platform.jvm.core.networking.CheckErrorTransformation.Companion.checkTransformation
+import io.dotanuki.platform.jvm.core.networking.transformers.CheckErrorTransformation.Companion.checkTransformation
 import io.dotanuki.platform.jvm.core.networking.errors.NetworkingError
 import io.dotanuki.platform.jvm.core.networking.errors.RemoteServiceIntegrationError
-import io.dotanuki.platform.jvm.core.networking.transformers.NetworkingErrorTransformer
 import org.junit.Test
 import java.io.IOException
 import java.net.ConnectException

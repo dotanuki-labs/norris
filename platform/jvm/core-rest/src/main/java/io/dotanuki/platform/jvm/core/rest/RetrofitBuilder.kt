@@ -1,4 +1,4 @@
-package io.dotanuki.platform.jvm.core.networking
+package io.dotanuki.platform.jvm.core.rest
 
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import kotlinx.serialization.ExperimentalSerializationApi
