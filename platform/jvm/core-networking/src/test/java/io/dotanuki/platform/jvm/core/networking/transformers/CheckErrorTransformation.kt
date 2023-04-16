@@ -10,19 +10,15 @@ class CheckErrorTransformation(
 ) {
     private fun runCheck(check: (Throwable) -> Unit) =
         runBlocking {
-            val result = runCatching { errorAtSuspendableOperation(original) }
-            val unwrapped = unwrapError(result)
-            val transformed = transformer.transform(unwrapped)
-            check(transformed)
+            runCatching { errorAtSuspendableOperation(original) }
+                .onFailure { check(transformer.transform(it)) }
+                .onSuccess { throw AssertionError("Not an error") }
         }
 
     private suspend fun errorAtSuspendableOperation(error: Throwable) =
         suspendCoroutine<Unit> { continuation ->
             continuation.resumeWithException(error)
         }
-
-    private fun unwrapError(result: Result<*>) =
-        result.exceptionOrNull() ?: throw IllegalArgumentException("Not an error")
 
     companion object {
         fun checkTransformation(from: Throwable, using: ErrorTransformer, check: (Throwable) -> Unit) =

@@ -1,7 +1,7 @@
 package io.dotanuki.platform.jvm.core.rest.internal
 
-import io.dotanuki.platform.jvm.core.networking.errors.NetworkingError
-import io.dotanuki.platform.jvm.core.networking.errors.RemoteServiceIntegrationError
+import io.dotanuki.platform.jvm.core.networking.errors.NetworkConnectivityError
+import io.dotanuki.platform.jvm.core.networking.errors.HttpDrivenError
 import io.github.resilience4j.core.IntervalFunction
 import io.github.resilience4j.kotlin.retry.executeSuspendFunction
 import io.github.resilience4j.retry.RetryConfig
@@ -30,6 +30,6 @@ internal object ResilientExecution {
 
     private fun Throwable.isManagedError(): Boolean =
         ManagedErrorTransformer.transform(this).let {
-            it is RemoteServiceIntegrationError || it is NetworkingError
+            it is HttpDrivenError || it is NetworkConnectivityError
         }
 }

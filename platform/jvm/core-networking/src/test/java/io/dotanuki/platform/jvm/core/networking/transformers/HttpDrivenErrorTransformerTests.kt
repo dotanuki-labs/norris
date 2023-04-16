@@ -1,8 +1,8 @@
 package io.dotanuki.platform.jvm.core.networking.transformers
 
 import com.google.common.truth.Truth.assertThat
-import io.dotanuki.platform.jvm.core.networking.errors.RemoteServiceIntegrationError.ClientOrigin
-import io.dotanuki.platform.jvm.core.networking.errors.RemoteServiceIntegrationError.RemoteSystem
+import io.dotanuki.platform.jvm.core.networking.errors.HttpDrivenError.ClientOrigin
+import io.dotanuki.platform.jvm.core.networking.errors.HttpDrivenError.RemoteSystem
 import io.dotanuki.platform.jvm.core.networking.transformers.CheckErrorTransformation.Companion.checkTransformation
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.ResponseBody.Companion.toResponseBody
@@ -10,7 +10,7 @@ import org.junit.Test
 import retrofit2.HttpException
 import retrofit2.Response
 
-class HttpErrorTransformerTests {
+class HttpDrivenErrorTransformerTests {
 
     @Test fun `should transform http error from downstream`() {
         listOf(
@@ -29,7 +29,7 @@ class HttpErrorTransformerTests {
     private fun assertTransformation(target: Throwable, expected: Throwable) {
         checkTransformation(
             from = target,
-            using = HttpErrorTransformer,
+            using = HttpDrivenErrorTransformer,
             check = { transformed -> assertThat(transformed).isEqualTo(expected) }
         )
     }

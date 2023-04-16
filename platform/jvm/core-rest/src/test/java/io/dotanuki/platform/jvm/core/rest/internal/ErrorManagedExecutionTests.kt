@@ -1,9 +1,9 @@
 package io.dotanuki.platform.jvm.core.rest.internal
 
 import com.google.common.truth.Truth.assertThat
-import io.dotanuki.platform.jvm.core.networking.errors.NetworkingError.HostUnreachable
-import io.dotanuki.platform.jvm.core.networking.errors.RemoteServiceIntegrationError.RemoteSystem
-import io.dotanuki.platform.jvm.core.networking.errors.RemoteServiceIntegrationError.UnexpectedResponse
+import io.dotanuki.platform.jvm.core.networking.errors.DataMarshallingError
+import io.dotanuki.platform.jvm.core.networking.errors.HttpDrivenError.RemoteSystem
+import io.dotanuki.platform.jvm.core.networking.errors.NetworkConnectivityError.HostUnreachable
 import kotlinx.coroutines.runBlocking
 import kotlinx.serialization.SerializationException
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
@@ -23,20 +23,17 @@ internal class ErrorManagedExecutionTests {
 
         listOf(
             UnknownHostException("No Internet") to HostUnreachable,
-            SerializationException("Ouch") to UnexpectedResponse,
+            SerializationException("Ouch") to DataMarshallingError,
             httpException() to RemoteSystem,
             otherError to otherError
         ).forEach { (incoming, expected) ->
             runBlocking {
-                val result = runCatching { ErrorManagedExecution { emulateError(incoming) } }
-                val unwrapped = unwrapCaughtError(result)
-                assertThat(unwrapped).isEqualTo(expected)
+                runCatching { ErrorManagedExecution { emulateError(incoming) } }
+                    .onFailure { assertThat(it).isEqualTo(expected) }
+                    .onSuccess { throw AssertionError("Not an error") }
             }
         }
     }
-
-    private fun unwrapCaughtError(result: Result<*>) =
-        result.exceptionOrNull() ?: throw IllegalArgumentException("Not an error")
 
     private suspend fun emulateError(error: Throwable): Unit =
         suspendCoroutine { continuation ->

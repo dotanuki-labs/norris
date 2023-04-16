@@ -3,7 +3,7 @@ package io.dotanuki.features.facts
 import com.google.common.truth.Truth.assertThat
 import io.dotanuki.features.facts.data.FactsDataSource
 import io.dotanuki.features.facts.domain.ChuckNorrisFact
-import io.dotanuki.platform.jvm.core.networking.errors.RemoteServiceIntegrationError
+import io.dotanuki.platform.jvm.core.networking.errors.HttpDrivenError
 import io.dotanuki.platform.jvm.core.rest.ChuckNorrisServiceClient
 import io.dotanuki.platform.jvm.core.rest.RawFact
 import io.dotanuki.platform.jvm.core.rest.RawSearch
@@ -31,7 +31,7 @@ internal class FactsDataSourceTests {
 
     @Test fun `should handle downstream error`() {
 
-        val incomingError = RemoteServiceIntegrationError.RemoteSystem
+        val incomingError = HttpDrivenError.RemoteSystem
 
         service.scenario = Scenario.FactsWithError(incomingError)
 
