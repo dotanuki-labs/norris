@@ -5,7 +5,7 @@ import kotlinx.serialization.SerializationException
 
 object SerializationErrorTransformer : ErrorTransformer {
 
-    override suspend fun transform(incoming: Throwable) =
+    override fun transform(incoming: Throwable) =
         when (incoming) {
             is SerializationException -> UnexpectedResponse
             else -> incoming
