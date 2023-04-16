@@ -16,8 +16,8 @@ dependencies {
     implementation(libs.kotlinx.coroutines.core)
     implementation(libs.jw.retrofit.kotlinx)
 
-    implementation("io.github.resilience4j:resilience4j-kotlin:1.3.1")
-    implementation("io.github.resilience4j:resilience4j-retry:1.3.1")
+    implementation(libs.resilience4j.retry)
+    implementation(libs.resilience4j.kotlin)
 
     testImplementation(libs.square.okhttp.mockwebserver)
     testImplementation(projects.platform.jvm.testingRest)
