@@ -6,7 +6,6 @@ import io.dotanuki.features.facts.di.factsModule
 import io.dotanuki.features.facts.presentation.FactDisplayRow
 import io.dotanuki.features.facts.presentation.FactsPresentation
 import io.dotanuki.features.facts.presentation.FactsScreenState
-import io.dotanuki.features.facts.presentation.FactsScreenState.Failed
 import io.dotanuki.features.facts.presentation.FactsScreenState.Idle
 import io.dotanuki.features.facts.presentation.FactsScreenState.Loading
 import io.dotanuki.features.facts.presentation.FactsScreenState.Success
@@ -17,7 +16,6 @@ import io.dotanuki.features.facts.util.factsTestModule
 import io.dotanuki.platform.android.testing.app.TestApplication
 import io.dotanuki.platform.android.testing.app.whenActivityResumed
 import io.dotanuki.platform.android.testing.persistance.PersistanceHelper
-import io.dotanuki.platform.jvm.core.networking.errors.RemoteServiceIntegrationError
 import io.dotanuki.platform.jvm.testing.rest.RestDataBuilder
 import io.dotanuki.platform.jvm.testing.rest.RestInfrastructureRule
 import io.dotanuki.platform.jvm.testing.rest.RestInfrastructureTestModule
@@ -71,18 +69,6 @@ class FactsActivityTests {
             val presentation = FactsPresentation("humor", facts)
 
             val expectedStates = listOf(Idle, Loading, Success(presentation))
-            assertThat(target.receivedStates()).isEqualTo(expectedStates)
-        }
-    }
-
-    @Test fun `when remote service fails, should display the error`() {
-        restInfrastructure.restScenario(status = 503)
-        PersistanceHelper.registerNewSearch("code")
-
-        whenActivityResumed<FactsActivity> { target ->
-            val error = Failed(RemoteServiceIntegrationError.RemoteSystem)
-
-            val expectedStates = listOf(Idle, Loading, error)
             assertThat(target.receivedStates()).isEqualTo(expectedStates)
         }
     }

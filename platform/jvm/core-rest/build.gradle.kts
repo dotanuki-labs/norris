@@ -14,6 +14,8 @@ dependencies {
     implementation(libs.kotlinx.serialization.json)
     implementation(libs.kotlinx.serialization.jvm)
     implementation(libs.kotlinx.coroutines.core)
+    implementation(libs.jw.retrofit.kotlinx)
+
     implementation("io.github.resilience4j:resilience4j-kotlin:1.3.1")
     implementation("io.github.resilience4j:resilience4j-retry:1.3.1")
 

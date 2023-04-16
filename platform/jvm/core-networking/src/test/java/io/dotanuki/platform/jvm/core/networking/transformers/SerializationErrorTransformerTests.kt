@@ -1,9 +1,8 @@
-package io.dotanuki.platform.jvm.core.networking
+package io.dotanuki.platform.jvm.core.networking.transformers
 
 import com.google.common.truth.Truth.assertThat
-import io.dotanuki.platform.jvm.core.networking.CheckErrorTransformation.Companion.checkTransformation
+import io.dotanuki.platform.jvm.core.networking.transformers.CheckErrorTransformation.Companion.checkTransformation
 import io.dotanuki.platform.jvm.core.networking.errors.RemoteServiceIntegrationError
-import io.dotanuki.platform.jvm.core.networking.transformers.SerializationErrorTransformer
 import kotlinx.serialization.SerializationException
 import org.junit.Test
 

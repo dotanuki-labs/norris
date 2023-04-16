@@ -1,6 +1,5 @@
-package io.dotanuki.platform.jvm.core.networking
+package io.dotanuki.platform.jvm.core.networking.transformers
 
-import io.dotanuki.platform.jvm.core.networking.transformers.ErrorTransformer
 import kotlinx.coroutines.runBlocking
 import kotlin.coroutines.resumeWithException
 import kotlin.coroutines.suspendCoroutine

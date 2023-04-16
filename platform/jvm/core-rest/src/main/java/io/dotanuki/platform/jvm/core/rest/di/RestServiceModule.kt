@@ -1,7 +1,8 @@
 package io.dotanuki.platform.jvm.core.rest.di
 
-import io.dotanuki.platform.jvm.core.networking.RetrofitBuilder
+import io.dotanuki.platform.jvm.core.rest.RetrofitBuilder
 import io.dotanuki.platform.jvm.core.rest.ChuckNorrisService
+import io.dotanuki.platform.jvm.core.rest.ChuckNorrisServiceClient
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import org.kodein.di.DI
@@ -27,7 +28,8 @@ val restServiceModule = DI.Module("rest-service") {
                 httpClient = okHttp
             )
 
-            retrofit.create(ChuckNorrisService::class.java)
+            val service = retrofit.create(ChuckNorrisService::class.java)
+            ChuckNorrisServiceClient(service)
         }
     }
 }

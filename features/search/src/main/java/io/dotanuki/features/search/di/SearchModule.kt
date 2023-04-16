@@ -20,7 +20,7 @@ val searchModule = DI.Module("search") {
 
                 val dataSource = SearchesDataSource(
                     localStorage = instance(),
-                    norrisService = instance()
+                    norrisClient = instance()
                 )
 
                 override fun <VM : ViewModel> create(modelClass: Class<VM>) =
