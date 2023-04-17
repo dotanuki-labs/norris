@@ -1,25 +1,23 @@
 package io.dotanuki.platform.jvm.core.rest.internal
 
-import io.dotanuki.platform.jvm.core.networking.errors.NetworkConnectivityError
 import io.dotanuki.platform.jvm.core.networking.errors.HttpDrivenError
+import io.dotanuki.platform.jvm.core.networking.errors.NetworkConnectivityError
 import io.github.resilience4j.core.IntervalFunction
 import io.github.resilience4j.kotlin.retry.executeSuspendFunction
 import io.github.resilience4j.retry.RetryConfig
 import io.github.resilience4j.retry.RetryRegistry
-import java.time.Duration
 
 internal object ResilientExecution {
 
-    private const val MAX_RETRIES = 3
     private val retryRegistry = RetryRegistry.ofDefaults()
-    private val retryInterval = Duration.ofSeconds(2L)
 
-    private val retryConfig =
+    private val retryConfig = with(ResilienceConfiguration) {
         RetryConfig.custom<Any>()
-            .maxAttempts(MAX_RETRIES)
-            .intervalFunction(IntervalFunction.ofExponentialBackoff(retryInterval))
+            .maxAttempts(RETRY_ATTEMPTS_PER_REQUEST)
+            .intervalFunction(IntervalFunction.ofExponentialBackoff(DELAY_BETWEEN_RETRIES))
             .retryOnException { it.isManagedError() }
             .build()
+    }
 
     private val retry = retryRegistry.retry("retry-policy", retryConfig)
 
