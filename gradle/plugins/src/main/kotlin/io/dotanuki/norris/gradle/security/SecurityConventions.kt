@@ -30,7 +30,11 @@ private val flaggedDependencies = mapOf(
     "CVE-2020-15250" to "junit",
     "CVE-2022-36033" to "jsoup",
     "sonatype-2021-4916" to "bcprov-jdk15on",
-    "sonatype-2021-1694" to "gson"
+    "sonatype-2021-1694" to "gson",
+    "sonatype-2018-0590" to "rhino",
+    "CVE-2022-1471" to "snakeyaml",
+    "CVE-2023-1370" to "json-smart",
+    "sonatype-2022-6438" to "jackson-core",
 )
 
 fun Project.ignoredVulnerabilities(): Set<String> =

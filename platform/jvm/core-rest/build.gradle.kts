@@ -26,4 +26,8 @@ dependencies {
     testImplementation(libs.google.truth)
     testImplementation(libs.junit4)
     testImplementation(libs.slf4j)
+    testImplementation(libs.testcontainers.core)
+    testImplementation(libs.testcontainers.toxyproxy)
+    testImplementation(libs.testcontainers.mockserver)
+    testImplementation(libs.mockserver.client)
 }

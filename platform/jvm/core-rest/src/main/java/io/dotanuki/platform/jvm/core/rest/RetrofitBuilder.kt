@@ -26,19 +26,22 @@ object RetrofitBuilder {
         "application/json".toMediaTypeOrNull()!!
     }
 
-    private val standardHttpClient by lazy {
+    private fun createHttpClient(config: ResilienceConfiguration): OkHttpClient {
         val logger = HttpLoggingInterceptor().setLevel(Level.BODY)
 
-        OkHttpClient.Builder()
+        return OkHttpClient.Builder()
             .addInterceptor(logger)
-            .callTimeout(ResilienceConfiguration.HTTP_REQUEST_TIMEOUT)
+            .callTimeout(config.timeoutForHttpRequest)
             .build()
     }
 
-    operator fun invoke(apiURL: HttpUrl, httpClient: OkHttpClient = standardHttpClient): Retrofit =
+    operator fun invoke(
+        apiURL: HttpUrl,
+        config: ResilienceConfiguration = ResilienceConfiguration.createDefault()
+    ): Retrofit =
         with(Retrofit.Builder()) {
             baseUrl(apiURL)
-            client(httpClient)
+            client(createHttpClient(config))
             addConverterFactory(jsonConfig.asConverterFactory(contentType))
             build()
         }
