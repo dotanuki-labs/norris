@@ -4,12 +4,13 @@ import com.google.common.truth.Truth.assertThat
 import eu.rekawek.toxiproxy.Proxy
 import eu.rekawek.toxiproxy.ToxiproxyClient
 import io.dotanuki.platform.jvm.core.networking.errors.NetworkConnectivityError
-import io.dotanuki.platform.jvm.core.rest.internal.ResilienceConfiguration
 import io.dotanuki.platform.jvm.core.rest.util.ToxicityLevel
 import io.dotanuki.platform.jvm.core.rest.util.bandwidth
 import io.dotanuki.platform.jvm.core.rest.util.limitData
 import io.dotanuki.platform.jvm.core.rest.util.setToxicity
 import io.dotanuki.platform.jvm.core.rest.util.timeout
+import io.dotanuki.platform.jvm.testing.rest.FakeHttpResilience
+import io.dotanuki.platform.jvm.testing.rest.RestDataBuilder
 import kotlinx.coroutines.runBlocking
 import okhttp3.HttpUrl.Companion.toHttpUrl
 import org.junit.Before
@@ -25,11 +26,12 @@ import org.testcontainers.containers.MockServerContainer
 import org.testcontainers.containers.Network
 import org.testcontainers.containers.ToxiproxyContainer
 import org.testcontainers.utility.DockerImageName
-import java.time.Duration
 
 class ChuckNorrisServiceClientTests {
 
-    private val categories = "[\"humor\", \"science\", \"code\"]"
+    private val categories = RestDataBuilder.suggestionsPayload(
+        listOf("math", "code", "humor")
+    )
 
     private val mockServerVersion = MockServerClient::class.java.getPackage().implementationVersion
     private val mockServerImageTag = "mockserver-$mockServerVersion"
@@ -40,12 +42,8 @@ class ChuckNorrisServiceClientTests {
     private val toxyProxyImage = DockerImageName.parse("ghcr.io/shopify/toxiproxy").withTag(toxyProxyImageTag)
     private val toxyProxyPort = 8666
 
-    private val testResilienceConfig by lazy {
-        ResilienceConfiguration(
-            retriesAttemptPerRequest = 2,
-            delayBetweenRetries = Duration.ofSeconds(1L),
-            timeoutForHttpRequest = Duration.ofSeconds(3L)
-        )
+    private val testResilience by lazy {
+        FakeHttpResilience.create()
     }
 
     @get:Rule val network: Network = Network.newNetwork()
@@ -65,21 +63,21 @@ class ChuckNorrisServiceClientTests {
         toxiproxy = toxiproxyClient.createProxy("mockserver", "0.0.0.0:$toxyProxyPort", "mockserver:$mockServerPort")
 
         val url = "http://${toxiProxyContainer.host}:${toxiProxyContainer.getMappedPort(toxyProxyPort)}"
-        val api = RetrofitBuilder(url.toHttpUrl(), testResilienceConfig).create(ChuckNorrisService::class.java)
-        chuckNorrisClient = ChuckNorrisServiceClient(api, testResilienceConfig)
+        val api = RetrofitBuilder(url.toHttpUrl(), testResilience).create(ChuckNorrisService::class.java)
+        chuckNorrisClient = ChuckNorrisServiceClient(api, testResilience)
 
         mockServerClient = with(mockServerContainer) { MockServerClient(host, serverPort) }
     }
 
     @Test fun `should recover from HTTP errors`() {
         val url = "http://${mockServerContainer.host}:${mockServerContainer.firstMappedPort}".toHttpUrl()
-        val api = RetrofitBuilder(url).create(ChuckNorrisService::class.java)
-        val client = ChuckNorrisServiceClient(api, testResilienceConfig)
+        val api = RetrofitBuilder(url, testResilience).create(ChuckNorrisService::class.java)
+        val client = ChuckNorrisServiceClient(api, testResilience)
 
         var attempts = 0
 
         val aFewFailures = ExpectationResponseCallback {
-            if (attempts < testResilienceConfig.retriesAttemptPerRequest) {
+            if (attempts < testResilience.retriesAttemptPerRequest) {
                 errorResponse()
                 attempts += 1
             }
@@ -130,7 +128,7 @@ class ChuckNorrisServiceClientTests {
     @Test fun `should resist to connection timeouts`() {
         mockServerClient.on(categoriesRequest()).respond(successfulResponse())
 
-        val forced = testResilienceConfig.timeoutForHttpRequest.seconds * 1000 + 2000
+        val forced = testResilience.timeoutForHttpRequest.seconds * 1000 + 2000
         toxiproxy.timeout(forced).setToxicity(ToxicityLevel.MEDIUM)
 
         runBlocking {

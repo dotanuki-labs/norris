@@ -1,7 +1,6 @@
 package io.dotanuki.platform.jvm.core.rest
 
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
-import io.dotanuki.platform.jvm.core.rest.internal.ResilienceConfiguration
 import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.json.Json
 import okhttp3.HttpUrl
@@ -26,7 +25,7 @@ object RetrofitBuilder {
         "application/json".toMediaTypeOrNull()!!
     }
 
-    private fun createHttpClient(config: ResilienceConfiguration): OkHttpClient {
+    private fun createHttpClient(config: HttpResilience): OkHttpClient {
         val logger = HttpLoggingInterceptor().setLevel(Level.BODY)
 
         return OkHttpClient.Builder()
@@ -35,10 +34,7 @@ object RetrofitBuilder {
             .build()
     }
 
-    operator fun invoke(
-        apiURL: HttpUrl,
-        config: ResilienceConfiguration = ResilienceConfiguration.createDefault()
-    ): Retrofit =
+    operator fun invoke(apiURL: HttpUrl, config: HttpResilience): Retrofit =
         with(Retrofit.Builder()) {
             baseUrl(apiURL)
             client(createHttpClient(config))
