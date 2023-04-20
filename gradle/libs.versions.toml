@@ -57,8 +57,8 @@ square-leakcanary-instrumentation = "com.squareup.leakcanary:leakcanary-android-
 jw-retrofit-kotlinx = "com.jakewharton.retrofit:retrofit2-kotlinx-serialization-converter:1.0.0"
 
 # Resilience4j
-resilience4j-retry = "io.github.resilience4j:resilience4j-retry:1.7.1"
-resilience4j-kotlin = "io.github.resilience4j:resilience4j-kotlin:1.7.1"
+resilience4j-retry = "io.github.resilience4j:resilience4j-retry:2.0.2"
+resilience4j-kotlin = "io.github.resilience4j:resilience4j-kotlin:2.0.2"
 
 
 # Other / Testing
