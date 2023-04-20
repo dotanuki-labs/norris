@@ -9,6 +9,7 @@ import io.dotanuki.platform.android.testing.app.TestApplication
 import io.dotanuki.platform.jvm.core.rest.ChuckNorrisServiceClient
 import io.dotanuki.platform.jvm.testing.rest.FakeChuckNorrisService
 import io.dotanuki.platform.jvm.testing.rest.FakeChuckNorrisService.Scenario
+import io.dotanuki.platform.jvm.testing.rest.FakeHttpResilience
 import kotlinx.coroutines.runBlocking
 import org.junit.Before
 import org.junit.Test
@@ -28,9 +29,9 @@ class SearchDataSourceTests {
 
     @Before fun `before each test`() {
         val testApplication = TestApplication.setupWith(searchModule)
+        val resilience = FakeHttpResilience.create()
         storage = testApplication.di.direct.instance()
-
-        dataSource = SearchesDataSource(storage, ChuckNorrisServiceClient(service))
+        dataSource = SearchesDataSource(storage, ChuckNorrisServiceClient(service, resilience))
     }
 
     @Test fun `should return only suggestions when history not available`() {

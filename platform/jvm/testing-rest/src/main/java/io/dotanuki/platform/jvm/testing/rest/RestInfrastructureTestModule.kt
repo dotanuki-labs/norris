@@ -13,10 +13,11 @@ object RestInfrastructureTestModule {
     operator fun invoke(server: MockWebServer) = DI.Module("rest-infrastructure-test-module") {
 
         bind(overrides = true) {
-            val api = RetrofitBuilder(server.url("/")).create(ChuckNorrisService::class.java)
+            val resilience = FakeHttpResilience.create()
+            val api = RetrofitBuilder(server.url("/"), resilience).create(ChuckNorrisService::class.java)
 
             singleton {
-                ChuckNorrisServiceClient(api)
+                ChuckNorrisServiceClient(api, resilience)
             }
         }
     }

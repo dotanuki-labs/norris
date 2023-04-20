@@ -9,14 +9,17 @@ import io.dotanuki.platform.jvm.core.rest.RawFact
 import io.dotanuki.platform.jvm.core.rest.RawSearch
 import io.dotanuki.platform.jvm.testing.rest.FakeChuckNorrisService
 import io.dotanuki.platform.jvm.testing.rest.FakeChuckNorrisService.Scenario
+import io.dotanuki.platform.jvm.testing.rest.FakeHttpResilience
 import kotlinx.coroutines.runBlocking
 import org.junit.Test
 
 internal class FactsDataSourceTests {
 
     private val service = FakeChuckNorrisService()
+    private val resilience = FakeHttpResilience.create()
+
     private val dataSource = FactsDataSource(
-        ChuckNorrisServiceClient(service)
+        ChuckNorrisServiceClient(service, resilience)
     )
 
     @Test fun `should handle no results properly`() {

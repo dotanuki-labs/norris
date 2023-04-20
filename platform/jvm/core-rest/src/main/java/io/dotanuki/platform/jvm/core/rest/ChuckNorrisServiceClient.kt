@@ -1,23 +1,27 @@
 package io.dotanuki.platform.jvm.core.rest
 
 import io.dotanuki.platform.jvm.core.rest.internal.ErrorManagedExecution
-import io.dotanuki.platform.jvm.core.rest.internal.ResilienceConfiguration
 import io.dotanuki.platform.jvm.core.rest.internal.ResilientExecution
 
 class ChuckNorrisServiceClient(
     private val service: ChuckNorrisService,
-    private val configuration: ResilienceConfiguration = ResilienceConfiguration.createDefault()
+    private val resilience: HttpResilience
 ) {
+
+    private val resilientExecution by lazy {
+        ResilientExecution(resilience)
+    }
+
     suspend fun categories(): List<String> =
         ErrorManagedExecution {
-            ResilientExecution(configuration).execute {
+            resilientExecution.execute {
                 service.categories()
             }
         }
 
     suspend fun search(query: String): RawSearch =
         ErrorManagedExecution {
-            ResilientExecution(configuration).execute {
+            resilientExecution.execute {
                 service.search(query)
             }
         }
