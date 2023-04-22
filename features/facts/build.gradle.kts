@@ -4,7 +4,6 @@ plugins {
 
 dependencies {
 
-    implementation(projects.platform.jvm.coreKodein)
     implementation(projects.platform.jvm.coreNetworking)
     implementation(projects.platform.jvm.coreRest)
     implementation(projects.platform.android.coreHelpers)
@@ -12,7 +11,6 @@ dependencies {
     implementation(projects.platform.android.coreNavigator)
     implementation(projects.platform.android.corePersistance)
 
-    implementation(libs.kodein.di.jvm)
     implementation(libs.kotlinx.coroutines.core)
     implementation(libs.kotlinx.coroutines.android)
     implementation(libs.kotlinx.coroutines.jvm)

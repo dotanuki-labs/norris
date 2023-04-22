@@ -21,7 +21,6 @@ include(
     // JVM platform
     ":platform:jvm:core-networking",
     ":platform:jvm:core-rest",
-    ":platform:jvm:core-kodein",
     ":platform:jvm:testing-helpers",
     ":platform:jvm:testing-rest",
 

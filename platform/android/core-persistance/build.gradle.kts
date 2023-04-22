@@ -4,7 +4,6 @@ plugins {
 
 dependencies {
 
-    implementation(libs.kodein.di.jvm)
     implementation(libs.kotlinx.coroutines.core)
 
     testImplementation(libs.junit4)
