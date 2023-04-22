@@ -8,6 +8,7 @@ import android.text.SpannableStringBuilder
 import android.text.style.ForegroundColorSpan
 import android.text.style.StyleSpan
 import android.util.AttributeSet
+import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -29,12 +30,15 @@ import io.dotanuki.platform.android.core.assets.R as assetsR
 
 class FactsView @JvmOverloads constructor(ctx: Context, attrs: AttributeSet? = null) : CoordinatorLayout(ctx, attrs) {
 
-    // Non private for testing purposes
-    lateinit var eventsHandler: FactsEventsHandler
-
+    private lateinit var eventsHandler: FactsEventsHandler
     private lateinit var viewBinding: ViewFactsBinding
 
+    val receivedStates = mutableListOf<FactsScreenState>()
+
     fun updateWith(newState: FactsScreenState) {
+        Log.d("FactsViews", "Received new state -> $newState")
+        receivedStates += newState
+
         when (newState) {
             Idle -> preExecution()
             Loading -> showExecuting()
@@ -42,8 +46,6 @@ class FactsView @JvmOverloads constructor(ctx: Context, attrs: AttributeSet? = n
             is Failed -> showErrorState(newState.reason)
             is Success -> showResults(newState.value)
         }
-
-        eventsHandler.postReceive(newState)
     }
 
     private fun link(handler: FactsEventsHandler, binding: ViewFactsBinding) {

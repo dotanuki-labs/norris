@@ -9,7 +9,7 @@ val factsTestModule = DI.Module("facts-test-module") {
 
     bind<FactsEventsHandler>(overrides = true) {
         provider {
-            FakeFactsEventsHandler()
+            FactsEventsHandler.NoOp
         }
     }
 }

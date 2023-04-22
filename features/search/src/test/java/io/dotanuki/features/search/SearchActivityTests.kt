@@ -10,8 +10,6 @@ import io.dotanuki.features.search.presentation.SearchScreenState.Idle
 import io.dotanuki.features.search.presentation.SearchScreenState.Loading
 import io.dotanuki.features.search.ui.SearchActivity
 import io.dotanuki.features.search.ui.SearchView
-import io.dotanuki.features.search.util.FakeSearchEventsHandler
-import io.dotanuki.features.search.util.searchTestModule
 import io.dotanuki.platform.android.testing.app.TestApplication
 import io.dotanuki.platform.android.testing.app.awaitPendingExecutions
 import io.dotanuki.platform.android.testing.app.whenActivityResumed
@@ -37,7 +35,7 @@ class SearchActivityTests {
 
     @Before fun `before each test`() {
         val restTestModule = RestInfrastructureTestModule(restInfrastructure.server)
-        TestApplication.setupWith(searchModule, searchTestModule, restTestModule)
+        TestApplication.setupWith(searchModule, restTestModule)
         PersistanceHelper.clearStorage()
 
         restInfrastructure.restScenario(
@@ -105,11 +103,8 @@ class SearchActivityTests {
         }
     }
 
-    private fun SearchActivity.receivedStates(): List<SearchScreenState> {
-        val rootView = findViewById<SearchView>(R.id.searchScreenRoot)
-        val callbacks = rootView.eventsHandler as FakeSearchEventsHandler
-        return callbacks.trackedStates
-    }
+    private fun SearchActivity.receivedStates(): List<SearchScreenState> =
+        findViewById<SearchView>(R.id.searchScreenRoot).receivedStates
 
     private fun SearchActivity.onNewSearch(term: String) {
         val rootView = findViewById<SearchView>(R.id.searchScreenRoot)
