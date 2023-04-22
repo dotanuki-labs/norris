@@ -3,6 +3,7 @@ package io.dotanuki.features.search.ui
 import android.content.Context
 import android.text.Editable
 import android.util.AttributeSet
+import android.util.Log
 import android.view.View
 import android.view.inputmethod.EditorInfo
 import androidx.appcompat.app.AppCompatActivity
@@ -18,11 +19,15 @@ import io.dotanuki.features.search.presentation.SearchScreenState
 class SearchView @JvmOverloads constructor(ctx: Context, attrs: AttributeSet? = null) : CoordinatorLayout(ctx, attrs) {
 
     lateinit var eventsHandler: SearchEventsHandler
-    private lateinit var viewBinding: ViewSearchFactsBinding
+    val receivedStates = mutableListOf<SearchScreenState>()
 
+    private lateinit var viewBinding: ViewSearchFactsBinding
     private val hostActivity by lazy { context as AppCompatActivity }
 
     fun updateWith(newState: SearchScreenState) {
+        Log.d("SearchView", "Received new state -> $newState")
+        receivedStates += newState
+
         when (newState) {
             SearchScreenState.Idle -> setup()
             SearchScreenState.Loading -> showLoading()
@@ -30,7 +35,6 @@ class SearchView @JvmOverloads constructor(ctx: Context, attrs: AttributeSet? = 
             is SearchScreenState.Content -> showContent(newState.history, newState.suggestions)
             SearchScreenState.Done -> hostActivity.finish()
         }
-        eventsHandler.postReceive(newState)
     }
 
     private fun link(handler: SearchEventsHandler, binding: ViewSearchFactsBinding) {

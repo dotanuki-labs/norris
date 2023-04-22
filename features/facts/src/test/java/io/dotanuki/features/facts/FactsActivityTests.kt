@@ -11,7 +11,6 @@ import io.dotanuki.features.facts.presentation.FactsScreenState.Loading
 import io.dotanuki.features.facts.presentation.FactsScreenState.Success
 import io.dotanuki.features.facts.ui.FactsActivity
 import io.dotanuki.features.facts.ui.FactsView
-import io.dotanuki.features.facts.util.FakeFactsEventsHandler
 import io.dotanuki.features.facts.util.factsTestModule
 import io.dotanuki.platform.android.testing.app.TestApplication
 import io.dotanuki.platform.android.testing.app.whenActivityResumed
@@ -73,9 +72,6 @@ class FactsActivityTests {
         }
     }
 
-    private fun FactsActivity.receivedStates(): List<FactsScreenState> {
-        val rootView = findViewById<FactsView>(R.id.factsViewRoot)
-        val callbacks = rootView.eventsHandler as FakeFactsEventsHandler
-        return callbacks.trackedStates
-    }
+    private fun FactsActivity.receivedStates(): List<FactsScreenState> =
+        findViewById<FactsView>(R.id.factsViewRoot).receivedStates
 }

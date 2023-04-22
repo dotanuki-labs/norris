@@ -1,31 +1,21 @@
 package io.dotanuki.features.search.ui
 
-import android.util.Log
 import io.dotanuki.features.search.presentation.SearchInteraction
-import io.dotanuki.features.search.presentation.SearchScreenState
 import io.dotanuki.features.search.presentation.SearchViewModel
 
 interface SearchEventsHandler {
-
-    fun postReceive(state: SearchScreenState)
 
     fun onChipClicked(term: String)
 
     fun onNewSearch(term: String)
 
     object NoOp : SearchEventsHandler {
-        override fun postReceive(state: SearchScreenState) = Unit
-
         override fun onChipClicked(term: String) = Unit
 
         override fun onNewSearch(term: String) = Unit
     }
 
     class Unidirectional(private val viewModel: SearchViewModel) : SearchEventsHandler {
-        override fun postReceive(state: SearchScreenState) {
-            Log.d("SearchScreen", "Processed -> $state")
-        }
-
         override fun onNewSearch(term: String) {
             viewModel.handle(SearchInteraction.NewQuerySet(term))
         }
