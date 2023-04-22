@@ -6,14 +6,14 @@ import okhttp3.mockwebserver.MockWebServer
 import org.junit.rules.ExternalResource
 import java.util.concurrent.TimeUnit
 
-class RestInfrastructureRule(private val customPort: Int? = null) : ExternalResource() {
+class RestInfrastructureRule : ExternalResource() {
 
     lateinit var server: MockWebServer
 
     override fun before() {
         super.before()
         server = MockWebServer()
-        customPort?.let { server.start(it) }
+        server.start()
     }
 
     override fun after() {
