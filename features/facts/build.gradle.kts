@@ -6,7 +6,6 @@ dependencies {
 
     implementation(projects.platform.jvm.coreNetworking)
     implementation(projects.platform.jvm.coreRest)
-    implementation(projects.platform.android.coreHelpers)
     implementation(projects.platform.android.coreAssets)
     implementation(projects.platform.android.coreNavigator)
     implementation(projects.platform.android.corePersistance)
@@ -14,6 +13,7 @@ dependencies {
     implementation(libs.kotlinx.coroutines.core)
     implementation(libs.kotlinx.coroutines.android)
     implementation(libs.kotlinx.coroutines.jvm)
+    implementation(libs.androidx.activity.ktx)
     implementation(libs.androidx.core)
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.common)

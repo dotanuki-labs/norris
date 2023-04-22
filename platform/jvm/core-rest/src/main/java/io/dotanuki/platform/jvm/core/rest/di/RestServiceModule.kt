@@ -4,19 +4,14 @@ import io.dotanuki.platform.jvm.core.rest.ChuckNorrisService
 import io.dotanuki.platform.jvm.core.rest.ChuckNorrisServiceClient
 import io.dotanuki.platform.jvm.core.rest.HttpResilience
 import io.dotanuki.platform.jvm.core.rest.RetrofitBuilder
-import org.kodein.di.DI
-import org.kodein.di.bind
-import org.kodein.di.instance
-import org.kodein.di.singleton
+import okhttp3.HttpUrl
 
-val restServiceModule = DI.Module("rest-service") {
+class RestServiceModule(private val apiUrl: HttpUrl) {
 
-    bind {
-        singleton {
-            val resilience = HttpResilience.createDefault()
-            val retrofit = RetrofitBuilder(apiURL = instance(), resilience)
-            val service = retrofit.create(ChuckNorrisService::class.java)
-            ChuckNorrisServiceClient(service, resilience)
-        }
+    val chuckNorrisServiceClient by lazy {
+        val resilience = HttpResilience.createDefault()
+        val retrofit = RetrofitBuilder(apiUrl, resilience)
+        val service = retrofit.create(ChuckNorrisService::class.java)
+        ChuckNorrisServiceClient(service, resilience)
     }
 }

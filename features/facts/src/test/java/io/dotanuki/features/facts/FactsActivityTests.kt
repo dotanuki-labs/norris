@@ -2,7 +2,6 @@ package io.dotanuki.features.facts
 
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.google.common.truth.Truth.assertThat
-import io.dotanuki.features.facts.di.factsModule
 import io.dotanuki.features.facts.presentation.FactDisplayRow
 import io.dotanuki.features.facts.presentation.FactsPresentation
 import io.dotanuki.features.facts.presentation.FactsScreenState
@@ -11,13 +10,11 @@ import io.dotanuki.features.facts.presentation.FactsScreenState.Loading
 import io.dotanuki.features.facts.presentation.FactsScreenState.Success
 import io.dotanuki.features.facts.ui.FactsActivity
 import io.dotanuki.features.facts.ui.FactsView
-import io.dotanuki.features.facts.util.factsTestModule
 import io.dotanuki.platform.android.testing.app.TestApplication
 import io.dotanuki.platform.android.testing.app.whenActivityResumed
 import io.dotanuki.platform.android.testing.persistance.PersistanceHelper
 import io.dotanuki.platform.jvm.testing.rest.RestDataBuilder
 import io.dotanuki.platform.jvm.testing.rest.RestInfrastructureRule
-import io.dotanuki.platform.jvm.testing.rest.RestInfrastructureTestModule
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -31,11 +28,11 @@ class FactsActivityTests {
     @get:Rule val restInfrastructure = RestInfrastructureRule()
 
     @Before fun `before each test`() {
-        TestApplication.setupWith(
-            factsModule,
-            factsTestModule,
-            RestInfrastructureTestModule(restInfrastructure.server)
-        )
+//        TestApplication.setupWith(
+//            factsModule,
+//            factsTestModule,
+//            RestInfrastructureTestModule(restInfrastructure.server)
+//        )
     }
 
     @Test fun `at first lunch, should start on empty state`() {

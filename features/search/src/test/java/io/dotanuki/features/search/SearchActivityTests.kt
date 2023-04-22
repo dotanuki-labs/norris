@@ -2,7 +2,6 @@ package io.dotanuki.features.search
 
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.google.common.truth.Truth.assertThat
-import io.dotanuki.features.search.di.searchModule
 import io.dotanuki.features.search.presentation.SearchScreenState
 import io.dotanuki.features.search.presentation.SearchScreenState.Content
 import io.dotanuki.features.search.presentation.SearchScreenState.Done
@@ -35,7 +34,7 @@ class SearchActivityTests {
 
     @Before fun `before each test`() {
         val restTestModule = RestInfrastructureTestModule(restInfrastructure.server)
-        TestApplication.setupWith(searchModule, restTestModule)
+//        TestApplication.setupWith(searchModule, restTestModule)
         PersistanceHelper.clearStorage()
 
         restInfrastructure.restScenario(

@@ -26,7 +26,6 @@ include(
 
     // Android platform
     ":platform:android:core-assets",
-    ":platform:android:core-helpers",
     ":platform:android:core-navigator",
     ":platform:android:core-persistance",
     ":platform:android:testing-app",

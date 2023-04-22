@@ -6,7 +6,6 @@ dependencies {
     implementation(projects.platform.jvm.coreRest)
     implementation(projects.platform.android.corePersistance)
     implementation(projects.platform.android.coreNavigator)
-    implementation(projects.platform.android.coreHelpers)
     implementation(projects.platform.android.coreAssets)
     implementation(projects.features.facts)
     implementation(projects.features.search)

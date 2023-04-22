@@ -1,19 +1,13 @@
 package io.dotanuki.platform.android.core.navigator.di
 
+import android.app.Activity
 import io.dotanuki.platform.android.core.navigator.Navigator
-import io.dotanuki.platform.jvm.core.kodein.KodeinTags
-import org.kodein.di.DI
-import org.kodein.di.bind
-import org.kodein.di.instance
-import org.kodein.di.provider
+import io.dotanuki.platform.android.core.navigator.Screen
 
-val navigatorModule = DI.Module("navigator") {
-    bind {
-        provider {
-            Navigator(
-                host = instance(KodeinTags.hostActivity),
-                links = instance()
-            )
-        }
+class NavigatorModule(
+    private val links: Map<Screen, Class<out Activity>>
+) {
+    val navigator by lazy {
+        Navigator(links)
     }
 }

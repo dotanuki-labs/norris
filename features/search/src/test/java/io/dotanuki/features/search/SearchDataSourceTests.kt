@@ -2,7 +2,6 @@ package io.dotanuki.features.search
 
 import com.google.common.truth.Truth.assertThat
 import io.dotanuki.features.search.data.SearchesDataSource
-import io.dotanuki.features.search.di.searchModule
 import io.dotanuki.features.search.domain.SearchOptions
 import io.dotanuki.platform.android.core.persistance.LocalStorage
 import io.dotanuki.platform.android.testing.app.TestApplication
@@ -14,8 +13,6 @@ import kotlinx.coroutines.runBlocking
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
-import org.kodein.di.direct
-import org.kodein.di.instance
 import org.robolectric.RobolectricTestRunner
 import org.robolectric.annotation.Config
 
@@ -28,9 +25,8 @@ class SearchDataSourceTests {
     private lateinit var storage: LocalStorage
 
     @Before fun `before each test`() {
-        val testApplication = TestApplication.setupWith(searchModule)
         val resilience = FakeHttpResilience.create()
-        storage = testApplication.di.direct.instance()
+//        storage = TODO()
         dataSource = SearchesDataSource(storage, ChuckNorrisServiceClient(service, resilience))
     }
 
