@@ -6,9 +6,10 @@ import io.dotanuki.features.facts.data.ActualSearchDataSource
 import io.dotanuki.features.facts.data.FactsDataSource
 import io.dotanuki.features.facts.presentation.FactsViewModel
 
+@Suppress("UNCHECKED_CAST")
 class FactsViewModelFactory(
-    val factsDataSource: FactsDataSource,
-    val actualSearchDataSource: ActualSearchDataSource
+    private val factsDataSource: FactsDataSource,
+    private val actualSearchDataSource: ActualSearchDataSource
 ) : ViewModelProvider.Factory {
 
     override fun <VM : ViewModel> create(modelClass: Class<VM>): VM =

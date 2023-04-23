@@ -1,7 +1,6 @@
 package io.dotanuki.app.di
 
 import io.dotanuki.app.BuildConfig
-import io.dotanuki.app.navigation.ScreenLinks
 import okhttp3.HttpUrl.Companion.toHttpUrlOrNull
 
 object ApplicationModule {
@@ -12,9 +11,5 @@ object ApplicationModule {
             else -> "https://api.chucknorris.io"
         }
         requireNotNull(url.toHttpUrlOrNull())
-    }
-
-    val screensLinks by lazy {
-        ScreenLinks.associations
     }
 }

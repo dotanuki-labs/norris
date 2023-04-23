@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModelProvider
 import io.dotanuki.features.search.data.SearchesDataSource
 import io.dotanuki.features.search.presentation.SearchViewModel
 
+@Suppress("UNCHECKED_CAST")
 class SearchViewModelFactory(
     private val searchesDataSource: SearchesDataSource
 ) : ViewModelProvider.Factory {

@@ -6,6 +6,7 @@ plugins {
 dependencies {
 
     implementation(projects.platform.jvm.coreRest)
+    implementation(projects.platform.jvm.testingRest)
     implementation(projects.platform.android.coreNavigator)
     implementation(projects.platform.android.corePersistance)
 

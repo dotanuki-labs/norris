@@ -4,16 +4,17 @@ import android.app.Activity
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 
-class Navigator(
-    private val links: Map<Screen, Class<out Activity>>
+class Navigator private constructor(
+    private val origin: AppCompatActivity,
+    private val mapping: Map<Screen, Class<out Activity>>
 ) {
 
-    fun navigateTo(origin: AppCompatActivity, destination: Screen) {
+    fun navigateTo(destination: Screen) {
         val next = Intent(origin, find(destination))
         origin.startActivity(next)
     }
 
-    fun toSharingApp(origin: AppCompatActivity, content: String, message: String) {
+    fun toSharingApp(content: String, message: String) {
         val sendIntent = Intent().apply {
             action = Intent.ACTION_SEND
             putExtra(Intent.EXTRA_TEXT, content)
@@ -26,5 +27,12 @@ class Navigator(
     }
 
     private fun find(target: Screen) =
-        links[target] ?: throw UnsupportedNavigation(target)
+        mapping[target] ?: throw UnsupportedNavigation(target)
+
+    companion object {
+        fun AppCompatActivity.retrieveNavigator(): Navigator {
+            val mapping = application.let { it as ScreenMappingProvider }.screenMap()
+            return Navigator(this, mapping)
+        }
+    }
 }

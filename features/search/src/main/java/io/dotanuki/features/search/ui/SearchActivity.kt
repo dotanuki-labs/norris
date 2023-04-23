@@ -6,13 +6,14 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import io.dotanuki.features.search.di.SearchViewModelFactory
 import io.dotanuki.features.search.presentation.SearchInteraction
 import io.dotanuki.features.search.presentation.SearchViewModel
 import kotlinx.coroutines.launch
 
-class SearchActivity : AppCompatActivity() {
+class SearchActivity(private val vmFactory: SearchViewModelFactory) : AppCompatActivity() {
 
-    private val viewModel by viewModels<SearchViewModel> { TODO() }
+    private val viewModel by viewModels<SearchViewModel> { vmFactory }
     private val eventsHandler by lazy {
         SearchEventsHandler.Unidirectional(viewModel)
     }
