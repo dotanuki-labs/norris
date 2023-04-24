@@ -21,13 +21,11 @@ include(
     // JVM platform
     ":platform:jvm:core-networking",
     ":platform:jvm:core-rest",
-    ":platform:jvm:core-kodein",
     ":platform:jvm:testing-helpers",
     ":platform:jvm:testing-rest",
 
     // Android platform
     ":platform:android:core-assets",
-    ":platform:android:core-helpers",
     ":platform:android:core-navigator",
     ":platform:android:core-persistance",
     ":platform:android:testing-app",

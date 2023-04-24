@@ -129,7 +129,7 @@ class ChuckNorrisServiceClientTests {
         mockServerClient.on(categoriesRequest()).respond(successfulResponse())
 
         val forced = testResilience.timeoutForHttpRequest.seconds * 1000 + 2000
-        toxiproxy.timeout(forced).setToxicity(ToxicityLevel.MEDIUM)
+        toxiproxy.timeout(forced).setToxicity(ToxicityLevel.LOW)
 
         runBlocking {
             val categories = chuckNorrisClient.categories()

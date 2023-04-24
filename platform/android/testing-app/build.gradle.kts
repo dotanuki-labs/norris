@@ -6,10 +6,10 @@ plugins {
 dependencies {
 
     implementation(projects.platform.jvm.coreRest)
+    implementation(projects.platform.jvm.testingRest)
     implementation(projects.platform.android.coreNavigator)
     implementation(projects.platform.android.corePersistance)
 
-    implementation(libs.kodein.di.jvm)
     implementation(libs.androidx.lifecycle.common)
     implementation(libs.square.okhttp.core)
     implementation(libs.robolectric)

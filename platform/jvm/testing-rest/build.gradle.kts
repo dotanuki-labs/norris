@@ -12,6 +12,5 @@ dependencies {
     implementation(libs.square.okhttp.mockwebserver)
     implementation(libs.square.retrofit)
     implementation(libs.kotlinx.serialization.json)
-    implementation(libs.kodein.di.jvm)
     implementation(libs.junit4)
 }

@@ -10,7 +10,6 @@ import io.dotanuki.features.search.presentation.SearchInteraction.SuggestionSele
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.consumeAsFlow
 import kotlinx.coroutines.launch
 
@@ -44,9 +43,9 @@ class SearchViewModel(
     private suspend fun loadPrefilledContent() {
         try {
             val (suggestions, history) = dataSource.searchOptions()
-            states.value = SearchScreenState.Content(suggestions, history)
+            states.value = SearchScreenState.Success(suggestions, history)
         } catch (error: Throwable) {
-            states.value = SearchScreenState.Error(error)
+            states.value = SearchScreenState.Failed(error)
         }
     }
 
@@ -56,7 +55,7 @@ class SearchViewModel(
             return
         }
 
-        states.value = SearchScreenState.Error(SearchHistoryError)
+        states.value = SearchScreenState.Failed(SearchHistoryError)
     }
 
     private suspend fun save(query: String) {

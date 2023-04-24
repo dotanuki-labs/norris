@@ -4,9 +4,6 @@ plugins {
 }
 
 dependencies {
-    implementation(projects.platform.jvm.coreKodein)
-
-    implementation(libs.kodein.di.jvm)
     implementation(libs.androidx.appcompat)
 
     testImplementation(projects.platform.jvm.testingHelpers)

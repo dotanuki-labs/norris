@@ -31,8 +31,8 @@ class SearchView @JvmOverloads constructor(ctx: Context, attrs: AttributeSet? = 
         when (newState) {
             SearchScreenState.Idle -> setup()
             SearchScreenState.Loading -> showLoading()
-            is SearchScreenState.Error -> showError()
-            is SearchScreenState.Content -> showContent(newState.history, newState.suggestions)
+            is SearchScreenState.Failed -> showError()
+            is SearchScreenState.Success -> showContent(newState.history, newState.suggestions)
             SearchScreenState.Done -> hostActivity.finish()
         }
     }

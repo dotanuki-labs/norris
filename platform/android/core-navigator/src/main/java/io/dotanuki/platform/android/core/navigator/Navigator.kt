@@ -2,16 +2,16 @@ package io.dotanuki.platform.android.core.navigator
 
 import android.app.Activity
 import android.content.Intent
-import androidx.fragment.app.FragmentActivity
+import androidx.appcompat.app.AppCompatActivity
 
-class Navigator(
-    private val host: FragmentActivity,
-    private val links: Map<Screen, Class<out Activity>>
+class Navigator private constructor(
+    private val origin: AppCompatActivity,
+    private val mapping: Map<Screen, Class<out Activity>>
 ) {
 
     fun navigateTo(destination: Screen) {
-        val next = Intent(host, find(destination))
-        host.startActivity(next)
+        val next = Intent(origin, find(destination))
+        origin.startActivity(next)
     }
 
     fun toSharingApp(content: String, message: String) {
@@ -21,11 +21,18 @@ class Navigator(
             type = "text/plain"
         }
 
-        host.startActivity(
+        origin.startActivity(
             Intent.createChooser(sendIntent, message)
         )
     }
 
     private fun find(target: Screen) =
-        links[target] ?: throw UnsupportedNavigation(target)
+        mapping[target] ?: throw UnsupportedNavigation(target)
+
+    companion object {
+        fun AppCompatActivity.retrieveNavigator(): Navigator {
+            val mapping = application.let { it as ScreenMappingProvider }.screenMap()
+            return Navigator(this, mapping)
+        }
+    }
 }

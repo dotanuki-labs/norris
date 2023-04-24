@@ -4,15 +4,12 @@ plugins {
 
 dependencies {
     implementation(projects.platform.jvm.coreRest)
-    implementation(projects.platform.jvm.coreKodein)
     implementation(projects.platform.android.corePersistance)
     implementation(projects.platform.android.coreNavigator)
-    implementation(projects.platform.android.coreHelpers)
     implementation(projects.platform.android.coreAssets)
     implementation(projects.features.facts)
     implementation(projects.features.search)
 
-    implementation(libs.kodein.di.jvm)
     implementation(libs.kotlinx.coroutines.core)
     implementation(libs.kotlinx.coroutines.jvm)
     implementation(libs.kotlinx.coroutines.android)
@@ -23,6 +20,7 @@ dependencies {
     implementation(libs.androidx.lifecycle.common)
     implementation(libs.androidx.lifecycle.runtime)
     implementation(libs.square.okhttp.core)
+    implementation(libs.square.retrofit)
 
     androidTestImplementation(projects.platform.android.testingPersistance)
     androidTestImplementation(projects.platform.jvm.testingRest)

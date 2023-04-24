@@ -1,22 +1,12 @@
 package io.dotanuki.platform.android.core.persistance.di
 
+import android.app.Application
 import io.dotanuki.platform.android.core.persistance.AppPreferencesWrapper
 import io.dotanuki.platform.android.core.persistance.LocalStorage
-import org.kodein.di.DI
-import org.kodein.di.bind
-import org.kodein.di.instance
-import org.kodein.di.singleton
 
-val persistanceModule = DI.Module("persistance") {
+class PersistanceModule(private val app: Application) {
 
-    bind<LocalStorage> {
-        singleton {
-
-            val wrapper = AppPreferencesWrapper(
-                app = instance()
-            )
-
-            LocalStorage(wrapper.preferences)
-        }
+    val localStorage by lazy {
+        LocalStorage(AppPreferencesWrapper(app).preferences)
     }
 }

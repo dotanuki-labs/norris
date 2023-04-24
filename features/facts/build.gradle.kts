@@ -4,18 +4,16 @@ plugins {
 
 dependencies {
 
-    implementation(projects.platform.jvm.coreKodein)
     implementation(projects.platform.jvm.coreNetworking)
     implementation(projects.platform.jvm.coreRest)
-    implementation(projects.platform.android.coreHelpers)
     implementation(projects.platform.android.coreAssets)
     implementation(projects.platform.android.coreNavigator)
     implementation(projects.platform.android.corePersistance)
 
-    implementation(libs.kodein.di.jvm)
     implementation(libs.kotlinx.coroutines.core)
     implementation(libs.kotlinx.coroutines.android)
     implementation(libs.kotlinx.coroutines.jvm)
+    implementation(libs.androidx.activity.ktx)
     implementation(libs.androidx.core)
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.common)
@@ -39,6 +37,7 @@ dependencies {
     testImplementation(libs.androidx.test.core)
     testImplementation(libs.androidx.testext.junit)
     testImplementation(libs.robolectric)
+    testImplementation(libs.cashapp.turbine)
 
     androidTestImplementation(projects.platform.android.testingScreenshots)
 

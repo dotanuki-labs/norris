@@ -13,6 +13,8 @@
         android:supportsRtl="true"
         android:usesCleartextTraffic="false"
         android:theme="@style/NorrisTheme"
+        android:appComponentFactory="io.dotanuki.app.di.NorrisAppComponentFactory"
+        tools:replace="android:appComponentFactory"
         tools:ignore="GoogleAppIndexingWarning">
 
         <activity

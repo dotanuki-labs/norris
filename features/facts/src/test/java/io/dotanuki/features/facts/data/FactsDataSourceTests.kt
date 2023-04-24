@@ -1,7 +1,6 @@
-package io.dotanuki.features.facts
+package io.dotanuki.features.facts.data
 
 import com.google.common.truth.Truth.assertThat
-import io.dotanuki.features.facts.data.FactsDataSource
 import io.dotanuki.features.facts.domain.ChuckNorrisFact
 import io.dotanuki.platform.jvm.core.networking.errors.HttpDrivenError
 import io.dotanuki.platform.jvm.core.rest.ChuckNorrisServiceClient
