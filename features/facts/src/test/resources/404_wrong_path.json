@@ -1,7 +1,0 @@
-{
-  "timestamp": "2019-06-10T15:55:54.875Z",
-  "status": 404,
-  "error": "Not Found",
-  "message": "Joke with id \"search2\" not found.",
-  "path": "/jokes/search2"
-}

@@ -33,11 +33,8 @@ class FactsView @JvmOverloads constructor(ctx: Context, attrs: AttributeSet? = n
     private lateinit var eventsHandler: FactsEventsHandler
     private lateinit var viewBinding: ViewFactsBinding
 
-    val receivedStates = mutableListOf<FactsScreenState>()
-
     fun updateWith(newState: FactsScreenState) {
         Log.d("FactsViews", "Received new state -> $newState")
-        receivedStates += newState
 
         when (newState) {
             Idle -> preExecution()

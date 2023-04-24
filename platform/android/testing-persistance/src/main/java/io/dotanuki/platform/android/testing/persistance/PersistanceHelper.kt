@@ -1,23 +1,26 @@
 package io.dotanuki.platform.android.testing.persistance
 
+import android.app.Application
+import androidx.test.platform.app.InstrumentationRegistry
+import io.dotanuki.platform.android.core.persistance.AppPreferencesWrapper
 import io.dotanuki.platform.android.core.persistance.LocalStorage
 import kotlinx.coroutines.runBlocking
 
 object PersistanceHelper {
 
+    val storage: LocalStorage by lazy {
+        val instrumentationContext = InstrumentationRegistry.getInstrumentation().targetContext
+        val app = instrumentationContext.applicationContext as Application
+        LocalStorage(AppPreferencesWrapper(app).preferences)
+    }
+
     fun clearStorage() {
-        retrieveStorage().destroy()
+        storage.destroy()
     }
 
     fun registerNewSearch(term: String) {
-        retrieveStorage().registerNewSearch(term)
+        storage.registerNewSearch(term)
     }
 
-    fun savedSearches(): List<String> = runBlocking { retrieveStorage().lastSearches() }
-
-    private fun retrieveStorage(): LocalStorage {
-//        val app = InstrumentationRegistry.getInstrumentation().targetContext.applicationContext
-//        return (app as DIAware).di.direct.instance()
-        TODO()
-    }
+    fun savedSearches(): List<String> = runBlocking { storage.lastSearches() }
 }

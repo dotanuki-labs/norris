@@ -37,6 +37,7 @@ dependencies {
     testImplementation(libs.androidx.test.core)
     testImplementation(libs.androidx.testext.junit)
     testImplementation(libs.robolectric)
+    testImplementation(libs.cashapp.turbine)
 
     androidTestImplementation(projects.platform.android.testingScreenshots)
 

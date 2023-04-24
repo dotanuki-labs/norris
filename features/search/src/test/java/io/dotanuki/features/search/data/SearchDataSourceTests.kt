@@ -1,10 +1,9 @@
-package io.dotanuki.features.search
+package io.dotanuki.features.search.data
 
 import com.google.common.truth.Truth.assertThat
-import io.dotanuki.features.search.data.SearchesDataSource
 import io.dotanuki.features.search.domain.SearchOptions
-import io.dotanuki.platform.android.core.persistance.LocalStorage
 import io.dotanuki.platform.android.testing.app.TestApplication
+import io.dotanuki.platform.android.testing.persistance.PersistanceHelper
 import io.dotanuki.platform.jvm.core.rest.ChuckNorrisServiceClient
 import io.dotanuki.platform.jvm.testing.rest.FakeChuckNorrisService
 import io.dotanuki.platform.jvm.testing.rest.FakeChuckNorrisService.Scenario
@@ -20,19 +19,19 @@ import org.robolectric.annotation.Config
 @Config(application = TestApplication::class, sdk = [32])
 class SearchDataSourceTests {
 
-    private val service = FakeChuckNorrisService()
-    private lateinit var dataSource: SearchesDataSource
-    private lateinit var storage: LocalStorage
+    private val fakeResilience = FakeHttpResilience.create()
+    private val fakeChuckNorrisService = FakeChuckNorrisService()
+    private val chuckNorrisServiceClient = ChuckNorrisServiceClient(fakeChuckNorrisService, fakeResilience)
+    private val localStorage = PersistanceHelper.storage
+    private val dataSource = SearchesDataSource(localStorage, chuckNorrisServiceClient)
 
     @Before fun `before each test`() {
-        val resilience = FakeHttpResilience.create()
-//        storage = TODO()
-        dataSource = SearchesDataSource(storage, ChuckNorrisServiceClient(service, resilience))
+        PersistanceHelper.clearStorage()
     }
 
     @Test fun `should return only suggestions when history not available`() {
         val suggestions = listOf("code", "dev", "humor")
-        service.scenario = Scenario.CategoriesWithSuccess(suggestions)
+        fakeChuckNorrisService.scenario = Scenario.CategoriesWithSuccess(suggestions)
 
         val actual = runBlocking { dataSource.searchOptions() }
 
@@ -42,9 +41,9 @@ class SearchDataSourceTests {
 
     @Test fun `should return only suggestions and history`() {
         val suggestions = listOf("code", "dev", "humor")
-        service.scenario = Scenario.CategoriesWithSuccess(suggestions)
+        fakeChuckNorrisService.scenario = Scenario.CategoriesWithSuccess(suggestions)
 
-        val searches = listOf("javascript, php").onEach { storage.registerNewSearch(it) }
+        val searches = listOf("javascript, php").onEach { localStorage.registerNewSearch(it) }
 
         val actual = runBlocking { dataSource.searchOptions() }
 
@@ -57,7 +56,7 @@ class SearchDataSourceTests {
             val newSearch = "kotlin"
             dataSource.saveNewSearch(newSearch)
 
-            val history = storage.lastSearches()
+            val history = localStorage.lastSearches()
 
             assertThat(history).contains(newSearch)
         }

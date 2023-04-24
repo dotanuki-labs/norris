@@ -53,6 +53,7 @@ square-radiography = "com.squareup.radiography:radiography:2.4.1"
 square-leakcanary-core = "com.squareup.leakcanary:leakcanary-android:2.10"
 square-leakcanary-instrumentation = "com.squareup.leakcanary:leakcanary-android-instrumentation:2.10"
 jw-retrofit-kotlinx = "com.jakewharton.retrofit:retrofit2-kotlinx-serialization-converter:1.0.0"
+cashapp-turbine = "app.cash.turbine:turbine:0.12.3"
 
 # Resilience4j
 resilience4j-retry = "io.github.resilience4j:resilience4j-retry:1.7.1"

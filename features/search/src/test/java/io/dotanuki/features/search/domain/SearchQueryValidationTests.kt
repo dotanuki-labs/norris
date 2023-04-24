@@ -1,7 +1,6 @@
-package io.dotanuki.features.search
+package io.dotanuki.features.search.domain
 
 import com.google.common.truth.Truth.assertThat
-import io.dotanuki.features.search.domain.SearchQueryValidation
 import org.junit.Test
 
 class SearchQueryValidationTests {

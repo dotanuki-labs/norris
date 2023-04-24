@@ -1,13 +1,11 @@
 package io.dotanuki.platform.android.testing.app
 
+import android.app.Activity
 import android.app.Application
-import io.dotanuki.platform.jvm.core.rest.ChuckNorrisServiceClient
-import io.dotanuki.platform.jvm.testing.rest.FakeChuckNorrisService
-import io.dotanuki.platform.jvm.testing.rest.FakeHttpResilience
+import io.dotanuki.platform.android.core.navigator.Screen
+import io.dotanuki.platform.android.core.navigator.ScreenMappingProvider
 
-class TestApplication : Application() {
+class TestApplication : Application(), ScreenMappingProvider {
 
-    val chuckNorrisServiceClient = ChuckNorrisServiceClient(
-        FakeChuckNorrisService(), FakeHttpResilience.create()
-    )
+    override fun screenMap(): Map<Screen, Class<out Activity>> = emptyMap()
 }
