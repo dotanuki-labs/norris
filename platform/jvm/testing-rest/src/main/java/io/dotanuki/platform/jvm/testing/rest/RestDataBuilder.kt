@@ -13,5 +13,4 @@ object RestDataBuilder {
 
     fun suggestionsPayload(targets: List<String>): String =
         targets.joinToString(prefix = "[", postfix = "]") { "\"$it\"" }.replace(",]", "]")
-
 }

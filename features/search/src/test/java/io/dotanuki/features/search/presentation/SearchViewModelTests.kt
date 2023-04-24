@@ -4,7 +4,11 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import app.cash.turbine.test
 import com.google.common.truth.Truth.assertThat
 import io.dotanuki.features.search.data.SearchesDataSource
-import io.dotanuki.features.search.presentation.SearchScreenState.*
+import io.dotanuki.features.search.presentation.SearchScreenState.Success
+import io.dotanuki.features.search.presentation.SearchScreenState.Done
+import io.dotanuki.features.search.presentation.SearchScreenState.Failed
+import io.dotanuki.features.search.presentation.SearchScreenState.Idle
+import io.dotanuki.features.search.presentation.SearchScreenState.Loading
 import io.dotanuki.platform.android.testing.persistance.PersistanceHelper
 import io.dotanuki.platform.jvm.core.networking.errors.HttpDrivenError
 import io.dotanuki.platform.jvm.core.rest.ChuckNorrisServiceClient
@@ -41,7 +45,7 @@ class SearchViewModelTests {
             viewModel.handle(SearchInteraction.OpenedScreen)
 
             assertThat(awaitItem()).isEqualTo(Loading)
-            assertThat(awaitItem()).isEqualTo(Content(categories, history = emptyList()))
+            assertThat(awaitItem()).isEqualTo(Success(categories, history = emptyList()))
             cancelAndIgnoreRemainingEvents()
         }
     }
@@ -57,7 +61,7 @@ class SearchViewModelTests {
             viewModel.handle(SearchInteraction.OpenedScreen)
 
             assertThat(awaitItem()).isEqualTo(Loading)
-            assertThat(awaitItem()).isEqualTo(Error(serviceDown))
+            assertThat(awaitItem()).isEqualTo(Failed(serviceDown))
             cancelAndIgnoreRemainingEvents()
         }
     }
@@ -76,12 +80,12 @@ class SearchViewModelTests {
 
             assertThat(awaitItem()).isEqualTo(Loading)
 
-            val content = Content(
+            val success = Success(
                 suggestions = listOf("career", "celebrity", "dev"),
                 history = listOf("code")
             )
 
-            assertThat(awaitItem()).isEqualTo(content)
+            assertThat(awaitItem()).isEqualTo(success)
 
             viewModel.handle(SearchInteraction.NewQuerySet("math"))
 

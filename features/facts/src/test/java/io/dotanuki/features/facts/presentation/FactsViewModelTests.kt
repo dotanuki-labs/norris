@@ -5,7 +5,11 @@ import app.cash.turbine.test
 import com.google.common.truth.Truth.assertThat
 import io.dotanuki.features.facts.data.ActualSearchDataSource
 import io.dotanuki.features.facts.data.FactsDataSource
-import io.dotanuki.features.facts.presentation.FactsScreenState.*
+import io.dotanuki.features.facts.presentation.FactsScreenState.Empty
+import io.dotanuki.features.facts.presentation.FactsScreenState.Idle
+import io.dotanuki.features.facts.presentation.FactsScreenState.Failed
+import io.dotanuki.features.facts.presentation.FactsScreenState.Loading
+import io.dotanuki.features.facts.presentation.FactsScreenState.Success
 import io.dotanuki.platform.android.testing.app.TestApplication
 import io.dotanuki.platform.android.testing.persistance.PersistanceHelper
 import io.dotanuki.platform.jvm.core.networking.errors.NetworkConnectivityError
@@ -38,7 +42,7 @@ class FactsViewModelTests {
 
             viewModel.handle(FactsUserInteraction.OpenedScreen)
 
-            assertThat(awaitItem()).isEqualTo(Loading)
+            assertThat(awaitItem()).isEqualTo(FactsScreenState.Loading)
             assertThat(awaitItem()).isEqualTo(Empty)
             cancelAndIgnoreRemainingEvents()
         }

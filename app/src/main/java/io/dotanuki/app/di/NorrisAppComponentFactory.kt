@@ -27,7 +27,6 @@ class NorrisAppComponentFactory : AppComponentFactory() {
         ChuckNorrisServiceClient(service, httpResilience)
     }
 
-
     override fun instantiateActivityCompat(loader: ClassLoader, className: String, intent: Intent?) =
         when (loader.loadClass(className)) {
             FactsActivity::class.java -> createFactsActivity()
