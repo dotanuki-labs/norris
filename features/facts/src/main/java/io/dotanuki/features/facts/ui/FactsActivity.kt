@@ -20,7 +20,7 @@ class FactsActivity(vmFactory: FactsViewModelFactory) : AppCompatActivity(), Fac
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val factsView = FactsView.create(this, this)
+        val factsView = FactsView.create(host = this, handler = this)
 
         setContentView(factsView)
 

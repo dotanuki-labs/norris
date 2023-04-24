@@ -11,16 +11,13 @@ import io.dotanuki.features.search.presentation.SearchInteraction
 import io.dotanuki.features.search.presentation.SearchViewModel
 import kotlinx.coroutines.launch
 
-class SearchActivity(private val vmFactory: SearchViewModelFactory) : AppCompatActivity() {
+class SearchActivity(private val vmFactory: SearchViewModelFactory) : AppCompatActivity(), SearchEventsHandler {
 
     private val viewModel by viewModels<SearchViewModel> { vmFactory }
-    private val eventsHandler by lazy {
-        SearchEventsHandler.Unidirectional(viewModel)
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val searchView = SearchView.create(this, eventsHandler)
+        val searchView = SearchView.create(host = this, handler = this)
 
         setContentView(searchView)
 
@@ -34,5 +31,13 @@ class SearchActivity(private val vmFactory: SearchViewModelFactory) : AppCompatA
                 }
             }
         }
+    }
+
+    override fun onNewSearch(term: String) {
+        viewModel.handle(SearchInteraction.NewQuerySet(term))
+    }
+
+    override fun onChipClicked(term: String) {
+        viewModel.handle(SearchInteraction.NewQuerySet(term))
     }
 }
