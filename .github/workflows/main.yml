@@ -131,7 +131,7 @@ jobs:
         uses: actions/download-artifact@v3.0.2
 
       - name: Run Espresso tests with emulator.wtf
-        uses: emulator-wtf/run-tests@v0.0.11
+        uses: emulator-wtf/run-tests@v0.9.0
         with:
           api-token: ${{ secrets.EMULATOR_WTF_TOKEN }}
           app: debug-apk/app-debug.apk
