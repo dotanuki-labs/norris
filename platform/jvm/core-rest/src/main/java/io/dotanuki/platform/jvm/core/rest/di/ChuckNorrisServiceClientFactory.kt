@@ -6,12 +6,17 @@ import io.dotanuki.platform.jvm.core.rest.HttpResilience
 import io.dotanuki.platform.jvm.core.rest.RetrofitBuilder
 import okhttp3.HttpUrl
 
-class RestServiceModule(private val apiUrl: HttpUrl) {
+object ChuckNorrisServiceClientFactory {
 
-    val chuckNorrisServiceClient by lazy {
+    private var memoized: ChuckNorrisServiceClient? = null
+
+    fun create(apiUrl: HttpUrl): ChuckNorrisServiceClient =
+        memoized ?: newClient(apiUrl).apply { memoized = this }
+
+    private fun newClient(apiUrl: HttpUrl): ChuckNorrisServiceClient {
         val resilience = HttpResilience.createDefault()
         val retrofit = RetrofitBuilder(apiUrl, resilience)
         val service = retrofit.create(ChuckNorrisService::class.java)
-        ChuckNorrisServiceClient(service, resilience)
+        return ChuckNorrisServiceClient(service, resilience)
     }
 }
