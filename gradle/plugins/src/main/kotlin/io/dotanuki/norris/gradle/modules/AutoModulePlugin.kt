@@ -18,6 +18,7 @@ class AutoModulePlugin : Plugin<Project> {
     override fun apply(target: Project) {
         with(target) {
             pluginManager.apply("com.adarshr.test-logger")
+            pluginManager.apply("org.gradle.test-retry")
             target.applyTestLoggingConventions()
 
             when (ModuleConvention.from(target)) {
@@ -41,7 +42,6 @@ class AutoModulePlugin : Plugin<Project> {
                 ANDROID_APPLICATION -> {
                     pluginManager.apply("kotlin-android")
                     pluginManager.apply("com.android.application")
-                    pluginManager.apply("com.spotify.ruler")
                     applyKotlinProjectConventions()
                     applyAndroidApplicationConventions()
                 }
