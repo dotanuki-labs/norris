@@ -4,12 +4,11 @@ import com.android.build.api.dsl.ApplicationExtension
 import com.android.build.api.variant.ApplicationAndroidComponentsExtension
 import com.android.build.gradle.BaseExtension
 import com.slack.keeper.optInToKeeper
-import com.spotify.ruler.plugin.RulerExtension
 import io.dotanuki.norris.gradle.modules.models.PlatformDefinitions
 import io.dotanuki.norris.gradle.modules.models.ProguardRules
 import io.dotanuki.norris.gradle.modules.models.Versioning
-import java.util.Collections
 import org.gradle.api.Project
+import java.util.Collections
 
 internal fun Project.isTestMode(): Boolean = properties["testMode"]?.let { true } ?: false
 
@@ -152,15 +151,5 @@ fun Project.applyAndroidFeatureLibraryConventions() {
                 buildConfigField("boolean", "IS_TEST_MODE", "${project.isTestMode()}")
             }
         }
-    }
-
-    val platformDefinitions = PlatformDefinitions.from(this)
-    val ruler = extensions.findByName("ruler") as RulerExtension
-
-    ruler.run {
-        abi.set("arm64-v8a")
-        locale.set("en")
-        screenDensity.set(480)
-        sdkVersion.set(platformDefinitions.androidMinSdk)
     }
 }

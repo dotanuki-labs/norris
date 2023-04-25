@@ -3,6 +3,9 @@ package io.dotanuki.norris.gradle.modules.conventions
 import com.adarshr.gradle.testlogger.TestLoggerExtension
 import com.adarshr.gradle.testlogger.theme.ThemeType
 import org.gradle.api.Project
+import org.gradle.api.tasks.testing.Test
+import org.gradle.kotlin.dsl.retry
+import org.gradle.kotlin.dsl.withType
 
 internal fun Project.applyTestLoggingConventions() {
 
@@ -10,5 +13,11 @@ internal fun Project.applyTestLoggingConventions() {
 
     testLoggerExtension.apply {
         theme = ThemeType.MOCHA_PARALLEL
+    }
+
+    tasks.withType<Test>().configureEach {
+        retry {
+            maxRetries.set(3)
+        }
     }
 }
