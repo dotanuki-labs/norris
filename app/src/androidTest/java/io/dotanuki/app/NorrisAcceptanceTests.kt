@@ -3,7 +3,7 @@ package io.dotanuki.app
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.adevinta.android.barista.interaction.BaristaClickInteractions.clickOn
 import io.dotanuki.features.facts.ui.FactsActivity
-import io.dotanuki.platform.android.testing.persistance.PersistanceHelper
+import io.dotanuki.platform.android.testing.persistance.StorageTestHelper
 import leakcanary.DetectLeaksAfterTestSuccess
 import org.junit.Before
 import org.junit.Rule
@@ -19,8 +19,10 @@ class NorrisAcceptanceTests {
         PrettyEspressoErrors.install()
     }
 
+    private val storageTestHelper = StorageTestHelper()
+
     @Before fun beforeEachTest() {
-        PersistanceHelper.clearStorage()
+        storageTestHelper.clearStorage()
     }
 
     @Test fun shouldPerformFirstSearch_AfterFirstLunch_ByTypingATerm() {
@@ -45,7 +47,7 @@ class NorrisAcceptanceTests {
     @Test fun shouldPerformASecondSearch_ByChosingASuggestion() {
 
         listOf("code", "math").onEach {
-            PersistanceHelper.registerNewSearch(it)
+            storageTestHelper.registerNewSearch(it)
         }
 
         val mathFact = "Chuck Norris can divide by zero"
