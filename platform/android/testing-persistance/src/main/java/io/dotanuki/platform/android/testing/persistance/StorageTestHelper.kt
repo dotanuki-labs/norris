@@ -4,23 +4,22 @@ import android.app.Application
 import androidx.test.platform.app.InstrumentationRegistry
 import io.dotanuki.platform.android.core.persistance.AppPreferencesWrapper
 import io.dotanuki.platform.android.core.persistance.LocalStorage
-import kotlinx.coroutines.runBlocking
 
-object PersistanceHelper {
+class StorageTestHelper {
 
-    val storage: LocalStorage by lazy {
+    private var sut: LocalStorage? = null
+
+    fun createStorage(): LocalStorage {
         val instrumentationContext = InstrumentationRegistry.getInstrumentation().targetContext
         val app = instrumentationContext.applicationContext as Application
-        LocalStorage(AppPreferencesWrapper(app).preferences)
+        return LocalStorage(AppPreferencesWrapper(app).preferences).apply { sut = this }
     }
 
     fun clearStorage() {
-        storage.destroy()
+        createStorage().destroy()
     }
 
     fun registerNewSearch(term: String) {
-        storage.registerNewSearch(term)
+        createStorage().registerNewSearch(term)
     }
-
-    fun savedSearches(): List<String> = runBlocking { storage.lastSearches() }
 }

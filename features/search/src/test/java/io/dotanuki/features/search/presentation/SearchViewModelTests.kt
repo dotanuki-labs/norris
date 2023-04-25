@@ -9,7 +9,7 @@ import io.dotanuki.features.search.presentation.SearchScreenState.Failed
 import io.dotanuki.features.search.presentation.SearchScreenState.Idle
 import io.dotanuki.features.search.presentation.SearchScreenState.Loading
 import io.dotanuki.features.search.presentation.SearchScreenState.Success
-import io.dotanuki.platform.android.testing.persistance.PersistanceHelper
+import io.dotanuki.platform.android.testing.persistance.StorageTestHelper
 import io.dotanuki.platform.jvm.core.networking.errors.HttpDrivenError
 import io.dotanuki.platform.jvm.testing.rest.RestScenario
 import io.dotanuki.platform.jvm.testing.rest.RestTestHelper
@@ -22,14 +22,14 @@ import org.junit.runner.RunWith
 class SearchViewModelTests {
 
     private val restTestHelper = RestTestHelper()
-    private val localStorage = PersistanceHelper.storage
-    private val dataSource = SearchesDataSource(localStorage, restTestHelper.createClient())
+    private val storageTestHelper = StorageTestHelper()
+    private val dataSource = SearchesDataSource(storageTestHelper.createStorage(), restTestHelper.createClient())
     private val viewModel = SearchViewModel(dataSource)
 
     private val categories = listOf("career", "celebrity", "dev")
 
     @Before fun `before each test`() {
-        PersistanceHelper.clearStorage()
+        storageTestHelper.clearStorage()
     }
 
     @Test fun `at first lunch should display only suggestions`() = runBlocking {
@@ -67,7 +67,7 @@ class SearchViewModelTests {
         val scenario = RestScenario.Categories(categories)
         restTestHelper.defineScenario(scenario)
 
-        PersistanceHelper.registerNewSearch("code")
+        storageTestHelper.registerNewSearch("code")
 
         viewModel.bind().test {
             assertThat(awaitItem()).isEqualTo(Idle)

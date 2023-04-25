@@ -11,7 +11,7 @@ import io.dotanuki.features.facts.presentation.FactsScreenState.Idle
 import io.dotanuki.features.facts.presentation.FactsScreenState.Loading
 import io.dotanuki.features.facts.presentation.FactsScreenState.Success
 import io.dotanuki.platform.android.testing.app.TestApplication
-import io.dotanuki.platform.android.testing.persistance.PersistanceHelper
+import io.dotanuki.platform.android.testing.persistance.StorageTestHelper
 import io.dotanuki.platform.jvm.core.networking.errors.NetworkConnectivityError
 import io.dotanuki.platform.jvm.testing.rest.RestDataBuilder
 import io.dotanuki.platform.jvm.testing.rest.RestScenario
@@ -27,9 +27,9 @@ import org.robolectric.annotation.Config
 class FactsViewModelTests {
 
     private val restTestHelper = RestTestHelper()
-    private val localStorage by lazy { PersistanceHelper.storage }
+    private val storageTestHelper = StorageTestHelper()
     private val factsDataSource = FactsDataSource(restTestHelper.createClient())
-    private val actualSearchDataSource = ActualSearchDataSource(localStorage)
+    private val actualSearchDataSource = ActualSearchDataSource(storageTestHelper.createStorage())
     private val viewModel = FactsViewModel(factsDataSource, actualSearchDataSource)
 
     @Test fun `at first lunch, should start on empty state`() = runBlocking {
@@ -38,7 +38,7 @@ class FactsViewModelTests {
 
             viewModel.handle(FactsUserInteraction.OpenedScreen)
 
-            assertThat(awaitItem()).isEqualTo(FactsScreenState.Loading)
+            assertThat(awaitItem()).isEqualTo(Loading)
             assertThat(awaitItem()).isEqualTo(Empty)
             cancelAndIgnoreRemainingEvents()
         }
@@ -47,15 +47,15 @@ class FactsViewModelTests {
     @Test fun `given a successful a search, should emit results`() = runBlocking {
         val factId = UUID.randomUUID().toString()
         val divideByZero = "Chuck Norris can divide by zero"
-        val previousSearch = "humor"
-
-        PersistanceHelper.registerNewSearch(previousSearch)
 
         val restScenario = RestScenario.Facts(
             RestDataBuilder.rawSearch(factId, divideByZero)
         )
 
         restTestHelper.defineScenario(restScenario)
+
+        val previousSearch = "humor"
+        storageTestHelper.registerNewSearch(previousSearch)
 
         viewModel.bind().test {
             assertThat(awaitItem()).isEqualTo(Idle)
@@ -80,6 +80,9 @@ class FactsViewModelTests {
     }
 
     @Test fun `given an unsuccessful a search, should emit error`() = runBlocking {
+        val previousSearch = "humor"
+        storageTestHelper.registerNewSearch(previousSearch)
+
         val incomingError = NetworkConnectivityError.HostUnreachable
 
         val restScenario = RestScenario.Error(incomingError)

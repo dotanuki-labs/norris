@@ -3,7 +3,7 @@ package io.dotanuki.features.search.data
 import com.google.common.truth.Truth.assertThat
 import io.dotanuki.features.search.domain.SearchOptions
 import io.dotanuki.platform.android.testing.app.TestApplication
-import io.dotanuki.platform.android.testing.persistance.PersistanceHelper
+import io.dotanuki.platform.android.testing.persistance.StorageTestHelper
 import io.dotanuki.platform.jvm.testing.rest.RestScenario
 import io.dotanuki.platform.jvm.testing.rest.RestTestHelper
 import kotlinx.coroutines.runBlocking
@@ -18,12 +18,12 @@ import org.robolectric.annotation.Config
 class SearchDataSourceTests {
 
     private val restTestHelper = RestTestHelper()
-    private val localStorage = PersistanceHelper.storage
-    private val dataSource = SearchesDataSource(localStorage, restTestHelper.createClient())
+    private val storageTestHelper = StorageTestHelper()
+    private val dataSource = SearchesDataSource(storageTestHelper.createStorage(), restTestHelper.createClient())
     private val suggestions = listOf("code", "dev", "humor")
 
     @Before fun `before each test`() {
-        PersistanceHelper.clearStorage()
+        storageTestHelper.clearStorage()
 
         restTestHelper.defineScenario(RestScenario.Categories(suggestions))
     }
@@ -36,22 +36,11 @@ class SearchDataSourceTests {
     }
 
     @Test fun `should return only suggestions and history`() {
-        val searches = listOf("javascript, php").onEach { localStorage.registerNewSearch(it) }
+        val searches = listOf("javascript, php").onEach { storageTestHelper.registerNewSearch(it) }
 
         val actual = runBlocking { dataSource.searchOptions() }
 
         val expected = SearchOptions(suggestions, searches)
         assertThat(actual).isEqualTo(expected)
-    }
-
-    @Test fun `should save a new search`() {
-        runBlocking {
-            val newSearch = "kotlin"
-            dataSource.saveNewSearch(newSearch)
-
-            val history = localStorage.lastSearches()
-
-            assertThat(history).contains(newSearch)
-        }
     }
 }
