@@ -1,9 +1,7 @@
 package io.dotanuki.norris.gradle.modules.conventions
 
 import com.android.build.api.dsl.ApplicationExtension
-import com.android.build.api.variant.ApplicationAndroidComponentsExtension
 import com.android.build.gradle.BaseExtension
-import com.slack.keeper.optInToKeeper
 import io.dotanuki.norris.gradle.modules.models.PlatformDefinitions
 import io.dotanuki.norris.gradle.modules.models.ProguardRules
 import io.dotanuki.norris.gradle.modules.models.Versioning
@@ -106,18 +104,6 @@ fun Project.applyAndroidFeatureLibraryConventions() {
 
 @Suppress("LongMethod") internal fun Project.applyAndroidApplicationConventions() {
     applyAndroidStandardConventions()
-
-    if (isTestMode()) {
-        pluginManager.apply("com.slack.keeper")
-    }
-
-    val androidComponents = extensions.findByName("androidComponents") as ApplicationAndroidComponentsExtension
-
-    androidComponents.beforeVariants {
-        if (isTestMode()) {
-            it.optInToKeeper()
-        }
-    }
 
     val android = extensions.findByName("android") as ApplicationExtension
 

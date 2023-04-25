@@ -61,7 +61,6 @@ dependencies {
     compileOnly(deps.gradle.kotlin)
     compileOnly(deps.gradle.kotlin)
     compileOnly(deps.gradle.testlogger)
-    compileOnly(deps.gradle.keeper)
     compileOnly(deps.gradle.oss.scan)
     compileOnly(deps.gradle.test.retry)
 }

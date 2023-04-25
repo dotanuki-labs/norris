@@ -12,7 +12,6 @@ buildscript {
         classpath(libs.gradle.kotlin)
         classpath(libs.gradle.kotlinx.serialization)
         classpath(libs.gradle.testlogger)
-        classpath(libs.gradle.keeper)
         classpath(libs.gradle.dropshots)
         classpath(libs.gradle.oss.scan)
         classpath(libs.gradle.test.retry)
