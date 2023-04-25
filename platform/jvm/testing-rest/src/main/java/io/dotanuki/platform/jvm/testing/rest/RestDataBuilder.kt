@@ -11,6 +11,12 @@ object RestDataBuilder {
         )
     )
 
+    fun rawSearch(vararg idsAndFacts: Pair<String, String>) = RawSearch(
+        idsAndFacts.map { (id, fact) ->
+            RawFact(id, "https://api.chucknorris.io/jokes/$id", fact, emptyList())
+        }
+    )
+
     fun suggestionsPayload(targets: List<String>): String =
         targets.joinToString(prefix = "[", postfix = "]") { "\"$it\"" }.replace(",]", "]")
 }
