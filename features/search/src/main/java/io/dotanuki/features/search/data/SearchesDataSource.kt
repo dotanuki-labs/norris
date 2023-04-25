@@ -15,6 +15,6 @@ class SearchesDataSource(
             history = localStorage.lastSearches()
         )
 
-    suspend fun saveNewSearch(term: String) =
+    fun saveNewSearch(term: String) =
         localStorage.registerNewSearch(term)
 }

@@ -49,7 +49,7 @@ class SearchViewModel(
         }
     }
 
-    private suspend fun validateAndSave(query: String) {
+    private fun validateAndSave(query: String) {
         if (SearchQueryValidation.validate(query)) {
             save(query)
             return
@@ -58,7 +58,7 @@ class SearchViewModel(
         states.value = SearchScreenState.Failed(SearchHistoryError)
     }
 
-    private suspend fun save(query: String) {
+    private fun save(query: String) {
         dataSource.saveNewSearch(query)
         states.value = SearchScreenState.Done
     }
