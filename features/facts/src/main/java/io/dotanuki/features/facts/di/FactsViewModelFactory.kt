@@ -5,16 +5,17 @@ import androidx.lifecycle.ViewModelProvider
 import io.dotanuki.features.facts.data.ActualSearchDataSource
 import io.dotanuki.features.facts.data.FactsDataSource
 import io.dotanuki.features.facts.presentation.FactsViewModel
-import io.dotanuki.platform.android.core.persistance.LocalStorage
-import io.dotanuki.platform.jvm.core.rest.ChuckNorrisServiceClient
+import io.dotanuki.platform.android.core.persistance.di.LocalStorageFactory
+import io.dotanuki.platform.jvm.core.rest.di.ApiUrlFactory
+import io.dotanuki.platform.jvm.core.rest.di.ChuckNorrisServiceClientFactory
 
-@Suppress("UNCHECKED_CAST")
-class FactsViewModelFactory(
-    private val localStorage: LocalStorage,
-    private val chuckNorrisServiceClient: ChuckNorrisServiceClient
-) : ViewModelProvider.Factory {
+context(ApiUrlFactory, ChuckNorrisServiceClientFactory, LocalStorageFactory)
+internal class FactsViewModelFactory : ViewModelProvider.Factory {
 
+    @Suppress("UNCHECKED_CAST")
     override fun <VM : ViewModel> create(modelClass: Class<VM>): VM {
+        val localStorage = this@LocalStorageFactory.create()
+        val chuckNorrisServiceClient = this@ChuckNorrisServiceClientFactory.create()
         val factsDataSource = FactsDataSource(chuckNorrisServiceClient)
         val actualSearchDataSource = ActualSearchDataSource(localStorage)
         return FactsViewModel(factsDataSource, actualSearchDataSource) as VM
