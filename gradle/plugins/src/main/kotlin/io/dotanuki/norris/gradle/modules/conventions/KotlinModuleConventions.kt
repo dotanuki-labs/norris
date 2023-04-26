@@ -14,7 +14,8 @@ internal fun Project.applyKotlinProjectConventions() {
 
     val kotlinCompilerFlags = listOf(
         "-opt-in=kotlin.time.ExperimentalTime",
-        "-opt-in=kotlin.RequiresOptIn"
+        "-opt-in=kotlin.RequiresOptIn",
+        "-Xcontext-receivers"
     )
 
     kotlinExtension.jvmToolchain {

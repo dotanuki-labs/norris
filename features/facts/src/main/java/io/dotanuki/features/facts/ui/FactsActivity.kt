@@ -13,9 +13,10 @@ import io.dotanuki.platform.android.core.navigator.Navigator.Companion.retrieveN
 import io.dotanuki.platform.android.core.navigator.Screen
 import kotlinx.coroutines.launch
 
-class FactsActivity(vmFactory: FactsViewModelFactory) : AppCompatActivity(), FactsEventsHandler {
+context (FactsViewModelFactory)
+class FactsActivity : AppCompatActivity(), FactsEventsHandler {
 
-    private val viewModel by viewModels<FactsViewModel> { vmFactory }
+    private val viewModel by viewModels<FactsViewModel> { this@FactsViewModelFactory }
     private val navigator by lazy { retrieveNavigator() }
 
     override fun onCreate(savedInstanceState: Bundle?) {

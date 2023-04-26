@@ -11,9 +11,10 @@ import io.dotanuki.features.search.presentation.SearchInteraction
 import io.dotanuki.features.search.presentation.SearchViewModel
 import kotlinx.coroutines.launch
 
-class SearchActivity(private val vmFactory: SearchViewModelFactory) : AppCompatActivity(), SearchEventsHandler {
+context (SearchViewModelFactory)
+class SearchActivity : AppCompatActivity(), SearchEventsHandler {
 
-    private val viewModel by viewModels<SearchViewModel> { vmFactory }
+    private val viewModel by viewModels<SearchViewModel> { this@SearchViewModelFactory }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

@@ -10,7 +10,8 @@ object ChuckNorrisServiceClientFactory {
 
     private var memoized: ChuckNorrisServiceClient? = null
 
-    fun create(apiUrl: HttpUrl): ChuckNorrisServiceClient =
+    context (ApiUrlFactory)
+    fun create(): ChuckNorrisServiceClient =
         memoized ?: newClient(apiUrl).apply { memoized = this }
 
     private fun newClient(apiUrl: HttpUrl): ChuckNorrisServiceClient {
