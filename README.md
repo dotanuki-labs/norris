@@ -22,7 +22,7 @@ the following use cases
 
 ![showcase-norris](.github/assets/showcase-norris.png)
 
-## Tooling
+## A note on tooling
 
 Some of the tools used in this project that maybe you are not aware about:
 
@@ -31,11 +31,11 @@ Some of the tools used in this project that maybe you are not aware about:
 - [AppSweep](https://appsweep.guardsquare.com) to drive Security checks over a release build
 - [Mergify](https://mergify.com/) for Pull Request automation
 
-## Blog posts
+## Related blog posts
 
-A few blog posts covering implementation details and motivations behind some decisions that shaped this project are coming!
+This project supports directly or indirectly a couple of posts I've posted in my blog:
 
-Stay tuned! 🚀
+- [The landscape of Android screenshot testing in 2023](https://ubiratansoares.dev/posts/screenshot-testing-for-android-landscape/)
 
 ## Credits
 
