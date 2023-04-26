@@ -10,7 +10,6 @@ import io.dotanuki.features.facts.presentation.FactsScreenState.Failed
 import io.dotanuki.features.facts.presentation.FactsScreenState.Idle
 import io.dotanuki.features.facts.presentation.FactsScreenState.Loading
 import io.dotanuki.features.facts.presentation.FactsScreenState.Success
-import io.dotanuki.platform.android.testing.app.TestApplication
 import io.dotanuki.platform.android.testing.persistance.StorageTestHelper
 import io.dotanuki.platform.jvm.core.networking.errors.NetworkConnectivityError
 import io.dotanuki.platform.jvm.testing.rest.RestDataBuilder
@@ -20,10 +19,8 @@ import java.util.UUID
 import kotlinx.coroutines.runBlocking
 import org.junit.Test
 import org.junit.runner.RunWith
-import org.robolectric.annotation.Config
 
 @RunWith(AndroidJUnit4::class)
-@Config(application = TestApplication::class, sdk = [32])
 class FactsViewModelTests {
 
     private val restTestHelper = RestTestHelper()
