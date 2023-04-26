@@ -1,7 +1,8 @@
 # Norris
-[![ktlint](https://img.shields.io/badge/code%20style-%E2%9D%A4-FF4081.svg)](https://ktlint.github.io/) [![Maintainability](https://api.codeclimate.com/v1/badges/42704b7b56bbdba33b99/maintainability)](https://codeclimate.com/github/dotanuki-labs/norris/maintainability) 
+[![ktlint](https://img.shields.io/badge/code%20style-%E2%9D%A4-FF4081.svg)](https://ktlint.github.io/) 
+[![Maintainability](https://api.codeclimate.com/v1/badges/42704b7b56bbdba33b99/maintainability)](https://codeclimate.com/github/dotanuki-labs/norris/maintainability) 
 ![Main](https://github.com/dotanuki-labs/norris/workflows/Main/badge.svg)
-[![License](https://img.shields.io/github/license/dotanuki-labs/gradle-profiler-pttest)](https://choosealicense.com/licenses/mit)
+[![License](https://img.shields.io/github/license/dotanuki-labs/norris)](https://choosealicense.com/licenses/mit)
 
 > An app that existed even before Android existed! 🔥
 
@@ -25,12 +26,9 @@ the following use cases
 
 Some of the tools used in this project that maybe you are not aware about:
 
-- [Dropshots](https://github.com/dropbox/dropshots) to drive screenshot tests
 - [Maestro Clould](https://maestro.mobile.dev/) for E2E testing
 - [Emulator.wtf](https://emulator.wtf) as a device farm
 - [AppSweep](https://appsweep.guardsquare.com) to drive Security checks over a release build
-- [Foresight](https://foresight.thundra.io/) to consolidade test reports from CI runs (JVM and Android/Instrumentation)
-- [Renovate](https://docs.renovatebot.com/) to drive regular depencency updates
 - [Mergify](https://mergify.com/) for Pull Request automation
 
 ## Blog posts
@@ -38,7 +36,6 @@ Some of the tools used in this project that maybe you are not aware about:
 A few blog posts covering implementation details and motivations behind some decisions that shaped this project are coming!
 
 Stay tuned! 🚀
-
 
 ## Credits
 
