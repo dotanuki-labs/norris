@@ -4,6 +4,7 @@ import android.app.Application
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
 import com.google.common.truth.Truth.assertThat
+import io.dotanuki.platform.android.core.persistance.di.LocalStorageFactory
 import kotlinx.coroutines.runBlocking
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -12,9 +13,10 @@ import org.junit.runner.RunWith
 class LocalStorageTests {
 
     private val storage by lazy {
-        val app = InstrumentationRegistry.getInstrumentation().targetContext.applicationContext as Application
-        val wrapper = AppPreferencesWrapper(app)
-        LocalStorage(wrapper.preferences)
+        val instrumentionContext = InstrumentationRegistry.getInstrumentation().targetContext
+        val app = instrumentionContext.applicationContext as Application
+        PersistanceContextRegistry.register(app)
+        LocalStorageFactory.create().also { it.destroy() }
     }
 
     @Test fun `should retrive empty search history`() {
