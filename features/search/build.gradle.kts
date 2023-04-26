@@ -26,7 +26,6 @@ dependencies {
     implementation(libs.androidx.recyclerview)
     implementation(libs.google.material.design)
 
-    testImplementation(projects.platform.android.testingApp)
     testImplementation(projects.platform.android.testingPersistance)
     testImplementation(projects.platform.jvm.testingRest)
 

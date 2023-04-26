@@ -2,7 +2,6 @@ package io.dotanuki.features.search.data
 
 import com.google.common.truth.Truth.assertThat
 import io.dotanuki.features.search.domain.SearchOptions
-import io.dotanuki.platform.android.testing.app.TestApplication
 import io.dotanuki.platform.android.testing.persistance.StorageTestHelper
 import io.dotanuki.platform.jvm.testing.rest.RestScenario
 import io.dotanuki.platform.jvm.testing.rest.RestTestHelper
@@ -14,7 +13,7 @@ import org.robolectric.RobolectricTestRunner
 import org.robolectric.annotation.Config
 
 @RunWith(RobolectricTestRunner::class)
-@Config(application = TestApplication::class, sdk = [32])
+@Config(sdk = [32])
 class SearchDataSourceTests {
 
     private val restTestHelper = RestTestHelper()

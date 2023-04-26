@@ -28,7 +28,6 @@ include(
     ":platform:android:core-assets",
     ":platform:android:core-navigator",
     ":platform:android:core-persistance",
-    ":platform:android:testing-app",
     ":platform:android:testing-persistance",
     ":platform:android:testing-screenshots",
 
