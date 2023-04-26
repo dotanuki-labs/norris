@@ -4,7 +4,7 @@ import android.content.SharedPreferences
 import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine
 
-class LocalStorage(
+class LocalStorage internal constructor(
     private val prefs: SharedPreferences
 ) {
 

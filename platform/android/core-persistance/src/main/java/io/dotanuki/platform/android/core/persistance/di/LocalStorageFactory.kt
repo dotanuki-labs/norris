@@ -1,16 +1,21 @@
 package io.dotanuki.platform.android.core.persistance.di
 
-import android.app.Application
-import io.dotanuki.platform.android.core.persistance.AppPreferencesWrapper
+import android.content.Context
 import io.dotanuki.platform.android.core.persistance.LocalStorage
+import io.dotanuki.platform.android.core.persistance.PersistanceContextRegistry
 
 object LocalStorageFactory {
 
+    private const val PREFS_FILE = "last-searches"
+
     private var memoized: LocalStorage? = null
 
-    fun create(app: Application): LocalStorage =
-        memoized ?: newLocalStorate(app).apply { memoized = this }
+    fun create(): LocalStorage =
+        memoized ?: newLocalStorate().apply { memoized = this }
 
-    private fun newLocalStorate(app: Application) =
-        LocalStorage(AppPreferencesWrapper(app).preferences)
+    private fun newLocalStorate(): LocalStorage {
+        val target = PersistanceContextRegistry.targetContext()
+        val prefs = target.getSharedPreferences(PREFS_FILE, Context.MODE_PRIVATE)
+        return LocalStorage(prefs)
+    }
 }

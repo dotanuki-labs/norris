@@ -8,13 +8,12 @@ import io.dotanuki.features.facts.di.FactsViewModelFactory
 import io.dotanuki.features.facts.ui.FactsActivity
 import io.dotanuki.features.search.di.SearchViewModelFactory
 import io.dotanuki.features.search.ui.SearchActivity
+import io.dotanuki.platform.android.core.persistance.PersistanceContextRegistry
 import io.dotanuki.platform.android.core.persistance.di.LocalStorageFactory
 import io.dotanuki.platform.jvm.core.rest.di.ChuckNorrisServiceClientFactory
 import okhttp3.HttpUrl.Companion.toHttpUrlOrNull
 
 class NorrisAppComponentFactory : AppComponentFactory() {
-
-    lateinit var app: Application
 
     private val apiUrl by lazy {
         val url = when {
@@ -25,7 +24,7 @@ class NorrisAppComponentFactory : AppComponentFactory() {
     }
 
     private val localStorage by lazy {
-        LocalStorageFactory.create(app)
+        LocalStorageFactory.create()
     }
 
     private val norrisServiceClient by lazy {
@@ -33,8 +32,8 @@ class NorrisAppComponentFactory : AppComponentFactory() {
     }
 
     override fun instantiateApplicationCompat(cl: ClassLoader, className: String): Application =
-        super.instantiateApplicationCompat(cl, className).apply {
-            app = this
+        super.instantiateApplicationCompat(cl, className).also {
+            PersistanceContextRegistry.register(it)
         }
 
     override fun instantiateActivityCompat(loader: ClassLoader, className: String, intent: Intent?) =
