@@ -18,6 +18,7 @@ internal fun Project.applyTestLoggingConventions() {
     tasks.withType<Test>().configureEach {
         retry {
             maxRetries.set(3)
+            failOnPassedAfterRetry.set(true)
         }
     }
 }

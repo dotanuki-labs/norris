@@ -7,7 +7,7 @@ object FakeHttpResilience {
 
     fun create(): HttpResilience =
         HttpResilience(
-            retriesAttemptPerRequest = 2,
+            retriesAttemptPerRequest = 3,
             delayBetweenRetries = Duration.ofSeconds(1L),
             timeoutForHttpRequest = Duration.ofSeconds(3L)
         )

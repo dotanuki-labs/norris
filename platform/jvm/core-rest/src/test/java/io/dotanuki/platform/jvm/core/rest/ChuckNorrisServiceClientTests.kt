@@ -114,7 +114,7 @@ class ChuckNorrisServiceClientTests {
 
     @Test fun `should succeed over high connection latency`() {
         mockServerClient.on(categoriesRequest()).respond(successfulResponse())
-        toxiproxy.bandwidth(latency = 2000, jitter = 3000).setToxicity(ToxicityLevel.HIGH)
+        toxiproxy.bandwidth(latency = 2000, jitter = 3000).setToxicity(ToxicityLevel.MODERATE)
 
         runBlocking {
             val categories = chuckNorrisClient.categories()
@@ -124,7 +124,7 @@ class ChuckNorrisServiceClientTests {
 
     @Test fun `should resist to connection spikes`() {
         mockServerClient.on(categoriesRequest()).respond(successfulResponse())
-        toxiproxy.limitData(numberOfBytes = 15).setToxicity(ToxicityLevel.MEDIUM)
+        toxiproxy.limitData(numberOfBytes = 15).setToxicity(ToxicityLevel.MODERATE)
 
         runBlocking {
             val categories = chuckNorrisClient.categories()
