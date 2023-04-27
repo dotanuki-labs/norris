@@ -17,4 +17,9 @@ object ChuckNorrisServiceClientFactory {
         val service = ChuckNorrisServiceBuilder.build(apiUrl, resilience)
         return ChuckNorrisServiceClient(service, resilience)
     }
+
+    internal fun create(baseUrl: String, relisienceSpec: HttpResilience): ChuckNorrisServiceClient {
+        val service = ChuckNorrisServiceBuilder.build(baseUrl, relisienceSpec)
+        return ChuckNorrisServiceClient(service, relisienceSpec)
+    }
 }

@@ -1,6 +1,6 @@
 package io.dotanuki.platform.jvm.core.rest.internal
 
-internal object ErrorManagedExecution {
+internal object ManagedErrorAware {
     suspend operator fun <T> invoke(target: suspend () -> T): T =
         try {
             target.invoke()

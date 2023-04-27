@@ -4,13 +4,14 @@ import com.google.common.truth.Truth.assertThat
 import eu.rekawek.toxiproxy.Proxy
 import eu.rekawek.toxiproxy.ToxiproxyClient
 import io.dotanuki.platform.jvm.core.networking.errors.NetworkConnectivityError
+import io.dotanuki.platform.jvm.core.rest.di.ChuckNorrisServiceClientFactory
 import io.dotanuki.platform.jvm.core.rest.util.ToxicityLevel
 import io.dotanuki.platform.jvm.core.rest.util.bandwidth
 import io.dotanuki.platform.jvm.core.rest.util.limitData
 import io.dotanuki.platform.jvm.core.rest.util.setToxicity
 import io.dotanuki.platform.jvm.core.rest.util.timeout
-import io.dotanuki.platform.jvm.testing.rest.FakeHttpResilience
 import io.dotanuki.platform.jvm.testing.rest.RestDataBuilder
+import java.time.Duration
 import kotlinx.coroutines.runBlocking
 import org.junit.Before
 import org.junit.Rule
@@ -36,7 +37,11 @@ class ChuckNorrisServiceClientTests {
     }
 
     private val testResilienceSpec by lazy {
-        FakeHttpResilience.create()
+        HttpResilience(
+            retriesAttemptPerRequest = 3,
+            delayBetweenRetries = Duration.ofSeconds(1L),
+            timeoutForHttpRequest = Duration.ofSeconds(3L)
+        )
     }
 
     private val mockServerPort = 1080
@@ -83,16 +88,14 @@ class ChuckNorrisServiceClientTests {
         )
 
         val url = toxiProxyContainer.let { "http://${it.host}:${it.getMappedPort(toxyProxyPort)}" }
-        val service = ChuckNorrisServiceBuilder.build(url, testResilienceSpec)
-        chuckNorrisClient = ChuckNorrisServiceClient(service, testResilienceSpec)
+        chuckNorrisClient = ChuckNorrisServiceClientFactory.create(url, testResilienceSpec)
 
         mockServerClient = with(mockServerContainer) { MockServerClient(host, serverPort) }
     }
 
     @Test fun `should recover from HTTP errors`() {
         val url = mockServerContainer.let { "http://${it.host}:${it.firstMappedPort}" }
-        val service = ChuckNorrisServiceBuilder.build(url, testResilienceSpec)
-        val client = ChuckNorrisServiceClient(service, testResilienceSpec)
+        chuckNorrisClient = ChuckNorrisServiceClientFactory.create(url, testResilienceSpec)
 
         var attempts = 0
 
@@ -107,7 +110,7 @@ class ChuckNorrisServiceClientTests {
         mockServerClient.on(categoriesRequest()).respond(aFewFailures)
 
         runBlocking {
-            val categories = client.categories()
+            val categories = chuckNorrisClient.categories()
             assertThat(categories).isNotEmpty()
         }
     }
