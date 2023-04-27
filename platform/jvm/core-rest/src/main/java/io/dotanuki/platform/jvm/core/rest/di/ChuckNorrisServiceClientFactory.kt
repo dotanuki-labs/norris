@@ -1,10 +1,8 @@
 package io.dotanuki.platform.jvm.core.rest.di
 
-import io.dotanuki.platform.jvm.core.rest.ChuckNorrisService
+import io.dotanuki.platform.jvm.core.rest.ChuckNorrisServiceBuilder
 import io.dotanuki.platform.jvm.core.rest.ChuckNorrisServiceClient
 import io.dotanuki.platform.jvm.core.rest.HttpResilience
-import io.dotanuki.platform.jvm.core.rest.RetrofitBuilder
-import okhttp3.HttpUrl
 
 object ChuckNorrisServiceClientFactory {
 
@@ -14,10 +12,9 @@ object ChuckNorrisServiceClientFactory {
     fun create(): ChuckNorrisServiceClient =
         memoized ?: newClient(apiUrl).apply { memoized = this }
 
-    private fun newClient(apiUrl: HttpUrl): ChuckNorrisServiceClient {
+    private fun newClient(apiUrl: String): ChuckNorrisServiceClient {
         val resilience = HttpResilience.createDefault()
-        val retrofit = RetrofitBuilder(apiUrl, resilience)
-        val service = retrofit.create(ChuckNorrisService::class.java)
+        val service = ChuckNorrisServiceBuilder.build(apiUrl, resilience)
         return ChuckNorrisServiceClient(service, resilience)
     }
 }

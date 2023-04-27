@@ -12,7 +12,6 @@ import io.dotanuki.platform.jvm.core.rest.util.timeout
 import io.dotanuki.platform.jvm.testing.rest.FakeHttpResilience
 import io.dotanuki.platform.jvm.testing.rest.RestDataBuilder
 import kotlinx.coroutines.runBlocking
-import okhttp3.HttpUrl.Companion.toHttpUrl
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -30,21 +29,30 @@ import org.testcontainers.utility.DockerImageName
 
 class ChuckNorrisServiceClientTests {
 
-    private val categories = RestDataBuilder.suggestionsPayload(
-        listOf("math", "code", "humor")
-    )
+    private val categories by lazy {
+        RestDataBuilder.suggestionsPayload(
+            listOf("math", "code", "humor")
+        )
+    }
 
-    private val mockServerVersion = MockServerClient::class.java.getPackage().implementationVersion
-    private val mockServerImageTag = "mockserver-$mockServerVersion"
-    private val mockServerImage = DockerImageName.parse("mockserver/mockserver").withTag(mockServerImageTag)
+    private val testResilienceSpec by lazy {
+        FakeHttpResilience.create()
+    }
+
     private val mockServerPort = 1080
-
-    private val toxyProxyImageTag = "2.5.0"
-    private val toxyProxyImage = DockerImageName.parse("ghcr.io/shopify/toxiproxy").withTag(toxyProxyImageTag)
     private val toxyProxyPort = 8666
 
-    private val testResilience by lazy {
-        FakeHttpResilience.create()
+    private val mockServerImage by lazy {
+        val mockServerVersion = MockServerClient::class.java.getPackage().implementationVersion
+        val componentName = "mockserver/mockserver"
+        val imageTag = "mockserver-$mockServerVersion"
+        DockerImageName.parse(componentName).withTag(imageTag)
+    }
+
+    private val toxyProxyImage by lazy {
+        val componentName = "ghcr.io/shopify/toxiproxy"
+        val imageTag = "2.5.0"
+        DockerImageName.parse(componentName).withTag(imageTag)
     }
 
     @get:Rule val network: Network = Network.newNetwork()
@@ -67,29 +75,29 @@ class ChuckNorrisServiceClientTests {
     private lateinit var mockServerClient: MockServerClient
 
     @Before fun `before each test`() {
-        val toxiproxyClient = ToxiproxyClient(toxiProxyContainer.host, toxiProxyContainer.controlPort)
+        val toxiproxyClient = toxiProxyContainer.let { ToxiproxyClient(it.host, it.controlPort) }
         toxiproxy = toxiproxyClient.createProxy(
             "mockserver",
             "0.0.0.0:$toxyProxyPort",
             "mockserver:$mockServerPort"
         )
 
-        val url = "http://${toxiProxyContainer.host}:${toxiProxyContainer.getMappedPort(toxyProxyPort)}"
-        val api = RetrofitBuilder(url.toHttpUrl(), testResilience).create(ChuckNorrisService::class.java)
-        chuckNorrisClient = ChuckNorrisServiceClient(api, testResilience)
+        val url = toxiProxyContainer.let { "http://${it.host}:${it.getMappedPort(toxyProxyPort)}" }
+        val service = ChuckNorrisServiceBuilder.build(url, testResilienceSpec)
+        chuckNorrisClient = ChuckNorrisServiceClient(service, testResilienceSpec)
 
         mockServerClient = with(mockServerContainer) { MockServerClient(host, serverPort) }
     }
 
     @Test fun `should recover from HTTP errors`() {
-        val url = "http://${mockServerContainer.host}:${mockServerContainer.firstMappedPort}".toHttpUrl()
-        val api = RetrofitBuilder(url, testResilience).create(ChuckNorrisService::class.java)
-        val client = ChuckNorrisServiceClient(api, testResilience)
+        val url = mockServerContainer.let { "http://${it.host}:${it.firstMappedPort}" }
+        val service = ChuckNorrisServiceBuilder.build(url, testResilienceSpec)
+        val client = ChuckNorrisServiceClient(service, testResilienceSpec)
 
         var attempts = 0
 
         val aFewFailures = ExpectationResponseCallback {
-            if (attempts < testResilience.retriesAttemptPerRequest) {
+            if (attempts < testResilienceSpec.retriesAttemptPerRequest) {
                 errorResponse()
                 attempts += 1
             }
@@ -140,7 +148,7 @@ class ChuckNorrisServiceClientTests {
     @Test fun `should resist to connection timeouts`() {
         mockServerClient.on(categoriesRequest()).respond(successfulResponse())
 
-        val forced = testResilience.timeoutForHttpRequest.seconds * 1000 + 2000
+        val forced = testResilienceSpec.timeoutForHttpRequest.seconds * 1000 + 2000
         toxiproxy.timeout(forced).setToxicity(ToxicityLevel.LOW)
 
         runBlocking {
