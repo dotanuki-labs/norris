@@ -6,6 +6,7 @@ private val flaggedDependencies = mapOf(
     "sonatype-2018-0705" to "commons-io",
     "sonatype-2020-0641" to "grpc-core",
     "sonatype-2020-0926" to "guava",
+    "CVE-2020-8908" to "guava",
     "CVE-2021-22569" to "protobuf-java",
     "CVE-2021-37714" to "jsoup",
     "CVE-2019-9512" to "netty-codec-http2",

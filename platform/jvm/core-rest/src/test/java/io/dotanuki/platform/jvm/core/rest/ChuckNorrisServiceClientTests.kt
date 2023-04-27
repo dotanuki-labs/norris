@@ -25,6 +25,7 @@ import org.mockserver.model.HttpResponse.response
 import org.testcontainers.containers.MockServerContainer
 import org.testcontainers.containers.Network
 import org.testcontainers.containers.ToxiproxyContainer
+import org.testcontainers.containers.wait.strategy.Wait
 import org.testcontainers.utility.DockerImageName
 
 class ChuckNorrisServiceClientTests {
@@ -49,10 +50,17 @@ class ChuckNorrisServiceClientTests {
     @get:Rule val network: Network = Network.newNetwork()
 
     @get:Rule val mockServerContainer: MockServerContainer =
-        MockServerContainer(mockServerImage).withNetwork(network).withNetworkAliases("mockserver")
+        MockServerContainer(mockServerImage)
+            .withNetwork(network)
+            .withNetworkAliases("mockserver")
+            .waitingFor(
+                // https://github.com/testcontainers/testcontainers-java/issues/6647
+                Wait.forHttp("/mockserver/status").withMethod("PUT").forStatusCode(200)
+            )
 
     @get:Rule val toxiProxyContainer: ToxiproxyContainer =
-        ToxiproxyContainer(toxyProxyImage).withNetwork(network)
+        ToxiproxyContainer(toxyProxyImage)
+            .withNetwork(network)
 
     private lateinit var toxiproxy: Proxy
     private lateinit var chuckNorrisClient: ChuckNorrisServiceClient
@@ -60,7 +68,11 @@ class ChuckNorrisServiceClientTests {
 
     @Before fun `before each test`() {
         val toxiproxyClient = ToxiproxyClient(toxiProxyContainer.host, toxiProxyContainer.controlPort)
-        toxiproxy = toxiproxyClient.createProxy("mockserver", "0.0.0.0:$toxyProxyPort", "mockserver:$mockServerPort")
+        toxiproxy = toxiproxyClient.createProxy(
+            "mockserver",
+            "0.0.0.0:$toxyProxyPort",
+            "mockserver:$mockServerPort"
+        )
 
         val url = "http://${toxiProxyContainer.host}:${toxiProxyContainer.getMappedPort(toxyProxyPort)}"
         val api = RetrofitBuilder(url.toHttpUrl(), testResilience).create(ChuckNorrisService::class.java)
