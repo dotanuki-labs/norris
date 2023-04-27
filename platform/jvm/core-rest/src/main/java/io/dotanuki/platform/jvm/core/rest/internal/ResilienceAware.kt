@@ -8,7 +8,7 @@ import io.github.resilience4j.kotlin.retry.RetryConfig
 import io.github.resilience4j.kotlin.retry.executeSuspendFunction
 import io.github.resilience4j.retry.RetryRegistry
 
-class ResilientExecution(spec: HttpResilience) {
+class ResilienceAware private constructor(spec: HttpResilience) {
 
     private val retryRegistry by lazy {
         RetryRegistry.ofDefaults()
@@ -30,7 +30,7 @@ class ResilientExecution(spec: HttpResilience) {
         retryRegistry.retry("retry-policy", retryConfig)
     }
 
-    suspend fun <T> execute(block: suspend () -> T): T =
+    suspend operator fun <T> invoke(block: suspend () -> T): T =
         retryRunner.executeSuspendFunction {
             block.invoke()
         }
@@ -39,4 +39,8 @@ class ResilientExecution(spec: HttpResilience) {
         ManagedErrorTransformer.transform(this).let {
             it is HttpDrivenError || it is NetworkConnectivityError
         }
+
+    companion object {
+        fun create(spec: HttpResilience) = ResilienceAware(spec)
+    }
 }
