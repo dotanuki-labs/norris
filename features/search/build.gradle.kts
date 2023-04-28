@@ -36,14 +36,27 @@ dependencies {
     testImplementation(libs.robolectric)
     testImplementation(libs.cashapp.turbine)
 
-    androidTestImplementation(projects.platform.jvm.coreRest)
+    androidTestImplementation(projects.platform.jvm.testingMockserver)
+    androidTestImplementation(projects.platform.android.testingApplication)
+    androidTestImplementation(projects.platform.android.testingHelpers)
+    androidTestImplementation(projects.platform.android.testingPersistance)
     androidTestImplementation(projects.platform.android.testingScreenshots)
 
     androidTestImplementation(libs.junit4)
+    androidTestImplementation(libs.google.truth)
     androidTestImplementation(libs.androidx.test.core)
     androidTestImplementation(libs.androidx.test.corektx)
     androidTestImplementation(libs.androidx.testext.junit)
     androidTestImplementation(libs.androidx.testext.junitktx)
     androidTestImplementation(libs.androidx.test.rules)
     androidTestImplementation(libs.androidx.test.runner)
+    androidTestImplementation(libs.androidx.espresso.core)
+    androidTestImplementation(libs.androidx.espresso.intents)
+    debugImplementation(libs.square.leakcanary.core)
+    androidTestImplementation(libs.square.leakcanary.instrumentation)
+
+    androidTestImplementation(libs.adevinta.barista) {
+        exclude(group = "org.jetbrains.kotlin")
+        exclude(group = "org.checkerframework")
+    }
 }

@@ -1,4 +1,4 @@
-package io.dotanuki.features.facts
+package io.dotanuki.features.facts.util
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity

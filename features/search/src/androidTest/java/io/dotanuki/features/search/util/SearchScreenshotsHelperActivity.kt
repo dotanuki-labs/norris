@@ -1,4 +1,4 @@
-package io.dotanuki.features.search
+package io.dotanuki.features.search.util
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity

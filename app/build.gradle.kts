@@ -21,26 +21,4 @@ dependencies {
     implementation(libs.androidx.lifecycle.runtime)
     implementation(libs.square.okhttp.core)
     implementation(libs.square.retrofit)
-
-    androidTestImplementation(projects.platform.android.testingPersistance)
-    androidTestImplementation(projects.platform.jvm.testingRest)
-
-    androidTestImplementation(libs.junit4)
-    androidTestImplementation(libs.google.truth)
-    androidTestImplementation(libs.androidx.espresso.core)
-    androidTestImplementation(libs.androidx.test.core)
-    androidTestImplementation(libs.androidx.test.corektx)
-    androidTestImplementation(libs.androidx.testext.junit)
-    androidTestImplementation(libs.androidx.testext.junitktx)
-    androidTestImplementation(libs.androidx.test.runner)
-    androidTestImplementation(libs.androidx.test.rules)
-    androidTestImplementation(libs.square.okhttp.mockwebserver)
-    androidTestImplementation(libs.square.radiography)
-    debugImplementation(libs.square.leakcanary.core)
-    androidTestImplementation(libs.square.leakcanary.instrumentation)
-
-    androidTestImplementation(libs.adevinta.barista) {
-        exclude(group = "org.jetbrains.kotlin")
-        exclude(group = "org.checkerframework")
-    }
 }

@@ -5,6 +5,7 @@ import io.dotanuki.features.facts.presentation.FactDisplayRow
 import io.dotanuki.features.facts.presentation.FactsPresentation
 import io.dotanuki.features.facts.presentation.FactsScreenState
 import io.dotanuki.features.facts.ui.FactsView
+import io.dotanuki.features.facts.util.FactsScreeshotsHelperActivity
 import io.dotanuki.platform.android.testing.screenshots.ScreenshotDriver
 import io.dotanuki.platform.android.testing.screenshots.ScreenshotTestRule
 import io.dotanuki.platform.jvm.core.rest.HttpNetworkingError

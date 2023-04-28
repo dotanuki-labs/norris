@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <application
+        android:name="io.dotanuki.platform.android.testing.app.NorrisTestApplication">
+
+        <activity
+            android:name="io.dotanuki.platform.android.testing.app.TestNavigationActivity"
+            android:exported="true"
+            />
+    </application>
+</manifest>

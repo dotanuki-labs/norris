@@ -16,10 +16,10 @@ internal enum class ModuleConvention {
             val path = target.projectDir.path
 
             return when {
-                path.contains("app") -> ANDROID_APPLICATION
-                path.contains("features/") -> ANDROID_FEATURE_LIBRARY
                 path.contains("platform/jvm") -> KOTLIN_PLATFORM_LIBRARY
                 path.contains("platform/android") -> ANDROID_PLATFORM_LIBRARY
+                path.contains("features/") -> ANDROID_FEATURE_LIBRARY
+                path.contains("app") -> ANDROID_APPLICATION
                 else -> throw GradleException(WRONG_LOCATION.replace("<module>", target.path))
             }
         }

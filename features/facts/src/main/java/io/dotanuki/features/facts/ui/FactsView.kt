@@ -33,8 +33,17 @@ class FactsView @JvmOverloads constructor(ctx: Context, attrs: AttributeSet? = n
     private lateinit var eventsHandler: FactsEventsHandler
     private lateinit var viewBinding: ViewFactsBinding
 
+    private val previousStates = mutableListOf<FactsScreenState>()
+
     fun updateWith(newState: FactsScreenState) {
-        Log.d("FactsViews", "Received new state -> $newState")
+        Log.d("FactsView", "Received new state -> $newState")
+        previousStates += newState
+
+        // Handle activity recreation scenario, where no previous state is present
+        if (!previousStates.contains(Idle) && newState != Idle) {
+            Log.d("FactsView", "Recreating from previous state -> $Idle")
+            preExecution()
+        }
 
         when (newState) {
             Idle -> preExecution()
@@ -57,6 +66,7 @@ class FactsView @JvmOverloads constructor(ctx: Context, attrs: AttributeSet? = n
             factsSwipeToRefresh.setOnRefreshListener { eventsHandler.onRefresh() }
             factsRecyclerView.layoutManager = LinearLayoutManager(context)
 
+            factsToolbar.menu.clear()
             factsToolbar.inflateMenu(R.menu.menu_facts_list)
             factsToolbar.setOnMenuItemClickListener { item ->
                 if (item.itemId == R.id.menu_item_search_facts) {
