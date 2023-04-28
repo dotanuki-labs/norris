@@ -11,7 +11,7 @@ import io.dotanuki.features.facts.presentation.FactsScreenState.Idle
 import io.dotanuki.features.facts.presentation.FactsScreenState.Loading
 import io.dotanuki.features.facts.presentation.FactsScreenState.Success
 import io.dotanuki.platform.android.testing.persistance.StorageTestHelper
-import io.dotanuki.platform.jvm.core.networking.errors.NetworkConnectivityError
+import io.dotanuki.platform.jvm.core.rest.HttpNetworkingError
 import io.dotanuki.platform.jvm.testing.rest.RestDataBuilder
 import io.dotanuki.platform.jvm.testing.rest.RestScenario
 import io.dotanuki.platform.jvm.testing.rest.RestTestHelper
@@ -80,7 +80,7 @@ class FactsViewModelTests {
         val previousSearch = "humor"
         storageTestHelper.registerNewSearch(previousSearch)
 
-        val incomingError = NetworkConnectivityError.HostUnreachable
+        val incomingError = HttpNetworkingError.Connectivity.OperationTimeout
 
         val restScenario = RestScenario.Error(incomingError)
         restTestHelper.defineScenario(restScenario)

@@ -4,7 +4,6 @@ plugins {
 }
 
 dependencies {
-    implementation(projects.platform.jvm.coreNetworking)
     implementation(projects.platform.jvm.coreRest)
     implementation(projects.platform.android.coreAssets)
     implementation(projects.platform.android.corePersistance)
@@ -37,7 +36,7 @@ dependencies {
     testImplementation(libs.robolectric)
     testImplementation(libs.cashapp.turbine)
 
-    androidTestImplementation(projects.platform.jvm.coreNetworking)
+    androidTestImplementation(projects.platform.jvm.coreRest)
     androidTestImplementation(projects.platform.android.testingScreenshots)
 
     androidTestImplementation(libs.junit4)

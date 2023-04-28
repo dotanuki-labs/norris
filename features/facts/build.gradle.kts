@@ -3,8 +3,6 @@ plugins {
 }
 
 dependencies {
-
-    implementation(projects.platform.jvm.coreNetworking)
     implementation(projects.platform.jvm.coreRest)
     implementation(projects.platform.android.coreAssets)
     implementation(projects.platform.android.coreNavigator)

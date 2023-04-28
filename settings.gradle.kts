@@ -19,7 +19,6 @@ include(
     ":app",
 
     // JVM platform
-    ":platform:jvm:core-networking",
     ":platform:jvm:core-rest",
     ":platform:jvm:testing-helpers",
     ":platform:jvm:testing-rest",
