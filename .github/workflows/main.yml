@@ -102,27 +102,6 @@ jobs:
           name: release-mappings
           path: app/build/outputs/mapping/release
 
-  espresso-prepare:
-    runs-on: ubuntu-20.04
-    timeout-minutes: 25
-    needs: [code-quality]
-
-    steps:
-      - name: Project Checkout
-        uses: actions/checkout@v3.5.2
-
-      - name: Setup Android Build
-        uses: ./.github/actions/setup-android-build
-
-      - name: Assemble Instrumentation tests
-        run: ./gradlew assembleAndroidTest
-
-      - name: Archive Test APK
-        uses: actions/upload-artifact@v3.1.2
-        with:
-          name: test-apks
-          path: features/**/build/outputs/apk/androidTest/debug
-
   functional-tests:
     runs-on: ubuntu-20.04
     timeout-minutes: 25
@@ -149,8 +128,11 @@ jobs:
 
   instrumentation-tests:
     runs-on: ubuntu-20.04
-    timeout-minutes: 25
-    needs: [assemble-apk, espresso-prepare]
+    needs: [code-quality]
+    timeout-minutes: 20
+    strategy:
+      matrix:
+        feature: [ 'facts', 'search' ]
 
     steps:
       - name: Project Checkout
@@ -163,21 +145,22 @@ jobs:
         uses: asdf-vm/actions/setup@v2.1.0
 
       - name: Install local CLI tooling
-        shell: bash
         run: ./scripts/setup-asdf.sh
 
+      - name: Setup Android Build
+        uses: ./.github/actions/setup-android-build
+
       - name: Run instrumentation tests
-        shell: bash
-        run: ./scripts/emulator-wtf.sh
+        run: ./gradlew features:${{ matrix.feature }}:testDebugWithEmulatorWtf
         env:
           EW_API_TOKEN: ${{ secrets.EMULATOR_WTF_TOKEN }}
 
-      - name: Archive execution results
+      - name: Archive test results
         if: always()
         uses: actions/upload-artifact@v3.1.2
         with:
-          name: instrumentation-tests-reports
-          path: emulator-wtf-results
+          name: ${{ matrix.feature }}-instrumentation-tests-reports
+          path: features/${{ matrix.feature }}/build/test-results
 
   security-analysis:
     runs-on: ubuntu-20.04

@@ -36,6 +36,7 @@ class AutoModulePlugin : Plugin<Project> {
                     pluginManager.apply("kotlin-android")
                     pluginManager.apply("com.android.library")
                     pluginManager.apply("com.dropbox.dropshots")
+                    pluginManager.apply("wtf.emulator.gradle")
                     applyKotlinProjectConventions()
                     applyAndroidFeatureLibraryConventions()
                 }
