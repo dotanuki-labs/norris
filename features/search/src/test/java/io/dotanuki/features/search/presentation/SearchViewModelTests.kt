@@ -10,7 +10,7 @@ import io.dotanuki.features.search.presentation.SearchScreenState.Idle
 import io.dotanuki.features.search.presentation.SearchScreenState.Loading
 import io.dotanuki.features.search.presentation.SearchScreenState.Success
 import io.dotanuki.platform.android.testing.persistance.StorageTestHelper
-import io.dotanuki.platform.jvm.core.networking.errors.HttpDrivenError
+import io.dotanuki.platform.jvm.core.rest.HttpNetworkingError
 import io.dotanuki.platform.jvm.testing.rest.RestScenario
 import io.dotanuki.platform.jvm.testing.rest.RestTestHelper
 import kotlinx.coroutines.runBlocking
@@ -48,7 +48,7 @@ class SearchViewModelTests {
     }
 
     @Test fun `should emit error when loading suggestions`() = runBlocking {
-        val serviceDown = HttpDrivenError.RemoteSystem
+        val serviceDown = HttpNetworkingError.Restful.Server(500)
         val scenario = RestScenario.Error(serviceDown)
         restTestHelper.defineScenario(scenario)
 

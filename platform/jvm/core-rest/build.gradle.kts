@@ -4,8 +4,6 @@ plugins {
 }
 
 dependencies {
-    implementation(projects.platform.jvm.coreNetworking)
-
     implementation(libs.square.okhttp.core)
     implementation(libs.square.okhttp.logging)
     implementation(libs.square.retrofit)

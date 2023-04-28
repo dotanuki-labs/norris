@@ -1,9 +1,7 @@
 package io.dotanuki.platform.jvm.core.rest.internal
 
 import com.google.common.truth.Truth.assertThat
-import io.dotanuki.platform.jvm.core.networking.errors.DataMarshallingError
-import io.dotanuki.platform.jvm.core.networking.errors.HttpDrivenError.RemoteSystem
-import io.dotanuki.platform.jvm.core.networking.errors.NetworkConnectivityError.HostUnreachable
+import io.dotanuki.platform.jvm.core.rest.HttpNetworkingError
 import java.net.UnknownHostException
 import kotlinx.coroutines.runBlocking
 import kotlinx.serialization.SerializationException
@@ -15,20 +13,20 @@ import retrofit2.Response
 import kotlin.coroutines.resumeWithException
 import kotlin.coroutines.suspendCoroutine
 
-internal class ManagedErrorAwareTests {
+internal class NetworkingErrorAwareExecutionTests {
 
     @Test fun `should transform downstream error with managed execution`() {
 
         val otherError = IllegalStateException("Houston, we have a problem!")
 
         listOf(
-            UnknownHostException("No Internet") to HostUnreachable,
-            SerializationException("Ouch") to DataMarshallingError,
-            httpException() to RemoteSystem,
+            UnknownHostException("No Internet") to HttpNetworkingError.Connectivity.HostUnreachable,
+            SerializationException("Ouch") to HttpNetworkingError.DataMarshallingError,
+            httpException() to HttpNetworkingError.Restful.Server(503),
             otherError to otherError
         ).forEach { (incoming, expected) ->
             runBlocking {
-                runCatching { ManagedErrorAware { emulateError(incoming) } }
+                runCatching { NetworkingErrorAwareExecution { emulateError(incoming) } }
                     .onFailure { assertThat(it).isEqualTo(expected) }
                     .onSuccess { throw AssertionError("Not an error") }
             }

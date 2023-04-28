@@ -1,15 +1,14 @@
 package io.dotanuki.platform.jvm.core.rest.internal
 
-import io.dotanuki.platform.jvm.core.networking.transformers.DataMarshallingErrorTransformer
-import io.dotanuki.platform.jvm.core.networking.transformers.ErrorTransformer
-import io.dotanuki.platform.jvm.core.networking.transformers.HttpDrivenErrorTransformer
-import io.dotanuki.platform.jvm.core.networking.transformers.NetworkConnectivityErrorTransformer
+import io.dotanuki.platform.jvm.core.rest.internal.transformers.ConnectivityErrorTransformer
+import io.dotanuki.platform.jvm.core.rest.internal.transformers.DataMarshallingErrorTransformer
+import io.dotanuki.platform.jvm.core.rest.internal.transformers.RestfulErrorTransformer
 
-internal object ManagedErrorTransformer : ErrorTransformer {
+internal object HttpNetworkingErrorTransformer : NetworkingErrorTransformer {
 
     private val transformers = listOf(
-        HttpDrivenErrorTransformer,
-        NetworkConnectivityErrorTransformer,
+        RestfulErrorTransformer,
+        ConnectivityErrorTransformer,
         DataMarshallingErrorTransformer
     )
 

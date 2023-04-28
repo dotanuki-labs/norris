@@ -1,8 +1,7 @@
 package io.dotanuki.features.facts.presentation
 
 import io.dotanuki.features.facts.domain.FactsRetrievalError
-import io.dotanuki.platform.jvm.core.networking.errors.NetworkConnectivityError
-import io.dotanuki.platform.jvm.core.networking.errors.HttpDrivenError.RemoteSystem
+import io.dotanuki.platform.jvm.core.rest.HttpNetworkingError
 import io.dotanuki.platform.android.core.assets.R as assetsR
 
 data class ErrorStateResources(
@@ -12,11 +11,11 @@ data class ErrorStateResources(
     companion object {
         operator fun invoke(error: Throwable) =
             when (error) {
-                is RemoteSystem -> ErrorStateResources(
+                is HttpNetworkingError.Restful.Server -> ErrorStateResources(
                     assetsR.drawable.img_server_down,
                     assetsR.string.error_server_down
                 )
-                is NetworkConnectivityError -> ErrorStateResources(
+                is HttpNetworkingError.Connectivity -> ErrorStateResources(
                     assetsR.drawable.img_network_issue,
                     assetsR.string.error_network
                 )

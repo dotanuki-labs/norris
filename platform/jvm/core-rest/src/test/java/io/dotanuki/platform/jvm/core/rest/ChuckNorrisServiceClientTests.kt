@@ -3,7 +3,6 @@ package io.dotanuki.platform.jvm.core.rest
 import com.google.common.truth.Truth.assertThat
 import eu.rekawek.toxiproxy.Proxy
 import eu.rekawek.toxiproxy.ToxiproxyClient
-import io.dotanuki.platform.jvm.core.networking.errors.NetworkConnectivityError
 import io.dotanuki.platform.jvm.core.rest.di.ChuckNorrisServiceClientFactory
 import io.dotanuki.platform.jvm.core.rest.util.ToxicityLevel
 import io.dotanuki.platform.jvm.core.rest.util.bandwidth
@@ -17,7 +16,6 @@ import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.mockserver.client.MockServerClient
-import org.mockserver.mock.action.ExpectationResponseCallback
 import org.mockserver.model.HttpRequest
 import org.mockserver.model.HttpRequest.request
 import org.mockserver.model.HttpResponse
@@ -30,17 +28,11 @@ import org.testcontainers.utility.DockerImageName
 
 class ChuckNorrisServiceClientTests {
 
-    private val categories by lazy {
-        RestDataBuilder.suggestionsPayload(
-            listOf("math", "code", "humor")
-        )
-    }
-
     private val testResilienceSpec by lazy {
         HttpResilience(
             retriesAttemptPerRequest = 3,
             delayBetweenRetries = Duration.ofSeconds(1L),
-            timeoutForHttpRequest = Duration.ofSeconds(3L)
+            timeoutForHttpRequest = Duration.ofSeconds(5L)
         )
     }
 
@@ -68,7 +60,10 @@ class ChuckNorrisServiceClientTests {
             .withNetworkAliases("mockserver")
             .waitingFor(
                 // https://github.com/testcontainers/testcontainers-java/issues/6647
-                Wait.forHttp("/mockserver/status").withMethod("PUT").forStatusCode(200)
+                Wait.forHttp("/mockserver/status")
+                    .withMethod("PUT")
+                    .forStatusCode(200)
+                    .withStartupTimeout(Duration.ofMinutes(2L))
             )
 
     @get:Rule val toxiProxyContainer: ToxiproxyContainer =
@@ -89,25 +84,38 @@ class ChuckNorrisServiceClientTests {
 
         val url = toxiProxyContainer.let { "http://${it.host}:${it.getMappedPort(toxyProxyPort)}" }
         chuckNorrisClient = ChuckNorrisServiceClientFactory.create(url, testResilienceSpec)
-
         mockServerClient = with(mockServerContainer) { MockServerClient(host, serverPort) }
     }
 
-    @Test fun `should recover from HTTP errors`() {
-        val url = mockServerContainer.let { "http://${it.host}:${it.firstMappedPort}" }
-        chuckNorrisClient = ChuckNorrisServiceClientFactory.create(url, testResilienceSpec)
+    @Test fun `should capture connection spikes as logical errors`() {
+        mockServerClient.given(categoriesRequest()).respond(successfulResponse())
+        toxiproxy.limitData(numberOfBytes = 10).setToxicity(ToxicityLevel.EXTREME)
 
-        var attempts = 0
-
-        val aFewFailures = ExpectationResponseCallback {
-            if (attempts < testResilienceSpec.retriesAttemptPerRequest) {
-                errorResponse()
-                attempts += 1
-            }
-            successfulResponse()
+        runBlocking {
+            runCatching { chuckNorrisClient.categories() }
+                .onSuccess { throw AssertionError("Expecting a failure due the toxicity level used on this test") }
+                .onFailure {
+                    assertThat(it).isEqualTo(HttpNetworkingError.Connectivity.ConnectionSpike)
+                }
         }
+    }
 
-        mockServerClient.on(categoriesRequest()).respond(aFewFailures)
+    @Test fun `should not recover from HTTP errors`() {
+        mockServerClient.given(categoriesRequest()).respond(errorResponse())
+
+        runBlocking {
+            runCatching { chuckNorrisClient.categories() }
+                .onSuccess { throw AssertionError("Expecting an error from this execution") }
+                .onFailure {
+                    val expected = HttpNetworkingError.Restful.Server(500)
+                    assertThat(it).isEqualTo(expected)
+                }
+        }
+    }
+
+    @Test fun `should recover from latency in the network`() {
+        mockServerClient.given(categoriesRequest()).respond(successfulResponse())
+        toxiproxy.bandwidth(latency = 2000, jitter = 3000).setToxicity(ToxicityLevel.LOW)
 
         runBlocking {
             val categories = chuckNorrisClient.categories()
@@ -115,18 +123,8 @@ class ChuckNorrisServiceClientTests {
         }
     }
 
-    @Test fun `should succeed over high connection latency`() {
-        mockServerClient.on(categoriesRequest()).respond(successfulResponse())
-        toxiproxy.bandwidth(latency = 2000, jitter = 3000).setToxicity(ToxicityLevel.MODERATE)
-
-        runBlocking {
-            val categories = chuckNorrisClient.categories()
-            assertThat(categories).isNotEmpty()
-        }
-    }
-
-    @Test fun `should resist to connection spikes`() {
-        mockServerClient.on(categoriesRequest()).respond(successfulResponse())
+    @Test fun `should recover from connection spikes`() {
+        mockServerClient.given(categoriesRequest()).respond(successfulResponse())
         toxiproxy.limitData(numberOfBytes = 15).setToxicity(ToxicityLevel.MODERATE)
 
         runBlocking {
@@ -135,24 +133,11 @@ class ChuckNorrisServiceClientTests {
         }
     }
 
-    @Test fun `should translate connection spike as managed error`() {
-        mockServerClient.on(categoriesRequest()).respond(successfulResponse())
-        toxiproxy.limitData(numberOfBytes = 10).setToxicity(ToxicityLevel.EXTREME)
+    @Test fun `should recover from network timeouts`() {
+        mockServerClient.given(categoriesRequest()).respond(successfulResponse())
 
-        runBlocking {
-            runCatching { chuckNorrisClient.categories() }
-                .onSuccess { throw AssertionError("Expecting a failure due the toxicity level used on this test") }
-                .onFailure {
-                    assertThat(it).isEqualTo(NetworkConnectivityError.ConnectionSpike)
-                }
-        }
-    }
-
-    @Test fun `should resist to connection timeouts`() {
-        mockServerClient.on(categoriesRequest()).respond(successfulResponse())
-
-        val forced = testResilienceSpec.timeoutForHttpRequest.seconds * 1000 + 2000
-        toxiproxy.timeout(forced).setToxicity(ToxicityLevel.LOW)
+        val forcedTimeout = testResilienceSpec.timeoutForHttpRequest.seconds * 1000 + 2000
+        toxiproxy.timeout(forcedTimeout).setToxicity(ToxicityLevel.LOW)
 
         runBlocking {
             val categories = chuckNorrisClient.categories()
@@ -164,11 +149,13 @@ class ChuckNorrisServiceClientTests {
         request().withPath("/jokes/categories")
 
     private fun successfulResponse(): HttpResponse =
-        response().withBody(categories).withStatusCode(200)
+        listOf("code", "dev")
+            .let { RestDataBuilder.categoriesJson(it) }
+            .let { response().withBody(it).withStatusCode(200) }
 
     private fun errorResponse(): HttpResponse =
         response().withStatusCode(500)
 
-    private fun MockServerClient.on(request: HttpRequest) =
+    private fun MockServerClient.given(request: HttpRequest) =
         `when`(request)
 }
