@@ -51,7 +51,7 @@ jobs:
       - name: Run unit tests
         uses: nick-fields/retry@v2.8.3
         with:
-          command: ./gradlew clean test --rerun
+          command: ./gradlew clean test --rerun --no-daemon
           timeout_minutes: 8
           max_attempts: 3
 
@@ -128,6 +128,7 @@ jobs:
 
   instrumentation-tests:
     runs-on: ubuntu-20.04
+    needs: [code-quality]
     timeout-minutes: 20
     strategy:
       matrix:
