@@ -1,6 +1,6 @@
 #! /usr/bin/env bash
 
-set -ex
+set -e
 
 dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 cd "${dir%/*}"
@@ -39,13 +39,13 @@ locate_product_apk() {
 
 locate_instrumentation_tests_apk() {
     local feature="$1"
-    local common_path="/build/outputs/apk/androidTest/debug/$feature-debug-androidTest.apk"
+    local common_path="build/outputs/apk/androidTest/debug/$feature-debug-androidTest.apk"
     local apk_file
 
     if [[ -z "$CI" ]]; then
         apk_file="features/$feature/$common_path"
     else
-        apk_file="test-apks/features/$feature/$common_path"
+        apk_file="test-apks/$feature/$common_path"
     fi
 
     if ! test -f "$apk_file"; then

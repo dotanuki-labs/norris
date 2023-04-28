@@ -21,12 +21,15 @@ include(
     // JVM platform
     ":platform:jvm:core-rest",
     ":platform:jvm:testing-helpers",
+    ":platform:jvm:testing-mockserver",
     ":platform:jvm:testing-rest",
 
     // Android platform
     ":platform:android:core-assets",
     ":platform:android:core-navigator",
     ":platform:android:core-persistance",
+    ":platform:android:testing-application",
+    ":platform:android:testing-helpers",
     ":platform:android:testing-persistance",
     ":platform:android:testing-screenshots",
 

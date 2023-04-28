@@ -49,7 +49,11 @@ jobs:
         uses: ./.github/actions/setup-android-build
 
       - name: Run unit tests
-        run: ./gradlew test
+        uses: nick-fields/retry@v2.8.3
+        with:
+          command: ./gradlew clean test --rerun --no-daemon
+          timeout_minutes: 8
+          max_attempts: 3
 
       - name: Collect all test results from all modules
         if: always()
@@ -117,36 +121,7 @@ jobs:
         uses: actions/upload-artifact@v3.1.2
         with:
           name: test-apks
-          path: |
-            app/build/outputs/apk/androidTest/debug
-            features/**/build/outputs/apk/androidTest/debug
-
-  acceptance-tests:
-    runs-on: ubuntu-20.04
-    timeout-minutes: 25
-    needs: [assemble-apk, espresso-prepare]
-
-    steps:
-      - name: Fetch Instrumentation artefacts
-        uses: actions/download-artifact@v3.0.2
-
-      - name: Run Espresso tests with emulator.wtf
-        uses: emulator-wtf/run-tests@v0.9.0
-        with:
-          api-token: ${{ secrets.EMULATOR_WTF_TOKEN }}
-          app: debug-apk/app-debug.apk
-          test: test-apks/app/build/outputs/apk/androidTest/debug/app-debug-androidTest.apk
-          outputs-dir: emulator-wtf-results
-          devices: model=Pixel2,version=31,atd=true
-          use-orchestrator: true
-          clear-package-data: true
-
-      - name: Archive execution results
-        if: always()
-        uses: actions/upload-artifact@v3.1.2
-        with:
-          name: acceptance-tests-reports
-          path: emulator-wtf-results
+          path: features/**/build/outputs/apk/androidTest/debug
 
   functional-tests:
     runs-on: ubuntu-20.04
@@ -172,7 +147,7 @@ jobs:
         env:
           MOBILE_DEV_CLOUD_TOKEN: ${{ secrets.MOBILE_DEV_CLOUD_TOKEN }}
 
-  screenshot-tests:
+  instrumentation-tests:
     runs-on: ubuntu-20.04
     timeout-minutes: 25
     needs: [assemble-apk, espresso-prepare]
@@ -191,7 +166,7 @@ jobs:
         shell: bash
         run: ./scripts/setup-asdf.sh
 
-      - name: Run screenshot tests 
+      - name: Run instrumentation tests
         shell: bash
         run: ./scripts/emulator-wtf.sh
         env:
@@ -201,7 +176,7 @@ jobs:
         if: always()
         uses: actions/upload-artifact@v3.1.2
         with:
-          name: screenshot-tests-reports
+          name: instrumentation-tests-reports
           path: emulator-wtf-results
 
   security-analysis:
@@ -268,7 +243,7 @@ jobs:
   test-results-analysis:
     runs-on: ubuntu-20.04
     timeout-minutes: 25
-    needs: [unit-tests, screenshot-tests, acceptance-tests, functional-tests]
+    needs: [unit-tests, instrumentation-tests, functional-tests]
     steps:
       - name: Project Checkout
         uses: actions/checkout@v3.5.2

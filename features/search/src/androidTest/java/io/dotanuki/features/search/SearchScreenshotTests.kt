@@ -4,6 +4,7 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import io.dotanuki.features.search.presentation.SearchScreenState
 import io.dotanuki.features.search.presentation.SearchScreenState.Failed
 import io.dotanuki.features.search.ui.SearchView
+import io.dotanuki.features.search.util.SearchScreenshotsHelperActivity
 import io.dotanuki.platform.android.testing.screenshots.ScreenshotDriver
 import io.dotanuki.platform.android.testing.screenshots.ScreenshotTestRule
 import io.dotanuki.platform.jvm.core.rest.HttpNetworkingError

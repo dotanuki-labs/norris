@@ -1,4 +1,4 @@
-package io.dotanuki.app
+package io.dotanuki.features.search.util
 
 import android.view.View
 import androidx.core.view.children

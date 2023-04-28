@@ -1,12 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <application android:requestLegacyExternalStorage="true">
+    <uses-permission android:name="android.permission.INTERNET" />
+
+    <application
+        android:name="io.dotanuki.platform.android.testing.app.NorrisTestApplication"
+        android:allowBackup="false"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:supportsRtl="true"
+        android:usesCleartextTraffic="false"
+        android:theme="@style/NorrisTheme"
+        android:appComponentFactory="io.dotanuki.features.search.util.SearchComponentFactory"
+        tools:replace="android:appComponentFactory"
+        tools:ignore="GoogleAppIndexingWarning">
+
         <activity
             android:theme="@style/NorrisTheme"
-            android:name="io.dotanuki.features.search.SearchScreenshotsHelperActivity"
-            android:exported="true"
-            />
+            android:name="io.dotanuki.features.search.util.SearchScreenshotsHelperActivity"
+            android:exported="true" />
     </application>
-
 </manifest>

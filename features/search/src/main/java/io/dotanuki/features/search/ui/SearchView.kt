@@ -15,11 +15,16 @@ import io.dotanuki.features.search.R
 import io.dotanuki.features.search.databinding.ViewSearchFactsBinding
 import io.dotanuki.features.search.domain.SearchQueryValidation
 import io.dotanuki.features.search.presentation.SearchScreenState
+import io.dotanuki.features.search.presentation.SearchScreenState.Done
+import io.dotanuki.features.search.presentation.SearchScreenState.Failed
+import io.dotanuki.features.search.presentation.SearchScreenState.Idle
+import io.dotanuki.features.search.presentation.SearchScreenState.Loading
+import io.dotanuki.features.search.presentation.SearchScreenState.Success
 
 class SearchView @JvmOverloads constructor(ctx: Context, attrs: AttributeSet? = null) : CoordinatorLayout(ctx, attrs) {
 
     lateinit var eventsHandler: SearchEventsHandler
-    val receivedStates = mutableListOf<SearchScreenState>()
+    private val receivedStates = mutableListOf<SearchScreenState>()
 
     private lateinit var viewBinding: ViewSearchFactsBinding
     private val hostActivity by lazy { context as AppCompatActivity }
@@ -28,12 +33,16 @@ class SearchView @JvmOverloads constructor(ctx: Context, attrs: AttributeSet? = 
         Log.d("SearchView", "Received new state -> $newState")
         receivedStates += newState
 
+        if (!receivedStates.contains(Idle) && newState != Idle) {
+            setup()
+        }
+
         when (newState) {
-            SearchScreenState.Idle -> setup()
-            SearchScreenState.Loading -> showLoading()
-            is SearchScreenState.Failed -> showError()
-            is SearchScreenState.Success -> showContent(newState.history, newState.suggestions)
-            SearchScreenState.Done -> hostActivity.finish()
+            Idle -> setup()
+            Loading -> showLoading()
+            is Failed -> showError()
+            is Success -> showContent(newState.history, newState.suggestions)
+            Done -> hostActivity.finish()
         }
     }
 

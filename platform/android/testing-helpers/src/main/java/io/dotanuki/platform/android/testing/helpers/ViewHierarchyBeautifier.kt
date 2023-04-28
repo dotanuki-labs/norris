@@ -1,11 +1,11 @@
-package io.dotanuki.app
+package io.dotanuki.platform.android.testing.helpers
 
 import androidx.test.espresso.Espresso
 import androidx.test.espresso.base.DefaultFailureHandler
 import androidx.test.platform.app.InstrumentationRegistry
 import radiography.Radiography
 
-object PrettyEspressoErrors {
+object ViewHierarchyBeautifier {
 
     fun install() {
         val context = InstrumentationRegistry.getInstrumentation().targetContext
