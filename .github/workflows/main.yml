@@ -159,7 +159,7 @@ jobs:
         if: always()
         uses: actions/upload-artifact@v3.1.2
         with:
-          name: instrumentation-tests-reports
+          name: ${{ matrix.feature }}-instrumentation-tests-reports
           path: features/${{ matrix.feature }}/build/test-results
 
   security-analysis:
