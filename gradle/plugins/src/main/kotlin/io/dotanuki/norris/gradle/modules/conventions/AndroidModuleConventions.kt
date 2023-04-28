@@ -6,6 +6,7 @@ import io.dotanuki.norris.gradle.modules.models.PlatformDefinitions
 import io.dotanuki.norris.gradle.modules.models.ProguardRules
 import io.dotanuki.norris.gradle.modules.models.Versioning
 import org.gradle.api.Project
+import wtf.emulator.EwExtension
 import java.util.Collections
 
 internal fun Project.isTestMode(): Boolean = properties["testMode"]?.let { true } ?: false
@@ -73,6 +74,7 @@ internal fun Project.applyAndroidPlatformLibraryConventions() {
     }
 }
 
+@Suppress("LongMethod")
 fun Project.applyAndroidFeatureLibraryConventions() {
 
     applyAndroidPlatformLibraryConventions()
@@ -100,9 +102,23 @@ fun Project.applyAndroidFeatureLibraryConventions() {
             animationsDisabled = true
         }
     }
+
+    val emulatorWtf = extensions.findByName("emulatorwtf") as EwExtension
+
+    emulatorWtf.run {
+        token.set(providers.environmentVariable("EMULATOR_WTF_TOKEN"))
+        clearPackageData.set(true)
+        useOrchestrator.set(true)
+        devices.set(
+            listOf(
+                mapOf("model" to "Pixel2", "version" to 31)
+            )
+        )
+    }
 }
 
-@Suppress("LongMethod") internal fun Project.applyAndroidApplicationConventions() {
+@Suppress("LongMethod")
+internal fun Project.applyAndroidApplicationConventions() {
     applyAndroidStandardConventions()
 
     val android = extensions.findByName("android") as ApplicationExtension
