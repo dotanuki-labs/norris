@@ -4,9 +4,7 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import io.dotanuki.features.facts.presentation.FactDisplayRow
 import io.dotanuki.features.facts.presentation.FactsPresentation
 import io.dotanuki.features.facts.presentation.FactsScreenState
-import io.dotanuki.features.facts.ui.FactsView
-import io.dotanuki.features.facts.util.FactsScreeshotsHelperActivity
-import io.dotanuki.platform.android.testing.screenshots.ScreenshotDriver
+import io.dotanuki.features.facts.util.FactsScreenshotsDriver
 import io.dotanuki.platform.android.testing.screenshots.ScreenshotTestRule
 import io.dotanuki.platform.jvm.core.rest.HttpNetworkingError
 import org.junit.Rule
@@ -16,17 +14,7 @@ import org.junit.runner.RunWith
 @RunWith(AndroidJUnit4::class)
 class FactsScreenshotTests {
 
-    private fun driver() = object : ScreenshotDriver<FactsScreeshotsHelperActivity, FactsScreenState> {
-        override fun beforeCapturing(target: FactsScreeshotsHelperActivity, state: FactsScreenState) {
-            val factsView = target.findViewById<FactsView>(R.id.factsViewRoot)
-            listOf(FactsScreenState.Idle, state).forEach { factsView.updateWith(it) }
-        }
-
-        override fun imageName(state: FactsScreenState): String =
-            "FactsScreenshotTests-${state.javaClass.simpleName}State"
-    }
-
-    @get:Rule val screenshotTestRule = ScreenshotTestRule.create(driver())
+    @get:Rule val screenshotTestRule = ScreenshotTestRule.create(FactsScreenshotsDriver)
 
     @Test fun emptyState() {
         val state = FactsScreenState.Empty
