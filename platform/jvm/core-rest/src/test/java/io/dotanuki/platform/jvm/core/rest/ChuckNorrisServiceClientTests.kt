@@ -69,6 +69,7 @@ class ChuckNorrisServiceClientTests {
     @get:Rule val toxiProxyContainer: ToxiproxyContainer =
         ToxiproxyContainer(toxyProxyImage)
             .withNetwork(network)
+            .dependsOn(mockServerContainer)
 
     private lateinit var toxiproxy: Proxy
     private lateinit var chuckNorrisClient: ChuckNorrisServiceClient
