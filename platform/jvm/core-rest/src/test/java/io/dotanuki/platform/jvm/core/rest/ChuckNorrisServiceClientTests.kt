@@ -10,8 +10,8 @@ import io.dotanuki.platform.jvm.core.rest.util.limitData
 import io.dotanuki.platform.jvm.core.rest.util.setToxicity
 import io.dotanuki.platform.jvm.core.rest.util.timeout
 import io.dotanuki.platform.jvm.testing.rest.RestDataBuilder
-import java.time.Duration
 import kotlinx.coroutines.runBlocking
+import org.junit.After
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -25,19 +25,20 @@ import org.testcontainers.containers.Network
 import org.testcontainers.containers.ToxiproxyContainer
 import org.testcontainers.containers.wait.strategy.Wait
 import org.testcontainers.utility.DockerImageName
+import java.time.Duration
 
 class ChuckNorrisServiceClientTests {
 
-    private val testResilienceSpec by lazy {
-        HttpResilience(
-            retriesAttemptPerRequest = 3,
-            delayBetweenRetries = Duration.ofSeconds(1L),
-            timeoutForHttpRequest = Duration.ofSeconds(5L)
-        )
-    }
+    @get:Rule val network: Network = Network.newNetwork()
 
     private val mockServerPort = 1080
     private val toxyProxyPort = 8666
+
+    private val testResilienceSpec by lazy {
+        HttpResilience.createDefault().copy(
+            timeoutForHttpRequest = Duration.ofSeconds(5L)
+        )
+    }
 
     private val mockServerImage by lazy {
         val mockServerVersion = MockServerClient::class.java.getPackage().implementationVersion
@@ -52,30 +53,30 @@ class ChuckNorrisServiceClientTests {
         DockerImageName.parse(componentName).withTag(imageTag)
     }
 
-    @get:Rule val network: Network = Network.newNetwork()
-
-    @get:Rule val mockServerContainer: MockServerContainer =
+    private val mockServerContainer: MockServerContainer by lazy {
         MockServerContainer(mockServerImage)
             .withNetwork(network)
-            .withNetworkAliases("mockserver")
             .waitingFor(
-                // https://github.com/testcontainers/testcontainers-java/issues/6647
+                // Increases the timeout we wait for the healthy status
                 Wait.forHttp("/mockserver/status")
                     .withMethod("PUT")
                     .forStatusCode(200)
                     .withStartupTimeout(Duration.ofMinutes(2L))
             )
+    }
 
-    @get:Rule val toxiProxyContainer: ToxiproxyContainer =
-        ToxiproxyContainer(toxyProxyImage)
-            .withNetwork(network)
-            .dependsOn(mockServerContainer)
+    private val toxiProxyContainer: ToxiproxyContainer by lazy {
+        ToxiproxyContainer(toxyProxyImage).withNetwork(network).dependsOn(mockServerContainer)
+    }
 
     private lateinit var toxiproxy: Proxy
     private lateinit var chuckNorrisClient: ChuckNorrisServiceClient
     private lateinit var mockServerClient: MockServerClient
 
     @Before fun `before each test`() {
+        mockServerContainer.start()
+        toxiProxyContainer.start()
+
         val toxiproxyClient = toxiProxyContainer.let { ToxiproxyClient(it.host, it.controlPort) }
         toxiproxy = toxiproxyClient.createProxy(
             "mockserver",
@@ -83,9 +84,15 @@ class ChuckNorrisServiceClientTests {
             "mockserver:$mockServerPort"
         )
 
-        val url = toxiProxyContainer.let { "http://${it.host}:${it.getMappedPort(toxyProxyPort)}" }
-        chuckNorrisClient = ChuckNorrisServiceClientFactory.create(url, testResilienceSpec)
         mockServerClient = with(mockServerContainer) { MockServerClient(host, serverPort) }
+
+        val apiUrl = toxiProxyContainer.let { "http://${it.host}:${it.getMappedPort(toxyProxyPort)}" }
+        chuckNorrisClient = ChuckNorrisServiceClientFactory.create(apiUrl, testResilienceSpec)
+    }
+
+    @After fun `after each test`() {
+        mockServerContainer.stop()
+        toxiProxyContainer.stop()
     }
 
     @Test fun `should capture connection spikes as logical errors`() {
