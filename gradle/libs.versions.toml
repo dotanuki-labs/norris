@@ -47,7 +47,6 @@ google-material-design = "com.google.android.material:material:1.8.0"
 # Square / CashApp
 square-okhttp-core = "com.squareup.okhttp3:okhttp:4.11.0"
 square-okhttp-logging = "com.squareup.okhttp3:logging-interceptor:4.11.0"
-square-okhttp-mockwebserver = "com.squareup.okhttp3:mockwebserver:4.11.0"
 square-retrofit = "com.squareup.retrofit2:retrofit:2.9.0"
 square-radiography = "com.squareup.radiography:radiography:2.4.1"
 square-leakcanary-core = "com.squareup.leakcanary:leakcanary-android:2.10"

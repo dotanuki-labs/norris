@@ -24,9 +24,7 @@ class WireMockContainer(imageName: DockerImageName) : GenericContainer<WireMockC
         waitingFor(customWaitStrategy)
 
         stubs.forEach { (name, jsonContent) ->
-            withCopyToContainer(
-                Transferable.of(jsonContent), "$WIREMOCK_STUBS_FOLDER$name.json"
-            )
+            withCopyToContainer(Transferable.of(jsonContent), "$WIREMOCK_STUBS_FOLDER$name.json")
         }
     }
 
