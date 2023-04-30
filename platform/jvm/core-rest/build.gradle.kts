@@ -25,6 +25,4 @@ dependencies {
     testImplementation(libs.slf4j)
     testImplementation(libs.testcontainers.core)
     testImplementation(libs.testcontainers.toxyproxy)
-    testImplementation(libs.testcontainers.mockserver)
-    testImplementation(libs.mockserver.client)
 }
