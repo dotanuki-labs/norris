@@ -7,7 +7,6 @@ gradle-testlogger = "com.adarshr:gradle-test-logger-plugin:3.2.0"
 gradle-kotlinx-serialization = "org.jetbrains.kotlin:kotlin-serialization:1.8.21"
 gradle-dropshots = "com.dropbox.dropshots:dropshots-gradle-plugin:0.4.0"
 gradle-oss-scan = "org.sonatype.gradle.plugins:scan-gradle-plugin:2.6.0"
-gradle-test-retry = "org.gradle:test-retry-gradle-plugin:1.5.2"
 gradle-emulator-wtf = "wtf.emulator:gradle-plugin:0.10.2"
 
 # Kotlinx
