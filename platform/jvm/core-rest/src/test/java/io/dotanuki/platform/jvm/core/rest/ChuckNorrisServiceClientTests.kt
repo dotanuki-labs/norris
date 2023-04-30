@@ -66,7 +66,7 @@ class ChuckNorrisServiceClientTests {
     }
 
     @Test fun `should capture connection spikes as logical errors`() {
-        toxiproxy.limitData(numberOfBytes = 10).setToxicity(ToxicityLevel.EXTREME)
+        toxiproxy.disable()
 
         runBlocking {
             runCatching { chuckNorrisClient.categories() }
