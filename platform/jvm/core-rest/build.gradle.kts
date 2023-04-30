@@ -16,7 +16,6 @@ dependencies {
     implementation(libs.resilience4j.retry)
     implementation(libs.resilience4j.kotlin)
 
-    testImplementation(libs.square.okhttp.mockwebserver)
     testImplementation(projects.platform.jvm.testingRest)
     testImplementation(projects.platform.jvm.testingHelpers)
 

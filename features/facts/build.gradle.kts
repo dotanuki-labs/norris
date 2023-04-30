@@ -30,7 +30,6 @@ dependencies {
 
     testImplementation(libs.junit4)
     testImplementation(libs.google.truth)
-    testImplementation(libs.square.okhttp.mockwebserver)
     testImplementation(libs.androidx.test.core)
     testImplementation(libs.androidx.testext.junit)
     testImplementation(libs.robolectric)
