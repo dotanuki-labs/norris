@@ -14,7 +14,6 @@ buildscript {
         classpath(libs.gradle.testlogger)
         classpath(libs.gradle.dropshots)
         classpath(libs.gradle.oss.scan)
-        classpath(libs.gradle.test.retry)
         classpath(libs.gradle.emulator.wtf)
     }
 }

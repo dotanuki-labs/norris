@@ -18,7 +18,6 @@ class AutoModulePlugin : Plugin<Project> {
     override fun apply(target: Project) {
         with(target) {
             pluginManager.apply("com.adarshr.test-logger")
-            pluginManager.apply("org.gradle.test-retry")
             target.applyTestLoggingConventions()
 
             when (ModuleConvention.from(target)) {
