@@ -22,10 +22,8 @@ import java.time.Duration
 
 class ChuckNorrisServiceClientTests {
 
-    private val testResilienceSpec by lazy {
-        HttpResilience(
-            retriesAttemptPerRequest = 3,
-            delayBetweenRetries = Duration.ofSeconds(1L),
+    private val resilienceSpec by lazy {
+        HttpResilience.createDefault().copy(
             timeoutForHttpRequest = Duration.ofSeconds(5L)
         )
     }
@@ -38,11 +36,19 @@ class ChuckNorrisServiceClientTests {
         DockerImageName.parse(componentName).withTag(imageTag)
     }
 
+    private val wireMockPort = 8080
+
+    private val wireMockServerImage by lazy {
+        val componentName = "wiremock/wiremock"
+        val imageTag = "2.32.0"
+        DockerImageName.parse(componentName).withTag(imageTag)
+    }
+
     @get:Rule val network: Network = Network.newNetwork()
 
     @get:Rule val wireMockContainer: WireMockContainer by lazy {
-        WireMockContainer()
-            .withMapping("categories", loadFile("categories-stub.json"))
+        WireMockContainer(wireMockServerImage)
+            .withStubMapping("categories", loadFile("categories-stub.json"))
             .withNetworkAliases("wiremock")
             .withNetwork(network)
     }
@@ -55,22 +61,19 @@ class ChuckNorrisServiceClientTests {
 
     @Before fun `before each test`() {
         val toxiproxyClient = toxiProxyContainer.let { ToxiproxyClient(it.host, it.controlPort) }
-        toxiproxy = toxiproxyClient.createProxy(
-            "mockserver",
-            "0.0.0.0:$toxyProxyPort",
-            "wiremock:${WireMockContainer.DEFAULT_PORT}"
-        )
+        toxiproxy = toxiproxyClient.createProxy("wiremock", "0.0.0.0:$toxyProxyPort", "wiremock:$wireMockPort")
 
-        val url = toxiProxyContainer.let { "http://${it.host}:${it.getMappedPort(toxyProxyPort)}" }
-        chuckNorrisClient = ChuckNorrisServiceClientFactory.create(url, testResilienceSpec)
+        val baseUrl = toxiProxyContainer.let { "http://${it.host}:${it.getMappedPort(toxyProxyPort)}" }
+        chuckNorrisClient = ChuckNorrisServiceClientFactory.create(baseUrl, resilienceSpec)
     }
 
     @Test fun `should capture connection spikes as logical errors`() {
+        // Forces an interruption upfront
         toxiproxy.disable()
 
         runBlocking {
             runCatching { chuckNorrisClient.categories() }
-                .onSuccess { throw AssertionError("Expecting a failure due the toxicity level used on this test") }
+                .onSuccess { unexpectedOutcome() }
                 .onFailure {
                     assertThat(it).isEqualTo(HttpNetworkingError.Connectivity.ConnectionSpike)
                 }
@@ -79,8 +82,8 @@ class ChuckNorrisServiceClientTests {
 
     @Test fun `should not recover from HTTP errors`() {
         runBlocking {
-            runCatching { chuckNorrisClient.search("invalid-search") }
-                .onSuccess { throw AssertionError("Expecting an error from this execution") }
+            runCatching { chuckNorrisClient.search("not-stubbed") }
+                .onSuccess { unexpectedOutcome() }
                 .onFailure {
                     val expected = HttpNetworkingError.Restful.Client(404)
                     assertThat(it).isEqualTo(expected)
@@ -107,12 +110,16 @@ class ChuckNorrisServiceClientTests {
     }
 
     @Test fun `should recover from network timeouts`() {
-        val forcedTimeout = testResilienceSpec.timeoutForHttpRequest.seconds * 1000 + 2000
+        val forcedTimeout = resilienceSpec.timeoutForHttpRequest.seconds * 1000 + 2000
         toxiproxy.timeout(forcedTimeout).setToxicity(ToxicityLevel.LOW)
 
         runBlocking {
             val categories = chuckNorrisClient.categories()
             assertThat(categories).isNotEmpty()
         }
+    }
+
+    private fun unexpectedOutcome(): Nothing {
+        throw AssertionError("Expecting an error from this execution")
     }
 }
