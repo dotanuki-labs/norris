@@ -13,7 +13,7 @@ internal class ResilienceAwareExecution private constructor(spec: HttpResilience
         RetryRegistry.ofDefaults()
     }
 
-    private val exponentialBackoff by lazy {
+    private val fixedInterval by lazy {
         IntervalFunction.of(spec.delayBetweenRetries)
     }
 
@@ -21,7 +21,7 @@ internal class ResilienceAwareExecution private constructor(spec: HttpResilience
         RetryConfig {
             maxAttempts(spec.retriesAttemptPerRequest)
             retryOnException { it is HttpNetworkingError.Connectivity }
-            intervalFunction(exponentialBackoff)
+            intervalFunction(fixedInterval)
         }
     }
 
