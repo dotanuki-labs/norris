@@ -7,7 +7,7 @@
   ],
   "osvVulnerabilityAlerts": true,
   "dependencyDashboard": true,
-  "enabledManagers": ["gradle"],
+  "enabledManagers": ["gradle", "gradle-wrapper"],
   "packageRules": [
     {
       "matchUpdateTypes": ["major", "minor", "patch"],
