@@ -28,15 +28,11 @@ class ChuckNorrisServiceClientTests {
         )
     }
 
-    private val toxyProxyPort = 8666
-
     private val toxyProxyImage by lazy {
         val componentName = "ghcr.io/shopify/toxiproxy"
         val imageTag = "2.5.0"
         DockerImageName.parse(componentName).withTag(imageTag)
     }
-
-    private val wireMockPort = 8080
 
     private val wireMockServerImage by lazy {
         val componentName = "wiremock/wiremock"
@@ -44,24 +40,34 @@ class ChuckNorrisServiceClientTests {
         DockerImageName.parse(componentName).withTag(imageTag)
     }
 
+    private val wireMockNetworkAlias = "wiremock"
+
     @get:Rule val network: Network = Network.newNetwork()
 
-    @get:Rule val wireMockContainer: WireMockContainer by lazy {
+    @get:Rule val wireMockContainer: WireMockContainer =
         WireMockContainer(wireMockServerImage)
             .withStubMapping("categories", loadFile("categories-stub.json"))
-            .withNetworkAliases("wiremock")
+            .withNetworkAliases(wireMockNetworkAlias)
             .withNetwork(network)
-    }
 
     @get:Rule val toxiProxyContainer: ToxiproxyContainer =
-        ToxiproxyContainer(toxyProxyImage).withNetwork(network).dependsOn(wireMockContainer)
+        ToxiproxyContainer(toxyProxyImage)
+            .withNetwork(network)
+            .dependsOn(wireMockContainer)
 
     private lateinit var toxiproxy: Proxy
     private lateinit var chuckNorrisClient: ChuckNorrisServiceClient
 
     @Before fun `before each test`() {
+        val toxyProxyPort = 8666
+        val wireMockPort = 8080
+
         val toxiproxyClient = toxiProxyContainer.let { ToxiproxyClient(it.host, it.controlPort) }
-        toxiproxy = toxiproxyClient.createProxy("wiremock", "0.0.0.0:$toxyProxyPort", "wiremock:$wireMockPort")
+        toxiproxy = toxiproxyClient.createProxy(
+            "wiremock",
+            "0.0.0.0:$toxyProxyPort",
+            "$wireMockNetworkAlias:$wireMockPort"
+        )
 
         val baseUrl = toxiProxyContainer.let { "http://${it.host}:${it.getMappedPort(toxyProxyPort)}" }
         chuckNorrisClient = ChuckNorrisServiceClientFactory.create(baseUrl, resilienceSpec)
