@@ -12,13 +12,12 @@ import io.dotanuki.features.facts.presentation.FactsScreenState.Loading
 import io.dotanuki.features.facts.presentation.FactsScreenState.Success
 import io.dotanuki.platform.android.testing.persistance.StorageTestHelper
 import io.dotanuki.platform.jvm.core.rest.HttpNetworkingError
-import io.dotanuki.platform.jvm.testing.rest.RestDataBuilder
 import io.dotanuki.platform.jvm.testing.rest.RestScenario
 import io.dotanuki.platform.jvm.testing.rest.RestTestHelper
-import java.util.UUID
 import kotlinx.coroutines.runBlocking
 import org.junit.Test
 import org.junit.runner.RunWith
+import java.util.UUID
 
 @RunWith(AndroidJUnit4::class)
 class FactsViewModelTests {
@@ -45,9 +44,7 @@ class FactsViewModelTests {
         val factId = UUID.randomUUID().toString()
         val divideByZero = "Chuck Norris can divide by zero"
 
-        val restScenario = RestScenario.Facts(
-            RestDataBuilder.rawSearch(factId, divideByZero)
-        )
+        val restScenario = RestScenario.Facts(factId, divideByZero)
 
         restTestHelper.defineScenario(restScenario)
 
