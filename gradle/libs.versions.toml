@@ -62,7 +62,7 @@ resilience4j-kotlin = "io.github.resilience4j:resilience4j-kotlin:1.7.1"
 # Other / Testing
 junit4 = "junit:junit:4.13.2"
 slf4j = "org.slf4j:slf4j-nop:2.0.7"
-robolectric = "org.robolectric:robolectric:4.10"
+robolectric = "org.robolectric:robolectric:4.10.1"
 adevinta-barista = "com.adevinta.android:barista:4.3.0"
 dropshots = "com.dropbox.dropshots:dropshots:0.4.0"
 testcontainers-core = "org.testcontainers:testcontainers:1.18.0"
