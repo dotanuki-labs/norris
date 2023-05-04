@@ -2,20 +2,15 @@ package io.dotanuki.features.facts.presentation
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import io.dotanuki.features.facts.data.ActualSearchDataSource
 import io.dotanuki.features.facts.data.FactsDataSource
 import io.dotanuki.features.facts.domain.FactsRetrievalError
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.consumeAsFlow
 import kotlinx.coroutines.launch
 
-class FactsViewModel(
-    private val remoteFacts: FactsDataSource,
-    private val actualSearch: ActualSearchDataSource
-) : ViewModel() {
+class FactsViewModel(private val dataSource: FactsDataSource) : ViewModel() {
 
     private val interactions = Channel<FactsUserInteraction>(Channel.UNLIMITED)
     private val states = MutableStateFlow<FactsScreenState>(FactsScreenState.Idle)
@@ -49,8 +44,8 @@ class FactsViewModel(
     }
 
     private suspend fun fetchFacts(): FactsPresentation {
-        val actualSearch = actualSearch.actualQuery()
-        val relatedFacts = remoteFacts.search(actualSearch)
+        val actualSearch = dataSource.actualQuery()
+        val relatedFacts = dataSource.search(actualSearch)
         val presentationRows = relatedFacts.map { FactDisplayRow(it) }
         return FactsPresentation(actualSearch, presentationRows)
     }

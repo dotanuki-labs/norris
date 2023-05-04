@@ -3,7 +3,6 @@ package io.dotanuki.features.facts.presentation
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import app.cash.turbine.test
 import com.google.common.truth.Truth.assertThat
-import io.dotanuki.features.facts.data.ActualSearchDataSource
 import io.dotanuki.features.facts.data.FactsDataSource
 import io.dotanuki.features.facts.presentation.FactsScreenState.Empty
 import io.dotanuki.features.facts.presentation.FactsScreenState.Failed
@@ -24,9 +23,8 @@ class FactsViewModelTests {
 
     private val restTestHelper = RestTestHelper()
     private val storageTestHelper = StorageTestHelper()
-    private val factsDataSource = FactsDataSource(restTestHelper.createClient())
-    private val actualSearchDataSource = ActualSearchDataSource(storageTestHelper.createStorage())
-    private val viewModel = FactsViewModel(factsDataSource, actualSearchDataSource)
+    private val dataSource = FactsDataSource(restTestHelper.createClient(), storageTestHelper.createStorage())
+    private val viewModel = FactsViewModel(dataSource)
 
     @Test fun `at first lunch, should start on empty state`() = runBlocking {
         viewModel.bind().test {
