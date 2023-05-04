@@ -8,13 +8,13 @@ import io.dotanuki.platform.android.core.persistance.di.LocalStorageFactory
 import io.dotanuki.platform.jvm.core.rest.di.ApiUrlFactory
 import io.dotanuki.platform.jvm.core.rest.di.ChuckNorrisServiceClientFactory
 
-context(ApiUrlFactory, ChuckNorrisServiceClientFactory, LocalStorageFactory)
+context(ApiUrlFactory)
 internal class SearchViewModelFactory : ViewModelProvider.Factory {
 
     @Suppress("UNCHECKED_CAST")
     override fun <VM : ViewModel> create(modelClass: Class<VM>): VM {
-        val localStorage = this@LocalStorageFactory.create()
-        val chuckNorrisServiceClient = this@ChuckNorrisServiceClientFactory.create()
+        val localStorage = LocalStorageFactory.create()
+        val chuckNorrisServiceClient = ChuckNorrisServiceClientFactory.create()
         val dataSource = SearchesDataSource(localStorage, chuckNorrisServiceClient)
         return SearchViewModel(dataSource) as VM
     }
