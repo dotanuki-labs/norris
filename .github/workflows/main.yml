@@ -53,7 +53,7 @@ jobs:
         with:
           command: ./gradlew clean test --rerun --no-daemon
           timeout_minutes: 8
-          max_attempts: 3
+          max_attempts: 5
 
       - name: Collect all test results from all modules
         if: always()

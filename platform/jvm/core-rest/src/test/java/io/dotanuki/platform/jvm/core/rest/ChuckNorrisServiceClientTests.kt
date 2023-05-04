@@ -3,7 +3,6 @@ package io.dotanuki.platform.jvm.core.rest
 import com.google.common.truth.Truth.assertThat
 import eu.rekawek.toxiproxy.Proxy
 import eu.rekawek.toxiproxy.ToxiproxyClient
-import io.dotanuki.platform.jvm.core.rest.di.ChuckNorrisServiceClientFactory
 import io.dotanuki.platform.jvm.core.rest.util.ToxicityLevel
 import io.dotanuki.platform.jvm.core.rest.util.WireMockContainer
 import io.dotanuki.platform.jvm.core.rest.util.bandwidth
@@ -70,7 +69,8 @@ class ChuckNorrisServiceClientTests {
         )
 
         val baseUrl = toxiProxyContainer.let { "http://${it.host}:${it.getMappedPort(toxyProxyPort)}" }
-        chuckNorrisClient = ChuckNorrisServiceClientFactory.create(baseUrl, resilienceSpec)
+        val service = ChuckNorrisServiceBuilder.build(baseUrl, resilienceSpec)
+        chuckNorrisClient = ChuckNorrisServiceClient(service, resilienceSpec)
     }
 
     @Test fun `should capture connection spikes as logical errors`() {

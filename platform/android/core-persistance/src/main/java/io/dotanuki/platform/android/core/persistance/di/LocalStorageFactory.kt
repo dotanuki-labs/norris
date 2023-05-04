@@ -6,16 +6,13 @@ import io.dotanuki.platform.android.core.persistance.PersistanceContextRegistry
 
 object LocalStorageFactory {
 
-    private const val PREFS_FILE = "last-searches"
+    private const val prefsName = "last-searches"
 
-    private var memoized: LocalStorage? = null
-
-    fun create(): LocalStorage =
-        memoized ?: newLocalStorate().apply { memoized = this }
-
-    private fun newLocalStorate(): LocalStorage {
-        val target = PersistanceContextRegistry.targetContext()
-        val prefs = target.getSharedPreferences(PREFS_FILE, Context.MODE_PRIVATE)
-        return LocalStorage(prefs)
+    private val memoized by lazy {
+        val appContext = PersistanceContextRegistry.targetContext()
+        val prefs = appContext.getSharedPreferences(prefsName, Context.MODE_PRIVATE)
+        LocalStorage(prefs)
     }
+
+    fun create(): LocalStorage = memoized
 }
