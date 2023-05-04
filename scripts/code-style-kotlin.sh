@@ -17,7 +17,7 @@ run_ktlint() {
     echo "• Checking code formatting"
     echo
 
-    ktlint --reporter=plain?group_by_file --android || echo
+    ktlint --reporter=plain?group_by_file --android
 
     echo
     echo -e "• No issues found by ${cyan}ktlint${normal}"
@@ -30,7 +30,7 @@ run_detekt() {
     fi
 
     echo -e "${cyan}• Checking code smells"
-    detekt -c .config/detekt.yml --build-upon-default-config || echo
+    detekt -c .config/detekt.yml --build-upon-default-config
 
     echo
     echo -e "• No issues found by ${cyan}detekt${normal}"
