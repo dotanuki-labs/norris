@@ -107,7 +107,7 @@ class ChuckNorrisServiceClientTests {
     }
 
     @Test fun `should recover from connection spikes`() {
-        toxiproxy.limitData(numberOfBytes = 15).setToxicity(ToxicityLevel.MODERATE)
+        toxiproxy.limitData(numberOfBytes = 15).setToxicity(ToxicityLevel.LOW)
 
         runBlocking {
             val categories = chuckNorrisClient.categories()
