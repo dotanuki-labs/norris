@@ -17,7 +17,7 @@ run_ktlint() {
     echo "• Checking code formatting"
     echo
 
-    ktlint --reporter=plain?group_by_file --android
+    ktlint --reporter=plain?group_by_file --code-style=android_studio
 
     echo
     echo -e "• No issues found by ${cyan}ktlint${normal}"
