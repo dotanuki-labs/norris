@@ -35,7 +35,7 @@ include(
 
     // Features
     ":features:facts",
-    ":features:search"
+    ":features:search",
 )
 
 enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")

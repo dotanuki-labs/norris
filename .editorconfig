@@ -17,3 +17,5 @@ ktlint_standard_no-empty-first-line-in-method-block = disabled
 ktlint_standard_filename = disabled
 ktlint_standard_import-ordering = disabled
 ktlint_standard_multiline-if-else = disabled
+ktlint_standard_trailing-comma-on-call-site = disabled
+ktlint_standard_trailing-comma-on-declaration-site = disabled
