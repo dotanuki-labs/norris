@@ -22,8 +22,8 @@ import java.util.UUID
 class FactsViewModelTests {
 
     private val restTestHelper = RestTestHelper()
-    private val storageTestHelper = StorageTestHelper()
-    private val dataSource = FactsDataSource(restTestHelper.createClient(), storageTestHelper.createStorage())
+    private val localStorage = StorageTestHelper().storage
+    private val dataSource = FactsDataSource(restTestHelper.createClient(), localStorage)
     private val viewModel = FactsViewModel(dataSource)
 
     @Test fun `at first lunch, should start on empty state`() = runBlocking {
@@ -47,7 +47,7 @@ class FactsViewModelTests {
         restTestHelper.defineScenario(restScenario)
 
         val previousSearch = "humor"
-        storageTestHelper.registerNewSearch(previousSearch)
+        localStorage.registerNewSearch(previousSearch)
 
         viewModel.bind().test {
             assertThat(awaitItem()).isEqualTo(Idle)
@@ -73,7 +73,7 @@ class FactsViewModelTests {
 
     @Test fun `given an unsuccessful a search, should emit error`() = runBlocking {
         val previousSearch = "humor"
-        storageTestHelper.registerNewSearch(previousSearch)
+        localStorage.registerNewSearch(previousSearch)
 
         val incomingError = HttpNetworkingError.Connectivity.OperationTimeout
 

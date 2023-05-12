@@ -16,7 +16,7 @@ class LocalStorageTests {
         val instrumentionContext = InstrumentationRegistry.getInstrumentation().targetContext
         val app = instrumentionContext.applicationContext as Application
         PersistanceContextRegistry.register(app)
-        LocalStorageFactory.create().also { it.destroy() }
+        LocalStorageFactory.create().also { it.erase() }
     }
 
     @Test fun `should retrive empty search history`() {

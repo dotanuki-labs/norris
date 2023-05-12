@@ -23,7 +23,7 @@ class LocalStorage internal constructor(
             .commit()
     }
 
-    fun destroy() {
+    fun erase() {
         prefs.edit().clear().commit()
     }
 

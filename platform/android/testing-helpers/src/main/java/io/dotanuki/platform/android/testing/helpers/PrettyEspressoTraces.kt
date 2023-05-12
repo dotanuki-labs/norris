@@ -5,7 +5,7 @@ import androidx.test.espresso.base.DefaultFailureHandler
 import androidx.test.platform.app.InstrumentationRegistry
 import radiography.Radiography
 
-object ViewHierarchyBeautifier {
+object PrettyEspressoTraces {
 
     fun install() {
         val context = InstrumentationRegistry.getInstrumentation().targetContext

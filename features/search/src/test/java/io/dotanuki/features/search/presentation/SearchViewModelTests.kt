@@ -14,7 +14,6 @@ import io.dotanuki.platform.jvm.core.rest.HttpNetworkingError
 import io.dotanuki.platform.jvm.testing.rest.RestScenario
 import io.dotanuki.platform.jvm.testing.rest.RestTestHelper
 import kotlinx.coroutines.runBlocking
-import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 
@@ -22,15 +21,11 @@ import org.junit.runner.RunWith
 class SearchViewModelTests {
 
     private val restTestHelper = RestTestHelper()
-    private val storageTestHelper = StorageTestHelper()
-    private val dataSource = SearchesDataSource(storageTestHelper.createStorage(), restTestHelper.createClient())
+    private val localStorage = StorageTestHelper().storage
+    private val dataSource = SearchesDataSource(localStorage, restTestHelper.createClient())
     private val viewModel = SearchViewModel(dataSource)
 
     private val categories = listOf("career", "celebrity", "dev")
-
-    @Before fun `before each test`() {
-        storageTestHelper.clearStorage()
-    }
 
     @Test fun `at first lunch should display only suggestions`() = runBlocking {
         val scenario = RestScenario.Categories(categories)
@@ -67,7 +62,7 @@ class SearchViewModelTests {
         val scenario = RestScenario.Categories(categories)
         restTestHelper.defineScenario(scenario)
 
-        storageTestHelper.registerNewSearch("code")
+        localStorage.registerNewSearch("code")
 
         viewModel.bind().test {
             assertThat(awaitItem()).isEqualTo(Idle)
