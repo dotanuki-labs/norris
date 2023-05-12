@@ -3,6 +3,7 @@ package io.dotanuki.features.facts.presentation
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import io.dotanuki.features.facts.data.FactsDataSource
+import io.dotanuki.features.facts.di.FactsContext
 import io.dotanuki.features.facts.domain.FactsRetrievalError
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -10,8 +11,10 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.consumeAsFlow
 import kotlinx.coroutines.launch
 
-class FactsViewModel(private val dataSource: FactsDataSource) : ViewModel() {
+context (FactsContext)
+class FactsViewModel : ViewModel() {
 
+    private val dataSource = FactsDataSource()
     private val interactions = Channel<FactsUserInteraction>(Channel.UNLIMITED)
     private val states = MutableStateFlow<FactsScreenState>(FactsScreenState.Idle)
 

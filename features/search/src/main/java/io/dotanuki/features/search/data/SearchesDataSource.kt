@@ -1,17 +1,14 @@
 package io.dotanuki.features.search.data
 
+import io.dotanuki.features.search.di.SearchContext
 import io.dotanuki.features.search.domain.SearchOptions
-import io.dotanuki.platform.android.core.persistance.LocalStorage
-import io.dotanuki.platform.jvm.core.rest.ChuckNorrisServiceClient
 
-class SearchesDataSource(
-    private val localStorage: LocalStorage,
-    private val norrisClient: ChuckNorrisServiceClient
-) {
+context (SearchContext)
+class SearchesDataSource {
 
     suspend fun searchOptions(): SearchOptions =
         SearchOptions(
-            recommendations = norrisClient.categories(),
+            recommendations = restClient.categories(),
             history = localStorage.lastSearches()
         )
 

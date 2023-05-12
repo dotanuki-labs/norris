@@ -14,10 +14,13 @@ class RestTestHelper {
         )
     }
 
-    private val fakeService = FakeChuckNorrisService()
-    private val fakeClient = ChuckNorrisServiceClient(fakeService, testResilienceSpec)
+    private val fakeService by lazy {
+        FakeChuckNorrisService()
+    }
 
-    fun createClient(): ChuckNorrisServiceClient = fakeClient
+    val restClient by lazy {
+        ChuckNorrisServiceClient(fakeService, testResilienceSpec)
+    }
 
     fun defineScenario(target: RestScenario) {
         fakeService.scenario = target

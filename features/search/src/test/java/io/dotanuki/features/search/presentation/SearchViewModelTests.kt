@@ -3,7 +3,8 @@ package io.dotanuki.features.search.presentation
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import app.cash.turbine.test
 import com.google.common.truth.Truth.assertThat
-import io.dotanuki.features.search.data.SearchesDataSource
+import io.dotanuki.features.search.di.SearchContext
+import io.dotanuki.features.search.di.SearchViewModelFactory
 import io.dotanuki.features.search.presentation.SearchScreenState.Done
 import io.dotanuki.features.search.presentation.SearchScreenState.Failed
 import io.dotanuki.features.search.presentation.SearchScreenState.Idle
@@ -22,8 +23,11 @@ class SearchViewModelTests {
 
     private val restTestHelper = RestTestHelper()
     private val localStorage = StorageTestHelper().storage
-    private val dataSource = SearchesDataSource(localStorage, restTestHelper.createClient())
-    private val viewModel = SearchViewModel(dataSource)
+    private val testContext = SearchContext(restTestHelper.restClient, localStorage)
+
+    private val viewModel = with(testContext) {
+        SearchViewModelFactory().create(SearchViewModel::class.java)
+    }
 
     private val categories = listOf("career", "celebrity", "dev")
 
