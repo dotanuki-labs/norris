@@ -5,26 +5,21 @@ import androidx.test.core.app.launchActivity
 import androidx.test.espresso.intent.rule.IntentsRule
 import io.dotanuki.features.search.ui.SearchActivity
 import io.dotanuki.features.search.util.SearchActivityRobot
-import io.dotanuki.platform.android.testing.helpers.ViewHierarchyBeautifier
+import io.dotanuki.platform.android.testing.helpers.PrettyEspressoTraces
 import io.dotanuki.platform.android.testing.persistance.StorageTestHelper
 import leakcanary.LeakAssertions
-import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 
 class SearchAcceptanceTests {
 
     init {
-        ViewHierarchyBeautifier.install()
+        PrettyEspressoTraces.install()
     }
 
-    private val storageTestHelper = StorageTestHelper()
+    private val localStorage = StorageTestHelper().storage
 
     @get:Rule val intentsRule = IntentsRule()
-
-    @Before fun beforeEachTest() {
-        storageTestHelper.clearStorage()
-    }
 
     @Test fun shouldPerformASearch_ByTypingATerm() {
 
@@ -47,7 +42,7 @@ class SearchAcceptanceTests {
     @Test fun shouldPerformSearch_ByChosingASuggestion() {
 
         listOf("code", "math").onEach {
-            storageTestHelper.registerNewSearch(it)
+            localStorage.registerNewSearch(it)
         }
 
         launchActivity<SearchActivity>().run {
@@ -62,6 +57,7 @@ class SearchAcceptanceTests {
                 clickOnSuggestion("dev")
 
                 checkScreenRedirection()
+                close()
                 LeakAssertions.assertNoLeaks()
             }
         }

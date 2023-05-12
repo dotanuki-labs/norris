@@ -5,26 +5,21 @@ import androidx.test.core.app.launchActivity
 import androidx.test.espresso.intent.rule.IntentsRule
 import io.dotanuki.features.facts.ui.FactsActivity
 import io.dotanuki.features.facts.util.FactsActivityRobot
-import io.dotanuki.platform.android.testing.helpers.ViewHierarchyBeautifier
+import io.dotanuki.platform.android.testing.helpers.PrettyEspressoTraces
 import io.dotanuki.platform.android.testing.persistance.StorageTestHelper
 import leakcanary.LeakAssertions
-import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 
 class FactsAcceptanceTests {
 
     init {
-        ViewHierarchyBeautifier.install()
+        PrettyEspressoTraces.install()
     }
 
-    private val storageTestHelper = StorageTestHelper()
+    private val localStorage = StorageTestHelper().storage
 
     @get:Rule val intentsRule = IntentsRule()
-
-    @Before fun beforeEachTest() {
-        storageTestHelper.clearStorage()
-    }
 
     @Test fun testFactsActivity() {
         val searchTerm = "math"
@@ -37,7 +32,7 @@ class FactsAcceptanceTests {
                 checkDisplayed("No facts to show")
 
                 LeakAssertions.assertNoLeaks()
-                storageTestHelper.registerNewSearch(searchTerm)
+                localStorage.registerNewSearch(searchTerm)
 
                 recreate()
                 awaitTransition()
@@ -48,6 +43,7 @@ class FactsAcceptanceTests {
                 clickOnSearchIcon()
                 checkScreenRedirection()
                 close()
+                LeakAssertions.assertNoLeaks()
             }
         }
     }
