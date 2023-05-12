@@ -21,19 +21,17 @@ import org.junit.runner.RunWith
 @RunWith(AndroidJUnit4::class)
 class SearchViewModelTests {
 
-    private val restTestHelper = RestTestHelper()
-    private val localStorage = StorageTestHelper().storage
-    private val testContext = SearchContext(restTestHelper.restClient, localStorage)
+    private val restHelper = RestTestHelper()
+    private val storageHelper = StorageTestHelper()
 
-    private val viewModel = with(testContext) {
-        SearchViewModelFactory().create(SearchViewModel::class.java)
-    }
+    private val testContext = SearchContext(restHelper.restClient, storageHelper.storage)
+    private val viewModel = with(testContext) { SearchViewModelFactory().create() }
 
     private val categories = listOf("career", "celebrity", "dev")
 
     @Test fun `at first lunch should display only suggestions`() = runBlocking {
         val scenario = RestScenario.Categories(categories)
-        restTestHelper.defineScenario(scenario)
+        restHelper.defineScenario(scenario)
 
         viewModel.bind().test {
             assertThat(awaitItem()).isEqualTo(Idle)
@@ -49,7 +47,7 @@ class SearchViewModelTests {
     @Test fun `should emit error when loading suggestions`() = runBlocking {
         val serviceDown = HttpNetworkingError.Restful.Server(500)
         val scenario = RestScenario.Error(serviceDown)
-        restTestHelper.defineScenario(scenario)
+        restHelper.defineScenario(scenario)
 
         viewModel.bind().test {
             assertThat(awaitItem()).isEqualTo(Idle)
@@ -64,9 +62,9 @@ class SearchViewModelTests {
 
     @Test fun `should proceed saving term chosen from suggestions`() = runBlocking {
         val scenario = RestScenario.Categories(categories)
-        restTestHelper.defineScenario(scenario)
+        restHelper.defineScenario(scenario)
 
-        localStorage.registerNewSearch("code")
+        storageHelper.storage.registerNewSearch("code")
 
         viewModel.bind().test {
             assertThat(awaitItem()).isEqualTo(Idle)
