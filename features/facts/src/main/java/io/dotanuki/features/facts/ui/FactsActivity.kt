@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import io.dotanuki.features.facts.di.FactsContext
 import io.dotanuki.features.facts.di.FactsViewModelFactory
 import io.dotanuki.features.facts.presentation.FactsUserInteraction
 import io.dotanuki.features.facts.presentation.FactsViewModel
@@ -13,10 +14,10 @@ import io.dotanuki.platform.android.core.navigator.Navigator.Companion.retrieveN
 import io.dotanuki.platform.android.core.navigator.Screen
 import kotlinx.coroutines.launch
 
-context (FactsViewModelFactory)
+context (FactsContext)
 class FactsActivity : AppCompatActivity(), FactsEventsHandler {
 
-    private val viewModel by viewModels<FactsViewModel> { this@FactsViewModelFactory }
+    private val viewModel by viewModels<FactsViewModel> { FactsViewModelFactory() }
     private val navigator by lazy { retrieveNavigator() }
 
     override fun onCreate(savedInstanceState: Bundle?) {

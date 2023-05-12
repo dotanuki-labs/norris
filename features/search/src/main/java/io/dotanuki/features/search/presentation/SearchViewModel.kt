@@ -3,6 +3,7 @@ package io.dotanuki.features.search.presentation
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import io.dotanuki.features.search.data.SearchesDataSource
+import io.dotanuki.features.search.di.SearchContext
 import io.dotanuki.features.search.domain.SearchQueryValidation
 import io.dotanuki.features.search.presentation.SearchInteraction.NewQuerySet
 import io.dotanuki.features.search.presentation.SearchInteraction.OpenedScreen
@@ -13,10 +14,10 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.consumeAsFlow
 import kotlinx.coroutines.launch
 
-class SearchViewModel(
-    private val dataSource: SearchesDataSource
-) : ViewModel() {
+context (SearchContext)
+class SearchViewModel : ViewModel() {
 
+    private val dataSource = SearchesDataSource()
     private val states = MutableStateFlow<SearchScreenState>(SearchScreenState.Idle)
     private val interactions = Channel<SearchInteraction>(Channel.UNLIMITED)
 

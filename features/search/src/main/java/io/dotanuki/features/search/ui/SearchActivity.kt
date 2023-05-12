@@ -6,15 +6,16 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import io.dotanuki.features.search.di.SearchContext
 import io.dotanuki.features.search.di.SearchViewModelFactory
 import io.dotanuki.features.search.presentation.SearchInteraction
 import io.dotanuki.features.search.presentation.SearchViewModel
 import kotlinx.coroutines.launch
 
-context (SearchViewModelFactory)
+context (SearchContext)
 class SearchActivity : AppCompatActivity(), SearchEventsHandler {
 
-    private val viewModel by viewModels<SearchViewModel> { this@SearchViewModelFactory }
+    private val viewModel by viewModels<SearchViewModel> { SearchViewModelFactory() }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
