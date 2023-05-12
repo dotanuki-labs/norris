@@ -8,59 +8,49 @@ import io.dotanuki.features.search.domain.SearchQueryValidation
 import io.dotanuki.features.search.presentation.SearchInteraction.NewQuerySet
 import io.dotanuki.features.search.presentation.SearchInteraction.OpenedScreen
 import io.dotanuki.features.search.presentation.SearchInteraction.SuggestionSelected
-import kotlinx.coroutines.channels.Channel
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.consumeAsFlow
-import kotlinx.coroutines.launch
 
 context (SearchContext)
 class SearchViewModel : ViewModel() {
 
     private val dataSource = SearchesDataSource()
-    private val states = MutableStateFlow<SearchScreenState>(SearchScreenState.Idle)
-    private val interactions = Channel<SearchInteraction>(Channel.UNLIMITED)
+    private val stateMachine = SearchStateMachine(
+        initialState = SearchScreenState.Idle,
+        machineScope = viewModelScope,
+        stateProcessor = ::reduceToState
+    )
 
-    init {
-        viewModelScope.launch {
-            interactions.consumeAsFlow().collect { interaction ->
-                when (interaction) {
-                    OpenedScreen -> loadPrefilledContent()
-                    is NewQuerySet -> validateAndSave(interaction.query)
-                    is SuggestionSelected -> save(interaction.query)
-                }
-            }
-        }
+    fun bind() = stateMachine.observe()
+
+    fun handle(newInteraction: SearchInteraction) {
+        stateMachine.process(
+            interaction = newInteraction,
+            temporaryState = SearchScreenState.Loading
+        )
     }
 
-    fun bind() = states as StateFlow<SearchScreenState>
-
-    fun handle(interaction: SearchInteraction) =
-        viewModelScope.launch {
-            states.value = SearchScreenState.Loading
-            interactions.send(interaction)
+    private suspend fun reduceToState(incoming: SearchInteraction) =
+        when (incoming) {
+            OpenedScreen -> loadPrefilledContent()
+            is NewQuerySet -> validateAndSave(incoming.query)
+            is SuggestionSelected -> save(incoming.query)
         }
 
-    private suspend fun loadPrefilledContent() {
+    private suspend fun loadPrefilledContent() =
         try {
             val (suggestions, history) = dataSource.searchOptions()
-            states.value = SearchScreenState.Success(suggestions, history)
+            SearchScreenState.Success(suggestions, history)
         } catch (error: Throwable) {
-            states.value = SearchScreenState.Failed(error)
-        }
-    }
-
-    private fun validateAndSave(query: String) {
-        if (SearchQueryValidation.validate(query)) {
-            save(query)
-            return
+            SearchScreenState.Failed(error)
         }
 
-        states.value = SearchScreenState.Failed(SearchHistoryError)
-    }
+    private fun validateAndSave(query: String): SearchScreenState =
+        when {
+            SearchQueryValidation.validate(query) -> save(query)
+            else -> SearchScreenState.Failed(SearchHistoryError)
+        }
 
-    private fun save(query: String) {
+    private fun save(query: String): SearchScreenState {
         dataSource.saveNewSearch(query)
-        states.value = SearchScreenState.Done
+        return SearchScreenState.Done
     }
 }
