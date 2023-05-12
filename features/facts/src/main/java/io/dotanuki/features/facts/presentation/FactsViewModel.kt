@@ -5,38 +5,29 @@ import androidx.lifecycle.viewModelScope
 import io.dotanuki.features.facts.data.FactsDataSource
 import io.dotanuki.features.facts.di.FactsContext
 import io.dotanuki.features.facts.domain.FactsRetrievalError
-import kotlinx.coroutines.channels.Channel
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.consumeAsFlow
-import kotlinx.coroutines.launch
 
 context (FactsContext)
 class FactsViewModel : ViewModel() {
 
     private val dataSource = FactsDataSource()
-    private val interactions = Channel<FactsUserInteraction>(Channel.UNLIMITED)
-    private val states = MutableStateFlow<FactsScreenState>(FactsScreenState.Idle)
 
-    fun bind() = states.asStateFlow()
+    private val stateMachine = FactsStateMachine(
+        initialState = FactsScreenState.Idle,
+        machineScope = viewModelScope,
+        stateProcessor = ::showFacts
+    )
 
-    init {
-        viewModelScope.launch {
-            interactions.consumeAsFlow().collect {
-                showFacts()
-            }
-        }
+    fun bind() = stateMachine.observe()
+
+    fun handle(newInteraction: FactsUserInteraction) {
+        stateMachine.process(
+            interaction = newInteraction,
+            temporaryState = FactsScreenState.Loading
+        )
     }
 
-    fun handle(interaction: FactsUserInteraction) {
-        viewModelScope.launch {
-            states.value = FactsScreenState.Loading
-            interactions.send(interaction)
-        }
-    }
-
-    private suspend fun showFacts() {
-        states.value = try {
+    private suspend fun showFacts() =
+        try {
             FactsScreenState.Success(fetchFacts())
         } catch (error: Throwable) {
             when (error) {
@@ -44,7 +35,6 @@ class FactsViewModel : ViewModel() {
                 else -> FactsScreenState.Failed(error)
             }
         }
-    }
 
     private suspend fun fetchFacts(): FactsPresentation {
         val actualSearch = dataSource.actualQuery()
