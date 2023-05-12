@@ -45,7 +45,7 @@ tasks.withType<KotlinCompile>().configureEach {
     kotlinOptions.jvmTarget = "11"
     kotlinOptions.freeCompilerArgs += listOf(
         "-opt-in=kotlin.time.ExperimentalTime",
-        "-opt-in=kotlin.RequiresOptIn",
+        "-opt-in=kotlin.RequiresOptIn"
     )
 }
 
