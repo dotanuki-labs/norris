@@ -22,14 +22,11 @@ import java.util.UUID
 @RunWith(AndroidJUnit4::class)
 class FactsViewModelTests {
 
-    private val restTestHelper = RestTestHelper()
-    private val localStorage = StorageTestHelper().storage
-    private val testContext = FactsContext(restTestHelper.restClient, localStorage)
+    private val restHelper = RestTestHelper()
+    private val storageHelper = StorageTestHelper()
 
-    private val viewModel =
-        with(testContext) {
-            FactsViewModelFactory().create(FactsViewModel::class.java)
-        }
+    private val testContext = FactsContext(restHelper.restClient, storageHelper.storage)
+    private val viewModel = with(testContext) { FactsViewModelFactory().create() }
 
     @Test fun `at first lunch, should start on empty state`() = runBlocking {
         viewModel.bind().test {
@@ -49,10 +46,10 @@ class FactsViewModelTests {
 
         val restScenario = RestScenario.Facts(factId, divideByZero)
 
-        restTestHelper.defineScenario(restScenario)
+        restHelper.defineScenario(restScenario)
 
         val previousSearch = "humor"
-        localStorage.registerNewSearch(previousSearch)
+        storageHelper.storage.registerNewSearch(previousSearch)
 
         viewModel.bind().test {
             assertThat(awaitItem()).isEqualTo(Idle)
@@ -78,12 +75,12 @@ class FactsViewModelTests {
 
     @Test fun `given an unsuccessful a search, should emit error`() = runBlocking {
         val previousSearch = "humor"
-        localStorage.registerNewSearch(previousSearch)
+        storageHelper.storage.registerNewSearch(previousSearch)
 
         val incomingError = HttpNetworkingError.Connectivity.OperationTimeout
 
         val restScenario = RestScenario.Error(incomingError)
-        restTestHelper.defineScenario(restScenario)
+        restHelper.defineScenario(restScenario)
 
         viewModel.bind().test {
             assertThat(awaitItem()).isEqualTo(Idle)
