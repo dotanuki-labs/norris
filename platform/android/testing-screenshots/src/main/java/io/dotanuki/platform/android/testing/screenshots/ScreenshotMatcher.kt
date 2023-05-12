@@ -10,7 +10,7 @@ import org.junit.rules.TestRule
 import org.junit.runner.Description
 import org.junit.runners.model.Statement
 
-class ScreenshotTestRule<A : Activity, State>(
+class ScreenshotMatcher<A : Activity, State>(
     private val targetClass: Class<A>,
     private val driver: ScreenshotDriver<A, State>
 ) : TestRule {
@@ -29,7 +29,7 @@ class ScreenshotTestRule<A : Activity, State>(
 
     override fun apply(base: Statement, description: Description): Statement = chain.apply(base, description)
 
-    fun checkScreenshot(state: State) {
+    fun match(state: State) {
         activityRule.scenario.run {
 
             moveToState(Lifecycle.State.CREATED)
@@ -49,6 +49,6 @@ class ScreenshotTestRule<A : Activity, State>(
 
     companion object {
         inline fun <reified A : Activity, State> create(driver: ScreenshotDriver<A, State>) =
-            ScreenshotTestRule(A::class.java, driver)
+            ScreenshotMatcher(A::class.java, driver)
     }
 }
