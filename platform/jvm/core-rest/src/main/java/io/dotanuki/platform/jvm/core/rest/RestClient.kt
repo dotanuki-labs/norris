@@ -2,7 +2,7 @@ package io.dotanuki.platform.jvm.core.rest
 
 import io.dotanuki.platform.jvm.core.rest.internal.ResilienceAwareExecution
 
-class ChuckNorrisServiceClient(
+class RestClient(
     private val service: ChuckNorrisService,
     private val resilience: HttpResilience
 ) {

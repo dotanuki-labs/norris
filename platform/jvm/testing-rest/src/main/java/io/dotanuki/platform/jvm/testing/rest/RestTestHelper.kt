@@ -1,6 +1,6 @@
 package io.dotanuki.platform.jvm.testing.rest
 
-import io.dotanuki.platform.jvm.core.rest.ChuckNorrisServiceClient
+import io.dotanuki.platform.jvm.core.rest.RestClient
 import io.dotanuki.platform.jvm.core.rest.HttpResilience
 import java.time.Duration
 
@@ -19,7 +19,7 @@ class RestTestHelper {
     }
 
     val restClient by lazy {
-        ChuckNorrisServiceClient(fakeService, testResilienceSpec)
+        RestClient(fakeService, testResilienceSpec)
     }
 
     fun defineScenario(target: RestScenario) {
