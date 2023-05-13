@@ -1,10 +1,10 @@
 package io.dotanuki.platform.jvm.core.rest.di
 
 import io.dotanuki.platform.jvm.core.rest.ChuckNorrisServiceBuilder
-import io.dotanuki.platform.jvm.core.rest.RestClient
 import io.dotanuki.platform.jvm.core.rest.HttpResilience
+import io.dotanuki.platform.jvm.core.rest.RestClient
 
-object ChuckNorrisServiceClientFactory {
+object RestClientFactory {
 
     // Note : adding a context to an object and define a property based on it
     // is not fully supported by the Kotlin compiler at the current state
