@@ -19,7 +19,7 @@ import org.testcontainers.containers.ToxiproxyContainer
 import org.testcontainers.utility.DockerImageName
 import java.time.Duration
 
-class ChuckNorrisServiceClientTests {
+class RestClientTests {
 
     private val resilienceSpec by lazy {
         HttpResilience.createDefault().copy(
@@ -55,7 +55,7 @@ class ChuckNorrisServiceClientTests {
             .dependsOn(wireMockContainer)
 
     private lateinit var toxiproxy: Proxy
-    private lateinit var chuckNorrisClient: ChuckNorrisServiceClient
+    private lateinit var chuckNorrisClient: RestClient
 
     @Before fun `before each test`() {
         val toxyProxyPort = 8666
@@ -70,7 +70,7 @@ class ChuckNorrisServiceClientTests {
 
         val baseUrl = toxiProxyContainer.let { "http://${it.host}:${it.getMappedPort(toxyProxyPort)}" }
         val service = ChuckNorrisServiceBuilder.build(baseUrl, resilienceSpec)
-        chuckNorrisClient = ChuckNorrisServiceClient(service, resilienceSpec)
+        chuckNorrisClient = RestClient(service, resilienceSpec)
     }
 
     @Test fun `should capture connection spikes as logical errors`() {

@@ -1,22 +1,22 @@
 package io.dotanuki.platform.jvm.core.rest.di
 
 import io.dotanuki.platform.jvm.core.rest.ChuckNorrisServiceBuilder
-import io.dotanuki.platform.jvm.core.rest.ChuckNorrisServiceClient
+import io.dotanuki.platform.jvm.core.rest.RestClient
 import io.dotanuki.platform.jvm.core.rest.HttpResilience
 
 object ChuckNorrisServiceClientFactory {
 
     // Note : adding a context to an object and define a property based on it
     // is not fully supported by the Kotlin compiler at the current state
-    private var memoized: ChuckNorrisServiceClient? = null
+    private var memoized: RestClient? = null
 
     context (ApiUrlFactory)
-    fun create(): ChuckNorrisServiceClient =
+    fun create(): RestClient =
         memoized ?: newClient(apiUrl).apply { memoized = this }
 
-    private fun newClient(apiUrl: String): ChuckNorrisServiceClient {
+    private fun newClient(apiUrl: String): RestClient {
         val resilience = HttpResilience.createDefault()
         val service = ChuckNorrisServiceBuilder.build(apiUrl, resilience)
-        return ChuckNorrisServiceClient(service, resilience)
+        return RestClient(service, resilience)
     }
 }
