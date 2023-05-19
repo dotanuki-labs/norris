@@ -36,7 +36,8 @@ Some of the tools used in this project that maybe you are not aware about:
 This project supports directly or indirectly a couple of posts I've posted in my blog:
 
 - [The landscape of Android screenshot testing in 2023](https://ubiratansoares.dev/posts/screenshot-testing-for-android-landscape/)
-- [Enabling fault-tolerant HTTP abstractions in Android apps with Resilience4j, Testcontainers, and Toxiproxy](https://ubiratansoares.dev/posts/enabling-http-resilience-for-android/)
+- [Enabling fault-tolerant HTTP abstractions with Resilience4j, Testcontainers, and Toxiproxy](https://ubiratansoares.dev/posts/enabling-http-resilience-for-android/)
+- [A taste of simple Dependency Injection with Kotlin Context Receivers](https://ubiratansoares.dev/posts/simple-android-di-context-receivers/)
 
 ## Credits
 
