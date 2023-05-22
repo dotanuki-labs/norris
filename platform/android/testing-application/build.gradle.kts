@@ -5,6 +5,6 @@ plugins {
 
 dependencies {
     implementation(projects.platform.android.coreNavigator)
-    implementation(projects.platform.android.corePersistance)
+    implementation(projects.platform.android.corePersistence)
     implementation(libs.androidx.appcompat)
 }

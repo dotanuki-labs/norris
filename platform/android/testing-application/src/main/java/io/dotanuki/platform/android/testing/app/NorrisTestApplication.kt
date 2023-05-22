@@ -3,12 +3,12 @@ package io.dotanuki.platform.android.testing.app
 import android.app.Application
 import io.dotanuki.platform.android.core.navigator.Screen
 import io.dotanuki.platform.android.core.navigator.ScreenMappingProvider
-import io.dotanuki.platform.android.core.persistance.PersistanceContextRegistry
+import io.dotanuki.platform.android.core.persistence.PersistenceContextRegistry
 
 class NorrisTestApplication : Application(), ScreenMappingProvider {
 
     override fun onCreate() {
-        PersistanceContextRegistry.register(this)
+        PersistenceContextRegistry.register(this)
         super.onCreate()
     }
 

@@ -6,7 +6,7 @@ plugins {
 dependencies {
     implementation(projects.platform.jvm.coreRest)
     implementation(projects.platform.android.coreAssets)
-    implementation(projects.platform.android.corePersistance)
+    implementation(projects.platform.android.corePersistence)
     implementation(projects.platform.android.coreNavigator)
 
     implementation(libs.kotlinx.coroutines.core)
@@ -25,7 +25,7 @@ dependencies {
     implementation(libs.androidx.recyclerview)
     implementation(libs.google.material.design)
 
-    testImplementation(projects.platform.android.testingPersistance)
+    testImplementation(projects.platform.android.testingPersistence)
     testImplementation(projects.platform.jvm.testingRest)
 
     testImplementation(libs.junit4)
@@ -38,7 +38,7 @@ dependencies {
     androidTestImplementation(projects.platform.jvm.testingMockserver)
     androidTestImplementation(projects.platform.android.testingApplication)
     androidTestImplementation(projects.platform.android.testingHelpers)
-    androidTestImplementation(projects.platform.android.testingPersistance)
+    androidTestImplementation(projects.platform.android.testingPersistence)
     androidTestImplementation(projects.platform.android.testingScreenshots)
 
     androidTestImplementation(libs.junit4)

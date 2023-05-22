@@ -10,7 +10,7 @@ import io.dotanuki.features.search.presentation.SearchScreenState.Failed
 import io.dotanuki.features.search.presentation.SearchScreenState.Idle
 import io.dotanuki.features.search.presentation.SearchScreenState.Loading
 import io.dotanuki.features.search.presentation.SearchScreenState.Success
-import io.dotanuki.platform.android.testing.persistance.StorageTestHelper
+import io.dotanuki.platform.android.testing.persistence.StorageTestHelper
 import io.dotanuki.platform.jvm.core.rest.HttpNetworkingError
 import io.dotanuki.platform.jvm.testing.rest.RestScenario
 import io.dotanuki.platform.jvm.testing.rest.RestTestHelper
