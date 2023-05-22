@@ -27,10 +27,10 @@ include(
     // Android platform
     ":platform:android:core-assets",
     ":platform:android:core-navigator",
-    ":platform:android:core-persistance",
+    ":platform:android:core-persistence",
     ":platform:android:testing-application",
     ":platform:android:testing-helpers",
-    ":platform:android:testing-persistance",
+    ":platform:android:testing-persistence",
     ":platform:android:testing-screenshots",
 
     // Features

@@ -23,9 +23,9 @@ internal object ConnectivityErrorTransformer : NetworkingErrorTransformer {
         isConnectionTimeout(error) ||
             cannotReachHost(error) ||
             isRequestCanceled(error) ||
-            isRequestInterrrupted(error)
+            isRequestInterrupted(error)
 
-    private fun isRequestInterrrupted(error: Throwable): Boolean =
+    private fun isRequestInterrupted(error: Throwable): Boolean =
         error is IOException &&
             error.message?.lowercase()?.contains("unexpected end of stream") ?: false
 

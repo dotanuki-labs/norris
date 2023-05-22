@@ -6,7 +6,7 @@ import androidx.test.espresso.intent.rule.IntentsRule
 import io.dotanuki.features.search.ui.SearchActivity
 import io.dotanuki.features.search.util.SearchActivityRobot
 import io.dotanuki.platform.android.testing.helpers.PrettyEspressoTraces
-import io.dotanuki.platform.android.testing.persistance.StorageTestHelper
+import io.dotanuki.platform.android.testing.persistence.StorageTestHelper
 import leakcanary.LeakAssertions
 import org.junit.Rule
 import org.junit.Test
@@ -39,7 +39,7 @@ class SearchAcceptanceTests {
         }
     }
 
-    @Test fun shouldPerformSearch_ByChosingASuggestion() {
+    @Test fun shouldPerformSearch_ByChoosingASuggestion() {
 
         listOf("code", "math").onEach {
             localStorage.registerNewSearch(it)

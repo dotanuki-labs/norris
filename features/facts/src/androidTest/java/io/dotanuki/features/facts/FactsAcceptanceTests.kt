@@ -6,7 +6,7 @@ import androidx.test.espresso.intent.rule.IntentsRule
 import io.dotanuki.features.facts.ui.FactsActivity
 import io.dotanuki.features.facts.util.FactsActivityRobot
 import io.dotanuki.platform.android.testing.helpers.PrettyEspressoTraces
-import io.dotanuki.platform.android.testing.persistance.StorageTestHelper
+import io.dotanuki.platform.android.testing.persistence.StorageTestHelper
 import leakcanary.LeakAssertions
 import org.junit.Rule
 import org.junit.Test
