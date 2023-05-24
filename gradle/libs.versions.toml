@@ -21,7 +21,7 @@ kotlinx-serialization-json = "org.jetbrains.kotlinx:kotlinx-serialization-json:1
 # Androidx
 androidx-core = "androidx.core:core:1.10.1"
 androidx-core-ktx = "androidx.core:core-ktx:1.10.1"
-androidx-activity-ktx = "androidx.activity:activity-ktx:1.7.1"
+androidx-activity-ktx = "androidx.activity:activity-ktx:1.7.2"
 androidx-lifecycle-common = "androidx.lifecycle:lifecycle-common:2.6.1"
 androidx-lifecycle-runtime = "androidx.lifecycle:lifecycle-runtime-ktx:2.6.1"
 androidx-lifecycle-vm = "androidx.lifecycle:lifecycle-viewmodel:2.6.1"
