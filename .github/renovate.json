@@ -7,14 +7,14 @@
   ],
   "osvVulnerabilityAlerts": true,
   "dependencyDashboard": true,
-  "enabledManagers": ["gradle", "gradle-wrapper", "asdf"],
+  "enabledManagers": ["gradle", "gradle-wrapper", "asdf", "github-actions"],
   "packageRules": [
     {
       "matchUpdateTypes": ["major", "minor", "patch"],
       "automerge": false
     }
   ],
-  "labels": ["dependencies", "gradle"],
+  "labels": ["dependencies"],
   "gradle": {
     "fileMatch": ["(^|\/)gradle\/.+\.toml$", "\.versions\.toml$"]
   }
