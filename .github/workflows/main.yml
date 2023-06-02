@@ -10,9 +10,6 @@ concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
 
-permissions:
-  checks: write
-  pull-requests: write
 
 jobs:
   code-quality:
@@ -190,14 +187,10 @@ jobs:
       - name: Setup Android Build
         uses: ./.github/actions/setup-android-build
 
-      - name: Check security issues in project dependencies and generate SBOM
-        run: ./gradlew clean ossIndexAudit
-
-      - name: Archive CycloneDx SBOM
-        uses: actions/upload-artifact@v3.1.2
+      - name: Report security issues to Github
+        uses: mikepenz/gradle-dependency-submission@v0.8.6
         with:
-          name: cyclonedx-sbom
-          path: ./oss-index-cyclonedx-bom.json
+          gradle-build-module: ":app"
 
       - name: Fetch APK from previous build
         uses: actions/download-artifact@v3.0.2
