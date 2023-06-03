@@ -6,11 +6,6 @@ on:
     branches:
       - master
 
-concurrency: 
-  group: ${{ github.workflow }}-${{ github.ref }}
-  cancel-in-progress: true
-
-
 jobs:
   code-quality:
     runs-on: ubuntu-20.04
@@ -191,6 +186,7 @@ jobs:
         uses: mikepenz/gradle-dependency-submission@v0.8.6
         with:
           gradle-build-module: ":app"
+          sub-module-mode: "INDIVIDUAL_DEEP"
 
       - name: Fetch APK from previous build
         uses: actions/download-artifact@v3.0.2
