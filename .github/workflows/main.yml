@@ -51,7 +51,7 @@ jobs:
       - name: Run unit tests
         uses: nick-fields/retry@v2.8.3
         with:
-          command: ./gradlew clean test --rerun --no-daemon
+          command: ./gradlew clean test --no-daemon
           timeout_minutes: 8
           max_attempts: 5
 
