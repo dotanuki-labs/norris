@@ -27,13 +27,13 @@ require_private_key() {
     fi
 }
 
-encript_with_age() {
+encrypt_with_age() {
     local plain_input="$1"
     local encrypted_output="$2"
     age -r "$age_public_key" <"$plain_input" >"$encrypted_output"
 }
 
-decriypt_with_age() {
+decrypt_with_age() {
     local encrypted_input="$1"
     local plain_output="$2"
     age --decrypt -i "$age_private_key" "$encrypted_input" >"$plain_output"
@@ -43,15 +43,15 @@ encrypt() {
     require_age
     require_private_key
     mkdir -p .config
-    encript_with_age dotanuki-demos.jks .config/dotanuki-demos.age
-    encript_with_age signing.properties .config/credentials.age
+    encrypt_with_age dotanuki-demos.jks .config/dotanuki-demos.age
+    encrypt_with_age signing.properties .config/credentials.age
 }
 
 decrypt() {
     require_age
     require_private_key
-    decriypt_with_age .config/dotanuki-demos.age dotanuki-demos.jks
-    decriypt_with_age .config/credentials.age signing.properties
+    decrypt_with_age .config/dotanuki-demos.age dotanuki-demos.jks
+    decrypt_with_age .config/credentials.age signing.properties
 }
 
 setup
