@@ -1,15 +1,16 @@
 package io.dotanuki.norris.gradle.modules.models
 
-import java.io.File
-import java.util.Properties
 import org.gradle.api.JavaVersion
 import org.gradle.api.Project
 import org.gradle.jvm.toolchain.JavaLanguageVersion
 import org.gradle.jvm.toolchain.JvmVendorSpec
+import java.io.File
+import java.util.Properties
 
 data class PlatformDefinitions(
     val androidMinSdk: Int,
     val androidTargetSdk: Int,
+    val androidCompileSdk: Int,
     val androidBuildToolsVersion: String,
     val javaCompatibilityVersion: JavaVersion,
     val targetJdkVersion: JavaLanguageVersion,
@@ -23,6 +24,7 @@ data class PlatformDefinitions(
 
             val androidMinSdk = properties.extract("android.sdk.min").toInt()
             val androidTargetSdk = properties.extract("android.sdk.target").toInt()
+            val androidCompileSdk = properties.extract("android.sdk.compile").toInt()
             val buildToolsVersion = properties.extract("android.buildtools.version")
 
             val javaBytecodeLevel = when (properties.extract("java.bytecode.level").toInt()) {
@@ -37,6 +39,7 @@ data class PlatformDefinitions(
             return PlatformDefinitions(
                 androidMinSdk,
                 androidTargetSdk,
+                androidCompileSdk,
                 buildToolsVersion,
                 javaBytecodeLevel,
                 targetJdk

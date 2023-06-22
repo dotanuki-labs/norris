@@ -22,6 +22,7 @@ class SplashActivity : AppCompatActivity() {
         }
     }
 
+    @Suppress("DEPRECATION")
     private fun proceedToFacts() {
         retrieveNavigator().navigateTo(Screen.FactsList)
         overridePendingTransition(FadeIn, FadeOut)

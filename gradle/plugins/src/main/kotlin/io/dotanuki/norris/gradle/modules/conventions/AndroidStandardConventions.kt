@@ -19,7 +19,7 @@ internal fun Project.applyAndroidStandardConventions() {
     val platformDefinitions = PlatformDefinitions.from(this)
 
     android.run {
-        compileSdkVersion(platformDefinitions.androidTargetSdk)
+        compileSdkVersion(platformDefinitions.androidCompileSdk)
         buildToolsVersion(platformDefinitions.androidBuildToolsVersion)
 
         namespace = conventionNamespace()
