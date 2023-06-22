@@ -174,7 +174,7 @@ jobs:
           fetch-depth: 0
 
       - name: Check leaking secrets on source files
-        uses: trufflesecurity/trufflehog@v3.40.0
+        uses: trufflesecurity/trufflehog@v3.41.0
         with:
           path: ./
           base: ${{ github.event.repository.default_branch }}
