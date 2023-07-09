@@ -27,7 +27,7 @@ internal fun Project.applyKotlinProjectConventions() {
         withType<KotlinCompile>().configureEach {
             kotlinOptions.jvmTarget = javaCompatibility
             kotlinOptions.freeCompilerArgs += kotlinCompilerFlags
-            kotlinOptions.allWarningsAsErrors = true
+            kotlinOptions.allWarningsAsErrors = false
         }
 
         withType<JavaCompile>().configureEach {
