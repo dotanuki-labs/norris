@@ -51,9 +51,12 @@ jobs:
       - name: Run unit tests
         uses: nick-fields/retry@v2.8.3
         with:
-          command: ./gradlew clean test --no-daemon
+          command: ./gradlew clean test --no-daemon -I gradle/init.gradle
           timeout_minutes: 8
           max_attempts: 5
+        env:
+          GITHUB_DEPENDENCY_GRAPH_JOB_CORRELATOR: "dependency-submission-gradle-plugin"
+          GITHUB_DEPENDENCY_GRAPH_JOB_ID: ${{ vars.GITHUB_JOB }}
 
       - name: Collect all test results from all modules
         if: always()
@@ -79,14 +82,17 @@ jobs:
         uses: ./.github/actions/setup-android-build
 
       - name: Assemble APKs
-        run: ./gradlew app:assembleDebug app:assembleRelease -PtestMode=true
-
+        run: ./gradlew app:assembleDebug app:assembleRelease -PtestMode=true -I gradle/init.gradle
+        env:
+          GITHUB_DEPENDENCY_GRAPH_JOB_CORRELATOR: "dependency-submission-gradle-plugin"
+          GITHUB_DEPENDENCY_GRAPH_JOB_ID: ${{ vars.GITHUB_JOB }}
+      
       - name: Archive Debug APK
         if: success()
         uses: actions/upload-artifact@v3.1.2
         with:
-            name: debug-apk
-            path: app/build/outputs/apk/debug
+          name: debug-apk
+          path: app/build/outputs/apk/debug
 
       - name: Archive Release APK
         if: success()
@@ -151,10 +157,12 @@ jobs:
         uses: ./.github/actions/setup-android-build
 
       - name: Run instrumentation tests
-        run: ./gradlew features:${{ matrix.feature }}:testDebugWithEmulatorWtf
+        run: ./gradlew features:${{ matrix.feature }}:testDebugWithEmulatorWtf -I gradle/init.gradle
         env:
           EW_API_TOKEN: ${{ secrets.EMULATOR_WTF_TOKEN }}
-
+          GITHUB_DEPENDENCY_GRAPH_JOB_CORRELATOR: "dependency-submission-gradle-plugin"
+          GITHUB_DEPENDENCY_GRAPH_JOB_ID: ${{ vars.GITHUB_JOB }}
+      
       - name: Archive test results
         if: always()
         uses: actions/upload-artifact@v3.1.2
@@ -183,14 +191,6 @@ jobs:
 
       - name: Validate Gradle Wrapper
         uses: gradle/wrapper-validation-action@v1.0.6
-
-      - name: Setup Android Build
-        uses: ./.github/actions/setup-android-build
-
-      - name: Report security issues to Github
-        uses: mikepenz/gradle-dependency-submission@v0.8.6
-        with:
-          gradle-build-module: ":app"
 
       - name: Fetch APK from previous build
         uses: actions/download-artifact@v3.0.2

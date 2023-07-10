@@ -1,0 +1,14 @@
+import org.gradle.github.GitHubDependencyGraphPlugin
+
+initscript {
+
+  repositories {
+      gradlePluginPortal()
+  }
+
+  dependencies {
+    classpath("org.gradle:github-dependency-graph-gradle-plugin:0.0.5")
+  }
+}
+
+apply plugin: GitHubDependencyGraphPlugin
