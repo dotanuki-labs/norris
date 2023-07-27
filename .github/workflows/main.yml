@@ -187,11 +187,6 @@ jobs:
       - name: Setup Android Build
         uses: ./.github/actions/setup-android-build
 
-      - name: Report security issues to Github
-        uses: mikepenz/gradle-dependency-submission@v0.9.0
-        with:
-          gradle-build-module: ":app"
-
       - name: Fetch APK from previous build
         uses: actions/download-artifact@v3.0.2
 

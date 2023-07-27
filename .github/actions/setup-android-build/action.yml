@@ -25,4 +25,4 @@ runs:
           generate-job-summary: false
           gradle-home-cache-strict-match: true
           gradle-home-cache-cleanup: true
-          dependency-graph: 'generate-and-submit'
+          dependency-graph: 'download-and-submit'
