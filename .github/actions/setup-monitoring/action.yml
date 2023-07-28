@@ -18,17 +18,21 @@ runs:
           client-id: ${{ inputs.cimon-client-id }}
           secret: ${{ inputs.cimon-client-secret }}
           prevent: true
+          report-job-summary: ${{ github.event_name == 'pull_request' }}
           allowed-hosts: >
-                production.cloudflare.docker.com
-                registry-1.docker.io
-                cdn.azul.com
-                codeload.github.com
-                plugins.gradle.org
-                downloads.gradle.org
-                api.emulator.wtf
-                api.mobile.dev
-                appsweep.guardsquare.com
-                storage.googleapis.com
-                api.emergetools.com
-                emerge-uploads-prod.s3-accelerate.amazonaws.com
-                repo.maven.apache.org
+            production.cloudflare.docker.com
+            registry-1.docker.io
+            cdn.azul.com
+            codeload.github.com
+            plugins.gradle.org
+            downloads.gradle.org
+            api.emulator.wtf
+            maven.emulator.wtf
+            api.mobile.dev
+            appsweep.guardsquare.com
+            storage.googleapis.com
+            dl.google.com
+            api.emergetools.com
+            emerge-uploads-prod.s3-accelerate.amazonaws.com
+            repo.maven.apache.org
+                
