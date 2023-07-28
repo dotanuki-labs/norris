@@ -27,12 +27,6 @@ gradlePlugin {
             implementationClass = "io.dotanuki.norris.gradle.modules.AutoModulePlugin"
         }
 
-        create("security-checks-plugin") {
-            id = "io.dotanuki.gradle.security"
-            displayName = "Security Checks Gradle Plugin"
-            implementationClass = "io.dotanuki.norris.gradle.security.SecurityChecksPlugin"
-        }
-
         create("feature-matrix-plugin") {
             id = "io.dotanuki.gradle.featurematrix"
             displayName = "Feature Matrix Gradle Plugin"
@@ -61,6 +55,5 @@ dependencies {
     compileOnly(deps.gradle.kotlin)
     compileOnly(deps.gradle.kotlin)
     compileOnly(deps.gradle.testlogger)
-    compileOnly(deps.gradle.oss.scan)
     compileOnly(deps.gradle.emulator.wtf)
 }

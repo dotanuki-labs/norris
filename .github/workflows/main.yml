@@ -184,9 +184,6 @@ jobs:
       - name: Validate Gradle Wrapper
         uses: gradle/wrapper-validation-action@v1.1.0
 
-      - name: Setup Android Build
-        uses: ./.github/actions/setup-android-build
-
       - name: Fetch APK from previous build
         uses: actions/download-artifact@v3.0.2
 
