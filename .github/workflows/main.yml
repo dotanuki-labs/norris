@@ -17,14 +17,14 @@ jobs:
     timeout-minutes: 10
 
     steps:
-      - name: Setup Monitoring
-        uses: cycodelabs/cimon-action@v0.7.3
-        with:
-          client-id: ${{ secrets.CIMON_CLIENT_ID }}
-          secret: ${{ secrets.CIMON_CLIENT_SECRET }}
-      
       - name: Project Checkout
         uses: actions/checkout@v3.5.3
+
+      - name: Setup Monitoring
+        uses: ./.github/actions/setup-monitoring
+        with:
+          cimon-client-id: ${{ secrets.CIMON_CLIENT_ID }}
+          cimon-client-secret: ${{ secrets.CIMON_CLIENT_SECRET }}
 
       - name: Install asdf
         uses: asdf-vm/actions/setup@v2.2.0
@@ -48,14 +48,14 @@ jobs:
     needs: [code-quality]
 
     steps:
-      - name: Setup Monitoring
-        uses: cycodelabs/cimon-action@v0.7.3
-        with:
-          client-id: ${{ secrets.CIMON_CLIENT_ID }}
-          secret: ${{ secrets.CIMON_CLIENT_SECRET }}
-
       - name: Project Checkout
         uses: actions/checkout@v3.5.3
+
+      - name: Setup Monitoring
+        uses: ./.github/actions/setup-monitoring
+        with:
+          cimon-client-id: ${{ secrets.CIMON_CLIENT_ID }}
+          cimon-client-secret: ${{ secrets.CIMON_CLIENT_SECRET }}
 
       - name: Setup Android Build
         uses: ./.github/actions/setup-android-build
@@ -84,14 +84,14 @@ jobs:
     needs: [code-quality]
 
     steps:
-      - name: Setup Monitoring
-        uses: cycodelabs/cimon-action@v0.7.3
-        with:
-          client-id: ${{ secrets.CIMON_CLIENT_ID }}
-          secret: ${{ secrets.CIMON_CLIENT_SECRET }}
-
       - name: Project Checkout
         uses: actions/checkout@v3.5.3
+
+      - name: Setup Monitoring
+        uses: ./.github/actions/setup-monitoring
+        with:
+          cimon-client-id: ${{ secrets.CIMON_CLIENT_ID }}
+          cimon-client-secret: ${{ secrets.CIMON_CLIENT_SECRET }}
 
       - name: Setup Android Build
         uses: ./.github/actions/setup-android-build
@@ -103,8 +103,8 @@ jobs:
         if: success()
         uses: actions/upload-artifact@v3.1.2
         with:
-            name: debug-apk
-            path: app/build/outputs/apk/debug
+          name: debug-apk
+          path: app/build/outputs/apk/debug
 
       - name: Archive Release APK
         if: success()
@@ -126,14 +126,14 @@ jobs:
     needs: [assemble-apk]
 
     steps:
-      - name: Setup Monitoring
-        uses: cycodelabs/cimon-action@v0.7.3
-        with:
-          client-id: ${{ secrets.CIMON_CLIENT_ID }}
-          secret: ${{ secrets.CIMON_CLIENT_SECRET }}
-
       - name: Project Checkout
         uses: actions/checkout@v3.5.3
+
+      - name: Setup Monitoring
+        uses: ./.github/actions/setup-monitoring
+        with:
+          cimon-client-id: ${{ secrets.CIMON_CLIENT_ID }}
+          cimon-client-secret: ${{ secrets.CIMON_CLIENT_SECRET }}
 
       - name: Install asdf
         uses: asdf-vm/actions/setup@v2.2.0
@@ -159,14 +159,14 @@ jobs:
         feature: [ 'facts', 'search' ]
 
     steps:
-      - name: Setup Monitoring
-        uses: cycodelabs/cimon-action@v0.7.3
-        with:
-          client-id: ${{ secrets.CIMON_CLIENT_ID }}
-          secret: ${{ secrets.CIMON_CLIENT_SECRET }}
-
       - name: Project Checkout
         uses: actions/checkout@v3.5.3
+
+      - name: Setup Monitoring
+        uses: ./.github/actions/setup-monitoring
+        with:
+          cimon-client-id: ${{ secrets.CIMON_CLIENT_ID }}
+          cimon-client-secret: ${{ secrets.CIMON_CLIENT_SECRET }}
 
       - name: Fetch Instrumentation artefacts
         uses: actions/download-artifact@v3.0.2
@@ -198,16 +198,16 @@ jobs:
     needs: assemble-apk
 
     steps:
-      - name: Setup Monitoring
-        uses: cycodelabs/cimon-action@v0.7.3
-        with:
-          client-id: ${{ secrets.CIMON_CLIENT_ID }}
-          secret: ${{ secrets.CIMON_CLIENT_SECRET }}
-
       - name: Project Checkout
         uses: actions/checkout@v3.5.3
         with:
           fetch-depth: 0
+
+      - name: Setup Monitoring
+        uses: ./.github/actions/setup-monitoring
+        with:
+          cimon-client-id: ${{ secrets.CIMON_CLIENT_ID }}
+          cimon-client-secret: ${{ secrets.CIMON_CLIENT_SECRET }}
 
       - name: Check leaking secrets on source files
         uses: trufflesecurity/trufflehog@v3.45.3
@@ -237,11 +237,14 @@ jobs:
     needs: assemble-apk
 
     steps:
+      - name: Project Checkout
+        uses: actions/checkout@v3.5.3
+
       - name: Setup Monitoring
-        uses: cycodelabs/cimon-action@v0.7.3
+        uses: ./.github/actions/setup-monitoring
         with:
-          client-id: ${{ secrets.CIMON_CLIENT_ID }}
-          secret: ${{ secrets.CIMON_CLIENT_SECRET }}
+          cimon-client-id: ${{ secrets.CIMON_CLIENT_ID }}
+          cimon-client-secret: ${{ secrets.CIMON_CLIENT_SECRET }}
 
       - name: Fetch Instrumentation artefacts
         uses: actions/download-artifact@v3.0.2
@@ -258,12 +261,6 @@ jobs:
     timeout-minutes: 25
     needs: [unit-tests, instrumentation-tests, functional-tests]
     steps:
-      - name: Setup Monitoring
-        uses: cycodelabs/cimon-action@v0.7.3
-        with:
-          client-id: ${{ secrets.CIMON_CLIENT_ID }}
-          secret: ${{ secrets.CIMON_CLIENT_SECRET }}
-
       - name: Project Checkout
         uses: actions/checkout@v3.5.3
 
