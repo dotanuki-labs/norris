@@ -13,13 +13,11 @@ buildscript {
         classpath(libs.gradle.kotlinx.serialization)
         classpath(libs.gradle.testlogger)
         classpath(libs.gradle.dropshots)
-        classpath(libs.gradle.oss.scan)
         classpath(libs.gradle.emulator.wtf)
     }
 }
 
 plugins {
-    id("io.dotanuki.gradle.security")
     id("io.dotanuki.gradle.featurematrix")
 }
 

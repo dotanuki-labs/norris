@@ -69,8 +69,5 @@ signing.properties
 dotanuki-demos.jks
 norris-key.txt
 
-# SBOMs
-oss-index-cyclonedx-bom.json
-
 # MobSF
 mobsf-reports
