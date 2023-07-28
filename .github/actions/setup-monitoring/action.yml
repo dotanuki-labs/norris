@@ -1,0 +1,38 @@
+name: "Setup Workflow monitoring"
+description: "Configure networking monitoring rules for GHA jobs"
+
+inputs:
+   cimon-client-id:
+        description: “Client ID for CIMON”
+        required: true
+   cimon-client-secret:
+       description: “Client Secret for CIMON”
+       required: true
+
+runs:
+  using: "composite"
+  steps:
+      - name: Setup Monitoring
+        uses: cycodelabs/cimon-action@v0.7.3
+        with:
+          client-id: ${{ inputs.cimon-client-id }}
+          secret: ${{ inputs.cimon-client-secret }}
+          prevent: true
+          report-job-summary: ${{ github.event_name == 'pull_request' }}
+          allowed-hosts: >
+            production.cloudflare.docker.com
+            registry-1.docker.io
+            cdn.azul.com
+            codeload.github.com
+            plugins.gradle.org
+            downloads.gradle.org
+            api.emulator.wtf
+            maven.emulator.wtf
+            api.mobile.dev
+            appsweep.guardsquare.com
+            storage.googleapis.com
+            dl.google.com
+            api.emergetools.com
+            emerge-uploads-prod.s3-accelerate.amazonaws.com
+            repo.maven.apache.org
+                
