@@ -210,7 +210,7 @@ jobs:
           cimon-client-secret: ${{ secrets.CIMON_CLIENT_SECRET }}
 
       - name: Check leaking secrets on source files
-        uses: trufflesecurity/trufflehog@v3.45.3
+        uses: trufflesecurity/trufflehog@v3.46.1
         with:
           path: ./
           base: ${{ github.event.repository.default_branch }}
