@@ -97,7 +97,7 @@ jobs:
         uses: ./.github/actions/setup-android-build
 
       - name: Assemble APKs
-        run: ./gradlew app:assembleDebug app:assembleRelease -PtestMode=true
+        run: ./gradlew app:assembleRelease -PtestMode=true --no-daemon
 
       - name: Archive Debug APK
         if: success()

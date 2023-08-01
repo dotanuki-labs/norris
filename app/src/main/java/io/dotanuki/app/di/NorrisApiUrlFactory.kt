@@ -7,7 +7,7 @@ object NorrisApiUrlFactory : ApiUrlFactory {
 
     override val apiUrl by lazy {
         when {
-            BuildConfig.IS_TEST_MODE -> "https://norris-app.mocklab.io"
+            BuildConfig.IS_TEST_MODE -> "https://norris.wiremockapi.cloud"
             else -> "https://api.chucknorris.io"
         }
     }

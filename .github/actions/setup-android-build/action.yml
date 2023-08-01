@@ -23,6 +23,6 @@ runs:
         uses: gradle/gradle-build-action@v2.7.0
         with:
           generate-job-summary: false
-          gradle-home-cache-strict-match: true
+          gradle-home-cache-strict-match: false
           gradle-home-cache-cleanup: true
           dependency-graph: 'generate-and-submit'
