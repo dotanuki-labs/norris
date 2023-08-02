@@ -14,3 +14,7 @@ keytool\
     -keyalg RSA\
     -keysize 2048\
     -validity 10000
+
+
+mkdir -p "$HOME/.config/.android"
+cp "$HOME/.android/debug.keystore" "$HOME/.config/.android/debug.keystore"
