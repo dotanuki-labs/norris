@@ -34,15 +34,18 @@ class ScreenshotMatcher<A : Activity, State>(
 
             moveToState(Lifecycle.State.CREATED)
 
-            onActivity {
-                driver.beforeCapturing(it, state)
+            onActivity { target ->
+                driver.beforeCapturing(target, state)
                 Thread.sleep(1000L)
             }
 
             moveToState(Lifecycle.State.RESUMED)
 
-            onActivity {
-                dropshots.assertSnapshot(it, driver.imageName(state))
+            onActivity { target ->
+                dropshots.assertSnapshot(
+                    activity = target,
+                    name = driver.imageName(state)
+                )
             }
         }
     }
