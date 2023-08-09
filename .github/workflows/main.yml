@@ -13,7 +13,7 @@ concurrency:
 
 jobs:
   code-quality:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
     timeout-minutes: 10
 
     steps:
@@ -37,7 +37,7 @@ jobs:
         uses: crate-ci/typos@v1.16.2
 
   unit-tests:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
     timeout-minutes: 10
     needs: [code-quality]
 
@@ -67,7 +67,7 @@ jobs:
           path: build/test-reports
 
   assemble-apk:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
     timeout-minutes: 25
     needs: [code-quality]
 
@@ -103,7 +103,7 @@ jobs:
           path: app/build/outputs/mapping/release
 
   functional-tests:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
     timeout-minutes: 25
     needs: [assemble-apk]
 
@@ -127,7 +127,7 @@ jobs:
           MOBILE_DEV_CLOUD_TOKEN: ${{ secrets.MOBILE_DEV_CLOUD_TOKEN }}
 
   instrumentation-tests:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
     needs: [code-quality]
     timeout-minutes: 20
     strategy:
@@ -163,7 +163,7 @@ jobs:
           path: features/${{ matrix.feature }}/build/test-results
 
   security-analysis:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
     timeout-minutes: 25
     needs: assemble-apk
 
@@ -196,7 +196,7 @@ jobs:
           MAPPING_FILE: release-mappings/mapping.txt
 
   app-size-analysis:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
     timeout-minutes: 10
     needs: assemble-apk
 
@@ -215,7 +215,7 @@ jobs:
           build_type: release
 
   test-results-analysis:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
     timeout-minutes: 25
     needs: [unit-tests, instrumentation-tests, functional-tests]
     steps:
