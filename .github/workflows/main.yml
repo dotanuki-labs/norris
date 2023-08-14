@@ -81,13 +81,6 @@ jobs:
       - name: Assemble APKs
         run: ./gradlew app:assembleRelease -PtestMode=true --no-daemon
 
-      - name: Archive Debug APK
-        if: success()
-        uses: actions/upload-artifact@v3.1.2
-        with:
-          name: debug-apk
-          path: app/build/outputs/apk/debug
-
       - name: Archive Release APK
         if: success()
         uses: actions/upload-artifact@v3.1.2
