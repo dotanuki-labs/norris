@@ -58,4 +58,8 @@ dependencies {
         exclude(group = "org.jetbrains.kotlin")
         exclude(group = "org.checkerframework")
     }
+
+    constraints {
+        androidTestImplementation(libs.forced.google.atf)
+    }
 }
