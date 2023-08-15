@@ -67,4 +67,4 @@ testcontainers-core = "org.testcontainers:testcontainers:1.18.3"
 testcontainers-toxyproxy = "org.testcontainers:toxiproxy:1.18.3"
 
 # Security patches
-forced-google-atf = "com.google.android.apps.common.testing.accessibility.framework:accessibility-test-framework:4.0.0"
+forced-jsoup = "org.jsoup:jsoup:1.16.1"
