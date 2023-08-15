@@ -59,6 +59,6 @@ dependencies {
     }
 
     constraints {
-        androidTestImplementation(libs.forced.google.atf)
+        androidTestImplementation(libs.forced.jsoup)
     }
 }
