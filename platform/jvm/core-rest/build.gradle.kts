@@ -24,4 +24,8 @@ dependencies {
     testImplementation(libs.slf4j)
     testImplementation(libs.testcontainers.core)
     testImplementation(libs.testcontainers.toxyproxy)
+
+    constraints {
+        implementation(libs.forced.okio)
+    }
 }

@@ -11,4 +11,8 @@ dependencies {
     implementation(libs.square.retrofit)
     implementation(libs.kotlinx.serialization.json)
     implementation(libs.junit4)
+
+    constraints {
+        implementation(libs.forced.okio)
+    }
 }
