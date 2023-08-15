@@ -57,7 +57,6 @@ cashapp-turbine = "app.cash.turbine:turbine:1.0.0"
 resilience4j-retry = "io.github.resilience4j:resilience4j-retry:1.7.1"
 resilience4j-kotlin = "io.github.resilience4j:resilience4j-kotlin:1.7.1"
 
-
 # Other / Testing
 junit4 = "junit:junit:4.13.2"
 slf4j = "org.slf4j:slf4j-nop:2.0.7"
@@ -66,3 +65,6 @@ adevinta-barista = "com.adevinta.android:barista:4.3.0"
 dropshots = "com.dropbox.dropshots:dropshots:0.4.1"
 testcontainers-core = "org.testcontainers:testcontainers:1.18.3"
 testcontainers-toxyproxy = "org.testcontainers:toxiproxy:1.18.3"
+
+# Security patches
+forced-google-atf = "com.google.android.apps.common.testing.accessibility.framework:accessibility-test-framework:4.0.0"
