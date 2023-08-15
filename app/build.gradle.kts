@@ -21,4 +21,8 @@ dependencies {
     implementation(libs.androidx.lifecycle.runtime)
     implementation(libs.square.okhttp.core)
     implementation(libs.square.retrofit)
+
+    constraints {
+        implementation(libs.forced.okio)
+    }
 }
