@@ -1,7 +1,7 @@
 # Norris
 [![ktlint](https://img.shields.io/badge/code%20style-%E2%9D%A4-FF4081.svg)](https://ktlint.github.io/) 
 [![Maintainability](https://api.codeclimate.com/v1/badges/42704b7b56bbdba33b99/maintainability)](https://codeclimate.com/github/dotanuki-labs/norris/maintainability) 
-![Main](https://github.com/dotanuki-labs/norris/workflows/Main/badge.svg)
+[![CI](https://github.com/dotanuki-labs/norris/actions/workflows/main.yml/badge.svg?branch=master)](https://github.com/dotanuki-labs/norris/actions/workflows/main.yml)
 [![License](https://img.shields.io/github/license/dotanuki-labs/norris)](https://choosealicense.com/licenses/mit)
 
 > An app that existed even before Android existed! 🔥
