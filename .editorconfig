@@ -18,4 +18,5 @@ ktlint_standard_filename = disabled
 ktlint_standard_import-ordering = disabled
 ktlint_standard_multiline-if-else = disabled
 ktlint_standard_trailing-comma-on-call-site = disabled
-ktlint_standard_trailing-comma-on-declaration-site = disabled
+ktlint_standard_function-signature = disabled
+ktlint_standard_property-naming = disabled
