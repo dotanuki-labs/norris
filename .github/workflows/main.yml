@@ -191,6 +191,7 @@ jobs:
   app-size-analysis:
     runs-on: ubuntu-22.04
     timeout-minutes: 10
+    if: github.ref == 'refs/heads/master'
     needs: assemble-apk
 
     steps:
