@@ -8,7 +8,6 @@ pull_request_rules:
       - author~=^dependabot(|-preview)\[bot\]$
       - check-success=security-analysis
       - check-success=test-results-analysis
-      - check-success=app-size-analysis
     actions:
       merge:
         method: squash
@@ -18,7 +17,6 @@ pull_request_rules:
       - author~=^renovate\[bot\]$
       - check-success=security-analysis
       - check-success=test-results-analysis
-      - check-success=app-size-analysis
     actions:
       merge:
         method: squash
@@ -28,7 +26,6 @@ pull_request_rules:
       - author~=^dotanukibot
       - check-success=security-analysis
       - check-success=test-results-analysis
-      - check-success=app-size-analysis
     actions:
       merge:
         method: squash
@@ -38,7 +35,6 @@ pull_request_rules:
       - author~=^ubiratansoares
       - check-success=security-analysis
       - check-success=test-results-analysis
-      - check-success=app-size-analysis
     actions:
       merge:
         method: squash
