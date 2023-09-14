@@ -20,7 +20,6 @@ echo
 asdf plugin add ktlint || true
 asdf plugin add detekt https://github.com/dotanuki-labs/asdf-detekt.git || true
 asdf plugin add maestro https://github.com/dotanuki-labs/asdf-maestro.git || true
-asdf plugin add ew-cli https://github.com/dotanuki-labs/asdf-emulatorwtf.git || true
 asdf install
 echo
 
