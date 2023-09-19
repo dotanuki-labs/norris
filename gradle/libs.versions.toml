@@ -54,8 +54,8 @@ jw-retrofit-kotlinx = "com.jakewharton.retrofit:retrofit2-kotlinx-serialization-
 cashapp-turbine = "app.cash.turbine:turbine:1.0.0"
 
 # Resilience4j
-resilience4j-retry = "io.github.resilience4j:resilience4j-retry:1.7.1"
-resilience4j-kotlin = "io.github.resilience4j:resilience4j-kotlin:1.7.1"
+resilience4j-retry = "io.github.resilience4j:resilience4j-retry:2.1.0"
+resilience4j-kotlin = "io.github.resilience4j:resilience4j-kotlin:2.1.0"
 
 # Other / Testing
 junit4 = "junit:junit:4.13.2"
