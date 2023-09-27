@@ -34,7 +34,7 @@ jobs:
         run: ./scripts/code-style-bash.sh
 
       - name: Check typos on code
-        uses: crate-ci/typos@v1.16.14
+        uses: crate-ci/typos@v1.16.15
 
   unit-tests:
     runs-on: ubuntu-22.04
