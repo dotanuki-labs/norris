@@ -20,7 +20,7 @@ runs:
         run: ${{ github.action_path }}/setup-android-keystore.sh
 
       - name: Setup Cache
-        uses: gradle/gradle-build-action@v2.8.1
+        uses: gradle/gradle-build-action@v2.9.0
         with:
           generate-job-summary: false
           gradle-home-cache-strict-match: false
