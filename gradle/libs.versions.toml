@@ -63,8 +63,8 @@ slf4j = "org.slf4j:slf4j-nop:2.0.9"
 robolectric = "org.robolectric:robolectric:4.10.3"
 adevinta-barista = "com.adevinta.android:barista:4.3.0"
 dropshots = "com.dropbox.dropshots:dropshots:0.4.1"
-testcontainers-core = "org.testcontainers:testcontainers:1.19.0"
-testcontainers-toxyproxy = "org.testcontainers:toxiproxy:1.19.0"
+testcontainers-core = "org.testcontainers:testcontainers:1.19.1"
+testcontainers-toxyproxy = "org.testcontainers:toxiproxy:1.19.1"
 
 # Security patches
 forced-jsoup = "org.jsoup:jsoup:1.16.1"
