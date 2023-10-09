@@ -21,7 +21,7 @@ jobs:
         uses: actions/checkout@8ade135a41bc03ea155e62e844d188df1ea18608 # v4.1.0
 
       - name: Install asdf
-        uses: asdf-vm/actions/setup@v2.2.0
+        uses: asdf-vm/actions/setup@v3.0.0
 
       - name: Install local CLI tooling
         shell: bash
@@ -105,7 +105,7 @@ jobs:
         uses: actions/checkout@8ade135a41bc03ea155e62e844d188df1ea18608 # v4.1.0
 
       - name: Install asdf
-        uses: asdf-vm/actions/setup@v2.2.0
+        uses: asdf-vm/actions/setup@v3.0.0
 
       - name: Install local CLI tooling
         shell: bash
@@ -135,7 +135,7 @@ jobs:
         uses: actions/download-artifact@v3.0.2
 
       - name: Install asdf
-        uses: asdf-vm/actions/setup@v2.2.0
+        uses: asdf-vm/actions/setup@v3.0.0
 
       - name: Install local CLI tooling
         run: ./scripts/setup-asdf.sh
