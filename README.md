@@ -26,7 +26,7 @@ the following use cases
 
 Some of the tools used in this project that maybe you are not aware about:
 
-- [Maestro Clould](https://maestro.mobile.dev/) for E2E testing
+- [Maestro Cloud](https://maestro.mobile.dev/) for E2E testing
 - [Emulator.wtf](https://emulator.wtf) as a device farm
 - [AppSweep](https://appsweep.guardsquare.com) to drive Security checks over a release build
 - [Mergify](https://mergify.com/) for Pull Request automation
