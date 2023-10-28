@@ -182,11 +182,11 @@ jobs:
 
       - name: Analyse APK with AppSweep
         uses: guardsquare/appsweep-action@main
-        env:
-          APPSWEEP_API_KEY: ${{ secrets.APP_SWEEP_TOKEN }}
-          COMMIT_HASH: ${{ steps.vars.outputs.sha_short }}
-          INPUT_FILE: release-apk/app-release.apk
-          MAPPING_FILE: release-mappings/mapping.txt
+        with:
+          appsweep_api_key: ${{ secrets.APP_SWEEP_TOKEN }}
+          commit_hash: ${{ steps.vars.outputs.sha_short }}
+          input_file: release-apk/app-release.apk
+          mapping_file: release-mappings/mapping.txt
 
   app-size-analysis:
     runs-on: ubuntu-22.04
