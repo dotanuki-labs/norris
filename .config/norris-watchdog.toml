@@ -1,4 +1,4 @@
-applicationId = "io.dotanuki.demos.norris"
+applicationId = "io.dotanuki.norris.android"
 permissions = [
     "android.permission.INTERNET"
 ]
