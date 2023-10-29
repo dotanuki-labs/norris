@@ -1,0 +1,16 @@
+applicationId = "io.dotanuki.norris.android"
+permissions = [
+    "android.permission.INTERNET"
+]
+features = [
+    "android.hardware.faketouch"
+]
+trustedPackages = [
+    "io.dotanuki"
+]
+activities = [  ]
+services = [  ]
+receivers = [  ]
+providers = [
+    "androidx.lifecycle.ProcessLifecycleOwnerInitializer"
+]

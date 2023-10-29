@@ -166,6 +166,12 @@ jobs:
         with:
           fetch-depth: 0
 
+      - name: Install asdf
+        uses: asdf-vm/actions/setup@v3.0.2
+
+      - name: Install local CLI tooling
+        run: ./scripts/setup-asdf.sh
+
       - name: Check leaking secrets on source files
         uses: trufflesecurity/trufflehog@v3.61.0
         with:
@@ -179,6 +185,9 @@ jobs:
 
       - name: Fetch APK from previous build
         uses: actions/download-artifact@v3.0.2
+
+      - name: Compare APK with baseline
+        run: aaw compare -a release-apk/app-release.apk -b .config/norris-watchdog.toml
 
       - name: Analyse APK with AppSweep
         uses: guardsquare/appsweep-action@main
