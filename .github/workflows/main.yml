@@ -51,7 +51,7 @@ jobs:
       - name: Run unit tests
         uses: nick-fields/retry@v2.9.0
         with:
-          command: ./gradlew clean test --no-daemon
+          command: ./gradlew clean test --no-daemon --scan
           timeout_minutes: 8
           max_attempts: 5
 
@@ -79,7 +79,7 @@ jobs:
         uses: ./.github/actions/setup-android-build
 
       - name: Assemble APKs
-        run: ./gradlew app:assembleRelease -PtestMode=true --no-daemon
+        run: ./gradlew app:assembleRelease -PtestMode=true --no-daemon --scan
 
       - name: Archive Release APK
         if: success()
@@ -144,7 +144,7 @@ jobs:
         uses: ./.github/actions/setup-android-build
 
       - name: Run instrumentation tests
-        run: ./gradlew features:${{ matrix.feature }}:testDebugWithEmulatorWtf
+        run: ./gradlew features:${{ matrix.feature }}:testDebugWithEmulatorWtf --scan
         env:
           EW_API_TOKEN: ${{ secrets.EMULATOR_WTF_TOKEN }}
 
