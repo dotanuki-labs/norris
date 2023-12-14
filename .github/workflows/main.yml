@@ -173,7 +173,7 @@ jobs:
         run: ./scripts/setup-asdf.sh
 
       - name: Check leaking secrets on source files
-        uses: trufflesecurity/trufflehog@v3.63.2
+        uses: trufflesecurity/trufflehog@v3.63.3
         with:
           path: ./
           base: ${{ github.event.repository.default_branch }}
