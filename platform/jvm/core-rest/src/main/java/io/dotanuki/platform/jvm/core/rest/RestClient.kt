@@ -4,9 +4,8 @@ import io.dotanuki.platform.jvm.core.rest.internal.ResilienceAwareExecution
 
 class RestClient(
     private val service: ChuckNorrisService,
-    private val resilience: HttpResilience
+    private val resilience: HttpResilience,
 ) {
-
     private val resilienceAwareExecution by lazy {
         ResilienceAwareExecution.create(resilience)
     }

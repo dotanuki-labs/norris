@@ -14,15 +14,15 @@ import java.io.File
 
 @CacheableTask
 abstract class FeatureMatrixTask : DefaultTask() {
-
     @get:InputFiles @get:PathSensitive(PathSensitivity.RELATIVE) abstract val featureModules: ConfigurableFileCollection
 
     @get:OutputFile abstract val matrixFile: RegularFileProperty
 
     init {
-        val features = project.rootProject.subprojects.filter {
-            it.layout.projectDirectory.asFile.path.contains("features/")
-        }
+        val features =
+            project.rootProject.subprojects.filter {
+                it.layout.projectDirectory.asFile.path.contains("features/")
+            }
 
         featureModules.from(features.map { it.layout.projectDirectory.asFile })
         matrixFile.set(project.matrixOutputFile())

@@ -10,7 +10,6 @@ import java.net.SocketTimeoutException
 import java.net.UnknownHostException
 
 internal object ConnectivityErrorTransformer : NetworkingErrorTransformer {
-
     override fun transform(incoming: Throwable) =
         when {
             (!isNetworkingError(incoming)) -> incoming

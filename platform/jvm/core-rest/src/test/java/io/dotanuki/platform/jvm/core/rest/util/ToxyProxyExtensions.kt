@@ -4,9 +4,10 @@ import eu.rekawek.toxiproxy.Proxy
 import eu.rekawek.toxiproxy.model.Toxic
 import eu.rekawek.toxiproxy.model.ToxicDirection
 
-fun Toxic.setToxicity(level: ToxicityLevel) = apply {
-    toxicity = level.value
-}
+fun Toxic.setToxicity(level: ToxicityLevel) =
+    apply {
+        toxicity = level.value
+    }
 
 fun Proxy.limitData(numberOfBytes: Int): Toxic =
     toxics().limitData("limit-data", ToxicDirection.DOWNSTREAM, numberOfBytes.toLong())

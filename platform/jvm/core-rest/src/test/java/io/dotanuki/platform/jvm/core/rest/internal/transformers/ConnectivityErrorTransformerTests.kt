@@ -11,7 +11,6 @@ import java.net.UnknownHostException
 import org.junit.Test
 
 class ConnectivityErrorTransformerTests {
-
     @Test fun `should transform connectivity errors surfaced by the HTTP stack`() {
         listOf(
             UnknownHostException("No Internet") to Connectivity.HostUnreachable,

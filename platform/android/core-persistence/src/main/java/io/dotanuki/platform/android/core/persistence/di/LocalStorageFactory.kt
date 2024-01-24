@@ -5,7 +5,6 @@ import io.dotanuki.platform.android.core.persistence.LocalStorage
 import io.dotanuki.platform.android.core.persistence.PersistenceContextRegistry
 
 object LocalStorageFactory {
-
     private const val prefsName = "last-searches"
 
     private val memoized by lazy {

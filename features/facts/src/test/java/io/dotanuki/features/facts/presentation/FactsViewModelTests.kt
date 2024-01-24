@@ -21,75 +21,78 @@ import java.util.UUID
 
 @RunWith(AndroidJUnit4::class)
 class FactsViewModelTests {
-
     private val restHelper = RestTestHelper()
     private val storageHelper = StorageTestHelper()
 
     private val testContext = FactsContext(restHelper.restClient, storageHelper.storage)
     private val viewModel = with(testContext) { FactsViewModelFactory().create() }
 
-    @Test fun `at first lunch, should start on empty state`() = runBlocking {
-        viewModel.bind().test {
-            assertThat(awaitItem()).isEqualTo(Idle)
+    @Test fun `at first lunch, should start on empty state`() =
+        runBlocking {
+            viewModel.bind().test {
+                assertThat(awaitItem()).isEqualTo(Idle)
 
-            viewModel.handle(FactsUserInteraction.OpenedScreen)
+                viewModel.handle(FactsUserInteraction.OpenedScreen)
 
-            assertThat(awaitItem()).isEqualTo(Loading)
-            assertThat(awaitItem()).isEqualTo(Empty)
-            cancelAndIgnoreRemainingEvents()
+                assertThat(awaitItem()).isEqualTo(Loading)
+                assertThat(awaitItem()).isEqualTo(Empty)
+                cancelAndIgnoreRemainingEvents()
+            }
         }
-    }
 
-    @Test fun `given a successful a search, should emit results`() = runBlocking {
-        val factId = UUID.randomUUID().toString()
-        val divideByZero = "Chuck Norris can divide by zero"
+    @Test fun `given a successful a search, should emit results`() =
+        runBlocking {
+            val factId = UUID.randomUUID().toString()
+            val divideByZero = "Chuck Norris can divide by zero"
 
-        val restScenario = RestScenario.Facts(factId, divideByZero)
+            val restScenario = RestScenario.Facts(factId, divideByZero)
 
-        restHelper.defineScenario(restScenario)
+            restHelper.defineScenario(restScenario)
 
-        val previousSearch = "humor"
-        storageHelper.storage.registerNewSearch(previousSearch)
+            val previousSearch = "humor"
+            storageHelper.storage.registerNewSearch(previousSearch)
 
-        viewModel.bind().test {
-            assertThat(awaitItem()).isEqualTo(Idle)
+            viewModel.bind().test {
+                assertThat(awaitItem()).isEqualTo(Idle)
 
-            viewModel.handle(FactsUserInteraction.OpenedScreen)
+                viewModel.handle(FactsUserInteraction.OpenedScreen)
 
-            assertThat(awaitItem()).isEqualTo(Loading)
+                assertThat(awaitItem()).isEqualTo(Loading)
 
-            val facts = listOf(
-                FactDisplayRow(
-                    url = "https://api.chucknorris.io/jokes/$factId",
-                    fact = divideByZero,
-                    displayWithSmallerFontSize = false
-                )
-            )
+                val facts =
+                    listOf(
+                        FactDisplayRow(
+                            url = "https://api.chucknorris.io/jokes/$factId",
+                            fact = divideByZero,
+                            displayWithSmallerFontSize = false
+                        )
+                    )
 
-            val presentation = FactsPresentation(previousSearch, facts)
+                val presentation = FactsPresentation(previousSearch, facts)
 
-            assertThat(awaitItem()).isEqualTo(Success(presentation))
-            cancelAndIgnoreRemainingEvents()
+                assertThat(awaitItem()).isEqualTo(Success(presentation))
+                cancelAndIgnoreRemainingEvents()
+            }
         }
-    }
 
-    @Test fun `given an unsuccessful a search, should emit error`() = runBlocking {
-        val previousSearch = "humor"
-        storageHelper.storage.registerNewSearch(previousSearch)
+    @Test fun `given an unsuccessful a search, should emit error`() =
+        runBlocking {
+            val previousSearch = "humor"
+            storageHelper.storage.registerNewSearch(previousSearch)
 
-        val incomingError = HttpNetworkingError.Connectivity.OperationTimeout
+            val incomingError = HttpNetworkingError.Connectivity.OperationTimeout
 
-        val restScenario = RestScenario.Error(incomingError)
-        restHelper.defineScenario(restScenario)
+            val restScenario = RestScenario.Error(incomingError)
+            restHelper.defineScenario(restScenario)
 
-        viewModel.bind().test {
-            assertThat(awaitItem()).isEqualTo(Idle)
+            viewModel.bind().test {
+                assertThat(awaitItem()).isEqualTo(Idle)
 
-            viewModel.handle(FactsUserInteraction.OpenedScreen)
+                viewModel.handle(FactsUserInteraction.OpenedScreen)
 
-            assertThat(awaitItem()).isEqualTo(Loading)
-            assertThat(awaitItem()).isEqualTo(Failed(incomingError))
-            cancelAndIgnoreRemainingEvents()
+                assertThat(awaitItem()).isEqualTo(Loading)
+                assertThat(awaitItem()).isEqualTo(Failed(incomingError))
+                cancelAndIgnoreRemainingEvents()
+            }
         }
-    }
 }

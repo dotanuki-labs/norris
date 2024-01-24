@@ -12,7 +12,6 @@ import org.junit.runner.RunWith
 
 @RunWith(AndroidJUnit4::class)
 class SearchScreenshotTests {
-
     @get:Rule val screenshotMatcher = ScreenshotMatcher.create(SearchScreenshotsDriver)
 
     @Test fun errorState() {
@@ -22,10 +21,11 @@ class SearchScreenshotTests {
     }
 
     @Test fun contentWithHistory() {
-        val state = SearchScreenState.Success(
-            suggestions = listOf("science", "celebrity", "humor"),
-            history = listOf("code")
-        )
+        val state =
+            SearchScreenState.Success(
+                suggestions = listOf("science", "celebrity", "humor"),
+                history = listOf("code")
+            )
 
         screenshotMatcher.match(state)
     }

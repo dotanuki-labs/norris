@@ -12,9 +12,8 @@ import org.junit.runners.model.Statement
 
 class ScreenshotMatcher<A : Activity, State>(
     private val targetClass: Class<A>,
-    private val driver: ScreenshotDriver<A, State>
+    private val driver: ScreenshotDriver<A, State>,
 ) : TestRule {
-
     private val activityRule by lazy {
         ActivityScenarioRule(targetClass)
     }

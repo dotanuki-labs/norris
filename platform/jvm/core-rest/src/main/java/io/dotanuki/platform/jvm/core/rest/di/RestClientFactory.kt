@@ -5,7 +5,6 @@ import io.dotanuki.platform.jvm.core.rest.HttpResilience
 import io.dotanuki.platform.jvm.core.rest.RestClient
 
 object RestClientFactory {
-
     // Note : adding a context to an object and define a property based on it
     // is not fully supported by the Kotlin compiler at the current state
     private var memoized: RestClient? = null

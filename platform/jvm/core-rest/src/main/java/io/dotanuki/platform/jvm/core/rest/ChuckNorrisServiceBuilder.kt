@@ -10,7 +10,6 @@ import okhttp3.logging.HttpLoggingInterceptor.Level
 import retrofit2.Retrofit
 
 object ChuckNorrisServiceBuilder {
-
     private val jsonConfig by lazy {
         Json {
             isLenient = false
@@ -33,12 +32,13 @@ object ChuckNorrisServiceBuilder {
     }
 
     fun build(apiURL: String, config: HttpResilience): ChuckNorrisService {
-        val retroft = with(Retrofit.Builder()) {
-            baseUrl(apiURL.toHttpUrl())
-            client(createHttpClient(config))
-            addConverterFactory(jsonConfig.asConverterFactory(contentType))
-            build()
-        }
+        val retroft =
+            with(Retrofit.Builder()) {
+                baseUrl(apiURL.toHttpUrl())
+                client(createHttpClient(config))
+                addConverterFactory(jsonConfig.asConverterFactory(contentType))
+                build()
+            }
 
         return retroft.create(ChuckNorrisService::class.java)
     }

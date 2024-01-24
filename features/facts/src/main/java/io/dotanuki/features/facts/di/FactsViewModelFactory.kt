@@ -6,7 +6,6 @@ import io.dotanuki.features.facts.presentation.FactsViewModel
 
 context(FactsContext)
 internal class FactsViewModelFactory : ViewModelProvider.Factory {
-
     @Suppress("UNCHECKED_CAST")
     override fun <VM : ViewModel> create(modelClass: Class<VM>): VM =
         FactsViewModel() as VM

@@ -13,7 +13,6 @@ import org.junit.runner.RunWith
 
 @RunWith(AndroidJUnit4::class)
 class FactsScreenshotTests {
-
     @get:Rule val screenshotMatcher = ScreenshotMatcher.create(FactsScreenshotsDriver)
 
     @Test fun emptyState() {
@@ -27,18 +26,19 @@ class FactsScreenshotTests {
     }
 
     @Test fun successState() {
-        val facts = listOf(
-            FactDisplayRow(
-                url = "https://chucknorris.io/jokes/12345",
-                fact = "Chuck Norris can divide by zero",
-                displayWithSmallerFontSize = false
-            ),
-            FactDisplayRow(
-                url = "https://chucknorris.io/jokes/998877",
-                fact = "Chuck Norris merges before commit anything on Git",
-                displayWithSmallerFontSize = false
+        val facts =
+            listOf(
+                FactDisplayRow(
+                    url = "https://chucknorris.io/jokes/12345",
+                    fact = "Chuck Norris can divide by zero",
+                    displayWithSmallerFontSize = false
+                ),
+                FactDisplayRow(
+                    url = "https://chucknorris.io/jokes/998877",
+                    fact = "Chuck Norris merges before commit anything on Git",
+                    displayWithSmallerFontSize = false
+                )
             )
-        )
 
         val presentation = FactsPresentation("humor", facts)
         val state = FactsScreenState.Success(presentation)

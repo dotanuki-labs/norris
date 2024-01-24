@@ -5,7 +5,6 @@ import io.dotanuki.platform.jvm.core.rest.internal.NetworkingErrorTransformer
 import retrofit2.HttpException
 
 internal object RestfulErrorTransformer : NetworkingErrorTransformer {
-
     override fun transform(incoming: Throwable) =
         when (incoming) {
             is HttpException -> translateUsingStatusCode(incoming.code())

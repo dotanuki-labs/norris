@@ -11,7 +11,6 @@ import org.junit.runner.RunWith
 
 @RunWith(AndroidJUnit4::class)
 class LocalStorageTests {
-
     private val storage by lazy {
         val instrumentionContext = InstrumentationRegistry.getInstrumentation().targetContext
         val app = instrumentionContext.applicationContext as Application

@@ -7,7 +7,6 @@ import io.dotanuki.features.facts.ui.FactsActivity
 import io.dotanuki.platform.jvm.testing.mockserver.MockServerUrlFactory
 
 class FactsComponentFactory : AppComponentFactory() {
-
     override fun instantiateActivityCompat(loader: ClassLoader, className: String, intent: Intent?) =
         with(MockServerUrlFactory) {
             when (loader.loadClass(className)) {

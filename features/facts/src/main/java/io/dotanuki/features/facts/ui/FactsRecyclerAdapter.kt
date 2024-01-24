@@ -11,9 +11,8 @@ import io.dotanuki.features.facts.presentation.FactsPresentation
 
 class FactsRecyclerAdapter(
     private val presentation: FactsPresentation,
-    private val shareAction: (String) -> Unit
+    private val shareAction: (String) -> Unit,
 ) : RecyclerView.Adapter<FactsRecyclerAdapter.ViewHolder>() {
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val inflater = LayoutInflater.from(parent.context)
         val view = inflater.inflate(R.layout.list_item_fact, parent, false)
@@ -27,14 +26,15 @@ class FactsRecyclerAdapter(
     }
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-
         fun bind(row: FactDisplayRow, action: (String) -> Unit) {
             itemView.run {
                 val factLabel = itemView.findViewById<TextView>(R.id.factLabel)
 
                 val appearance =
-                    if (row.displayWithSmallerFontSize) R.style.BigFact
-                    else R.style.SmallFact
+                    if (row.displayWithSmallerFontSize)
+                        R.style.BigFact
+                    else
+                        R.style.SmallFact
 
                 factLabel.setTextAppearance(appearance)
                 factLabel.text = row.fact

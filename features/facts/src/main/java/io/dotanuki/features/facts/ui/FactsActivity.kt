@@ -16,7 +16,6 @@ import kotlinx.coroutines.launch
 
 context (FactsContext)
 class FactsActivity : AppCompatActivity(), FactsEventsHandler {
-
     private val viewModel by viewModels<FactsViewModel> { FactsViewModelFactory() }
     private val navigator by lazy { retrieveNavigator() }
 

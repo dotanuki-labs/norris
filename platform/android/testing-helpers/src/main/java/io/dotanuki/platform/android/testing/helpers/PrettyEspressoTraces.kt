@@ -6,7 +6,6 @@ import androidx.test.platform.app.InstrumentationRegistry
 import radiography.Radiography
 
 object PrettyEspressoTraces {
-
     fun install() {
         val context = InstrumentationRegistry.getInstrumentation().targetContext
         val installedFailureHandler = DefaultFailureHandler(context)

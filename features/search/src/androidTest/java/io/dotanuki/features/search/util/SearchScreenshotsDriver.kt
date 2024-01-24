@@ -6,7 +6,6 @@ import io.dotanuki.features.search.ui.SearchView
 import io.dotanuki.platform.android.testing.screenshots.ScreenshotDriver
 
 object SearchScreenshotsDriver : ScreenshotDriver<SearchScreenshotsHelperActivity, SearchScreenState> {
-
     override fun beforeCapturing(target: SearchScreenshotsHelperActivity, state: SearchScreenState) {
         val searchView = target.findViewById<SearchView>(R.id.searchScreenRoot)
         listOf(SearchScreenState.Idle, state).forEach { searchView.updateWith(it) }

@@ -12,12 +12,13 @@ internal fun Project.applyKotlinProjectConventions() {
     val platform = PlatformDefinitions.from(this)
     val javaCompatibility = platform.javaCompatibilityVersion.toString()
 
-    val kotlinCompilerFlags = listOf(
-        "-opt-in=kotlin.time.ExperimentalTime",
-        "-opt-in=kotlin.RequiresOptIn",
-        "-Xstring-concat=inline",
-        "-Xcontext-receivers"
-    )
+    val kotlinCompilerFlags =
+        listOf(
+            "-opt-in=kotlin.time.ExperimentalTime",
+            "-opt-in=kotlin.RequiresOptIn",
+            "-Xstring-concat=inline",
+            "-Xcontext-receivers"
+        )
 
     kotlinExtension.jvmToolchain {
         languageVersion.set(platform.targetJdkVersion)

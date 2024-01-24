@@ -8,14 +8,14 @@ import io.dotanuki.features.facts.domain.FactsRetrievalError
 
 context (FactsContext)
 class FactsViewModel : ViewModel() {
-
     private val dataSource = FactsDataSource()
 
-    private val stateMachine = FactsStateMachine(
-        initialState = FactsScreenState.Idle,
-        machineScope = viewModelScope,
-        stateProcessor = ::showFacts
-    )
+    private val stateMachine =
+        FactsStateMachine(
+            initialState = FactsScreenState.Idle,
+            machineScope = viewModelScope,
+            stateProcessor = ::showFacts
+        )
 
     fun bind() = stateMachine.observe()
 
