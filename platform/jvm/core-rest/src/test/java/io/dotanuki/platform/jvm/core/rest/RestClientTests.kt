@@ -29,13 +29,13 @@ class RestClientTests {
 
     private val toxyProxyImage by lazy {
         val componentName = "ghcr.io/shopify/toxiproxy"
-        val imageTag = "2.5.0"
+        val imageTag = "2.7.0"
         DockerImageName.parse(componentName).withTag(imageTag)
     }
 
     private val wireMockServerImage by lazy {
         val componentName = "wiremock/wiremock"
-        val imageTag = "2.32.0"
+        val imageTag = "3.3.1-1"
         DockerImageName.parse(componentName).withTag(imageTag)
     }
 
