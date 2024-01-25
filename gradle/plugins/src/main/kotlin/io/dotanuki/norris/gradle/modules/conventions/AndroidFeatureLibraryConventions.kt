@@ -23,7 +23,8 @@ fun Project.applyAndroidFeatureLibraryConventions() {
                 listOf(
                     "META-INF/*.kotlin_module",
                     "META-INF/AL2.0",
-                    "META-INF/LGPL2.1"
+                    "META-INF/LGPL2.1",
+                    "COPYRIGHT.txt"
                 )
             )
         }
