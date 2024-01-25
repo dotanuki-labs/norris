@@ -8,15 +8,14 @@ import io.dotanuki.platform.jvm.core.rest.di.RestClientFactory
 
 internal data class SearchContext(
     val restClient: RestClient,
-    val localStorage: LocalStorage
+    val localStorage: LocalStorage,
 ) {
-
     companion object {
-
         context (ApiUrlFactory)
-        fun standard() = SearchContext(
-            restClient = RestClientFactory.create(),
-            localStorage = LocalStorageFactory.create()
-        )
+        fun standard() =
+            SearchContext(
+                restClient = RestClientFactory.create(),
+                localStorage = LocalStorageFactory.create()
+            )
     }
 }

@@ -8,7 +8,6 @@ import com.adevinta.android.barista.interaction.BaristaSleepInteractions
 import io.dotanuki.features.facts.R
 
 class FactsActivityRobot {
-
     fun checkDisplayed(targetText: String) {
         BaristaVisibilityAssertions.assertDisplayed(targetText)
     }

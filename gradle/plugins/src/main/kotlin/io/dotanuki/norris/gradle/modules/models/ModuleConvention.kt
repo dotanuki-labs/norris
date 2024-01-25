@@ -7,7 +7,8 @@ internal enum class ModuleConvention {
     KOTLIN_PLATFORM_LIBRARY,
     ANDROID_PLATFORM_LIBRARY,
     ANDROID_FEATURE_LIBRARY,
-    ANDROID_APPLICATION;
+    ANDROID_APPLICATION,
+    ;
 
     companion object {
         private const val WRONG_LOCATION = "<module> not defined as :platform or :features sub-modules"

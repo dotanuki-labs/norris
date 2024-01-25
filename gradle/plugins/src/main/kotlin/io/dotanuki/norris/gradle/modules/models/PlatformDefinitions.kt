@@ -14,9 +14,8 @@ data class PlatformDefinitions(
     val androidBuildToolsVersion: String,
     val javaCompatibilityVersion: JavaVersion,
     val targetJdkVersion: JavaLanguageVersion,
-    val targetJdkVendor: JvmVendorSpec = JvmVendorSpec.AZUL
+    val targetJdkVendor: JvmVendorSpec = JvmVendorSpec.AZUL,
 ) {
-
     companion object {
         fun from(project: Project): PlatformDefinitions {
             val propertiesFile = File("${project.rootProject.rootDir}/platform.properties")
@@ -27,11 +26,12 @@ data class PlatformDefinitions(
             val androidCompileSdk = properties.extract("android.sdk.compile").toInt()
             val buildToolsVersion = properties.extract("android.buildtools.version")
 
-            val javaBytecodeLevel = when (properties.extract("java.bytecode.level").toInt()) {
-                8 -> JavaVersion.VERSION_1_8
-                11 -> JavaVersion.VERSION_11
-                else -> error("Compatible Java levels are : $COMPATIBLE_JAVA_BYTECODE_LEVELS")
-            }
+            val javaBytecodeLevel =
+                when (properties.extract("java.bytecode.level").toInt()) {
+                    8 -> JavaVersion.VERSION_1_8
+                    11 -> JavaVersion.VERSION_11
+                    else -> error("Compatible Java levels are : $COMPATIBLE_JAVA_BYTECODE_LEVELS")
+                }
 
             val javaToolchainVersion = properties.extract("java.toolchain.version").toInt()
             val targetJdk = JavaLanguageVersion.of(javaToolchainVersion)

@@ -5,9 +5,8 @@ import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine
 
 class LocalStorage internal constructor(
-    private val prefs: SharedPreferences
+    private val prefs: SharedPreferences,
 ) {
-
     suspend fun lastSearches(): List<String> {
         return suspendCoroutine { continuation ->
             continuation.resume(

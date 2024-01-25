@@ -4,7 +4,7 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class RawSearch(
-    val result: List<RawFact>
+    val result: List<RawFact>,
 )
 
 @Serializable
@@ -12,5 +12,5 @@ data class RawFact(
     val id: String,
     val url: String,
     val value: String,
-    val categories: List<String>
+    val categories: List<String>,
 )

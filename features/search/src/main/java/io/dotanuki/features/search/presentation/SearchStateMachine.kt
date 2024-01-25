@@ -11,7 +11,7 @@ import kotlinx.coroutines.launch
 class SearchStateMachine(
     initialState: SearchScreenState,
     private val machineScope: CoroutineScope,
-    private val stateProcessor: suspend (SearchInteraction) -> SearchScreenState
+    private val stateProcessor: suspend (SearchInteraction) -> SearchScreenState,
 ) {
     private val interactions: Channel<SearchInteraction> = Channel(UNLIMITED)
     private val states: MutableStateFlow<SearchScreenState> = MutableStateFlow(initialState)
@@ -28,7 +28,7 @@ class SearchStateMachine(
 
     fun process(
         interaction: SearchInteraction,
-        temporaryState: SearchScreenState? = null
+        temporaryState: SearchScreenState? = null,
     ) {
         machineScope.launch {
             temporaryState?.let { states.value = it }

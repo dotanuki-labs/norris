@@ -1,7 +1,6 @@
 package io.dotanuki.features.search.domain
 
 object SearchQueryValidation {
-
     fun validate(query: String) = REGEX.matches(query)
 
     private val REGEX by lazy {

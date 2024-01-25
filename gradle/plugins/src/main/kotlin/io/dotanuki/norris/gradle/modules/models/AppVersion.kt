@@ -5,5 +5,5 @@ internal data class AppVersion(
     val major: Int,
     val minor: Int,
     val patch: Int,
-    val code: Int
+    val code: Int,
 )

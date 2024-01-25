@@ -29,7 +29,6 @@ import io.dotanuki.features.facts.presentation.FactsScreenState.Success
 import io.dotanuki.platform.android.core.assets.R as assetsR
 
 class FactsView @JvmOverloads constructor(ctx: Context, attrs: AttributeSet? = null) : CoordinatorLayout(ctx, attrs) {
-
     private lateinit var eventsHandler: FactsEventsHandler
     private lateinit var viewBinding: ViewFactsBinding
 
@@ -133,10 +132,11 @@ class FactsView @JvmOverloads constructor(ctx: Context, attrs: AttributeSet? = n
 
         val highlightColor = ContextCompat.getColor(context, assetsR.color.colorAccent)
 
-        val highlightedFact = SpannableString(query).apply {
-            setSpan(StyleSpan(Typeface.BOLD), 0, query.length, Spannable.SPAN_EXCLUSIVE_INCLUSIVE)
-            setSpan(ForegroundColorSpan(highlightColor), 0, query.length, Spannable.SPAN_EXCLUSIVE_INCLUSIVE)
-        }
+        val highlightedFact =
+            SpannableString(query).apply {
+                setSpan(StyleSpan(Typeface.BOLD), 0, query.length, Spannable.SPAN_EXCLUSIVE_INCLUSIVE)
+                setSpan(ForegroundColorSpan(highlightColor), 0, query.length, Spannable.SPAN_EXCLUSIVE_INCLUSIVE)
+            }
 
         val prefix = resources.getString(R.string.headline_facts)
         val headline = SpannableStringBuilder(prefix).append(" : ").append(highlightedFact)

@@ -11,7 +11,6 @@ import android.R.anim.fade_in as FadeIn
 import android.R.anim.fade_out as FadeOut
 
 class SplashActivity : AppCompatActivity() {
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_splash)

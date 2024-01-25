@@ -6,7 +6,6 @@ import io.dotanuki.platform.android.core.persistence.PersistenceContextRegistry
 import io.dotanuki.platform.android.core.persistence.di.LocalStorageFactory
 
 class StorageTestHelper {
-
     val storage by lazy {
         val instrumentionContext = InstrumentationRegistry.getInstrumentation().targetContext
         val app = instrumentionContext.applicationContext as Application

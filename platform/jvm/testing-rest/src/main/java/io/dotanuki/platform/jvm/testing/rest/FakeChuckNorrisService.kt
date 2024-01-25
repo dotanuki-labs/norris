@@ -5,7 +5,6 @@ import io.dotanuki.platform.jvm.core.rest.RawFact
 import io.dotanuki.platform.jvm.core.rest.RawSearch
 
 internal class FakeChuckNorrisService : ChuckNorrisService {
-
     var scenario: RestScenario = RestScenario.NotDefined
 
     override suspend fun categories(): List<String> =
@@ -22,9 +21,10 @@ internal class FakeChuckNorrisService : ChuckNorrisService {
             else -> error("Scenario does not apply for 'search'")
         }
 
-    private fun rawSearch(id: String, fact: String) = RawSearch(
-        listOf(
-            RawFact(id, "https://api.chucknorris.io/jokes/$id", fact, emptyList())
+    private fun rawSearch(id: String, fact: String) =
+        RawSearch(
+            listOf(
+                RawFact(id, "https://api.chucknorris.io/jokes/$id", fact, emptyList())
+            )
         )
-    )
 }

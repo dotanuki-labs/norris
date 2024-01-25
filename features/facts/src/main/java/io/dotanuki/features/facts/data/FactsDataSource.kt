@@ -7,7 +7,6 @@ import io.dotanuki.platform.jvm.core.rest.RawSearch
 
 context (FactsContext)
 class FactsDataSource {
-
     suspend fun search(term: String): List<ChuckNorrisFact> {
         if (term.isEmpty()) throw FactsRetrievalError.EmptyTerm
 

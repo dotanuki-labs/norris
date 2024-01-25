@@ -20,7 +20,6 @@ import org.junit.runner.RunWith
 
 @RunWith(AndroidJUnit4::class)
 class SearchViewModelTests {
-
     private val restHelper = RestTestHelper()
     private val storageHelper = StorageTestHelper()
 
@@ -29,62 +28,66 @@ class SearchViewModelTests {
 
     private val categories = listOf("career", "celebrity", "dev")
 
-    @Test fun `at first lunch should display only suggestions`() = runBlocking {
-        val scenario = RestScenario.Categories(categories)
-        restHelper.defineScenario(scenario)
+    @Test fun `at first lunch should display only suggestions`() =
+        runBlocking {
+            val scenario = RestScenario.Categories(categories)
+            restHelper.defineScenario(scenario)
 
-        viewModel.bind().test {
-            assertThat(awaitItem()).isEqualTo(Idle)
+            viewModel.bind().test {
+                assertThat(awaitItem()).isEqualTo(Idle)
 
-            viewModel.handle(SearchInteraction.OpenedScreen)
+                viewModel.handle(SearchInteraction.OpenedScreen)
 
-            assertThat(awaitItem()).isEqualTo(Loading)
-            assertThat(awaitItem()).isEqualTo(Success(categories, history = emptyList()))
-            cancelAndIgnoreRemainingEvents()
+                assertThat(awaitItem()).isEqualTo(Loading)
+                assertThat(awaitItem()).isEqualTo(Success(categories, history = emptyList()))
+                cancelAndIgnoreRemainingEvents()
+            }
         }
-    }
 
-    @Test fun `should emit error when loading suggestions`() = runBlocking {
-        val serviceDown = HttpNetworkingError.Restful.Server(500)
-        val scenario = RestScenario.Error(serviceDown)
-        restHelper.defineScenario(scenario)
+    @Test fun `should emit error when loading suggestions`() =
+        runBlocking {
+            val serviceDown = HttpNetworkingError.Restful.Server(500)
+            val scenario = RestScenario.Error(serviceDown)
+            restHelper.defineScenario(scenario)
 
-        viewModel.bind().test {
-            assertThat(awaitItem()).isEqualTo(Idle)
+            viewModel.bind().test {
+                assertThat(awaitItem()).isEqualTo(Idle)
 
-            viewModel.handle(SearchInteraction.OpenedScreen)
+                viewModel.handle(SearchInteraction.OpenedScreen)
 
-            assertThat(awaitItem()).isEqualTo(Loading)
-            assertThat(awaitItem()).isEqualTo(Failed(serviceDown))
-            cancelAndIgnoreRemainingEvents()
+                assertThat(awaitItem()).isEqualTo(Loading)
+                assertThat(awaitItem()).isEqualTo(Failed(serviceDown))
+                cancelAndIgnoreRemainingEvents()
+            }
         }
-    }
 
-    @Test fun `should proceed saving term chosen from suggestions`() = runBlocking {
-        val scenario = RestScenario.Categories(categories)
-        restHelper.defineScenario(scenario)
+    @Test fun `should proceed saving term chosen from suggestions`() =
+        runBlocking {
+            val scenario = RestScenario.Categories(categories)
+            restHelper.defineScenario(scenario)
 
-        storageHelper.storage.registerNewSearch("code")
+            storageHelper.storage.registerNewSearch("code")
 
-        viewModel.bind().test {
-            assertThat(awaitItem()).isEqualTo(Idle)
+            viewModel.bind().test {
+                assertThat(awaitItem()).isEqualTo(Idle)
 
-            viewModel.handle(SearchInteraction.OpenedScreen)
+                viewModel.handle(SearchInteraction.OpenedScreen)
 
-            assertThat(awaitItem()).isEqualTo(Loading)
+                assertThat(awaitItem()).isEqualTo(Loading)
 
-            val success = Success(
-                suggestions = listOf("career", "celebrity", "dev"),
-                history = listOf("code")
-            )
+                val success =
+                    Success(
+                        suggestions = listOf("career", "celebrity", "dev"),
+                        history = listOf("code")
+                    )
 
-            assertThat(awaitItem()).isEqualTo(success)
+                assertThat(awaitItem()).isEqualTo(success)
 
-            viewModel.handle(SearchInteraction.NewQuerySet("math"))
+                viewModel.handle(SearchInteraction.NewQuerySet("math"))
 
-            assertThat(awaitItem()).isEqualTo(Loading)
-            assertThat(awaitItem()).isEqualTo(Done)
-            cancelAndIgnoreRemainingEvents()
+                assertThat(awaitItem()).isEqualTo(Loading)
+                assertThat(awaitItem()).isEqualTo(Done)
+                cancelAndIgnoreRemainingEvents()
+            }
         }
-    }
 }

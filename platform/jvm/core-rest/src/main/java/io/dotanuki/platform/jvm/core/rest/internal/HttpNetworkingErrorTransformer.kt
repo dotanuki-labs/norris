@@ -5,12 +5,12 @@ import io.dotanuki.platform.jvm.core.rest.internal.transformers.DataMarshallingE
 import io.dotanuki.platform.jvm.core.rest.internal.transformers.RestfulErrorTransformer
 
 internal object HttpNetworkingErrorTransformer : NetworkingErrorTransformer {
-
-    private val transformers = listOf(
-        RestfulErrorTransformer,
-        ConnectivityErrorTransformer,
-        DataMarshallingErrorTransformer
-    )
+    private val transformers =
+        listOf(
+            RestfulErrorTransformer,
+            ConnectivityErrorTransformer,
+            DataMarshallingErrorTransformer
+        )
 
     override fun transform(incoming: Throwable): Throwable =
         transformers

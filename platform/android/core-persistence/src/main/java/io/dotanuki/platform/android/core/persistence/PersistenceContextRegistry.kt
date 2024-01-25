@@ -3,7 +3,6 @@ package io.dotanuki.platform.android.core.persistence
 import android.app.Application
 
 object PersistenceContextRegistry {
-
     private var app: Application? = null
 
     fun register(target: Application) {

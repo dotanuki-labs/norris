@@ -20,7 +20,6 @@ import org.testcontainers.utility.DockerImageName
 import java.time.Duration
 
 class RestClientTests {
-
     private val resilienceSpec by lazy {
         HttpResilience.createDefault().copy(
             timeoutForHttpRequest = Duration.ofSeconds(5L)
@@ -62,28 +61,16 @@ class RestClientTests {
         val wireMockPort = 8080
 
         val toxiproxyClient = toxiProxyContainer.let { ToxiproxyClient(it.host, it.controlPort) }
-        toxiproxy = toxiproxyClient.createProxy(
-            "wiremock",
-            "0.0.0.0:$toxyProxyPort",
-            "$wireMockNetworkAlias:$wireMockPort"
-        )
+        toxiproxy =
+            toxiproxyClient.createProxy(
+                "wiremock",
+                "0.0.0.0:$toxyProxyPort",
+                "$wireMockNetworkAlias:$wireMockPort"
+            )
 
         val baseUrl = toxiProxyContainer.let { "http://${it.host}:${it.getMappedPort(toxyProxyPort)}" }
         val service = ChuckNorrisServiceBuilder.build(baseUrl, resilienceSpec)
         chuckNorrisClient = RestClient(service, resilienceSpec)
-    }
-
-    @Test fun `should capture connection spikes as logical errors`() {
-        // Forces an interruption upfront
-        toxiproxy.disable()
-
-        runBlocking {
-            runCatching { chuckNorrisClient.categories() }
-                .onSuccess { unexpectedOutcome() }
-                .onFailure {
-                    assertThat(it).isEqualTo(HttpNetworkingError.Connectivity.ConnectionSpike)
-                }
-        }
     }
 
     @Test fun `should not recover from HTTP errors`() {

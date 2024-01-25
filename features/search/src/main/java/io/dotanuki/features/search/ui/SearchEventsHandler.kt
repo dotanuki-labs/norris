@@ -1,7 +1,6 @@
 package io.dotanuki.features.search.ui
 
 interface SearchEventsHandler {
-
     fun onChipClicked(term: String)
 
     fun onNewSearch(term: String)

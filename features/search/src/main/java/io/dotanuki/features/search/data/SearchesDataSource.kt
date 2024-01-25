@@ -5,7 +5,6 @@ import io.dotanuki.features.search.domain.SearchOptions
 
 context (SearchContext)
 class SearchesDataSource {
-
     suspend fun searchOptions(): SearchOptions =
         SearchOptions(
             recommendations = restClient.categories(),

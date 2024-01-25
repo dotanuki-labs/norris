@@ -6,9 +6,8 @@ import com.google.android.material.chip.ChipGroup
 
 class ChipsGroupPopulator(
     private val group: ChipGroup,
-    private val chipLayout: Int
+    private val chipLayout: Int,
 ) {
-
     private val inflater by lazy {
         LayoutInflater.from(group.context)
     }

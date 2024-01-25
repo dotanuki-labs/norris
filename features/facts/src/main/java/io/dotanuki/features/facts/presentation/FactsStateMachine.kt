@@ -11,7 +11,7 @@ import kotlinx.coroutines.launch
 class FactsStateMachine(
     initialState: FactsScreenState,
     private val machineScope: CoroutineScope,
-    private val stateProcessor: suspend () -> FactsScreenState
+    private val stateProcessor: suspend () -> FactsScreenState,
 ) {
     private val interactions: Channel<FactsUserInteraction> = Channel(UNLIMITED)
     private val states: MutableStateFlow<FactsScreenState> = MutableStateFlow(initialState)
@@ -26,7 +26,7 @@ class FactsStateMachine(
 
     fun process(
         interaction: FactsUserInteraction,
-        temporaryState: FactsScreenState? = null
+        temporaryState: FactsScreenState? = null,
     ) {
         machineScope.launch {
             temporaryState?.let { states.value = it }

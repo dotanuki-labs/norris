@@ -5,7 +5,6 @@ import io.dotanuki.platform.jvm.core.rest.HttpResilience
 import java.time.Duration
 
 class RestTestHelper {
-
     private val testResilienceSpec by lazy {
         HttpResilience(
             retriesAttemptPerRequest = 3,

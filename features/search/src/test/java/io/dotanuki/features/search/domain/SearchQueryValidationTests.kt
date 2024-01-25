@@ -4,7 +4,6 @@ import com.google.common.truth.Truth.assertThat
 import org.junit.Test
 
 class SearchQueryValidationTests {
-
     @Test fun `should validate query`() {
         listOf(
             "" to false,

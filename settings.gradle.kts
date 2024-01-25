@@ -11,7 +11,7 @@ pluginManagement {
 }
 
 plugins {
-    id("org.gradle.toolchains.foojay-resolver-convention") version("0.8.0")
+    id("org.gradle.toolchains.foojay-resolver-convention") version ("0.8.0")
     id("com.gradle.enterprise") version "3.16.1"
 }
 
@@ -25,13 +25,11 @@ gradleEnterprise {
 include(
     // Product
     ":app",
-
     // JVM platform
     ":platform:jvm:core-rest",
     ":platform:jvm:testing-helpers",
     ":platform:jvm:testing-mockserver",
     ":platform:jvm:testing-rest",
-
     // Android platform
     ":platform:android:core-assets",
     ":platform:android:core-navigator",
@@ -40,10 +38,9 @@ include(
     ":platform:android:testing-helpers",
     ":platform:android:testing-persistence",
     ":platform:android:testing-screenshots",
-
     // Features
     ":features:facts",
-    ":features:search"
+    ":features:search",
 )
 
 enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")

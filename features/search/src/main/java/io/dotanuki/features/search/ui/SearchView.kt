@@ -22,7 +22,6 @@ import io.dotanuki.features.search.presentation.SearchScreenState.Loading
 import io.dotanuki.features.search.presentation.SearchScreenState.Success
 
 class SearchView @JvmOverloads constructor(ctx: Context, attrs: AttributeSet? = null) : CoordinatorLayout(ctx, attrs) {
-
     lateinit var eventsHandler: SearchEventsHandler
     private val receivedStates = mutableListOf<SearchScreenState>()
 
@@ -107,20 +106,25 @@ class SearchView @JvmOverloads constructor(ctx: Context, attrs: AttributeSet? = 
 
         if (actionId == EditorInfo.IME_ACTION_DONE) {
 
-            if (SearchQueryValidation.validate(actual)) eventsHandler.onNewSearch(actual)
-            else showError(R.string.error_snackbar_cannot_proceed)
+            if (SearchQueryValidation.validate(actual))
+                eventsHandler.onNewSearch(actual)
+            else
+                showError(R.string.error_snackbar_cannot_proceed)
         }
     }
 
     private fun TextInputEditText.validate(current: Editable?) {
         current.toString().let {
-            error = when {
-                it.isEmpty() -> null
-                else -> {
-                    if (SearchQueryValidation.validate(it)) null
-                    else resources.getString(R.string.error_querytextfield_invalid_query)
+            error =
+                when {
+                    it.isEmpty() -> null
+                    else -> {
+                        if (SearchQueryValidation.validate(it))
+                            null
+                        else
+                            resources.getString(R.string.error_querytextfield_invalid_query)
+                    }
                 }
-            }
         }
     }
 

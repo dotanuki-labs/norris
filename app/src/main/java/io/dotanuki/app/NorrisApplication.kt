@@ -7,9 +7,9 @@ import io.dotanuki.platform.android.core.navigator.Screen
 import io.dotanuki.platform.android.core.navigator.ScreenMappingProvider
 
 class NorrisApplication : Application(), ScreenMappingProvider {
-
-    override fun screenMap() = mapOf(
-        Screen.FactsList to FactsActivity::class.java,
-        Screen.SearchQuery to SearchActivity::class.java
-    )
+    override fun screenMap() =
+        mapOf(
+            Screen.FactsList to FactsActivity::class.java,
+            Screen.SearchQuery to SearchActivity::class.java
+        )
 }

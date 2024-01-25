@@ -10,7 +10,6 @@ import io.dotanuki.features.search.ui.SearchActivity
 import io.dotanuki.platform.android.core.persistence.PersistenceContextRegistry
 
 class NorrisAppComponentFactory : AppComponentFactory() {
-
     override fun instantiateApplicationCompat(cl: ClassLoader, className: String): Application =
         super.instantiateApplicationCompat(cl, className).also {
             PersistenceContextRegistry.register(it)

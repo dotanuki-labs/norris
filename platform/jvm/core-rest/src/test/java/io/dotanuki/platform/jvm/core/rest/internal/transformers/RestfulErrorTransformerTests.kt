@@ -9,7 +9,6 @@ import retrofit2.HttpException
 import retrofit2.Response
 
 class RestfulErrorTransformerTests {
-
     @Test fun `should transform http error from downstream`() {
         listOf(
             httpException<Any>(418, "teapot") to HttpNetworkingError.Restful.Client(418),

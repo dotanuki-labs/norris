@@ -1,11 +1,11 @@
 package io.dotanuki.platform.jvm.core.rest
 
 sealed class HttpNetworkingError : Throwable() {
-
     sealed class Connectivity : HttpNetworkingError() {
-
         object HostUnreachable : Connectivity()
+
         object OperationTimeout : Connectivity()
+
         object ConnectionSpike : Connectivity()
 
         override fun toString() =
@@ -18,6 +18,7 @@ sealed class HttpNetworkingError : Throwable() {
 
     sealed class Restful : HttpNetworkingError() {
         data class Client(val status: Int) : Restful()
+
         data class Server(val status: Int) : Restful()
 
         override fun toString() =

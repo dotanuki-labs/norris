@@ -6,7 +6,6 @@ import io.dotanuki.features.search.presentation.SearchViewModel
 
 context(SearchContext)
 internal class SearchViewModelFactory : ViewModelProvider.Factory {
-
     @Suppress("UNCHECKED_CAST")
     override fun <VM : ViewModel> create(modelClass: Class<VM>): VM =
         SearchViewModel() as VM

@@ -37,10 +37,11 @@ gradlePlugin {
 
 tasks.withType<KotlinCompile>().configureEach {
     kotlinOptions.jvmTarget = "11"
-    kotlinOptions.freeCompilerArgs += listOf(
-        "-opt-in=kotlin.time.ExperimentalTime",
-        "-opt-in=kotlin.RequiresOptIn"
-    )
+    kotlinOptions.freeCompilerArgs +=
+        listOf(
+            "-opt-in=kotlin.time.ExperimentalTime",
+            "-opt-in=kotlin.RequiresOptIn",
+        )
 }
 
 tasks.withType<JavaCompile>().configureEach {

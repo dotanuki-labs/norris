@@ -13,7 +13,6 @@ import io.dotanuki.features.search.R
 import io.dotanuki.features.search.ui.SearchActivity
 
 class SearchActivityRobot {
-
     fun performSearch(term: String) {
         BaristaEditTextInteractions.writeTo(R.id.queryTextInput, term)
         BaristaKeyboardInteractions.pressImeActionButton(R.id.queryTextInput)

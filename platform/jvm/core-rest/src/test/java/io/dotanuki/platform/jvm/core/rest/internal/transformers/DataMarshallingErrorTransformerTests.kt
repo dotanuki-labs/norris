@@ -6,7 +6,6 @@ import kotlinx.serialization.SerializationException
 import org.junit.Test
 
 class DataMarshallingErrorTransformerTests {
-
     @Test fun `should transform serialization-related errors`() {
         val parseError = SerializationException("Found comments inside this JSON")
 

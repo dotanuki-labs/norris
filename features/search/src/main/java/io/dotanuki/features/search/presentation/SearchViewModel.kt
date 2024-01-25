@@ -11,13 +11,13 @@ import io.dotanuki.features.search.presentation.SearchInteraction.SuggestionSele
 
 context (SearchContext)
 class SearchViewModel : ViewModel() {
-
     private val dataSource = SearchesDataSource()
-    private val stateMachine = SearchStateMachine(
-        initialState = SearchScreenState.Idle,
-        machineScope = viewModelScope,
-        stateProcessor = ::reduceToState
-    )
+    private val stateMachine =
+        SearchStateMachine(
+            initialState = SearchScreenState.Idle,
+            machineScope = viewModelScope,
+            stateProcessor = ::reduceToState
+        )
 
     fun bind() = stateMachine.observe()
 

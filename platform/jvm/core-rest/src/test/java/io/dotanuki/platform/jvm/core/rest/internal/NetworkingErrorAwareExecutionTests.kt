@@ -14,7 +14,6 @@ import kotlin.coroutines.resumeWithException
 import kotlin.coroutines.suspendCoroutine
 
 internal class NetworkingErrorAwareExecutionTests {
-
     @Test fun `should transform downstream error with managed execution`() {
 
         val otherError = IllegalStateException("Houston, we have a problem!")
