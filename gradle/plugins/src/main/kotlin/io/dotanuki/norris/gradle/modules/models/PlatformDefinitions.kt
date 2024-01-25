@@ -28,8 +28,7 @@ data class PlatformDefinitions(
 
             val javaBytecodeLevel =
                 when (properties.extract("java.bytecode.level").toInt()) {
-                    8 -> JavaVersion.VERSION_1_8
-                    11 -> JavaVersion.VERSION_11
+                    17 -> JavaVersion.VERSION_17
                     else -> error("Compatible Java levels are : $COMPATIBLE_JAVA_BYTECODE_LEVELS")
                 }
 
@@ -48,6 +47,6 @@ data class PlatformDefinitions(
 
         private fun Properties.extract(key: String): String = getProperty(key) ?: error("Missing $key on properties")
 
-        private val COMPATIBLE_JAVA_BYTECODE_LEVELS = listOf(8, 11)
+        private val COMPATIBLE_JAVA_BYTECODE_LEVELS = listOf(17)
     }
 }

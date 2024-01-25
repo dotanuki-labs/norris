@@ -42,5 +42,13 @@ internal fun Project.applyAndroidApplicationConventions() {
                 buildConfigField("boolean", "IS_TEST_MODE", "${project.isTestMode()}")
             }
         }
+
+        packagingOptions {
+            resources.excludes.addAll(
+                listOf(
+                    "COPYRIGHT.txt"
+                )
+            )
+        }
     }
 }
