@@ -47,9 +47,9 @@ write_macos_properties() {
 
 write_linux_properties() {
     echo "🔥 Fine tunning Gradle properties for Linux GHA runner"
-    write_property "org.gradle.jvmargs=-Xmx4g -Xms512m -XX:+UseParallelGC -Dfile.encoding=UTF-8"
-    write_property "kotlin.daemon.jvmargs=-Xmx2g -Xms512m -XX:+UseParallelGC -Dfile.encoding=UTF-8"
-    write_property "org.gradle.parallel.threads=2"
+    write_property "org.gradle.jvmargs=-Xmx6g -Xms1g -XX:+UseParallelGC -Dfile.encoding=UTF-8"
+    write_property "kotlin.daemon.jvmargs=-Xmx6g -Xms1g -XX:+UseParallelGC -Dfile.encoding=UTF-8"
+    write_property "org.gradle.parallel.threads=4"
 }
 
 rm "$properties_file" && touch "$properties_file"
