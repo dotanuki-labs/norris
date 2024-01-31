@@ -49,7 +49,7 @@ jobs:
         uses: ./.github/actions/setup-android-build
 
       - name: Run unit tests
-        uses: nick-fields/retry@v2.9.0
+        uses: nick-fields/retry@v3.0.0
         with:
           command: ./gradlew clean test --no-daemon --scan
           timeout_minutes: 8
