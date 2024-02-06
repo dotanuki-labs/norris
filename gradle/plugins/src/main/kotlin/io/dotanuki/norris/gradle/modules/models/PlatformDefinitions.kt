@@ -32,8 +32,11 @@ data class PlatformDefinitions(
                     else -> error("Compatible Java levels are : $COMPATIBLE_JAVA_BYTECODE_LEVELS")
                 }
 
-            val javaToolchainVersion = properties.extract("java.toolchain.version").toInt()
-            val targetJdk = JavaLanguageVersion.of(javaToolchainVersion)
+            val targetJdk =
+                when (val javaToolchainVersion = properties.extract("java.toolchain.version").toInt()) {
+                    in COMPATIBLE_JDK_TOOLCHAINS -> JavaLanguageVersion.of(javaToolchainVersion)
+                    else -> error("Compatible Java toolchains are : $COMPATIBLE_JDK_TOOLCHAINS")
+                }
 
             return PlatformDefinitions(
                 androidMinSdk,
@@ -47,6 +50,7 @@ data class PlatformDefinitions(
 
         private fun Properties.extract(key: String): String = getProperty(key) ?: error("Missing $key on properties")
 
+        private val COMPATIBLE_JDK_TOOLCHAINS = listOf(17, 21)
         private val COMPATIBLE_JAVA_BYTECODE_LEVELS = listOf(17)
     }
 }
