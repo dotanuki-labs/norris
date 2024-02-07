@@ -13,6 +13,9 @@ internal fun Project.applyAndroidApplicationConventions() {
     val android = extensions.findByName("android") as ApplicationExtension
 
     android.apply {
+
+        buildFeatures.buildConfig = true
+
         defaultConfig {
             testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
             applicationId = "io.dotanuki.norris.android"
@@ -43,7 +46,7 @@ internal fun Project.applyAndroidApplicationConventions() {
             }
         }
 
-        packagingOptions {
+        packaging {
             resources.excludes.addAll(
                 listOf(
                     "COPYRIGHT.txt"
