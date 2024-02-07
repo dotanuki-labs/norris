@@ -41,7 +41,7 @@ abstract class FeatureMatrixTask : DefaultTask() {
         logger.lifecycle("Wrote feature matrix file at $featureMatrixFile")
     }
 
-    private fun Project.matrixOutputDir(): File = File("${project.rootProject.buildDir}/outputs/matrix")
+    private fun Project.matrixOutputDir(): File = File("${project.rootProject.layout.buildDirectory}/outputs/matrix")
 
     private fun Project.matrixOutputFile(): File = File("${matrixOutputDir()}/features.json")
 }
