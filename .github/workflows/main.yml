@@ -171,7 +171,7 @@ jobs:
         run: ./scripts/setup-asdf.sh
 
       - name: Validate Gradle Wrapper
-        uses: gradle/wrapper-validation-action@v2.1.0
+        uses: gradle/wrapper-validation-action@v2.1.1
 
       - name: Fetch APK from previous build
         uses: actions/download-artifact@v4.1.2
