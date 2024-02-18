@@ -25,7 +25,6 @@ dependencies {
     implementation(libs.google.material.design)
 
     testImplementation(projects.platform.android.testingPersistence)
-    testImplementation(projects.platform.jvm.testingHelpers)
     testImplementation(projects.platform.jvm.testingRest)
 
     testImplementation(libs.junit4)
@@ -37,7 +36,7 @@ dependencies {
 
     androidTestImplementation(projects.platform.jvm.testingMockserver)
     androidTestImplementation(projects.platform.android.testingApplication)
-    androidTestImplementation(projects.platform.android.testingHelpers)
+    androidTestImplementation(projects.platform.android.testingHelpersEspresso)
     androidTestImplementation(projects.platform.android.testingPersistence)
     androidTestImplementation(projects.platform.android.testingScreenshots)
 

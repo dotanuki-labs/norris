@@ -1,4 +1,4 @@
-package io.dotanuki.platform.jvm.testing.helpers.files
+package io.dotanuki.platform.jvm.core.rest.util
 
 fun Any.loadFile(path: String) =
     this.javaClass

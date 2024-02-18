@@ -9,7 +9,7 @@ import io.dotanuki.platform.jvm.core.rest.util.bandwidth
 import io.dotanuki.platform.jvm.core.rest.util.limitData
 import io.dotanuki.platform.jvm.core.rest.util.setToxicity
 import io.dotanuki.platform.jvm.core.rest.util.timeout
-import io.dotanuki.platform.jvm.testing.helpers.files.loadFile
+import io.dotanuki.platform.jvm.core.rest.util.loadFile
 import kotlinx.coroutines.runBlocking
 import org.junit.Before
 import org.junit.Rule
