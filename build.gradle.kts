@@ -1,3 +1,4 @@
+import dev.iurysouza.modulegraph.Theme
 
 buildscript {
 
@@ -19,6 +20,7 @@ buildscript {
 
 plugins {
     id("io.dotanuki.gradle.featurematrix")
+    id("dev.iurysouza.modulegraph") version "0.5.0"
 }
 
 allprojects {
@@ -26,6 +28,12 @@ allprojects {
         mavenCentral()
         google()
     }
+}
+
+moduleGraphConfig {
+    readmePath.set("gradle-graph.md")
+    heading.set("# Gradle Module Structure")
+    theme.set(Theme.DARK)
 }
 
 tasks.run {

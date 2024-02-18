@@ -81,6 +81,12 @@ jobs:
       - name: Assemble APKs
         run: ./gradlew app:assembleRelease -PtestMode=true --no-daemon --scan
 
+      - name: Report Gradle Graph state
+        run: |
+          touch gradle-graph.md
+          ./gradlew createModuleGraph
+          cat gradle-graph.md >> $GITHUB_STEP_SUMMARY
+
       - name: Archive Release APK
         if: success()
         uses: actions/upload-artifact@v4.3.1
