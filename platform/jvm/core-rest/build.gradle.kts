@@ -16,9 +16,6 @@ dependencies {
     implementation(libs.resilience4j.retry)
     implementation(libs.resilience4j.kotlin)
 
-    testImplementation(projects.platform.jvm.testingRest)
-    testImplementation(projects.platform.jvm.testingHelpers)
-
     testImplementation(libs.google.truth)
     testImplementation(libs.junit4)
     testImplementation(libs.slf4j)
