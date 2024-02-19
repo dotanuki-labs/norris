@@ -30,6 +30,12 @@ jobs:
       - name: Check Kotlin sources
         run: ./scripts/code-style-kotlin.sh all
 
+      - name: Upload reports to Github
+        uses: github/codeql-action/upload-sarif@v2
+        if: always()
+        with:
+          sarif_file: reports
+
       - name: Check Bash sources
         run: ./scripts/code-style-bash.sh
 

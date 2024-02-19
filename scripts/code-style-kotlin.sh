@@ -17,10 +17,7 @@ run_ktlint() {
     echo "• Checking code formatting"
     echo
 
-    ktlint --reporter=plain?group_by_file
-
-    echo
-    echo -e "• No issues found by ${cyan}ktlint${normal}"
+    ktlint --reporter=sarif?group_by_file,output=reports/ktlint.sarif --relative || true
 }
 
 run_detekt() {
@@ -30,10 +27,7 @@ run_detekt() {
     fi
 
     echo -e "${cyan}• Checking code smells"
-    detekt -c .config/detekt.yml --build-upon-default-config
-
-    echo
-    echo -e "• No issues found by ${cyan}detekt${normal}"
+    detekt -c .config/detekt.yml --build-upon-default-config --report sarif:reports/detekt.sarif || true
 }
 
 readonly help_ktlint="Run ktlint static analyser for this project"
@@ -56,6 +50,8 @@ main() {
         usage
         return
     fi
+
+    rm -rf reports && mkdir reports
 
     case "$what" in
     "ktlint")

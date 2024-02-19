@@ -12,10 +12,6 @@ performance:
   SpreadOperator:
     active: false
 
-exceptions:
-  active: true
-  TooGenericExceptionCaught:
-    active: false
 
 style:
   active: true

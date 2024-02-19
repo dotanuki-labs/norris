@@ -69,5 +69,4 @@ signing.properties
 dotanuki-demos.jks
 norris-key.txt
 
-# MobSF
-mobsf-reports
+reports/

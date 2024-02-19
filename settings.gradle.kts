@@ -25,6 +25,8 @@ gradleEnterprise {
 include(
     // Product
     ":app",
+    
+    // Platform
     ":platform:jvm:core-rest",
     ":platform:jvm:testing-mockserver",
     ":platform:jvm:testing-rest",
@@ -35,6 +37,8 @@ include(
     ":platform:android:testing-helpers-espresso",
     ":platform:android:testing-persistence",
     ":platform:android:testing-screenshots",
+    
+    // Features
     ":features:facts",
     ":features:search",
 )
