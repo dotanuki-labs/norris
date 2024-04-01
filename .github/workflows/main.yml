@@ -201,7 +201,7 @@ jobs:
         uses: actions/download-artifact@v4.1.4
 
       - name: Upload to EmergeTools
-        uses: EmergeTools/emerge-upload-action@v1.0.3
+        uses: EmergeTools/emerge-upload-action@v1.1.0
         with:
           artifact_path: release-apk/app-release.apk
           emerge_api_key: ${{ secrets.EMERGETOOLS_API_KEY }}
