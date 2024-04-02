@@ -12,7 +12,7 @@ pluginManagement {
 
 plugins {
     id("org.gradle.toolchains.foojay-resolver-convention") version ("0.8.0")
-    id("com.gradle.enterprise") version "3.16.2"
+    id("com.gradle.enterprise") version "3.17"
 }
 
 gradleEnterprise {
