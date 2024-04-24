@@ -112,7 +112,7 @@ jobs:
         run: ./scripts/setup-asdf.sh
 
       - name: Fetch Instrumentation artefacts
-        uses: actions/download-artifact@v4.1.6
+        uses: actions/download-artifact@v4.1.7
 
       - name: Run E2E tests on mobile.dev clould
         run: ./scripts/maestro.sh release-apk/app-release.apk
@@ -132,7 +132,7 @@ jobs:
         uses: actions/checkout@1d96c772d19495a3b5c517cd2bc0cb401ea0529f # v4.1.3
 
       - name: Fetch Instrumentation artefacts
-        uses: actions/download-artifact@v4.1.6
+        uses: actions/download-artifact@v4.1.7
 
       - name: Install asdf
         uses: asdf-vm/actions/setup@v3.0.2
@@ -174,7 +174,7 @@ jobs:
         uses: gradle/wrapper-validation-action@v3.3.1
 
       - name: Fetch APK from previous build
-        uses: actions/download-artifact@v4.1.6
+        uses: actions/download-artifact@v4.1.7
 
       - name: Compare APK with baseline
         run: aaw compare -a release-apk/app-release.apk -b .config/norris-watchdog.toml
@@ -198,7 +198,7 @@ jobs:
         uses: actions/checkout@1d96c772d19495a3b5c517cd2bc0cb401ea0529f # v4.1.3
 
       - name: Fetch Instrumentation artefacts
-        uses: actions/download-artifact@v4.1.6
+        uses: actions/download-artifact@v4.1.7
 
       - name: Upload to EmergeTools
         uses: EmergeTools/emerge-upload-action@v1.1.0
@@ -216,7 +216,7 @@ jobs:
         uses: actions/checkout@1d96c772d19495a3b5c517cd2bc0cb401ea0529f # v4.1.3
 
       - name: Fetch all artefacts
-        uses: actions/download-artifact@v4.1.6
+        uses: actions/download-artifact@v4.1.7
 
       - name: Copy all test results
         run: mkdir all-reports && mv *-tests-reports/ all-reports
