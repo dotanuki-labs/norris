@@ -222,7 +222,7 @@ jobs:
         run: mkdir all-reports && mv *-tests-reports/ all-reports
 
       - name: Report test results
-        uses: dorny/test-reporter@v1.9.0
+        uses: dorny/test-reporter@v1.9.1
         with:
           name: 'Test Reports'
           reporter: java-junit
