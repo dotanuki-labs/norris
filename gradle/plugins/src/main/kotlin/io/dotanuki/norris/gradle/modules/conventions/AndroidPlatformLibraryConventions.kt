@@ -13,7 +13,7 @@ internal fun Project.applyAndroidPlatformLibraryConventions() {
     android.apply {
         buildTypes {
             getByName("release") {
-                isMinifyEnabled = true
+                isMinifyEnabled = false
 
                 val proguardDefinitions = ProguardRules("$rootDir/app/proguard")
                 proguardFiles(*(proguardDefinitions.extras))
