@@ -5,7 +5,9 @@ import org.testcontainers.containers.wait.strategy.Wait
 import org.testcontainers.images.builder.Transferable
 import org.testcontainers.utility.DockerImageName
 
-class WireMockContainer(imageName: DockerImageName) : GenericContainer<WireMockContainer>(imageName) {
+class WireMockContainer(
+    imageName: DockerImageName,
+) : GenericContainer<WireMockContainer>(imageName) {
     private val stubs = mutableListOf<Pair<String, String>>()
 
     private val customWaitStrategy by lazy {

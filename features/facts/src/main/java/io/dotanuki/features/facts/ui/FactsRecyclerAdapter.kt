@@ -25,7 +25,9 @@ class FactsRecyclerAdapter(
         holder.bind(presentation.facts[position], shareAction)
     }
 
-    class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    class ViewHolder(
+        itemView: View,
+    ) : RecyclerView.ViewHolder(itemView) {
         fun bind(row: FactDisplayRow, action: (String) -> Unit) {
             itemView.run {
                 val factLabel = itemView.findViewById<TextView>(R.id.factLabel)

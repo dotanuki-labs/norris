@@ -8,7 +8,9 @@ import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
 import com.google.common.truth.Truth.assertThat
 
-class ChipGroupContentAssertion(private val chips: List<String>) : ViewAssertion {
+class ChipGroupContentAssertion(
+    private val chips: List<String>,
+) : ViewAssertion {
     override fun check(view: View?, noViewFoundException: NoMatchingViewException?) {
         noViewFoundException
             ?.let { throw it }

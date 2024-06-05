@@ -112,7 +112,5 @@ class RestClientTests {
         }
     }
 
-    private fun unexpectedOutcome(): Nothing {
-        throw AssertionError("Expecting an error from this execution")
-    }
+    private fun unexpectedOutcome(): Nothing = throw AssertionError("Expecting an error from this execution")
 }
