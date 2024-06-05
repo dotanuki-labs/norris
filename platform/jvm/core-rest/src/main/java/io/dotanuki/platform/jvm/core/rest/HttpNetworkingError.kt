@@ -17,9 +17,13 @@ sealed class HttpNetworkingError : Throwable() {
     }
 
     sealed class Restful : HttpNetworkingError() {
-        data class Client(val status: Int) : Restful()
+        data class Client(
+            val status: Int,
+        ) : Restful()
 
-        data class Server(val status: Int) : Restful()
+        data class Server(
+            val status: Int,
+        ) : Restful()
 
         override fun toString() =
             when (this) {

@@ -7,7 +7,9 @@ import io.github.resilience4j.kotlin.retry.RetryConfig
 import io.github.resilience4j.kotlin.retry.executeSuspendFunction
 import io.github.resilience4j.retry.RetryRegistry
 
-internal class ResilienceAwareExecution private constructor(spec: HttpResilience) {
+internal class ResilienceAwareExecution private constructor(
+    spec: HttpResilience,
+) {
     private val retryRegistry by lazy {
         RetryRegistry.ofDefaults()
     }

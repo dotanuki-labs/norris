@@ -13,7 +13,9 @@ import io.dotanuki.features.search.presentation.SearchViewModel
 import kotlinx.coroutines.launch
 
 context (SearchContext)
-class SearchActivity : AppCompatActivity(), SearchEventsHandler {
+class SearchActivity :
+    AppCompatActivity(),
+    SearchEventsHandler {
     private val viewModel by viewModels<SearchViewModel> { SearchViewModelFactory() }
 
     override fun onCreate(savedInstanceState: Bundle?) {

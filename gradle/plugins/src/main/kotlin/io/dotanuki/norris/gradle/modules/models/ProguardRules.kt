@@ -2,7 +2,9 @@ package io.dotanuki.norris.gradle.modules.models
 
 import java.io.File
 
-internal class ProguardRules(private val pathToFiles: String) {
+internal class ProguardRules(
+    private val pathToFiles: String,
+) {
     val extras by lazy {
         File(pathToFiles).listFiles().toList().toTypedArray()
     }

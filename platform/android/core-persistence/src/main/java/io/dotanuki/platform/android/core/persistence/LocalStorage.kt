@@ -7,17 +7,17 @@ import kotlin.coroutines.suspendCoroutine
 class LocalStorage internal constructor(
     private val prefs: SharedPreferences,
 ) {
-    suspend fun lastSearches(): List<String> {
-        return suspendCoroutine { continuation ->
+    suspend fun lastSearches(): List<String> =
+        suspendCoroutine { continuation ->
             continuation.resume(
                 retrieveFromPrefs()
             )
         }
-    }
 
     fun registerNewSearch(term: String) {
         val updated = retrieveFromPrefs().filterNot { it == term } + term
-        prefs.edit()
+        prefs
+            .edit()
             .putString(KEY_TERMS, updated.joinToString(separator = TERMS_SEPARATOR))
             .commit()
     }

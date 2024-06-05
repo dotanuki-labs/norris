@@ -21,7 +21,10 @@ import io.dotanuki.features.search.presentation.SearchScreenState.Idle
 import io.dotanuki.features.search.presentation.SearchScreenState.Loading
 import io.dotanuki.features.search.presentation.SearchScreenState.Success
 
-class SearchView @JvmOverloads constructor(ctx: Context, attrs: AttributeSet? = null) : CoordinatorLayout(ctx, attrs) {
+class SearchView @JvmOverloads constructor(
+    ctx: Context,
+    attrs: AttributeSet? = null,
+) : CoordinatorLayout(ctx, attrs) {
     lateinit var eventsHandler: SearchEventsHandler
     private val receivedStates = mutableListOf<SearchScreenState>()
 

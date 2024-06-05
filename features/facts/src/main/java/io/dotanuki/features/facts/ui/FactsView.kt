@@ -28,7 +28,10 @@ import io.dotanuki.features.facts.presentation.FactsScreenState.Loading
 import io.dotanuki.features.facts.presentation.FactsScreenState.Success
 import io.dotanuki.platform.android.core.assets.R as assetsR
 
-class FactsView @JvmOverloads constructor(ctx: Context, attrs: AttributeSet? = null) : CoordinatorLayout(ctx, attrs) {
+class FactsView @JvmOverloads constructor(
+    ctx: Context,
+    attrs: AttributeSet? = null,
+) : CoordinatorLayout(ctx, attrs) {
     private lateinit var eventsHandler: FactsEventsHandler
     private lateinit var viewBinding: ViewFactsBinding
 

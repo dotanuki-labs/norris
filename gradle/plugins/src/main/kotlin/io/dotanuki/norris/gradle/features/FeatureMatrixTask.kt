@@ -21,7 +21,8 @@ abstract class FeatureMatrixTask : DefaultTask() {
     init {
         val features =
             project.rootProject.subprojects.filter {
-                it.layout.projectDirectory.asFile.path.contains("features/")
+                it.layout.projectDirectory.asFile.path
+                    .contains("features/")
             }
 
         featureModules.from(features.map { it.layout.projectDirectory.asFile })

@@ -39,5 +39,6 @@ internal object ConnectivityErrorTransformer : NetworkingErrorTransformer {
 
     private fun isConnectionTimeout(error: Throwable) =
         error is SocketTimeoutException ||
-            error is InterruptedIOException && error.message?.lowercase()?.contains("timeout") ?: false
+            error is InterruptedIOException &&
+            error.message?.lowercase()?.contains("timeout") ?: false
 }

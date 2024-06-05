@@ -25,7 +25,8 @@ object ChuckNorrisServiceBuilder {
     private fun createHttpClient(config: HttpResilience): OkHttpClient {
         val logger = HttpLoggingInterceptor().setLevel(Level.BODY)
 
-        return OkHttpClient.Builder()
+        return OkHttpClient
+            .Builder()
             .addInterceptor(logger)
             .callTimeout(config.timeoutForHttpRequest)
             .build()
