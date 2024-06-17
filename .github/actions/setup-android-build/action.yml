@@ -20,10 +20,10 @@ runs:
         run: ${{ github.action_path }}/setup-android-keystore.sh
 
       - name: Setup Dependency Submission
-        uses: gradle/actions/dependency-submission@v3.4.1
+        uses: gradle/actions/dependency-submission@v3.4.2
 
       - name: Setup Cache
-        uses: gradle/actions/setup-gradle@v3.4.1
+        uses: gradle/actions/setup-gradle@v3.4.2
         with:
           gradle-home-cache-strict-match: false
           gradle-home-cache-cleanup: true
