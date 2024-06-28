@@ -35,7 +35,7 @@ androidx-testext-junit = "androidx.test.ext:junit:1.2.0"
 androidx-testext-junitktx = "androidx.test.ext:junit-ktx:1.2.1"
 androidx-test-runner = "androidx.test:runner:1.6.0"
 androidx-test-rules = "androidx.test:rules:1.6.0"
-androidx-test-monitor = "androidx.test:monitor:1.7.0"
+androidx-test-monitor = "androidx.test:monitor:1.7.1"
 androidx-espresso-core = "androidx.test.espresso:espresso-core:3.6.1"
 androidx-espresso-intents = "androidx.test.espresso:espresso-intents:3.6.0"
 
