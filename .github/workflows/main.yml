@@ -10,7 +10,6 @@ concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
 
-
 jobs:
   code-quality:
     runs-on: ubuntu-22.04
@@ -186,26 +185,6 @@ jobs:
           commit_hash: ${{ steps.vars.outputs.sha_short }}
           input_file: release-apk/app-release.apk
           mapping_file: release-mappings/mapping.txt
-
-  app-size-analysis:
-    runs-on: ubuntu-22.04
-    timeout-minutes: 10
-    if: github.ref == 'refs/heads/master'
-    needs: assemble-apk
-
-    steps:
-      - name: Project Checkout
-        uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4.1.7
-
-      - name: Fetch Instrumentation artefacts
-        uses: actions/download-artifact@v4.1.8
-
-      - name: Upload to EmergeTools
-        uses: EmergeTools/emerge-upload-action@v1.1.0
-        with:
-          artifact_path: release-apk/app-release.apk
-          emerge_api_key: ${{ secrets.EMERGETOOLS_API_KEY }}
-          build_type: release
 
   test-results-analysis:
     runs-on: ubuntu-22.04
