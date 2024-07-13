@@ -40,7 +40,7 @@ androidx-espresso-core = "androidx.test.espresso:espresso-core:3.6.1"
 androidx-espresso-intents = "androidx.test.espresso:espresso-intents:3.6.1"
 
 # Google
-google-truth = "com.google.truth:truth:1.4.3"
+google-truth = "com.google.truth:truth:1.4.4"
 google-material-design = "com.google.android.material:material:1.12.0"
 
 # Square / CashApp
