@@ -116,6 +116,7 @@ jobs:
       - name: Run E2E tests on mobile.dev clould
         run: ./scripts/maestro.sh release-apk/app-release.apk
         env:
+          MAESTRO_CLI_NO_ANALYTICS: true
           MOBILE_DEV_CLOUD_TOKEN: ${{ secrets.MOBILE_DEV_CLOUD_TOKEN }}
 
   instrumentation-tests:
