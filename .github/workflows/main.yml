@@ -183,7 +183,7 @@ jobs:
             mkdir -p $HOME/bin
             curl -sS https://platform.guardsquare.com/cli/install.sh | sh -s -- -y --bin-dir $HOME/bin
             build_id=$($HOME/bin/guardsquare scan release-apk/app-release.apk --mapping-file release-mappings/mapping.txt --commit-hash $GITHUB_SHA --format "{{.ID}}")
-            $HOME/bin/guardsquare scan summary --wait-for static $build_id
+            $HOME/bin/guardsquare scan summary --wait-for static $build_id --format json
         env:
             APPSWEEP_API_KEY: ${{ secrets.APP_SWEEP_TOKEN }}
 
