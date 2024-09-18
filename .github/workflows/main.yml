@@ -178,13 +178,14 @@ jobs:
       - name: Compare APK with baseline
         run: aaw compare -a release-apk/app-release.apk -b .config/norris-watchdog.toml
 
-      - name: Analyse APK with AppSweep
-        uses: guardsquare/appsweep-action@main
-        with:
-          appsweep_api_key: ${{ secrets.APP_SWEEP_TOKEN }}
-          commit_hash: ${{ steps.vars.outputs.sha_short }}
-          input_file: release-apk/app-release.apk
-          mapping_file: release-mappings/mapping.txt
+      - name: Scan APK with appsweep
+        run: |
+            mkdir -p $HOME/bin
+            curl -sS https://platform.guardsquare.com/cli/install.sh | sh -s -- -y --bin-dir $HOME/bin
+            build_id=$($HOME/bin/guardsquare scan release-apk/app-release.apk --mapping-file release-mappings/mapping.txt --commit-hash $GITHUB_SHA --format "{{.ID}}")
+            $HOME/bin/guardsquare scan summary --wait-for static $build_id
+        env:
+            APPSWEEP_API_KEY: ${{ secrets.APP_SWEEP_TOKEN }}
 
   test-results-analysis:
     runs-on: ubuntu-22.04
