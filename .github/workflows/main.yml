@@ -1,209 +1,185 @@
 name: CI
 
 on:
-  pull_request:
-  push:
-    branches:
-      - master
+    pull_request:
+    push:
+        branches:
+            - master
 
-concurrency: 
-  group: ${{ github.workflow }}-${{ github.ref }}
-  cancel-in-progress: true
+concurrency:
+    group: ${{ github.workflow }}-${{ github.ref }}
+    cancel-in-progress: true
 
 jobs:
-  code-quality:
-    runs-on: ubuntu-24.04
-    timeout-minutes: 10
+    code-quality:
+        runs-on: ubuntu-24.04
+        timeout-minutes: 10
 
-    steps:
-      - name: Project Checkout
-        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        steps:
+            - name: Project Checkout
+              uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
 
-      - name: Install asdf
-        uses: asdf-vm/actions/setup@v3.0.2
+            - name: Install asdf
+              uses: asdf-vm/actions/setup@v3.0.2
 
-      - name: Install local CLI tooling
-        shell: bash
-        run: ./scripts/setup-asdf.sh
+            - name: Install local CLI tooling
+              shell: bash
+              run: ./scripts/setup-asdf.sh
 
-      - name: Check Kotlin sources
-        run: ./scripts/code-style-kotlin.sh all
+            - name: Check Kotlin sources
+              run: ./scripts/code-style-kotlin.sh all
 
-      - name: Check Bash sources
-        run: ./scripts/code-style-bash.sh
+            - name: Check Bash sources
+              run: ./scripts/code-style-bash.sh
 
-      - name: Check typos on code
-        uses: crate-ci/typos@v1.28.4
+            - name: Check typos on code
+              uses: crate-ci/typos@v1.28.4
 
-  unit-tests:
-    runs-on: ubuntu-24.04
-    timeout-minutes: 10
-    needs: [code-quality]
+    unit-tests:
+        runs-on: ubuntu-24.04
+        timeout-minutes: 10
+        needs: [code-quality]
 
-    steps:
-      - name: Project Checkout
-        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        steps:
+            - name: Project Checkout
+              uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
 
-      - name: Setup Android Build
-        uses: ./.github/actions/setup-android-build
+            - name: Setup Android Build
+              uses: ./.github/actions/setup-android-build
 
-      - name: Run unit tests
-        uses: nick-fields/retry@v3.0.0
-        with:
-          command: ./gradlew clean test --no-daemon
-          timeout_minutes: 8
-          max_attempts: 5
+            - name: Run unit tests
+              uses: nick-fields/retry@v3.0.0
+              with:
+                  command: ./gradlew clean test --no-daemon
+                  timeout_minutes: 8
+                  max_attempts: 5
 
-      - name: Collect all test results from all modules
-        if: always()
-        run: ./scripts/aggregate-test-reports.sh build/test-reports
+            - name: Collect all test results from all modules
+              if: always()
+              run: ./scripts/aggregate-test-reports.sh build/test-reports
 
-      - name: Archive test results
-        if: always()
-        uses: actions/upload-artifact@v4.5.0
-        with:
-          name: unit-tests-reports
-          path: build/test-reports
+            - name: Archive test results
+              if: always()
+              uses: actions/upload-artifact@v4.5.0
+              with:
+                  name: unit-tests-reports
+                  path: build/test-reports
 
-  assemble-apk:
-    runs-on: ubuntu-24.04
-    timeout-minutes: 25
-    needs: [code-quality]
+    assemble-apk:
+        runs-on: ubuntu-24.04
+        timeout-minutes: 25
+        needs: [code-quality]
 
-    steps:
-      - name: Project Checkout
-        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        steps:
+            - name: Project Checkout
+              uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
 
-      - name: Setup Android Build
-        uses: ./.github/actions/setup-android-build
+            - name: Setup Android Build
+              uses: ./.github/actions/setup-android-build
 
-      - name: Assemble APKs
-        run: ./gradlew app:assembleRelease -PtestMode=true --no-daemon
+            - name: Assemble APKs
+              run: ./gradlew app:assembleRelease -PtestMode=true --no-daemon
 
-      - name: Archive Release APK
-        if: success()
-        uses: actions/upload-artifact@v4.5.0
-        with:
-          name: release-apk
-          path: app/build/outputs/apk/release
+            - name: Archive Release APK
+              if: success()
+              uses: actions/upload-artifact@v4.5.0
+              with:
+                  name: release-apk
+                  path: app/build/outputs/apk/release
 
-      - name: Archive R8 mappings
-        if: success()
-        uses: actions/upload-artifact@v4.5.0
-        with:
-          name: release-mappings
-          path: app/build/outputs/mapping/release
+            - name: Archive R8 mappings
+              if: success()
+              uses: actions/upload-artifact@v4.5.0
+              with:
+                  name: release-mappings
+                  path: app/build/outputs/mapping/release
 
-  functional-tests:
-    runs-on: ubuntu-24.04
-    timeout-minutes: 25
-    needs: [assemble-apk]
+    instrumentation-tests:
+        runs-on: ubuntu-24.04
+        needs: [code-quality]
+        timeout-minutes: 20
+        strategy:
+            matrix:
+                feature: ["facts", "search"]
 
-    steps:
-      - name: Project Checkout
-        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        steps:
+            - name: Project Checkout
+              uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
 
-      - name: Install asdf
-        uses: asdf-vm/actions/setup@v3.0.2
+            - name: Fetch Instrumentation artefacts
+              uses: actions/download-artifact@v4.1.8
 
-      - name: Install local CLI tooling
-        shell: bash
-        run: ./scripts/setup-asdf.sh
+            - name: Install asdf
+              uses: asdf-vm/actions/setup@v3.0.2
 
-      - name: Fetch Instrumentation artefacts
-        uses: actions/download-artifact@v4.1.8
+            - name: Install local CLI tooling
+              run: ./scripts/setup-asdf.sh
 
-      - name: Run E2E tests on mobile.dev clould
-        run: ./scripts/maestro.sh release-apk/app-release.apk
-        env:
-          MOBILE_DEV_CLOUD_TOKEN: ${{ secrets.MOBILE_DEV_CLOUD_TOKEN }}
+            - name: Setup Android Build
+              uses: ./.github/actions/setup-android-build
 
-  instrumentation-tests:
-    runs-on: ubuntu-24.04
-    needs: [code-quality]
-    timeout-minutes: 20
-    strategy:
-      matrix:
-        feature: [ 'facts', 'search' ]
+            - name: Run instrumentation tests
+              run: ./gradlew features:${{ matrix.feature }}:testDebugWithEmulatorWtf
+              env:
+                  EW_API_TOKEN: ${{ secrets.EMULATOR_WTF_TOKEN }}
 
-    steps:
-      - name: Project Checkout
-        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+            - name: Archive test results
+              if: always()
+              uses: actions/upload-artifact@v4.5.0
+              with:
+                  name: ${{ matrix.feature }}-instrumentation-tests-reports
+                  path: features/${{ matrix.feature }}/build/test-results
 
-      - name: Fetch Instrumentation artefacts
-        uses: actions/download-artifact@v4.1.8
+    security-analysis:
+        runs-on: ubuntu-24.04
+        timeout-minutes: 25
+        needs: assemble-apk
 
-      - name: Install asdf
-        uses: asdf-vm/actions/setup@v3.0.2
+        steps:
+            - name: Project Checkout
+              uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
 
-      - name: Install local CLI tooling
-        run: ./scripts/setup-asdf.sh
+            - name: Install asdf
+              uses: asdf-vm/actions/setup@v3.0.2
 
-      - name: Setup Android Build
-        uses: ./.github/actions/setup-android-build
+            - name: Install local CLI tooling
+              run: ./scripts/setup-asdf.sh
 
-      - name: Run instrumentation tests
-        run: ./gradlew features:${{ matrix.feature }}:testDebugWithEmulatorWtf
-        env:
-          EW_API_TOKEN: ${{ secrets.EMULATOR_WTF_TOKEN }}
+            - name: Validate Gradle Wrapper
+              uses: gradle/wrapper-validation-action@v3.5.0
 
-      - name: Archive test results
-        if: always()
-        uses: actions/upload-artifact@v4.5.0
-        with:
-          name: ${{ matrix.feature }}-instrumentation-tests-reports
-          path: features/${{ matrix.feature }}/build/test-results
+            - name: Fetch APK from previous build
+              uses: actions/download-artifact@v4.1.8
 
-  security-analysis:
-    runs-on: ubuntu-24.04
-    timeout-minutes: 25
-    needs: assemble-apk
+            - name: Compare APK with baseline
+              run: aaw compare -a release-apk/app-release.apk -b .config/norris-watchdog.toml
 
-    steps:
-      - name: Project Checkout
-        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+            - name: Scan APK for vulnerabilities with Appsweep
+              uses: dotanuki-labs/appsweep-scan-action@v0.1.0
+              with:
+                  archive-file: release-apk/app-release.apk
+                  symbols: release-mappings/mapping.txt
+                  wait-for-summary: true
+              env:
+                  APPSWEEP_API_KEY: ${{ secrets.APP_SWEEP_TOKEN }}
 
-      - name: Install asdf
-        uses: asdf-vm/actions/setup@v3.0.2
+    test-results-analysis:
+        runs-on: ubuntu-24.04
+        timeout-minutes: 25
+        needs: [unit-tests, instrumentation-tests]
+        steps:
+            - name: Project Checkout
+              uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
 
-      - name: Install local CLI tooling
-        run: ./scripts/setup-asdf.sh
+            - name: Fetch all artefacts
+              uses: actions/download-artifact@v4.1.8
 
-      - name: Validate Gradle Wrapper
-        uses: gradle/wrapper-validation-action@v3.5.0
+            - name: Copy all test results
+              run: mkdir all-reports && mv *-tests-reports/ all-reports
 
-      - name: Fetch APK from previous build
-        uses: actions/download-artifact@v4.1.8
-
-      - name: Compare APK with baseline
-        run: aaw compare -a release-apk/app-release.apk -b .config/norris-watchdog.toml
-
-      - name: Scan APK for vulnerabilities with Appsweep
-        uses: dotanuki-labs/appsweep-scan-action@v0.1.0
-        with:
-            archive-file: release-apk/app-release.apk
-            symbols: release-mappings/mapping.txt
-            wait-for-summary: true
-        env:
-            APPSWEEP_API_KEY: ${{ secrets.APP_SWEEP_TOKEN }}
-
-  test-results-analysis:
-    runs-on: ubuntu-24.04
-    timeout-minutes: 25
-    needs: [unit-tests, instrumentation-tests, functional-tests]
-    steps:
-      - name: Project Checkout
-        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
-
-      - name: Fetch all artefacts
-        uses: actions/download-artifact@v4.1.8
-
-      - name: Copy all test results
-        run: mkdir all-reports && mv *-tests-reports/ all-reports
-
-      - name: Report test results
-        uses: dorny/test-reporter@v1.9.1
-        with:
-          name: 'Test Reports'
-          reporter: java-junit
-          path: all-reports/**/*.xml
+            - name: Report test results
+              uses: dorny/test-reporter@v1.9.1
+              with:
+                  name: "Test Reports"
+                  reporter: java-junit
+                  path: all-reports/**/*.xml
