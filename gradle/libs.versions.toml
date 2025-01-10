@@ -1,7 +1,7 @@
 [libraries]
 
 # Gradle Plugins
-gradle-android = "com.android.tools.build:gradle:8.7.3"
+gradle-android = "com.android.tools.build:gradle:8.8.0"
 gradle-kotlin = "org.jetbrains.kotlin:kotlin-gradle-plugin:2.1.0"
 gradle-testlogger = "com.adarshr:gradle-test-logger-plugin:4.0.0"
 gradle-kotlinx-serialization = "org.jetbrains.kotlin:kotlin-serialization:2.1.0"
