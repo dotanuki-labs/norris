@@ -107,7 +107,7 @@ jobs:
               uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
 
             - name: Fetch Instrumentation artefacts
-              uses: actions/download-artifact@v4.1.8
+              uses: actions/download-artifact@v4.1.9
 
             - name: Install asdf
               uses: asdf-vm/actions/setup@v3.0.2
@@ -149,7 +149,7 @@ jobs:
               uses: gradle/wrapper-validation-action@v3.5.0
 
             - name: Fetch APK from previous build
-              uses: actions/download-artifact@v4.1.8
+              uses: actions/download-artifact@v4.1.9
 
             - name: Compare APK with baseline
               run: aaw compare -a release-apk/app-release.apk -b .config/norris-watchdog.toml
@@ -172,7 +172,7 @@ jobs:
               uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
 
             - name: Fetch all artefacts
-              uses: actions/download-artifact@v4.1.8
+              uses: actions/download-artifact@v4.1.9
 
             - name: Copy all test results
               run: mkdir all-reports && mv *-tests-reports/ all-reports
