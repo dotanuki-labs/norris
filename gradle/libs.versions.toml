@@ -67,5 +67,5 @@ testcontainers-core = "org.testcontainers:testcontainers:1.20.5"
 testcontainers-toxyproxy = "org.testcontainers:toxiproxy:1.20.5"
 
 # Security patches
-forced-jsoup = "org.jsoup:jsoup:1.18.3"
+forced-jsoup = "org.jsoup:jsoup:1.19.1"
 forced-okio = "com.squareup.okio:okio:3.10.2"
