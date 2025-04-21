@@ -60,7 +60,7 @@ jobs:
 
             - name: Archive test results
               if: always()
-              uses: actions/upload-artifact@v4.6.1
+              uses: actions/upload-artifact@v4.6.2
               with:
                   name: unit-tests-reports
                   path: build/test-reports
@@ -82,14 +82,14 @@ jobs:
 
             - name: Archive Release APK
               if: success()
-              uses: actions/upload-artifact@v4.6.1
+              uses: actions/upload-artifact@v4.6.2
               with:
                   name: release-apk
                   path: app/build/outputs/apk/release
 
             - name: Archive R8 mappings
               if: success()
-              uses: actions/upload-artifact@v4.6.1
+              uses: actions/upload-artifact@v4.6.2
               with:
                   name: release-mappings
                   path: app/build/outputs/mapping/release
@@ -125,7 +125,7 @@ jobs:
 
             - name: Archive test results
               if: always()
-              uses: actions/upload-artifact@v4.6.1
+              uses: actions/upload-artifact@v4.6.2
               with:
                   name: ${{ matrix.feature }}-instrumentation-tests-reports
                   path: features/${{ matrix.feature }}/build/test-results
