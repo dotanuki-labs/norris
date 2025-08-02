@@ -1,6 +1,5 @@
 # Norris
-[![ktlint](https://img.shields.io/badge/code%20style-%E2%9D%A4-FF4081.svg)](https://ktlint.github.io/) 
-[![Maintainability](https://api.codeclimate.com/v1/badges/42704b7b56bbdba33b99/maintainability)](https://codeclimate.com/github/dotanuki-labs/norris/maintainability) 
+[![ktlint](https://img.shields.io/badge/code%20style-%E2%9D%A4-FF4081.svg)](https://ktlint.github.io/)
 [![CI](https://github.com/dotanuki-labs/norris/actions/workflows/main.yml/badge.svg?branch=master)](https://github.com/dotanuki-labs/norris/actions/workflows/main.yml)
 [![License](https://img.shields.io/github/license/dotanuki-labs/norris)](https://choosealicense.com/licenses/mit)
 
@@ -13,7 +12,7 @@ Norris is a small and non-trivial Android project used as
 - a showcase for some advanced techniques regarding infrastructure for large Android projects
 - a sandbox for testing new tools in the open
 
-This project leverages on [api.chucknorris.io](https://api.chucknorris.io/) as remote data source to implement 
+This project leverages on [api.chucknorris.io](https://api.chucknorris.io/) as remote data source to implement
 the following use cases
 
 - User can search for Chuck Norris facts and share them
