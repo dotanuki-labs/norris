@@ -145,23 +145,14 @@ jobs:
             - name: Install local CLI tooling
               run: ./scripts/setup-asdf.sh
 
-            # - name: Validate Gradle Wrapper
-            #   uses: gradle/wrapper-validation-action@v3.5.0
+            - name: Validate Gradle Wrapper
+              uses: gradle/actions/wrapper-validation@v4.4.1
 
             - name: Fetch APK from previous build
               uses: actions/download-artifact@v4.3.0
 
             - name: Compare APK with baseline
               run: aaw compare -a release-apk/app-release.apk -b .config/norris-watchdog.toml
-
-            # - name: Scan APK for vulnerabilities with Appsweep
-            #   uses: dotanuki-labs/appsweep-scan-action@v0.1.0
-            #   with:
-            #       archive-file: release-apk/app-release.apk
-            #       symbols: release-mappings/mapping.txt
-            #       wait-for-summary: true
-            #   env:
-            #       APPSWEEP_API_KEY: ${{ secrets.APP_SWEEP_TOKEN }}
 
     test-results-analysis:
         runs-on: ubuntu-24.04
