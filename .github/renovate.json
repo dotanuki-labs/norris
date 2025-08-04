@@ -7,15 +7,29 @@
   ],
   "osvVulnerabilityAlerts": true,
   "dependencyDashboard": true,
-  "enabledManagers": ["gradle", "gradle-wrapper", "asdf", "github-actions"],
+  "enabledManagers": [
+    "gradle",
+    "gradle-wrapper",
+    "asdf",
+    "github-actions"
+  ],
   "packageRules": [
     {
-      "matchUpdateTypes": ["major", "minor", "patch"],
+      "matchUpdateTypes": [
+        "major",
+        "minor",
+        "patch"
+      ],
       "automerge": false
     }
   ],
-  "labels": ["dependencies"],
+  "labels": [
+    "dependencies"
+  ],
   "gradle": {
-    "fileMatch": ["(^|\/)gradle\/.+\.toml$", "\.versions\.toml$"]
+    "managerFilePatterns": [
+      "/(^|/)gradle/.+.toml$/",
+      "/.versions.toml$/"
+    ]
   }
 }
