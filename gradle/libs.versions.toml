@@ -5,7 +5,7 @@ gradle-android = "com.android.tools.build:gradle:8.9.2"
 gradle-kotlin = "org.jetbrains.kotlin:kotlin-gradle-plugin:2.1.21"
 gradle-testlogger = "com.adarshr:gradle-test-logger-plugin:4.0.0"
 gradle-kotlinx-serialization = "org.jetbrains.kotlin:kotlin-serialization:2.1.21"
-gradle-dropshots = "com.dropbox.dropshots:dropshots-gradle-plugin:0.4.1"
+gradle-dropshots = "com.dropbox.dropshots:dropshots-gradle-plugin:0.5.0"
 gradle-emulator-wtf = "wtf.emulator:gradle-plugin:0.18.1"
 
 # Kotlinx
