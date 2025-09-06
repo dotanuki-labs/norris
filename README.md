@@ -1,3 +1,7 @@
+> [!WARNING]
+>
+> This project is no longer maintened.
+
 # Norris
 [![ktlint](https://img.shields.io/badge/code%20style-%E2%9D%A4-FF4081.svg)](https://ktlint.github.io/)
 [![CI](https://github.com/dotanuki-labs/norris/actions/workflows/main.yml/badge.svg?branch=master)](https://github.com/dotanuki-labs/norris/actions/workflows/main.yml)
